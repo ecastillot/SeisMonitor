@@ -180,9 +180,7 @@ class Monitor(object):
         args.output_dir  = self.phasenet_pick_storage
 
         # run_phasenet.main(args)
-        # phasenet_from_console(args)
-
-
+        phasenet_from_console(args)
 
         picks = os.path.join(self.phasenet_pick_storage,'picks.csv')
         pick2date = get_picks(phaseNet_picks=picks,jsonfile=self.json_path,

@@ -508,7 +508,9 @@ def phasenet_from_console(pnet_obj):
         command += ' ' + '--plot_figure' +' '+'' 
     if pnet_obj.save_result == True:
         command += ' ' + '--save_result'
-    # print(command)
+    print(command)
+    printlog("info","PhaseNet: console",command)
+    printlog("info","PhaseNet: running","Wait...")
     os.system(command)
 
 def get_pickframe(path,csv_filename):
