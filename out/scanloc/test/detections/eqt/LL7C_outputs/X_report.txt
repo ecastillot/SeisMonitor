@@ -1,0 +1,21 @@
+================== PREDICTION FROM MSEED ====================
+================== Overal Info ==============================
+date of report: 2022-01-11 19:28:34.148482
+input_model: /home/emmanuel/test/seismo/EQTransformer/ModelsAndSampleData/EqT_model.h5
+input_dir: ../out/scanloc/test/downloads/mseed
+output_dir: /home/emmanuel/test/seismo/SeisMonitor/examples/../out/scanloc/test/detections/eqt/LL7C_outputs
+================== Prediction Parameters =====================
+finished the prediction in:  0 hours and 0 minutes and 1.73 seconds 
+detected: 1 events.
+loss_types: ['binary_crossentropy', 'binary_crossentropy', 'binary_crossentropy']
+loss_weights: [0.03, 0.4, 0.58]
+================== Other Parameters ==========================
+normalization_mode: std
+overlap: 0.3
+batch_size: 10
+detection_threshold: 0.1
+P_threshold: 0.01
+S_threshold: 0.01
+number_of_plots: 1
+gpuid: None
+gpu_limit: None

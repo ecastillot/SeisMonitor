@@ -1,0 +1,387 @@
+<?xml version='1.0' encoding='utf-8'?>
+<q:quakeml xmlns="http://quakeml.org/xmlns/bed/1.2" xmlns:q="http://quakeml.org/xmlns/quakeml/1.2">
+  <eventParameters publicID="smi:local/7bd36805-5a81-4116-9b81-7c82651f51f0">
+    <event publicID="smi:local/69ee4e0d-1359-4ff8-892b-aa00786a404f">
+      <preferredOriginID>smi:local/5c19556e-5dad-4f9b-aee4-799c4364547d</preferredOriginID>
+      <origin publicID="smi:local/5c19556e-5dad-4f9b-aee4-799c4364547d">
+        <time>
+          <value>2017-10-15T06:35:11.670000Z</value>
+        </time>
+        <latitude>
+          <value>0.0</value>
+        </latitude>
+        <longitude>
+          <value>0.0</value>
+        </longitude>
+      </origin>
+      <pick publicID="smi:local/16aceff5-1d1f-4b87-a5f0-de81f51ea9cb">
+        <time>
+          <value>2017-10-15T06:35:06.700000Z</value>
+        </time>
+        <waveformID networkCode="CM" stationCode="VMM09"></waveformID>
+        <methodID>smi:local/EqTransformer</methodID>
+        <phaseHint>P</phaseHint>
+      </pick>
+      <pick publicID="smi:local/a905f107-3f9a-427b-9760-95a93052e0c5">
+        <time>
+          <value>2017-10-15T06:35:22.600000Z</value>
+        </time>
+        <waveformID networkCode="CM" stationCode="VMM09"></waveformID>
+        <methodID>smi:local/EqTransformer</methodID>
+        <phaseHint>S</phaseHint>
+      </pick>
+      <pick publicID="smi:local/857269c5-f8f9-4ecd-bea0-abbcec14cf4a">
+        <time>
+          <value>2017-10-15T06:35:07.750000Z</value>
+        </time>
+        <waveformID networkCode="CM" stationCode="VMM10"></waveformID>
+        <methodID>smi:local/EqTransformer</methodID>
+        <phaseHint>P</phaseHint>
+      </pick>
+      <pick publicID="smi:local/957f0f65-e92b-4f17-94df-1818786eee26">
+        <time>
+          <value>2017-10-15T06:35:24.990000Z</value>
+        </time>
+        <waveformID networkCode="CM" stationCode="VMM10"></waveformID>
+        <methodID>smi:local/EqTransformer</methodID>
+        <phaseHint>S</phaseHint>
+      </pick>
+      <pick publicID="smi:local/44e56cac-a703-497b-bb67-bda130aca1d5">
+        <time>
+          <value>2017-10-15T06:35:11.950000Z</value>
+        </time>
+        <waveformID networkCode="CM" stationCode="SNPBC"></waveformID>
+        <methodID>smi:local/EqTransformer</methodID>
+        <phaseHint>P</phaseHint>
+      </pick>
+      <pick publicID="smi:local/c848690e-34fd-424a-9447-0637423f5a71">
+        <time>
+          <value>2017-10-15T06:35:33.650000Z</value>
+        </time>
+        <waveformID networkCode="CM" stationCode="SNPBC"></waveformID>
+        <methodID>smi:local/EqTransformer</methodID>
+        <phaseHint>S</phaseHint>
+      </pick>
+      <pick publicID="smi:local/b92a4d96-f7d2-4fdf-b84c-0b7fa18b023e">
+        <time>
+          <value>2017-10-15T06:35:15.120000Z</value>
+        </time>
+        <waveformID networkCode="CM" stationCode="VMM12"></waveformID>
+        <methodID>smi:local/EqTransformer</methodID>
+        <phaseHint>P</phaseHint>
+      </pick>
+      <pick publicID="smi:local/28df32a9-4b73-4205-baa6-51c248d6b54d">
+        <time>
+          <value>2017-10-15T06:35:38.100000Z</value>
+        </time>
+        <waveformID networkCode="CM" stationCode="VMM12"></waveformID>
+        <methodID>smi:local/EqTransformer</methodID>
+        <phaseHint>S</phaseHint>
+      </pick>
+    </event>
+    <event publicID="smi:local/32bb75ba-fd4a-42e6-939e-14e350276114">
+      <preferredOriginID>smi:local/08500e03-4264-4e09-b450-081fa6cc6bb4</preferredOriginID>
+      <origin publicID="smi:local/08500e03-4264-4e09-b450-081fa6cc6bb4">
+        <time>
+          <value>2017-10-15T06:47:16.580000Z</value>
+        </time>
+        <latitude>
+          <value>0.0</value>
+        </latitude>
+        <longitude>
+          <value>0.0</value>
+        </longitude>
+      </origin>
+      <pick publicID="smi:local/147e54db-4b54-4527-af90-e7a1899683a6">
+        <time>
+          <value>2017-10-15T06:47:17.920000Z</value>
+        </time>
+        <waveformID networkCode="CM" stationCode="VMM10"></waveformID>
+        <methodID>smi:local/EqTransformer</methodID>
+        <phaseHint>P</phaseHint>
+      </pick>
+      <pick publicID="smi:local/48b4c0f4-cf35-48c7-b3cf-59b7a8662d1c">
+        <time>
+          <value>2017-10-15T06:47:34.430000Z</value>
+        </time>
+        <waveformID networkCode="CM" stationCode="VMM10"></waveformID>
+        <methodID>smi:local/EqTransformer</methodID>
+        <phaseHint>S</phaseHint>
+      </pick>
+      <pick publicID="smi:local/5c403c06-cb68-4dd1-ae18-ef8759ff01f0">
+        <time>
+          <value>2017-10-15T06:47:22.250000Z</value>
+        </time>
+        <waveformID networkCode="CM" stationCode="SNPBC"></waveformID>
+        <methodID>smi:local/EqTransformer</methodID>
+        <phaseHint>P</phaseHint>
+      </pick>
+      <pick publicID="smi:local/36d09e39-6520-4708-ba1b-dd4304a51883">
+        <time>
+          <value>2017-10-15T06:47:44.310000Z</value>
+        </time>
+        <waveformID networkCode="CM" stationCode="SNPBC"></waveformID>
+        <methodID>smi:local/EqTransformer</methodID>
+        <phaseHint>S</phaseHint>
+      </pick>
+      <pick publicID="smi:local/24b6b7d3-dc09-4bcc-b60a-db4f118055ce">
+        <time>
+          <value>2017-10-15T06:47:19.500000Z</value>
+        </time>
+        <waveformID networkCode="CM" stationCode="EZNC"></waveformID>
+        <methodID>smi:local/EqTransformer</methodID>
+        <phaseHint>S</phaseHint>
+      </pick>
+    </event>
+    <event publicID="smi:local/378038b0-a697-44d8-a272-2c680ede00d7">
+      <preferredOriginID>smi:local/ae0f031c-d6d8-4615-aa57-22e7983e3fd0</preferredOriginID>
+      <origin publicID="smi:local/ae0f031c-d6d8-4615-aa57-22e7983e3fd0">
+        <time>
+          <value>2017-10-15T06:51:56.480000Z</value>
+        </time>
+        <latitude>
+          <value>0.0</value>
+        </latitude>
+        <longitude>
+          <value>0.0</value>
+        </longitude>
+      </origin>
+      <pick publicID="smi:local/13264935-aaba-48c3-be6a-c9d517505c37">
+        <time>
+          <value>2017-10-15T06:51:51.170000Z</value>
+        </time>
+        <waveformID networkCode="CM" stationCode="SNPBC"></waveformID>
+        <methodID>smi:local/EqTransformer</methodID>
+        <phaseHint>P</phaseHint>
+      </pick>
+      <pick publicID="smi:local/6603c689-9d64-4c9d-b694-90cd237849a1">
+        <time>
+          <value>2017-10-15T06:52:12.120000Z</value>
+        </time>
+        <waveformID networkCode="CM" stationCode="SNPBC"></waveformID>
+        <methodID>smi:local/EqTransformer</methodID>
+        <phaseHint>S</phaseHint>
+      </pick>
+      <pick publicID="smi:local/706b2b06-69a2-40b8-9fd0-4dd1f37f6878">
+        <time>
+          <value>2017-10-15T06:51:52.060000Z</value>
+        </time>
+        <waveformID networkCode="CM" stationCode="EZNC"></waveformID>
+        <methodID>smi:local/EqTransformer</methodID>
+        <phaseHint>P</phaseHint>
+      </pick>
+      <pick publicID="smi:local/00c24625-1df6-4043-b108-c2aa1e06b98d">
+        <time>
+          <value>2017-10-15T06:52:06.120000Z</value>
+        </time>
+        <waveformID networkCode="CM" stationCode="EZNC"></waveformID>
+        <methodID>smi:local/EqTransformer</methodID>
+        <phaseHint>S</phaseHint>
+      </pick>
+      <pick publicID="smi:local/3ba458eb-cfea-47c6-84c4-03776208744b">
+        <time>
+          <value>2017-10-15T06:51:53.930000Z</value>
+        </time>
+        <waveformID networkCode="CM" stationCode="VMM12"></waveformID>
+        <methodID>smi:local/EqTransformer</methodID>
+        <phaseHint>P</phaseHint>
+      </pick>
+      <pick publicID="smi:local/9bc69d1b-2279-48a7-bb51-adb97903ad23">
+        <time>
+          <value>2017-10-15T06:52:17.390000Z</value>
+        </time>
+        <waveformID networkCode="CM" stationCode="VMM12"></waveformID>
+        <methodID>smi:local/EqTransformer</methodID>
+        <phaseHint>S</phaseHint>
+      </pick>
+      <pick publicID="smi:local/d402f22b-e016-46ad-8e7a-9eefadb98ad6">
+        <time>
+          <value>2017-10-15T06:51:56.700000Z</value>
+        </time>
+        <waveformID networkCode="CM" stationCode="AGCC"></waveformID>
+        <methodID>smi:local/EqTransformer</methodID>
+        <phaseHint>P</phaseHint>
+      </pick>
+      <pick publicID="smi:local/45f03801-f3e6-43ff-b246-afd154a7b8a4">
+        <time>
+          <value>2017-10-15T06:52:22.920000Z</value>
+        </time>
+        <waveformID networkCode="CM" stationCode="AGCC"></waveformID>
+        <methodID>smi:local/EqTransformer</methodID>
+        <phaseHint>S</phaseHint>
+      </pick>
+    </event>
+    <event publicID="smi:local/d50d8889-2853-48ef-90b2-510bfe7844d7">
+      <preferredOriginID>smi:local/15c12a01-a274-4fe9-9414-03ee20c336ad</preferredOriginID>
+      <origin publicID="smi:local/15c12a01-a274-4fe9-9414-03ee20c336ad">
+        <time>
+          <value>2017-10-15T06:57:24.000000Z</value>
+        </time>
+        <latitude>
+          <value>0.0</value>
+        </latitude>
+        <longitude>
+          <value>0.0</value>
+        </longitude>
+      </origin>
+      <pick publicID="smi:local/6c0b847e-934c-4df5-96bd-2e72d9ddffaf">
+        <time>
+          <value>2017-10-15T06:57:15.480000Z</value>
+        </time>
+        <waveformID networkCode="CM" stationCode="SNPBC"></waveformID>
+        <methodID>smi:local/EqTransformer</methodID>
+        <phaseHint>P</phaseHint>
+      </pick>
+      <pick publicID="smi:local/06fa607a-6cea-408c-afe1-113050feb326">
+        <time>
+          <value>2017-10-15T06:57:19.510000Z</value>
+        </time>
+        <waveformID networkCode="CM" stationCode="SNPBC"></waveformID>
+        <methodID>smi:local/EqTransformer</methodID>
+        <phaseHint>S</phaseHint>
+      </pick>
+      <pick publicID="smi:local/c0e5a71a-e8c0-4d34-8363-accc4159b2e4">
+        <time>
+          <value>2017-10-15T06:57:17.390000Z</value>
+        </time>
+        <waveformID networkCode="CM" stationCode="VMM12"></waveformID>
+        <methodID>smi:local/EqTransformer</methodID>
+        <phaseHint>P</phaseHint>
+      </pick>
+      <pick publicID="smi:local/497814f0-587d-436f-abda-1aa6fe1dd6e5">
+        <time>
+          <value>2017-10-15T06:57:22.880000Z</value>
+        </time>
+        <waveformID networkCode="CM" stationCode="VMM12"></waveformID>
+        <methodID>smi:local/EqTransformer</methodID>
+        <phaseHint>S</phaseHint>
+      </pick>
+      <pick publicID="smi:local/807d60a0-d28d-4d16-a31d-6757b1149da9">
+        <time>
+          <value>2017-10-15T06:57:28.540000Z</value>
+        </time>
+        <waveformID networkCode="CM" stationCode="VMM09"></waveformID>
+        <methodID>smi:local/EqTransformer</methodID>
+        <phaseHint>P</phaseHint>
+      </pick>
+      <pick publicID="smi:local/8c058b8b-eaf1-470d-8937-9405a3517813">
+        <time>
+          <value>2017-10-15T06:57:24.210000Z</value>
+        </time>
+        <waveformID networkCode="CM" stationCode="AGCC"></waveformID>
+        <methodID>smi:local/EqTransformer</methodID>
+        <phaseHint>S</phaseHint>
+      </pick>
+      <pick publicID="smi:local/dfb906bd-715a-42f8-8f4e-877f7321ae92">
+        <time>
+          <value>2017-10-15T06:57:37.030000Z</value>
+        </time>
+        <waveformID networkCode="CM" stationCode="AGCC"></waveformID>
+        <methodID>smi:local/EqTransformer</methodID>
+        <phaseHint>S</phaseHint>
+      </pick>
+    </event>
+    <event publicID="smi:local/9549f808-4f66-48cc-b0ed-952e0c5077e9">
+      <preferredOriginID>smi:local/98ec9321-bc21-4ed6-a9d8-97b372ab15cb</preferredOriginID>
+      <origin publicID="smi:local/98ec9321-bc21-4ed6-a9d8-97b372ab15cb">
+        <time>
+          <value>2017-10-15T07:37:29.650000Z</value>
+        </time>
+        <latitude>
+          <value>0.0</value>
+        </latitude>
+        <longitude>
+          <value>0.0</value>
+        </longitude>
+      </origin>
+      <pick publicID="smi:local/12727e93-0d51-43f8-9eac-0992d88a4082">
+        <time>
+          <value>2017-10-15T07:37:19.330000Z</value>
+        </time>
+        <waveformID networkCode="CM" stationCode="VMM09"></waveformID>
+        <methodID>smi:local/EqTransformer</methodID>
+        <phaseHint>P</phaseHint>
+      </pick>
+      <pick publicID="smi:local/19466c4a-2e09-4766-a381-43c5672ac8b2">
+        <time>
+          <value>2017-10-15T07:37:20.170000Z</value>
+        </time>
+        <waveformID networkCode="CM" stationCode="VMM10"></waveformID>
+        <methodID>smi:local/EqTransformer</methodID>
+        <phaseHint>P</phaseHint>
+      </pick>
+      <pick publicID="smi:local/b310d99a-a4df-4b3b-b0ba-120706d9481e">
+        <time>
+          <value>2017-10-15T07:37:37.030000Z</value>
+        </time>
+        <waveformID networkCode="CM" stationCode="VMM10"></waveformID>
+        <methodID>smi:local/EqTransformer</methodID>
+        <phaseHint>S</phaseHint>
+      </pick>
+      <pick publicID="smi:local/3cbbe273-d23b-40ea-8181-d40a030770cc">
+        <time>
+          <value>2017-10-15T07:37:22.010000Z</value>
+        </time>
+        <waveformID networkCode="CM" stationCode="EZNC"></waveformID>
+        <methodID>smi:local/EqTransformer</methodID>
+        <phaseHint>P</phaseHint>
+      </pick>
+      <pick publicID="smi:local/3b67ec5e-4098-486e-b8f4-0ebda3e171c0">
+        <time>
+          <value>2017-10-15T07:37:39.060000Z</value>
+        </time>
+        <waveformID networkCode="CM" stationCode="EZNC"></waveformID>
+        <methodID>smi:local/EqTransformer</methodID>
+        <phaseHint>S</phaseHint>
+      </pick>
+      <pick publicID="smi:local/6e3e9634-90e8-40ef-8fde-15a4e1df1477">
+        <time>
+          <value>2017-10-15T07:37:25.000000Z</value>
+        </time>
+        <waveformID networkCode="CM" stationCode="SNPBC"></waveformID>
+        <methodID>smi:local/EqTransformer</methodID>
+        <phaseHint>P</phaseHint>
+      </pick>
+      <pick publicID="smi:local/5c483174-5956-4e2f-9e38-bf660158842b">
+        <time>
+          <value>2017-10-15T07:37:44.750000Z</value>
+        </time>
+        <waveformID networkCode="CM" stationCode="SNPBC"></waveformID>
+        <methodID>smi:local/EqTransformer</methodID>
+        <phaseHint>S</phaseHint>
+      </pick>
+      <pick publicID="smi:local/e2561282-01e8-42d7-8d9e-f47e475d0149">
+        <time>
+          <value>2017-10-15T07:37:30.040000Z</value>
+        </time>
+        <waveformID networkCode="CM" stationCode="AGCC"></waveformID>
+        <methodID>smi:local/EqTransformer</methodID>
+        <phaseHint>P</phaseHint>
+      </pick>
+      <pick publicID="smi:local/0d0c7580-69a8-4c9d-afc0-eaa7e20d7e4b">
+        <time>
+          <value>2017-10-15T07:37:54.110000Z</value>
+        </time>
+        <waveformID networkCode="CM" stationCode="AGCC"></waveformID>
+        <methodID>smi:local/EqTransformer</methodID>
+        <phaseHint>S</phaseHint>
+      </pick>
+      <pick publicID="smi:local/f3875f3a-f8d7-4310-bc60-e7be1b782a5b">
+        <time>
+          <value>2017-10-15T07:37:34.640000Z</value>
+        </time>
+        <waveformID networkCode="CM" stationCode="VMM09"></waveformID>
+        <methodID>smi:local/EqTransformer</methodID>
+        <phaseHint>S</phaseHint>
+      </pick>
+      <pick publicID="smi:local/4324fdc5-6ea7-47ca-883d-fef5cced256d">
+        <time>
+          <value>2017-10-15T07:37:18.190000Z</value>
+        </time>
+        <waveformID networkCode="CM" stationCode="VMM10"></waveformID>
+        <methodID>smi:local/EqTransformer</methodID>
+        <phaseHint>S</phaseHint>
+      </pick>
+    </event>
+  </eventParameters>
+</q:quakeml>

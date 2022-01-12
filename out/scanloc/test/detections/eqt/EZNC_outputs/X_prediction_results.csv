@@ -1,0 +1,4 @@
+file_name,network,station,instrument_type,station_lat,station_lon,station_elv,event_start_time,event_end_time,detection_probability,detection_uncertainty,p_arrival_time,p_probability,p_uncertainty,p_snr,s_arrival_time,s_probability,s_uncertainty,s_snr
+EZNC/CM.EZNC.00.HHE__20171015T060000Z__20171015T080000Z.mseed,CM,EZNC,HH,0.0,0.0,123456.0,2017-10-15 06:47:16.580000,2017-10-15 06:47:21.020000,0.13,,,,,,2017-10-15 06:47:19.500000,0.05,,17.8
+EZNC/CM.EZNC.00.HHE__20171015T060000Z__20171015T080000Z.mseed,CM,EZNC,HH,0.0,0.0,123456.0,2017-10-15 06:51:48,2017-10-15 06:52:12.230000,0.62,,2017-10-15 06:51:52.060000,0.11,,0.9,2017-10-15 06:52:06.120000,0.48,,4.4
+EZNC/CM.EZNC.00.HHE__20171015T060000Z__20171015T080000Z.mseed,CM,EZNC,HH,0.0,0.0,123456.0,2017-10-15 07:37:21.820000,2017-10-15 07:37:46.230000,0.98,,2017-10-15 07:37:22.010000,0.78,,4.0,2017-10-15 07:37:39.060000,0.55,,6.9
