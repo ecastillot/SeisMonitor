@@ -277,10 +277,6 @@ def makeJSON(json_path,providers, restrictions, from_xml=None,
 
     return json_dir  
 
-
-
-
-
 ## PhaseNet implementation
 def get_filenames(mseed, filter_net=[],
                 filter_sta=[],filter_cha=[]):
@@ -346,7 +342,7 @@ def get_one_stream(input_path,output_path,**kwargs):
         Save one stream with all available channels
         in the mseed folder.
     """
-    strftime = "%Y%m%dT%H%M%SZ"
+    strftime = "%Y%m%dT%H%M%SZ%f"
 
     if os.path.isdir(output_path) == False:
         os.makedirs(output_path)
@@ -508,7 +504,7 @@ def phasenet_from_console(pnet_obj):
         command += ' ' + '--plot_figure' +' '+'' 
     if pnet_obj.save_result == True:
         command += ' ' + '--save_result'
-    print(command)
+    # print(command)
     printlog("info","PhaseNet: console",command)
     printlog("info","PhaseNet: running","Wait...")
     os.system(command)
@@ -566,15 +562,14 @@ def rm_phasenet_duplicate_picks(path,output_path,group_by_loc=True):
         segment,sample = pick.split('_')
 
         starttime,endtime = dates.split('to')
-        starttime = starttime
-        endtime = endtime
+        # starttime = starttime
+        # endtime = endtime
         try:
             sr = int(float(sr.strip('sr')))
         except:
             sr = None
         segment = int(segment.strip('segment'))
         sample = int(sample.strip('sample'))
-        
         return pd.Series({'mseed_starttime':starttime,
                     'mseed_endtime':endtime,
                     'sampling_rate':sr,
@@ -616,9 +611,12 @@ def rm_phasenet_duplicate_picks(path,output_path,group_by_loc=True):
     # df = df[ df['time'].between(starttime,endtime) ]
     cols = ['mseed_starttime','mseed_endtime','sampling_rate','segment','sample','obs']
     df[cols] = df['comments_text'].apply(lambda x: text2col(x))
-    df['mseed_starttime'] = pd.to_datetime(df['mseed_starttime'])
-    df['mseed_endtime'] = pd.to_datetime(df['mseed_endtime'])
-    df['time'] = pd.to_datetime(df['time'])
+    strftime = "%Y%m%dT%H%M%SZ%f"
+    strftime2 = "%Y-%m-%dT%H:%M:%S.%fZ"
+    df['mseed_starttime'] = pd.to_datetime(df['mseed_starttime'],format=strftime)
+    df['mseed_endtime'] = pd.to_datetime(df['mseed_endtime'],format=strftime)
+    df['time'] = pd.to_datetime(df['time'],format=strftime2)
+    df['creation_time'] = pd.to_datetime(df['creation_time'],format=strftime2)
 
     if group_by_loc:
         mygroup = ['mseed_starttime','mseed_endtime','network_code',\
@@ -631,11 +629,8 @@ def rm_phasenet_duplicate_picks(path,output_path,group_by_loc=True):
     picks_ok = []
     for ind in indexes:
         mseed_df = mseed_groups.get_group(ind)
-        # + 999.9 miliseconds because the mseed filename doesn't have it.
-        mseed_starttime = mseed_df['mseed_starttime'].iloc[0] +\
-                            dt.timedelta(milliseconds=999.9)
-        mseed_endtime = mseed_df['mseed_endtime'].iloc[0] +\
-                            dt.timedelta(milliseconds=999.9) 
+        mseed_starttime = mseed_df['mseed_starttime'].iloc[0] 
+        mseed_endtime = mseed_df['mseed_endtime'].iloc[0] 
         mseed_sr = mseed_df['sampling_rate'].iloc[0]
 
         # 15000 samples (phasenet) / sampling_rate of the mseed file
@@ -653,7 +648,7 @@ def rm_phasenet_duplicate_picks(path,output_path,group_by_loc=True):
             else:
                 pick_ok = select_pick(ovl_df)
                 picks_ok.append(pick_ok)
-
+                
     df_picks_ok = pd.concat(picks_ok,ignore_index=True,sort=False)
     df_picks_ok = df_picks_ok.sort_values('time')
     df_picks_ok = df_picks_ok.drop(['Unnamed: 0'],axis=1)
@@ -910,7 +905,9 @@ def sample2time(sample, to, df, segment, dt):
     df = float(df)
 
     # init_time = UTCDateTime(to[:-2]+'.'+to[-2:])
-    init_time = UTCDateTime(to)
+    # init_time = UTCDateTime(to)
+    strftime = "%Y%m%dT%H%M%SZ%f"
+    init_time = UTCDateTime.strptime(to,strftime)
     # if segment is different to 0 which implies that we are using
     # pred_mseed mode
     obs = 'single'

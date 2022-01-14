@@ -9,6 +9,8 @@
 """
 EQTransformer seismological monitor
 """
+import warnings
+warnings.simplefilter(action='ignore', category=FutureWarning)
 
 import os
 import shutil
@@ -26,6 +28,7 @@ from SeisMonitor.downloader.seismonitor import MseedDownloader as mdl
 from SeisMonitor.utils import printlog, isfile
 # from SeisMonitor.scripts.tools.magnitude import Magnitude
 
+tf.compat.v1.logging.set_verbosity(tf.compat.v1.logging.ERROR)
 
 class Monitor(object):
     def __init__(self,providers,restrictions, 
@@ -179,7 +182,6 @@ class Monitor(object):
         args.data_list = os.path.join(self.datalist_dir,'fname.csv')
         args.output_dir  = self.phasenet_pick_storage
 
-        # run_phasenet.main(args)
         phasenet_from_console(args)
 
         picks = os.path.join(self.phasenet_pick_storage,'picks.csv')
@@ -199,30 +201,6 @@ class Monitor(object):
             printlog('error','PhaseNet: cleaner',
                     f" Can't remove duplicated picks: {e}")
         
-
-        # else: 
-        #     stations = [ sta for sta in os.listdir(self.mseed_storage)]
-        #     for sta in stations:
-        #         static = time.time()
-        #         pnet_logger.info(f"picking {sta}")
-
-        #         tf.compat.v1.reset_default_graph()
-                        
-        #         args.data_dir = os.path.join(self.mseed_storage,sta)
-        #         args.data_list = os.path.join(self.datalist_dir,sta,'fname.csv')
-        #         args.output_dir  = os.path.join(self.phasenet_pick_storage,sta)
-
-        #         run_phasenet.main(args)
-        #         tf.keras.backend.clear_session()
-
-        #         picks = os.path.join(self.phasenet_pick_storage,sta,'picks.csv')
-        #         # pick2date = get_picks(phaseNet_picks=picks,jsonfile=self.json_path,
-        #         #                 dt=self.restrictions.chunklength,
-        #         #                 min_prob=0.3, mode='df_obj', export='csv')
-        #         statoc = time.time()
-        #         staexetime = timedelta(seconds=statoc-static)
-        #         pnet_logger.info(f'{sta} execution: {staexetime.total_seconds()} seconds')
-
         toc = time.time()
         exetime = timedelta(seconds=toc-tic)
         pnet_logger.info(f'Total time of execution: {exetime.total_seconds()} seconds')
