@@ -1,12 +1,12 @@
 ================== PREDICTION FROM MSEED ====================
 ================== Overal Info ==============================
-date of report: 2022-01-11 19:28:29.275959
+date of report: 2022-01-14 10:02:52.192522
 input_model: /home/emmanuel/test/seismo/EQTransformer/ModelsAndSampleData/EqT_model.h5
-input_dir: ../out/scanloc/test/downloads/mseed
-output_dir: /home/emmanuel/test/seismo/SeisMonitor/examples/../out/scanloc/test/detections/eqt/EZNC_outputs
+input_dir: ../out/scanloc/test_VMM/downloads/mseed
+output_dir: /home/emmanuel/test/seismo/SeisMonitor/examples/../out/scanloc/test_VMM/detections/eqt/EZNC_outputs
 ================== Prediction Parameters =====================
-finished the prediction in:  0 hours and 0 minutes and 1.69 seconds 
-detected: 3 events.
+finished the prediction in:  0 hours and 0 minutes and 1.33 seconds 
+detected: 2 events.
 loss_types: ['binary_crossentropy', 'binary_crossentropy', 'binary_crossentropy']
 loss_weights: [0.03, 0.4, 0.58]
 ================== Other Parameters ==========================

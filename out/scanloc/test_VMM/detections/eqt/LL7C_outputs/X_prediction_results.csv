@@ -1,2 +1,2 @@
 file_name,network,station,instrument_type,station_lat,station_lon,station_elv,event_start_time,event_end_time,detection_probability,detection_uncertainty,p_arrival_time,p_probability,p_uncertainty,p_snr,s_arrival_time,s_probability,s_uncertainty,s_snr
-LL7C/CM.LL7C.00.HHE__20171015T060000Z__20171015T080000Z.mseed,CM,LL7C,HH,0.0,0.0,123456.0,2017-10-15 06:39:59.140000,2017-10-15 06:40:14.620000,0.97,,2017-10-15 06:39:59.190000,0.67,,13.2,2017-10-15 06:40:10.010000,0.59,,11.0
+LL7C/CM.LL7C.00.HHE__20171015T060000Z__20171015T070000Z.mseed,CM,LL7C,HH,9.339444,-73.437222,140.0,2017-10-15 06:39:59.120000,2017-10-15 06:40:14.700000,0.96,,2017-10-15 06:39:59.130000,0.63,,11.8,2017-10-15 06:40:10.010000,0.52,,11.0
