@@ -7,19 +7,23 @@ Set of routines to monitor seismic activity.
 ## Requirements
 
 1. Picker: Clone the next repositories at home directory.
-         bf1322e7550d159f1e9cff989b5fc8b8c692ddde
-   - [EQTransformer](https://github.com/smousavi05/EQTransformer.git): ``` git clone https://github.com/smousavi05/EQTransformer.git``` 
+         
+   - [EQTransformer](https://github.com/smousavi05/EQTransformer.git):
+  
+   ``` git clone https://github.com/smousavi05/EQTransformer.git``` 
 
-   - [PhaseNet](https://github.com/wayneweiqiang/PhaseNet.git): ``` git clone https://github.com/wayneweiqiang/PhaseNet.git```
+   - [PhaseNet](https://github.com/wayneweiqiang/PhaseNet.git): 
+  
+   SeisMonitor only supports PhaseNet at specific commit. Then you could use the forked repository by me at this commit.
 
-   **Warning**
+   ``` git clone https://github.com/ecastillot/PhaseNet.git```
 
-   SeisMonitor supports PhaseNet at specific commit. Then you could use the next code in the PhaseNet folder
+   Otherwise, you could use the next code 
 
-   ```git checkout bf1322e7550d159f1e9cff989b5fc8b8c692ddde```
-   Otherwise, you could use the forked repository by me.
-
-   ```git clone https://github.com/ecastillot/PhaseNet.git```
+   ``` 
+   git clone https://github.com/wayneweiqiang/PhaseNet.git
+   git checkout f58d151e2fee0cbb78442e2b4f8072a9ab2095bd
+   ```
 
 2. Locator : (It is not ready to publish) 
    - Seisan software.
