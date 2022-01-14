@@ -30,10 +30,24 @@ Set of routines to monitor seismic activity.
 
 ## Installation
 
+### Conda 
 ```bash
 conda env create -f seismonitor.yml
 conda activate seismonitor
 ```
+### Pip
+
+```bash
+pip install -r requirements.txt
+```
+For specific seismonitor environment
+```bash
+python3.7 -m pip install virtualenv
+python3.7 -m virtualenv .seismonitor
+source .seismonitor/bin/activate
+pip install -r requirements.txt
+```
+
 
 ## Examples
 There are some examples to use SeisMonitor.
