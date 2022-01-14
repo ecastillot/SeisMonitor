@@ -4,7 +4,7 @@ click==7.1.2
 pydeck==0.6.1
 pandas==1.0.5
 matplotlib==3.2.2
-numpy==1.18.5
+numpy==1.21.0
 EQTransformer==0.1.59
 obspy==1.2.2
 pandas_read_xml==0.0.9
