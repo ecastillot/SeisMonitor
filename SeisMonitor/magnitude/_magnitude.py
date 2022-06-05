@@ -653,8 +653,6 @@ class Magnitude():
             if not times2trim:
                 continue
 
-            print(times2trim)
-            exit()
             Ml = self._estimate_local_CC_magnitude((lat,lon,depth),times2trim,origin.time)
                 # print(key)
 
