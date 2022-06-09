@@ -1,1 +1,1 @@
-{"BAR2": {"network": "CM", "channels": ["HHN", "HNN", "HHE", "HNE", "HHZ", "EHZ", "HNZ"], "coords": [6.592, -73.182, 1864.0], "sampling_rate": [100.0, 200.0, 100.0, 200.0, 100.0, 100.0, 200.0]}}
+{"BAR2": {"network": "CM", "channels": ["HNE", "HHE", "HNN", "HNZ", "HHN", "EHZ", "HHZ"], "coords": [6.592, -73.182, 1864.0], "sampling_rate": [200.0, 100.0, 200.0, 200.0, 100.0, 100.0, 100.0]}}

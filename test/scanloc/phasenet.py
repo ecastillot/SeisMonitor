@@ -1,6 +1,6 @@
 import sys
 import os
-seismopath = "/home/emmanuel/test/seismo"
+seismopath = "/home/emmanuel/EDCT"
 seismonitor = os.path.join(seismopath,"SeisMonitor")
 sys.path.insert(0,seismonitor)
 
@@ -40,7 +40,7 @@ restrictions = DownloadRestrictions(network="CM",
                           location_preferences=["","00","20","10"],
                           channel_preferences=["HH","BH"],
                           to_pick=(1,0.3))      
-
+seismopath = "/home/emmanuel/test/seismo"
 pnet_model = os.path.join(seismopath,'PhaseNet/model/190703-214543')
 pnetobj = PhaseNetobj(model_path = pnet_model ,
                 mode='pred',
