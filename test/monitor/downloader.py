@@ -22,8 +22,8 @@ rest = DownloadRestrictions(network="CM",
                     channel_preferences=["HH","BH","EH","HN","HL"],
                     to_pick=(10,0.3))
 ppc_rest = None
-mseed_storage = ("/home/emmanuel/EDCT/test/"
-                  "{network}/{station}/{network}.{station}.{location}.{channel}__{starttime}__{endtime}.mseed")
+mseed_storage = ("/home/emmanuel/EDCT/test/downloads/"
+                  "{station}/{network}.{station}.{location}.{channel}__{starttime}__{endtime}.mseed")
 md = MseedDownloader([client],rest,ppc_restrictions=ppc_rest)
 md.download(mseed_storage,
             n_processor=16,

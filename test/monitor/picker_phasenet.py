@@ -11,10 +11,10 @@ from obspy.core.utcdatetime import UTCDateTime
 pnet_model = os.path.join("/home/emmanuel/test/seismo",'PhaseNet/model/190703-214543')
 pnetobj = PhaseNetObj(model_path = pnet_model ,
                 mode='pred',
-                P_threshold=0.1,
-                S_threshold=0.1,
+                P_threshold=0.75,
+                S_threshold=0.75,
                 batch_size=100, 
-                plot=True, 
+                plot=False, 
                 save_result=False) 
 
 mseed_storage = "/home/emmanuel/EDCT/test/downloads"
@@ -23,4 +23,4 @@ out_dir = "/home/emmanuel/EDCT/test/picks/pnet"
 pnet = PhaseNet(mseed_storage,json_path,out_dir)
 pnet.mv_downloads2onefolder()
 pnet.make_datalist()
-pnet.phasenet_picker(pnetobj)
+pnet.picker(pnetobj)

@@ -214,7 +214,7 @@ class PhaseNet():
         args.data_list = self.datalist
         args.output_dir  = self.pick_storage
 
-        # ut.phasenet_from_console(args,self.msg_author)
+        ut.phasenet_from_console(args,self.msg_author)
 
         datapicks = os.path.join(self.pick_storage,'picks.csv')
         seismonitor_datapicks = os.path.join(self.pick_storage,'seismonitor_picks.csv')

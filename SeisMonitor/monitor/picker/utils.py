@@ -6,6 +6,15 @@
 #  * @desc [description]
 #  */
 
+SeisMonitor_columns = ["pick_id","arrival_time","probability","phasehint",
+                    "network","station","location","instrument_type","author",
+                    "creation_time","event_start_time","event_end_time",
+                    "detection_probability","snr","station_lat","station_lon",
+                    "station_elv","file_name"]
+
+                    #phasenet other cols
+                    # "mseed_start_time","mseed_end_time","sampling_rate","sample",
+                    # "segment","segment_type"]
 
 """
 Utils file to use EQTransformer Monitor
@@ -35,6 +44,82 @@ from obspy.core.event.base import (QuantityError,
                                 CreationInfo,
                                 Comment)
 from obspy.core.event import ResourceIdentifier
+
+## EQTransformer functions
+def eqt_picks_2_seismonitor_fmt(eqt_folder,out_path):
+    #eqt
+    date_cols = ["p_arrival_time","s_arrival_time",
+                "event_start_time","event_end_time"]
+
+    dfs = []
+    for dp, dn, filenames in os.walk(eqt_folder):
+        for f in filenames:
+            if f == "X_prediction_results.csv" :
+                search_path = os.path.join(dp, f)
+                df = pd.read_csv(search_path)
+                df[date_cols] = df[date_cols].apply(pd.to_datetime)
+                dfs.append(df)
+
+    df = pd.concat(dfs,ignore_index=True)
+    df = df.sort_values(by="p_arrival_time",ignore_index=True)
+
+    x_results_path = os.path.join(os.path.dirname(out_path),
+                                "X_prediction_results_merge.csv")
+    df.to_csv(x_results_path,index=False,
+                date_format="%Y-%m-%d %H:%M:%S.%f")
+
+    #seismonitor
+    date_cols = ["arrival_time","creation_time",
+                "event_start_time","event_end_time"]
+
+    get_loc = lambda x: x.file_name.split(".")[2]
+    df["location"] = df.apply(get_loc,axis=1)
+    df["author"] = "EQTransformer"
+
+    p_cols = df.columns.to_list()
+    s_cols = df.columns.to_list()
+    dfs = []
+    for phase in ["p","s"]:
+        if phase.lower() == "p":
+            rm = "s"
+        else:
+            rm = "p"
+
+        phase_cols = df.columns.to_list()
+        not_rm_cols = [f'{phase}_arrival_time', f'{phase}_probability',
+                         f'{phase}_uncertainty', f'{phase}_snr']
+        rm_cols = [f'{rm}_arrival_time', f'{rm}_probability',
+                 f'{rm}_uncertainty', f'{rm}_snr']
+        for x in rm_cols:
+            phase_cols.remove(x)
+
+        phase_df = df[phase_cols]
+
+        new_cols_gen = lambda x: x[2:]
+        new_cols = list(map(new_cols_gen,not_rm_cols))
+
+        columns = dict(zip(not_rm_cols, new_cols))
+        phase_df = phase_df.rename(columns=columns)
+        phase_df["phasehint"] = phase.upper()
+        phase_df = phase_df.dropna(subset=["arrival_time"])
+
+        phase_df["creation_time"] = dt.datetime.now()
+        pick_id = lambda x: id_maker(x.arrival_time, x.network, 
+                            x.station, x.location, 
+                            x.instrument_type, x.phasehint)
+        phase_df["pick_id"] = phase_df.apply(pick_id,axis=1) 
+
+
+        phase_df[date_cols] = phase_df[date_cols].apply(pd.to_datetime)
+
+        dfs.append(phase_df)
+        
+
+    df = pd.concat(dfs,ignore_index=True)
+    df = df[SeisMonitor_columns]
+    df = df.sort_values(by="arrival_time",ignore_index=True)
+    df.to_csv(out_path,index=False,
+            date_format="%Y-%m-%d %H:%M:%S.%f")
 
 ## PhaseNet functions
 def get_filenames(mseed, filter_net=[],
@@ -431,6 +516,9 @@ def get_picks(datapicks, datalist,
             logger.warning('There are no picks to convert.')
             return None
         else:
+            pnet_cols = ["mseed_start_time","mseed_end_time","sampling_rate","sample",
+                    "segment","segment_type"]
+            picks = picks[SeisMonitor_columns+pnet_cols]
             picks = picks.sort_values('arrival_time')
             picks = picks.reset_index(drop=True)
             logger.info('Conversion pick_sample in pick_time ok.'+
@@ -538,7 +626,7 @@ def pick_constructor(datalist,picks, prob, wf_name, ph_type, min_prob):
                                         "station_lon":sta_lon,
                                         "station_elv":sta_elv,
                                         "sampling_rate":sampling_rate,
-                                        "mseed_name":wf_name,
+                                        "file_name":wf_name,
                                         "mseed_start_time":mseed_starttime.strftime("%Y-%m-%d %H:%M:%S.%f"),
                                         "mseed_end_time":mseed_endtime.strftime("%Y-%m-%d %H:%M:%S.%f"),
                                         "sample":pick,
