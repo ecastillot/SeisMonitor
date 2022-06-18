@@ -51,9 +51,6 @@ def get_paz_from_response(seed_id,response,
                 'sensitivity': sensitivity}
     return paz
 
-# def get_colombian_Ml_zone(ampl,epi_dist):
-
-
 def get_Ml(ampl,epi_dist,mag_type,zone=None):
 
     if isinstance(mag_type,str):

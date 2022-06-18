@@ -1,10 +1,212 @@
+from locale import D_FMT
 import os
 import datetime as dt
 import pandas as pd
+import obspy
+from obspy.core.inventory.inventory import Inventory
+from obspy.io.xseed.parser import Parser
 from SeisMonitor.utils import printlog,isfile
+from obspy.core.utcdatetime import UTCDateTime
 import warnings
 warnings.filterwarnings('ignore')
 ### EQTransformer util associator
+
+SeisMonitor_columns = ["pick_id","arrival_time","probability","phasehint",
+                    "network","station","location","instrument_type","author",
+                    "creation_time","event_start_time","event_end_time",
+                    "detection_probability","snr","station_lat","station_lon",
+                    "station_elv","file_name"]
+
+EQT_COLUMNS = ["file_name","network",'station',
+    'instrument_type','station_lat','station_lon','station_elv',
+    'event_start_time','event_end_time','detection_probability',
+    'detection_uncertainty','p_arrival_time','p_probability',
+    'p_uncertainty','p_snr','s_arrival_time',
+    's_probability','s_uncertainty','s_snr']
+
+GaMMA_picks_columns = ["id","timestamp","type","prob","amp"]
+
+paz_wa = {'sensitivity': 2800, 'zeros': [0j], 'gain': 1,
+          'poles': [-6.2832 - 4.7124j, -6.2832 + 4.7124j]}
+
+def get_picks_GaMMa_df(picks,response,compute_amplitudes=True
+                        ,p_window=10,
+                         s_window=5,waterlevel=10):
+    df = pd.read_csv(picks)
+    date_cols = ["arrival_time","creation_time",
+                "event_start_time","event_end_time"]
+    df[date_cols] = df[date_cols].apply(pd.to_datetime)
+
+    if compute_amplitudes:
+        df = get_seismonitor_amplitudes(df,response,
+                                        p_window=p_window,
+                                        s_window=s_window,
+                                        waterlevel = waterlevel)
+    else:
+        df = df
+
+    id_func = lambda x: x.split("-")[-1]
+    df["id"] = df["pick_id"].apply(id_func)
+    df = df.rename(columns={"arrival_time":"timestamp",
+                        "probability":"prob",
+                        "phasehint":"type",
+                        "amplitude":"amp"})
+    return df
+
+def get_stations_GaMMA_df(response):
+    id_list = []
+    station_list = []
+    longitude_list = []
+    latitude_list = []
+    elevation_list = []
+    for network in response:
+        for station in network:
+            net = network.code
+            sta = station.code
+            elv = station.elevation
+            lat = station.latitude
+            lon = station.longitude
+
+            # components = []
+            # sensitivities = []
+            # for channel in station:
+            #     component = channel.code[-1]
+            #     sensitivity = channel.response.get_paz().normalization_factor
+                
+            #     components.append(component)
+            #     sensitivities.append(sensitivity)
+
+
+            # unit = channel.response.response_stages[0].input_units
+            inst = station[0].code[:-1]
+            loc = station[0].location_code
+
+            scr_id = ".".join((net,sta,loc,inst))
+
+            id_list.append(scr_id)
+            station_list.append(sta)
+            longitude_list.append(lon)
+            latitude_list.append(lat)
+            elevation_list.append(elv)
+
+    df = {"id":id_list,
+        "longitude":longitude_list,
+        "latitude":latitude_list,
+        "elevation(m)":elevation_list,
+        "station_name":station_list}
+    df = pd.DataFrame(df)
+    # print(df)
+    return df
+
+def get_paz_from_response(seed_id,response,
+                            datetime=None):
+    if isinstance(response,Parser):
+        try:
+            paz = response.get_paz(seed_id,datetime)
+        except:
+            return None
+
+    elif isinstance(response,Inventory):
+        try:
+            response = response.get_response(seed_id,
+                                    datetime)
+        
+            paz_stage = response.get_paz()
+        except:
+            return None
+
+        sensitivity = response.instrument_sensitivity.value
+        gain = paz_stage.normalization_factor
+        poles = paz_stage.poles
+        zeros = paz_stage.zeros
+
+        paz = {'poles': poles,
+                'zeros': zeros,
+                'gain': gain,
+                'sensitivity': sensitivity}
+    return paz
+
+def get_amplitudes_from_pick(st,picktime,phasehint,
+                            p_window=10,s_window=5):
+
+    _st = st.copy()
+
+    if phasehint.upper() == "P":
+        trimmedtime = dt.timedelta(seconds=p_window)
+        _st.trim(UTCDateTime(picktime),UTCDateTime(picktime)+trimmedtime)
+
+        if len(_st)== 0:
+            tr_z = _st.select(component="Z")[0]
+            ampl = max(abs(tr_z.data))
+        else:
+            tr = st[0]
+            ampl = max(abs(tr.data))
+
+    elif phasehint.upper() == "S":
+        trimmedtime = dt.timedelta(seconds=s_window)
+        _st.trim(UTCDateTime(picktime),UTCDateTime(picktime)+trimmedtime)
+
+        if len(_st)== 0:
+            tr_n = _st.select(component="N")[0]
+            ampl_n = max(abs(tr_n.data))
+            tr_e = _st.select(component="E")[0]
+            ampl_e = max(abs(tr_e.data))
+            ampl = max(ampl_n, ampl_e)
+        else:
+            tr = st[0]
+            ampl = max(abs(tr.data))
+
+    return ampl
+
+def get_amplitudes_from_local_st(file_name,df,response,
+                                p_window=10,s_window=5,
+                                waterlevel=10):
+    st = obspy.read(file_name)
+
+    for tr in st:
+        paz = get_paz_from_response(tr.id,response,
+                                tr.stats.starttime)
+        if paz == None:
+            print(f"\t->No response found: {tr.id}-{tr.stats.starttime}")
+
+        tr.simulate(paz_remove=paz, 
+                    paz_simulate=paz_wa, 
+                    water_level=waterlevel)
+
+
+    ampl_func = lambda x: get_amplitudes_from_pick(st,x.arrival_time,
+                                            x.phasehint,p_window,s_window)
+    df["amplitude"] = df.apply(ampl_func,axis=1)
+
+    return df
+    
+def get_seismonitor_amplitudes(df,response,out=None,
+                         p_window=10,s_window=5,
+                        waterlevel=10):
+    # df = pd.read_csv(picks)
+    date_cols = ["arrival_time","creation_time",
+                "event_start_time","event_end_time"]
+    df[date_cols] = df[date_cols].apply(pd.to_datetime)
+
+    gdf = df.groupby(by="file_name")
+    dfs = []
+    for file_name,df in gdf.__iter__():
+        df = get_amplitudes_from_local_st(file_name,df,response,
+                        p_window,s_window,waterlevel)
+        dfs.append(df)
+
+    df = pd.concat(dfs)
+
+    fourth_column = df.pop('amplitude')
+    df.insert(3, 'amplitude', fourth_column)
+
+    df = df.sort_values(by="arrival_time",ignore_index=True)
+    
+    if out != None:
+        isfile(out)
+        df.to_csv(out,index=False)
+
+    return df
 
 def link(p_row,s_df,tt,st=2,et=4):
     p_time = p_row.arrival_time
@@ -101,28 +303,54 @@ def link_seismonitor_phases(df,tt=30,st=2,et=4):
     eqt_df = eqt_df.rename(columns={"arrival_time":"p_arrival_time",
                             "probability":"p_probability"
                             })
-    eqt_columns = ["file_name","network",'station',
-    'instrument_type','station_lat','station_lon','station_elv',
-    'event_start_time','event_end_time','detection_probability',
-    'detection_uncertainty','p_arrival_time','p_probability',
-    'p_uncertainty','p_snr','s_arrival_time',
-    's_probability','s_uncertainty','s_snr']
-
-    eqt_df = eqt_df[eqt_columns]
+    eqt_df = eqt_df[EQT_COLUMNS]
     return eqt_df
+
+def link_eqt_phases(df):
+
+    eqt_and_seismonitor_cols = ["file_name","network","station","instrument_type",
+                "station_lat","station_lon","station_elv","event_start_time",
+                "event_end_time","detection_probability"]
+
+    p_df = df[df["phasehint"] == "P"]
+    s_df = df[df["phasehint"] == "S"]
+
+    df = p_df.merge(s_df,how="outer",on=eqt_and_seismonitor_cols,suffixes=("_p","_s"))
+
+    df["p_uncertainty"] = None
+    df["s_uncertainty"] = None
+    df["detection_uncertainty"] = None
+
+    renaming = {'pick_id_p':"p_pick_id", 'arrival_time_p':"p_arrival_time",
+                 'probability_p':"p_probability", 'phasehint_p':"p_phasehint",
+                 'location_p':"p_location", 'author_p':"p_author",
+                'creation_time_p':"p_creation_time", 
+                 'snr_p':"p_snr", 'pick_id_s':"s_pick_id", 
+                 'arrival_time_s':"s_arrival_time",'probability_s':"s_probability",
+                  'phasehint_s':"s_phasehint", 'location_s':"s_location",
+                   'author_s':"s_location",'creation_time_s':"s_creation_time",
+                'snr_s':"s_snr"}
+    df = df.rename(columns=renaming)
+    df = df[EQT_COLUMNS]
+    return df
 
 def seismonitor_picks_to_eqt_fmt(seismonitor_picks,eqt_folder,
                             tt=30,st=2,et=4):
 
     df = pd.read_csv(seismonitor_picks)
     date_cols = ["arrival_time","creation_time",
-                "event_start_time","event_end_time",
-                "mseed_start_time","mseed_end_time"]
+                "event_start_time","event_end_time"]
     df[date_cols] = df[date_cols].apply(pd.to_datetime)
 
-    eqt = link_seismonitor_phases(df,tt,st,et)
-    printlog('info','link_phasenet_phases',
-                f'ok')
+    gdf = df.groupby(by="author")
+    eqts = []
+    for author,df in gdf.__iter__():
+        if author == "EQTransformer":
+            eqt = link_eqt_phases(df)
+        else:
+            eqt = link_seismonitor_phases(df,tt,st,et)
+        eqts.append(eqt)
+    eqt = pd.concat(eqts)
 
     make_eqt_dirs(eqt,eqt_folder)
     printlog('info','pnet_to_eqt_fmt',

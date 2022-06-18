@@ -5,7 +5,7 @@ seismonitor = os.path.join(seismopath,"SeisMonitor")
 sys.path.insert(0,seismonitor)
 
 
-from SeisMonitor.monitor.picker.picker import PhaseNet,PhaseNetObj
+from SeisMonitor.monitor.picker.ai import PhaseNet,PhaseNetObj
 from obspy.core.utcdatetime import UTCDateTime
 
 pnet_model = os.path.join("/home/emmanuel/test/seismo",'PhaseNet/model/190703-214543')

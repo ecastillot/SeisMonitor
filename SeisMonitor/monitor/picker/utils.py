@@ -46,7 +46,7 @@ from obspy.core.event.base import (QuantityError,
 from obspy.core.event import ResourceIdentifier
 
 ## EQTransformer functions
-def eqt_picks_2_seismonitor_fmt(eqt_folder,out_path):
+def eqt_picks_2_seismonitor_fmt(eqt_folder,mseed_folder,out_path):
     #eqt
     date_cols = ["p_arrival_time","s_arrival_time",
                 "event_start_time","event_end_time"]
@@ -75,6 +75,9 @@ def eqt_picks_2_seismonitor_fmt(eqt_folder,out_path):
     get_loc = lambda x: x.file_name.split(".")[2]
     df["location"] = df.apply(get_loc,axis=1)
     df["author"] = "EQTransformer"
+
+    filename_func = lambda x: os.path.join(mseed_folder,x)
+    df["file_name"] = df["file_name"].apply(filename_func)
 
     p_cols = df.columns.to_list()
     s_cols = df.columns.to_list()
