@@ -19,7 +19,7 @@ import os
 import numpy as np
 import time
 import logging
-import concurrent.futures
+import concurrent.futures as cf
 from functools import partial
 from datetime import timedelta
 from obspy.clients.fdsn.mass_downloader.utils import get_mseed_filename
@@ -86,7 +86,11 @@ class MseedDownloader(object):
     return inv,json_info
 
   def download(self,mseed_storage, 
-                batch_size_guarantee = (20,0.3),
+                chunklength_in_sec=None,
+                threshold= 60,
+                overlap_in_sec=0,
+                pick_batch_size = (20,0.3),
+                groupby='{network}.{station}.{channel}',
                 n_processor=None):
     """
     Parameters:
@@ -94,16 +98,25 @@ class MseedDownloader(object):
     
     mseed_storage: str
       Where to store the waveform files.
-    batch_size_guarantee : tuple
+    chunklength_in_sec: None or int
+			The length of one chunk in seconds. 
+			If set, the time between starttime and endtime will be divided 
+			into segments of chunklength_in_sec seconds.
+		overlap_in_sec: None or int
+			For more than one chunk, each segment will have overlapping seconds
+		groupby: str
+			Download group traces together which have the same metadata given by this parameter. 
+			The parameter should name the corresponding keys of the stats object, e.g. '{network}.{station}'. 
+			This parameter can take the value 'id' which groups the traces by SEED id.
+		threshold: int
+			limit of length in seconds, length less than threshold will not be downloaded.
+    pick_batch_size : tuple
 			(batch_size,overlap)
 			It's used to know if the stream can be downloaded according to the 
 			picker overlap and batch size parameters. If the the segments given by the length of the stream
 			and overlap parammeter are less than batch_size, then no download the stream.
     n_processor: int
       Number of processor
-    concurrent_futures: thread
-      "thread" or "process"
-      Recommend thread
     """
     if self.new_providers == None:
       self.make_inv_and_json()
@@ -112,21 +125,25 @@ class MseedDownloader(object):
 
                 
     for provider in self.providers:
-      restrictions = provider.download_restrictions
-      restrictions.to_pick = batch_size_guarantee 
-      ppc_restrictions = provider.preproc_restrictions
-      client=provider.client
 
-      if restrictions._name != "DownloadRestrictions":
-        raise Exception("Restrictions must be 'DownloadRestrictions' from AIpicker.downloader")
-      self._run_download(mseed_storage=mseed_storage,
-                  client=client,
-                  dld_restrictions=restrictions,
-                  ppc_restrictions=ppc_restrictions,
-                  n_processor=n_processor)
+      client = provider.client
+      waveform_restrictions = provider.waveform_restrictions
+      processing = provider.processing
+      download_restrictions = ut.DownloadRestrictions(mseed_storage, 
+                                                chunklength_in_sec,
+                                                threshold,
+                                                overlap_in_sec,
+                                                pick_batch_size,
+                                                groupby,
+                                                n_processor)
 
-  def _run_download(self,mseed_storage,client,dld_restrictions,
-                        ppc_restrictions=None, n_processor=None):
+      self._run_download(client,waveform_restrictions,
+                        download_restrictions,
+                        processing)
+
+  def _run_download(self,client,waveform_restrictions,
+                        download_restrictions,
+                        processing=None):
     """
     Parameters:
     -----------
@@ -147,10 +164,10 @@ class MseedDownloader(object):
     """
     tic = time.time()
 
-    times = ut.get_chunktimes(starttime=dld_restrictions.starttime,
-                          endtime = dld_restrictions.endtime,
-                          chunklength_in_sec=dld_restrictions.chunklength,
-                          overlap_in_sec=dld_restrictions.overlap_in_sec)
+    times = ut.get_chunktimes(starttime=waveform_restrictions.starttime,
+                          endtime = waveform_restrictions.endtime,
+                          chunklength_in_sec=download_restrictions.chunklength_in_sec,
+                          overlap_in_sec=download_restrictions.overlap_in_sec)
     logger_chunktimes = logging.getLogger('Downloader: chunktime')
     logger_chunktimes.info(f'Total chunktime list: {len(times)}')
 
@@ -160,18 +177,20 @@ class MseedDownloader(object):
 
     for chunkt,(starttime, endtime) in enumerate(times):
 
-      def get_fdsn_waveforms(netsta):
-        bulk = (netsta[0],netsta[1],dld_restrictions.location,
-                dld_restrictions.channel,starttime,endtime)
-        ut.get_fdsn_waveforms(client,bulk,dld_restrictions,
-                                ppc_restrictions,mseed_storage  )
+      def get_client_waveforms_by_thread(netsta):
+        bulk = (netsta[0],netsta[1],waveform_restrictions.location,
+                waveform_restrictions.channel,starttime,endtime)
+        ut.get_client_waveforms(client,bulk,
+                                waveform_restrictions,
+                                download_restrictions,
+                                processing  )
 
-      if n_processor == 1:
-        for netsta in dld_restrictions.bulk_info:
-          get_fdsn_waveforms(netsta)
+      if download_restrictions.n_processor == 1:
+        for netsta in waveform_restrictions.bulk_info:
+          get_client_waveforms_by_thread(netsta)
       else:
-        with concurrent.futures.ThreadPoolExecutor(n_processor) as executor:
-          executor.map(get_fdsn_waveforms,dld_restrictions.bulk_info)
+        with cf.ThreadPoolExecutor(download_restrictions.n_processor) as executor:
+          executor.map(get_client_waveforms_by_thread,waveform_restrictions.bulk_info)
 
     chunktoc = time.time()
     wav_exetime = timedelta(seconds=chunktoc-chunktic)

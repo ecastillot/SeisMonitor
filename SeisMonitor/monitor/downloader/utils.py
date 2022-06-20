@@ -18,32 +18,24 @@ from obspy.core.inventory.inventory import (Inventory,read_inventory)
 from obspy.clients.fdsn.mass_downloader.domain import RectangularDomain
 
 class Provider():
-	def __init__(self,client,download_restrictions,
-				preproc_restrictions=None,xml=None) -> None:
+	def __init__(self,client,waveform_restrictions, 
+				processing=None,xml=None) -> None:
 		self.client = client
-		self.download_restrictions = download_restrictions
-		self.preproc_restrictions = preproc_restrictions
+		self.waveform_restrictions = waveform_restrictions
+		self.processing = processing
 		self.xml = xml
 
-class DownloadRestrictions(Restrictions):
-	def __init__(self,network,station,location,channel,
+class WaveformRestrictions():
+	def __init__(self,network,station,
+			  location,channel,
 			  starttime,endtime,
-			  chunklength_in_sec=None,
-			  overlap_in_sec=0,
-			  groupby='{network}.{station}.{channel}',
-			  threshold= None,
 			  location_preferences=[],
 			  channel_preferences=[],
 			  filter_networks=[], 
 			  filter_stations=[],
-			  filter_domain=[-180,180,-90,90], #lonw,lone,lats,latn
-			#   to_pick=None
+			  filter_domain=[-180,180,-90,90] #lonw,lone,lats,latn
 			  ):
 		"""
-		Restrictions to download mseed 
-		
-		Parameters:
-		-----------
 		network: str
 			Select one or more network codes. 
 			Multiple codes are comma-separated (e.g. "IU,TA"). 
@@ -65,52 +57,65 @@ class DownloadRestrictions(Restrictions):
 		endtime: obspy.UTCDateTime
 			Limit results to time series samples on or 
 			before the specified end time.
-		chunklength_in_sec: None or int
-			The length of one chunk in seconds. 
-			If set, the time between starttime and endtime will be divided 
-			into segments of chunklength_in_sec seconds.
-		overlap_in_sec: None or int
-			For more than one chunk, each segment will have overlapping seconds
-		groupby: str
-			Download group traces together which have the same metadata given by this parameter. 
-			The parameter should name the corresponding keys of the stats object, e.g. '{network}.{station}'. 
-			This parameter can take the value 'id' which groups the traces by SEED id.
-		threshold: int
-			limit of length in seconds, length less than threshold will not be downloaded.
 		location_preferences: list
 			list of location in the order of the preference. If select the
 			location of the first element, then the rest of elements will not be 
 			downloaded.
-		
 		"""
-		Restrictions.__init__(self,network=network,station=station,
-							location=location,channel=channel,
-							starttime=starttime,endtime=endtime,
-							chunklength_in_sec=chunklength_in_sec)
-		
-		self._name = "DownloadRestrictions"
-		self.overlap_in_sec = overlap_in_sec
-		self.groupby = groupby
-		self.threshold = threshold
+		self.network = network
+		self.station = station
+		self.location = location
+		self.channel = channel
+		self.starttime = starttime
+		self.endtime = endtime
 		self.location_preferences = location_preferences
 		self.channel_preferences = channel_preferences
 		self.filter_networks = filter_networks
 		self.filter_stations = filter_stations
 		self.filter_domain = filter_domain
 
-class PreprocRestrictions(object):
-	def __init__(self,seed_ids,order=['merge','detrend','taper','normalized'],
-				decimate=None,detrend=None,applyfilter=None,
-				merge=None,normalize=None,remove_response=None,
-				resample=None,taper=None):
+class DownloadRestrictions():
+	def __init__(self,mseed_storage, 
+                chunklength_in_sec=None,
+                threshold= 60,
+                overlap_in_sec=0,
+                pick_batch_size = (20,0.3),
+                groupby='{network}.{station}.{channel}',
+                n_processor=None) -> None:
+		self.mseed_storage = mseed_storage
+		self.chunklength_in_sec = chunklength_in_sec
+		self.threshold = threshold
+		self.overlap_in_sec = overlap_in_sec
+		self.pick_batch_size = pick_batch_size
+		self.groupby = groupby
+		self.n_processor=n_processor
+
+class Processing(object):
+	def __init__(self,
+				order=['normalize','merge','detrend',
+						'taper',"filter"],
+				decimate={"factor":2},
+				detrend={"type":"demean"},
+				filter={"type":'bandpass', 
+						"freqmin" : 1, 
+						"freqmax" : 45, 
+						"corners":2, 
+						"zerophase":True},
+				merge={"method":0,"fill_value":'latest'},
+				normalize=True,
+				resample={"sampling_rate":200},
+				taper={"max_percentage":0.001, 
+						"type":"cosine", 
+						"max_length":2} ,
+				select_networks=[], 
+				select_stations=[],
+				filter_networks=[], 
+			  	filter_stations=[]):
 		"""
 		Restrictions to preprocess a stream selected by seed_ids
 		
 		Parameters:
 		-----------
-		seed_ids: list
-			Contains each seed_id in the next way: network.station"
-			ex: ["IU.ANMO","CM.BAR2"]
 		order: list of str
 			Order to preprocess the stream.
 			ex: ['merge','detrend','taper','normalized']
@@ -133,16 +138,33 @@ class PreprocRestrictions(object):
 
 		--------
 		"""
-		self.seed_ids = seed_ids
 		self.order = order
 		self.decimate = decimate
 		self.detrend = detrend
-		self.applyfilter = applyfilter
+		self.filter = filter
 		self.merge = merge
 		self.normalize = normalize
-		self.remove_response = remove_response
 		self.resample = resample
 		self.taper = taper
+		self.select_networks = select_networks
+		self.select_stations = select_stations
+		self.filter_networks = filter_networks
+		self.filter_stations = filter_stations
+	
+	def run(self,st):
+		return preproc_stream(st,self.order ,
+							self.decimate ,
+							self.detrend ,
+							self.filter ,
+							self.merge ,
+							self.normalize ,
+							self.resample ,
+							self.taper ,
+							self.select_networks ,
+							self.select_stations ,
+							self.filter_networks ,
+							self.filter_stations)
+		
 
 def write_stream(one_st,ppc_restrictions,mseed_storage,
 				threshold=None, to_pick=None):
@@ -171,8 +193,13 @@ def write_stream(one_st,ppc_restrictions,mseed_storage,
 	Returns:
 		write one stream
 	"""
-	one_st,ppc,comment = preproc_stream(one_st,ppc_restrictions)
-	one_st = one_st.merge(method=0,fill_value='latest')
+	if ppc_restrictions == None:
+		ppc = False
+		comment = ""
+	else:
+		one_st,ppc,comment = ppc_restrictions.run(one_st)
+
+	# one_st = one_st.merge(method=0,fill_value='latest')
 	tr = one_st[0]
 
 	mseed_filename = get_mseed_filename(_str=mseed_storage, 
@@ -292,7 +319,16 @@ def get_mseed_filename(_str, network, station, location, channel,
 		raise TypeError("'%s' is not a filepath." % str(path))
 	return path
 
-def preproc_stream(st,ppc_restrictions):
+def preproc_stream(st,
+				order=['normalize','merge','detrend',
+						'taper',"filter"],
+				decimate=None,detrend=None,filter=None,
+				merge=None,normalize=None,
+				resample=None,taper=None,
+				select_networks=[], 
+				select_stations=[],
+				filter_networks=[], 
+			  	filter_stations=[]):
 	"""
 	Parameters:
 	-----------
@@ -308,43 +344,43 @@ def preproc_stream(st,ppc_restrictions):
 	processed: True or False
 		True if was processed, False if not.
 	"""
-	if ppc_restrictions == None:
+	tr = st[0]
+	network = tr.stats.network
+	station = tr.stats.station
+	comment = ""
+
+	if (network in filter_networks) or\
+		(station in filter_stations):
 		processed = False
-		comment = ""
+
 	else:
-		tr = st[0]
-		seed_id = f"{tr.stats.network}.{tr.stats.station}"
-		comment = ""
-		if seed_id in ppc_restrictions.seed_ids:
-			for i,process in enumerate(ppc_restrictions.order):
+		if (network in select_networks) or\
+		(station in select_stations):
+		
+			for i,process in enumerate(order):
 				try:
 					if process == 'decimate':
-						st.decimate(**ppc_restrictions.decimate)
+						st.decimate(**decimate)
 					elif process == 'detrend':
-						st.detrend(**ppc_restrictions.detrend)
+						st.detrend(**detrend)
 					elif process == 'applyfilter':
-						st.filter(**ppc_restrictions.applyfilter)
+						st.filter(**filter)
 					elif process == 'merge':
-						st.merge(**ppc_restrictions.merge)
+						st.merge(**merge)
 					elif process == 'normalize':
-						st.normalize(**ppc_restrictions.normalize)
-					elif process == 'remove_response':
-						st.remove_response(**ppc_restrictions.remove_response)
+						st.normalize(**normalize)
 					elif process == 'resample':
-						st.resample(**ppc_restrictions.resample)
+						st.resample(**resample)
 					elif process == 'taper':
-						st.taper(**ppc_restrictions.taper)
-					else:
-						str_failed = (f"Failed ppc: {seed_id}-> NO {process}")
-						raise Exception( str_failed)
+						st.taper(**taper)
 
 					## only for print comments	
-					if i == len(ppc_restrictions.order)-1:
+					if i == len(order)-1:
 						comment += f"({process}:ok)"
 					else:
 						comment += f"({process}:ok)->"
 				except:
-					if i == len(ppc_restrictions.order)-1:
+					if i == len(order)-1:
 						comment += f"({process}:Failed)"
 					else:
 						comment += f"({process}:Failed)->"
@@ -649,15 +685,15 @@ def select_inventory(inv,network,station,location,
                     inventory = inventory.__add__(one_inv) 
     return inventory
 
-def get_fdsn_waveforms(client,bulk,
-						dld_restrictions,
-						ppc_restrictions,
-						mseed_storage):
+def get_client_waveforms(client,bulk,
+						waveform_restrictions,
+						download_restrictions,
+						processing  ):
 	
 	net,sta,loc,cha,starttime,endtime = bulk
-	loc_preference = dld_restrictions.location_preferences
-	cha_preference = dld_restrictions.channel_preferences
-	groupby = dld_restrictions.groupby
+	loc_preference = waveform_restrictions.location_preferences
+	cha_preference = waveform_restrictions.channel_preferences
+	groupby = download_restrictions.groupby
 
 	try:
 		st = client.get_waveforms(net,sta,loc,cha,starttime,endtime)
@@ -674,10 +710,10 @@ def get_fdsn_waveforms(client,bulk,
 	st_dict = st._groupby(groupby)
 	
 	for one_st in st_dict.values():
-		write_stream(one_st,ppc_restrictions,
-						mseed_storage,
-						dld_restrictions.threshold,
-						dld_restrictions.to_pick)
+		write_stream(one_st,processing,
+					download_restrictions.mseed_storage,
+					download_restrictions.threshold,
+					download_restrictions.pick_batch_size)
 	
 	return st_dict
 
@@ -688,7 +724,7 @@ def get_merged_inv_and_json(providers):
 	updated_providers = []
 	for provider in providers:
 		client = provider.client
-		restrictions = provider.download_restrictions
+		restrictions = provider.waveform_restrictions
 		if provider.xml != None:
 			inv = read_inventory(provider.xml)
 			inv = select_inventory(inv=inv,network=restrictions.network,
@@ -714,7 +750,7 @@ def get_merged_inv_and_json(providers):
 
 		bulk_info = list(set([(net.code,sta.code) for net in inv.networks for sta in net.stations ]))
 
-		provider.download_restrictions.bulk_info = bulk_info
+		provider.waveform_restrictions.bulk_info = bulk_info
 
 		inventory = inventory.__add__(inv) 
 		json_info.update(jinf)

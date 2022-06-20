@@ -11,11 +11,31 @@ import numpy as np
 from mpl_toolkits.axes_grid1 import make_axes_locatable
 import matplotlib.gridspec as gs
 import matplotlib.dates as mdates
+from obspy.geodetics.base import gps2dist_azimuth
 
+def order_by_coord(coord,picks):
+    lat,lon = coord
+    
+    # data = {"station":stas,"latitude":lats,"longitude":lons}
+    # df = pd.DataFrame.from_dict(data)
+
+    gps2da_gen = lambda y: gps2dist_azimuth(y.station_lat,y.station_lon,lat,lon)
+    gps2da = picks.apply(gps2da_gen,axis=1).tolist()
+    picks[["r","az","baz"]] = pd.DataFrame(gps2da)
+    picks["r"] = picks["r"]/1e3
+
+    picks = picks.drop_duplicates(subset=["station"],
+                                ignore_index=True)
+    picks = picks.sort_values("r",ignore_index=True,ascending=False)
+    picks = picks[["station","r"]]
+    picks['id'] = picks.index
+    # print(df)
+    return df
 
 ### multiple picker trace
 def get_picks(csv,starttime=None,endtime=None,
-                station_list=[]):
+                select_networks=[],select_stations=[],
+                filter_networks=[],filter_stations=[]):
     "filter dataframe data"
 
     df = pd.read_csv(csv,parse_dates=['arrival_time'])
@@ -36,8 +56,15 @@ def get_picks(csv,starttime=None,endtime=None,
     if endtime != None:
         df = df[df["arrival_time"] <= endtime ]
 
-    if station_list:
-        df = df[ df["station"].isin(station_list) ]
+    if select_networks:
+        df = df[ df["network"].isin(select_networks) ]
+    if select_stations:
+        df = df[ df["station"].isin(select_stations) ]
+    if filter_networks:
+        df = df[ ~df["network"].isin(filter_networks) ]
+    if filter_stations:
+        df = df[ ~df["station"].isin(filter_stations) ]
+    
     return df
 
 def get_proc_tr(st,
@@ -122,7 +149,8 @@ def get_multiple_picker_figure(n_pickers,tr_h = 0.7):
 def plot_multiple_picker(st,info,
                         st_proc = {
                                     "normalize":True,
-                                    "merge":{"fill_value":0},
+                                    # "merge":{"fill_value":0},
+                                    "merge":{"method":0,"fill_value":'latest'},
                                     "detrend":{"type":"demean"},
                                     "taper":{"max_percentage":0.001, 
                                             "type":"cosine", 
@@ -143,24 +171,44 @@ def plot_multiple_picker(st,info,
 
     tr = get_proc_tr(st,st_proc)
 
+    network = tr.stats.network
+    station = tr.stats.station
+    location = tr.stats.location
+    channel = tr.stats.channel
     starttime = tr.stats.starttime
     endtime = tr.stats.endtime
     STARTTIME = mdates.date2num(starttime.datetime)
 
     x = tr.times("matplotlib")-STARTTIME
     ax[0].plot(x, tr.data, "k-")
+    text = ".".join((network,station,
+                 
+                    location,channel))
+    text = text.rjust(len(text) + 18)
+    text += "\nstarttime: " + starttime.strftime("%Y-%m-%d %H:%M:%S.%f")+\
+            "\nendtime : " + endtime.strftime("%Y-%m-%d %H:%M:%S.%f")
+
+    props = dict(boxstyle='round', facecolor='wheat', alpha=0.5)
+    # ax[0].text(.03, .95, text,
+    ax[0].text(0.72, 0.13, text,
+                horizontalalignment='left',
+                verticalalignment='top',
+                transform=ax[0].transAxes,
+                backgroundcolor= "white",
+                fontdict={"fontsize":9},
+                bbox=props)
     ax[0].xaxis_date()
     ax[0].set_xlim([min(x),max(x)])
     ymin, ymax = ax[0].get_ylim()
 
-    ax[len_axes].set_xlabel(f"Time", size=16)
+    ax[len_axes-1].set_xlabel(f"dt", size=16)
 
     # https://stackoverflow.com/questions/8342549/matplotlib-add-colorbar-to-a-sequence-of-line-plots
     Pcmap = cm.winter.reversed()
     Scmap = cm.autumn.reversed()
     for i,(picker,csv) in enumerate(info.items(),1):
         df = get_picks(csv,starttime,endtime,
-                        station_list=[tr.stats.station])
+                        select_stations=[tr.stats.station])
         for j, (_, row) in enumerate(df.iterrows()):
             pick = mdates.date2num(row['arrival_time'])-STARTTIME
             if row['phasehint'].upper() == 'P':
@@ -188,3 +236,25 @@ def plot_multiple_picker(st,info,
     return fig
 
 
+if __name__ == "__main__":
+    # client = Client(base_url='http://10.100.100.232:8091')
+    client = Client(base_url='http://sismo.sgc.gov.co:8080/')
+    # starttime = UTCDateTime("20191224T185959")
+    starttime = UTCDateTime("20191224T190600")
+    endtime = UTCDateTime("20191224T191359")
+    st = client.get_waveforms(network="CM",station="URMC",
+                                    location="*",
+                                    channel="HHZ",
+                                    starttime=starttime,
+                                    endtime=endtime)
+
+    eqt_csv = "/home/emmanuel/EDCT/test/picks/eqt/seismonitor_picks.csv"
+    sgc_csv = "/home/emmanuel/EDCT/test/picks/eqt/seismonitor_picks.csv"
+    phasenet_csv = "/home/emmanuel/EDCT/test/picks/eqt/seismonitor_picks.csv"
+    # csvs = [eqt_csv,sgc_csv,phasenet_csv]
+    csvs = {"EQT":eqt_csv,"PNET":phasenet_csv,"SGC":sgc_csv}
+
+    # df = get_picks(phasenet_csv,starttime,endtime)
+    # print(df)
+    fig = plot_multiple_picker(st,csvs)
+    fig.savefig("/home/emmanuel/EDCT/SeisMonitor/SeisMonitor/plot/mpt.png",dpi=300)
