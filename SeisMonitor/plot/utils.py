@@ -14,24 +14,159 @@ import matplotlib.gridspec as gs
 import matplotlib.dates as mdates
 from obspy.geodetics.base import gps2dist_azimuth
 from SeisMonitor.monitor.downloader import utils as dld_ut
-def order_by_coord(coord,picks):
-    lat,lon = coord
+from matplotlib.dates import DateFormatter
+from matplotlib.transforms import blended_transform_factory
+
+
+
+####### streamer
+
+def get_plot_by_station(providers,netsta,
+                        df,n_picks=50,
+                        align="P",
+                        phase_second = 2,
+                        window = 15,
+                        show=True):
+
+    left_padding = dt.timedelta(seconds=phase_second)
+    right_padding = dt.timedelta(seconds=window)
+
+    if align.upper() == "P":
+        df = df[df["phasehint"] == "P"]
+    elif align.upper() == "S":
+        df = df[df["phasehint"] == "S"]
+
+    if df.empty:
+        return None
+    elif len(df) > n_picks:
+        df = df.sample(n_picks)
+    else:
+        n_picks = len(df)
+
+    df = df.sort_values("probability",ascending=False)
+
+    fig, ax = plt.subplots(n_picks, sharex=True,
+                    gridspec_kw = {'wspace':0, 'hspace':0})
+        
+    trans_above = blended_transform_factory(ax[0].transData,
+                                            ax[0].transAxes)
+    arrowprops = dict(
+            arrowstyle="->",
+                facecolor="black")
+    bbox = dict(boxstyle="round", fc="w")
+    ax[0].annotate(align,(phase_second,1),
+                    xytext=(phase_second,3),
+                    xycoords=trans_above, 
+                    textcoords=trans_above,
+                    ha="center", va="bottom",
+                    arrowprops=arrowprops, bbox=bbox)
+
+    ax[0].annotate("Prob",(window+0.5,1),
+                    xytext=(window+0.5,3),
+                    xycoords=trans_above, 
+                    textcoords=trans_above,
+                    ha="center", va="bottom",
+                    arrowprops=arrowprops, bbox=bbox)
+
+    for i, (_, row) in enumerate(df.iterrows()):
+        starttime = UTCDateTime( row["arrival_time"]) - left_padding
+        endtime = starttime  + right_padding
+
+        for provider in providers:
+            client = provider.client
+            try:
+                st = client.get_waveforms(network=netsta[0],station=netsta[1],
+                            location="*",
+                            channel=row["instrument_type"]+"Z",
+                            starttime=starttime,
+                            endtime=endtime)
+            except:
+                continue
+
+        tr = get_proc_tr(st)
+        sec = tr.stats.endtime - tr.stats.starttime
+        sr = tr.stats.sampling_rate
+        sec_x = np.arange(0,sec+1/sr,1/sr)
+        tr_y = tr.normalize().data
+        ax[i].plot(sec_x,tr_y, color='black')
+        ax[i].set_yticks([])
+
+        left, width = .05, .95
+        bottom, height = .05, .85
+        right = left + width
+        top = bottom + height
+        ax[i].text(right, top, row["probability"],
+            horizontalalignment='right',
+            verticalalignment='top',
+            transform=ax[i].transAxes)
+            
+    suptitle = ".".join(netsta)
+    plt.xlabel('Seconds')
+    # fig.xlabel('Seconds', fontsize=12)
+    fig.suptitle(f'{suptitle}',fontsize=12)
+    fig.tight_layout() 
+
+    if show:
+        plt.show()
+    return fig
+
+def get_streamer_plot(streams,picker_csv,
+                    starttime,endtime,
+                    y_fontsize=6,show=True):
+    n_traces = len(list(streams.keys()))
+
+    fig, ax = plt.subplots(n_traces, sharex=True,
+                gridspec_kw = {'wspace':0, 'hspace':0})
     
-    # data = {"station":stas,"latitude":lats,"longitude":lons}
-    # df = pd.DataFrame.from_dict(data)
+    for i,(strid,st) in enumerate(streams.items()):
+        tr = get_proc_tr(st)
+        STARTTIME = mdates.date2num(starttime.datetime)
 
-    gps2da_gen = lambda y: gps2dist_azimuth(y.station_lat,y.station_lon,lat,lon)
-    gps2da = picks.apply(gps2da_gen,axis=1).tolist()
-    picks[["r","az","baz"]] = pd.DataFrame(gps2da)
-    picks["r"] = picks["r"]/1e3
+        x = tr.times("matplotlib")-STARTTIME
+        ax[i].plot(x, tr.data, "k-")
+        ax[i].xaxis_date()
+        ax[i].set_xlim([min(x),max(x)])
+        ymin, ymax = ax[i].get_ylim()
+        ax[i].set_yticks([])
+        ax[i].set_ylabel(strid,rotation=0,labelpad=24,fontsize=y_fontsize)
 
-    picks = picks.drop_duplicates(subset=["station"],
-                                ignore_index=True)
-    picks = picks.sort_values("r",ignore_index=True,ascending=False)
-    picks = picks[["station","r"]]
-    picks['id'] = picks.index
-    # print(df)
-    return df
+        df = get_picks(picker_csv,starttime,endtime,
+                    select_stations=[tr.stats.station])
+        for j, (_, row) in enumerate(df[::-1].iterrows()):
+            pick = mdates.date2num(row['arrival_time'])-STARTTIME
+            if row['phasehint'].upper() == 'P':
+                color = "blue" 
+            elif row['phasehint'].upper() == 'S':
+                color = "red"
+            
+            ax[i].vlines(pick, ymin, ymax, color=color, 
+                        linewidth=5, 
+                        label=row['phasehint'])
+            ax[i].set_facecolor('lightgray')
+
+    text = "starttime: " + starttime.strftime("%Y-%m-%d %H:%M:%S.%f")+\
+            "\nendtime : " + endtime.strftime("%Y-%m-%d %H:%M:%S.%f")
+
+    props = dict(boxstyle='round', facecolor='wheat', alpha=0.5)
+    ax[0].text(0.8, 5, text,
+                horizontalalignment='left',
+                verticalalignment='top',
+                transform=ax[0].transAxes,
+                backgroundcolor= "white",
+                fontdict={"fontsize":9},
+                bbox=props)
+    ax[i].set_xlabel(f"dt", size=16)
+
+    # fig.autofmt_xdate()
+    formatter = DateFormatter('%H:%M:%S')
+    plt.gcf().axes[i].xaxis.set_major_formatter(formatter)  
+
+    plt.tight_layout()
+
+    if show:
+        plt.show()
+
+    return fig
 
 def get_ordered_streams(providers,order,
                         starttime,endtime,
@@ -88,8 +223,8 @@ def get_ordered_streams(providers,order,
     # print(streams)
 
     return streams
-        
-def get_ordered_info(providers,order):
+
+def get_ordered_info(providers,order=None):
     inv,json_info,providers,sod = dld_ut.get_merged_inv_and_json(providers)
     
     json_info = pd.DataFrame.from_dict(json_info, orient='index')
@@ -97,7 +232,7 @@ def get_ordered_info(providers,order):
     json_info = json_info.set_index(["network","station"])
 
     if order == None:
-        return json_info
+        return json_info,providers
     elif isinstance(order[0],str):
         lat,lon,_ = json_info.loc[order,"coords"]
     elif isinstance(order[0],float):
@@ -109,8 +244,6 @@ def get_ordered_info(providers,order):
     
     json_info = json_info.sort_values(by="r")
     return json_info,providers
-
-
 
 ### multiple picker trace
 def get_picks(csv,starttime=None,endtime=None,
@@ -287,7 +420,6 @@ def plot_multiple_picker(st,info,
 
     fig.autofmt_xdate()
     return fig
-
 
 if __name__ == "__main__":
     # client = Client(base_url='http://10.100.100.232:8091')

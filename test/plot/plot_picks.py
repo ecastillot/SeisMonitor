@@ -69,4 +69,6 @@ sgc_provider = Provider(sgc_client,sgc_rest,xml=sgc_xml,processing=processing)
 st = Streamer(providers=[sgc_provider],picks=picks)
 st.plot("EQT",
         starttime=UTCDateTime("2019-12-24T19:00:00.000000Z"),
-        endtime=UTCDateTime("2019-12-24T20:00:00.000000Z"))
+        endtime=UTCDateTime("2019-12-24T20:00:00.000000Z"),
+        order=("CM","URMC"))
+# st.plot_by_station("EQT",("CM","URMC"))
