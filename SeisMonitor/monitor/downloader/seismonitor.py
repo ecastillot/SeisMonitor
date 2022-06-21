@@ -13,17 +13,11 @@ Created on Fri Nov 12 20:00:00 2020
 @author: Emmanuel_Castillo
 last update: 06-01-2021 
 """
-from itertools import groupby
 import json
-import os
-import numpy as np
 import time
 import logging
 import concurrent.futures as cf
-from functools import partial
 from datetime import timedelta
-from obspy.clients.fdsn.mass_downloader.utils import get_mseed_filename
-from obspy.core.stream import Stream
 from SeisMonitor.utils import printlog,isfile
 from . import utils as ut
 
@@ -180,7 +174,7 @@ class MseedDownloader(object):
       def get_client_waveforms_by_thread(netsta):
         bulk = (netsta[0],netsta[1],waveform_restrictions.location,
                 waveform_restrictions.channel,starttime,endtime)
-        ut.get_client_waveforms(client,bulk,
+        ut.write_client_waveforms(client,bulk,
                                 waveform_restrictions,
                                 download_restrictions,
                                 processing  )

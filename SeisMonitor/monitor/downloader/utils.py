@@ -17,63 +17,6 @@ from obspy.clients.fdsn.mass_downloader import Restrictions
 from obspy.core.inventory.inventory import (Inventory,read_inventory)
 from obspy.clients.fdsn.mass_downloader.domain import RectangularDomain
 
-class Provider():
-	def __init__(self,client,waveform_restrictions, 
-				processing=None,xml=None) -> None:
-		self.client = client
-		self.waveform_restrictions = waveform_restrictions
-		self.processing = processing
-		self.xml = xml
-
-class WaveformRestrictions():
-	def __init__(self,network,station,
-			  location,channel,
-			  starttime,endtime,
-			  location_preferences=[],
-			  channel_preferences=[],
-			  filter_networks=[], 
-			  filter_stations=[],
-			  filter_domain=[-180,180,-90,90] #lonw,lone,lats,latn
-			  ):
-		"""
-		network: str
-			Select one or more network codes. 
-			Multiple codes are comma-separated (e.g. "IU,TA"). 
-			Wildcards are allowed.
-		station: str
-			Select one or more SEED station codes. 
-			Multiple codes are comma-separated (e.g. "ANMO,PFO"). 
-			Wildcards are allowed.
-		location: str
-			Select one or more SEED location identifiers. 
-			Multiple identifiers are comma-separated (e.g. "00,01"). 
-			Wildcards are allowed.
-		channel: str
-			Select one or more SEED channel codes. 
-			Multiple codes are comma-separated (e.g. "BHZ,HHZ").
-		starttime: obspy.UTCDateTime
-			Limit results to time series samples on or 
-			after the specified start time.
-		endtime: obspy.UTCDateTime
-			Limit results to time series samples on or 
-			before the specified end time.
-		location_preferences: list
-			list of location in the order of the preference. If select the
-			location of the first element, then the rest of elements will not be 
-			downloaded.
-		"""
-		self.network = network
-		self.station = station
-		self.location = location
-		self.channel = channel
-		self.starttime = starttime
-		self.endtime = endtime
-		self.location_preferences = location_preferences
-		self.channel_preferences = channel_preferences
-		self.filter_networks = filter_networks
-		self.filter_stations = filter_stations
-		self.filter_domain = filter_domain
-
 class DownloadRestrictions():
 	def __init__(self,mseed_storage, 
                 chunklength_in_sec=None,
@@ -90,84 +33,9 @@ class DownloadRestrictions():
 		self.groupby = groupby
 		self.n_processor=n_processor
 
-class Processing(object):
-	def __init__(self,
-				order=['normalize','merge','detrend',
-						'taper',"filter"],
-				decimate={"factor":2},
-				detrend={"type":"demean"},
-				filter={"type":'bandpass', 
-						"freqmin" : 1, 
-						"freqmax" : 45, 
-						"corners":2, 
-						"zerophase":True},
-				merge={"method":0,"fill_value":'latest'},
-				normalize=True,
-				resample={"sampling_rate":200},
-				taper={"max_percentage":0.001, 
-						"type":"cosine", 
-						"max_length":2} ,
-				select_networks=[], 
-				select_stations=[],
-				filter_networks=[], 
-			  	filter_stations=[]):
-		"""
-		Restrictions to preprocess a stream selected by seed_ids
-		
-		Parameters:
-		-----------
-		order: list of str
-			Order to preprocess the stream.
-			ex: ['merge','detrend','taper','normalized']
-		decimate: dict
-			Contains the parameters of the decimate Stream method 
-		detrend: dict 
-			Contains the parameters of the detrend Stream method 
-		filter: dict
-			Contains the parameters of the filter Stream method 
-		merge: dict
-			Contains the parameters of the merge Stream method 
-		normalize: dict
-			Contains the parameters of the normalize Stream method 
-		remove_response: dict
-			Contains the parameters of the remove_response Stream method 
-		resample: dict
-			Contains the parameters of the resample Stream method 
-		taper: dict
-			Contains the parameters of the taper Stream method 
-
-		--------
-		"""
-		self.order = order
-		self.decimate = decimate
-		self.detrend = detrend
-		self.filter = filter
-		self.merge = merge
-		self.normalize = normalize
-		self.resample = resample
-		self.taper = taper
-		self.select_networks = select_networks
-		self.select_stations = select_stations
-		self.filter_networks = filter_networks
-		self.filter_stations = filter_stations
-	
-	def run(self,st):
-		return preproc_stream(st,self.order ,
-							self.decimate ,
-							self.detrend ,
-							self.filter ,
-							self.merge ,
-							self.normalize ,
-							self.resample ,
-							self.taper ,
-							self.select_networks ,
-							self.select_stations ,
-							self.filter_networks ,
-							self.filter_stations)
-		
-
-def write_stream(one_st,ppc_restrictions,mseed_storage,
-				threshold=None, to_pick=None):
+def write_stream(one_st,mseed_storage, 
+				threshold=None, to_pick=None,
+				ppc_and_comment = [False,""]):
 	"""
 	Write a stream in a specific storage given by mseed_storage
 
@@ -193,13 +61,9 @@ def write_stream(one_st,ppc_restrictions,mseed_storage,
 	Returns:
 		write one stream
 	"""
-	if ppc_restrictions == None:
-		ppc = False
-		comment = ""
-	else:
-		one_st,ppc,comment = ppc_restrictions.run(one_st)
+	
 
-	# one_st = one_st.merge(method=0,fill_value='latest')
+	ppc,comment = ppc_and_comment
 	tr = one_st[0]
 
 	mseed_filename = get_mseed_filename(_str=mseed_storage, 
@@ -210,6 +74,7 @@ def write_stream(one_st,ppc_restrictions,mseed_storage,
 									starttime=tr.stats.starttime, 
 									endtime=tr.stats.endtime,
 									ppc=ppc)
+
 	if threshold != None:
 		length = abs(tr.stats.endtime - tr.stats.starttime)
 		if length < threshold:
@@ -240,8 +105,6 @@ def write_stream(one_st,ppc_restrictions,mseed_storage,
 	if (threshold == None) or (to_pick == None):
 		download = True
 
-
-	filename = os.path.basename(mseed_filename)
 	if os.path.isfile(mseed_filename) == False:
 
 		if download == False:
@@ -318,78 +181,6 @@ def get_mseed_filename(_str, network, station, location, channel,
 	elif not isinstance(path, (str, bytes)):
 		raise TypeError("'%s' is not a filepath." % str(path))
 	return path
-
-def preproc_stream(st,
-				order=['normalize','merge','detrend',
-						'taper',"filter"],
-				decimate=None,detrend=None,filter=None,
-				merge=None,normalize=None,
-				resample=None,taper=None,
-				select_networks=[], 
-				select_stations=[],
-				filter_networks=[], 
-			  	filter_stations=[]):
-	"""
-	Parameters:
-	-----------
-	st: obspy.Stream object
-		Stream object to preprocessing
-	ppc_restrictions: PreprocRestrictions object
-		Restrictions to preprocess a stream
-
-	Returns:
-	--------
-	st: obspy.Stream object
-		Preprocessed stream according to the order of the parameters. 
-	processed: True or False
-		True if was processed, False if not.
-	"""
-	tr = st[0]
-	network = tr.stats.network
-	station = tr.stats.station
-	comment = ""
-
-	if (network in filter_networks) or\
-		(station in filter_stations):
-		processed = False
-
-	else:
-		if (network in select_networks) or\
-		(station in select_stations):
-		
-			for i,process in enumerate(order):
-				try:
-					if process == 'decimate':
-						st.decimate(**decimate)
-					elif process == 'detrend':
-						st.detrend(**detrend)
-					elif process == 'applyfilter':
-						st.filter(**filter)
-					elif process == 'merge':
-						st.merge(**merge)
-					elif process == 'normalize':
-						st.normalize(**normalize)
-					elif process == 'resample':
-						st.resample(**resample)
-					elif process == 'taper':
-						st.taper(**taper)
-
-					## only for print comments	
-					if i == len(order)-1:
-						comment += f"({process}:ok)"
-					else:
-						comment += f"({process}:ok)->"
-				except:
-					if i == len(order)-1:
-						comment += f"({process}:Failed)"
-					else:
-						comment += f"({process}:Failed)->"
-				processed = True
-			comment = f"[{comment}]"
-		else:
-			processed = False
-
-	return st, processed, comment
 
 def get_chunktimes(starttime,endtime,chunklength_in_sec, overlap_in_sec=0):
 	"""
@@ -687,34 +478,53 @@ def select_inventory(inv,network,station,location,
 
 def get_client_waveforms(client,bulk,
 						waveform_restrictions,
-						download_restrictions,
-						processing  ):
-	
+						processing):
 	net,sta,loc,cha,starttime,endtime = bulk
 	loc_preference = waveform_restrictions.location_preferences
 	cha_preference = waveform_restrictions.channel_preferences
-	groupby = download_restrictions.groupby
 
 	try:
 		st = client.get_waveforms(net,sta,loc,cha,starttime,endtime)
 	except:
 		st = Stream()
-		return st
+		ppc = False
+		comment = ""
+		return st,ppc,comment
 	
 	if len(st)==0:
-		return st
+		ppc = False
+		comment = ""
+		return st,ppc,comment
 
 	st= get_st_according2preference(st,
 								loc_preference,
-								cha_preference)
-	st_dict = st._groupby(groupby)
+								cha_preference)	
+	if processing == None:
+		ppc = False
+		comment = ""
+	else:
+		st,ppc,comment = processing.run(st)
+
+	return st,ppc,comment
+
+def write_client_waveforms(client,bulk,
+						waveform_restrictions,
+						download_restrictions,
+						processing):
 	
+	st,ppc,comment = get_client_waveforms(client,bulk,
+						waveform_restrictions,
+						processing)
+
+	groupby = download_restrictions.groupby
+	st_dict = st._groupby(groupby)
 	for one_st in st_dict.values():
-		write_stream(one_st,processing,
+		write_stream(one_st,
 					download_restrictions.mseed_storage,
 					download_restrictions.threshold,
-					download_restrictions.pick_batch_size)
-	
+					download_restrictions.pick_batch_size,
+					[ppc,comment])
+
 	return st_dict
 
 def get_merged_inv_and_json(providers):

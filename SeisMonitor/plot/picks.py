@@ -8,6 +8,7 @@ import matplotlib.cm     as cm
 import datetime as dt
 import pandas as pd
 import numpy as np
+import json
 from mpl_toolkits.axes_grid1 import make_axes_locatable
 import matplotlib.gridspec as gs
 import matplotlib.dates as mdates
@@ -15,62 +16,98 @@ from . import utils as ut
 # import utils as ut
 
 class Tracer():
-    def __init__(self,client,picks,
-                xml=None):
-        self.client = client
+    def __init__(self,provider,picks):
+        self.provider = provider
         self.picks = picks
-        self.xml = xml
     
-    def plot(self,network,station,
-                            location,channel,
-                            starttime,
-                            endtime,
-                            st_proc = {
-                            "normalize":True,
-                            "merge":{"fill_value":0},
-                            "detrend":{"type":"demean"},
-                            "taper":{"max_percentage":0.001, 
-                                    "type":"cosine", 
-                                    "max_length":2} , 
-                            "filter":{"type":'bandpass', 
-                                    "freqmin" : 1, 
-                                    "freqmax" : 45, 
-                                    "corners":2, 
-                                    "zerophase":True},
-                            },
-                            show=True
-                            ):
-        st = self.client.get_waveforms(network,station,
-                                    location,
-                                    channel,
-                                    starttime,
-                                    endtime)
-        fig = ut.plot_multiple_picker(st,self.picks,st_proc)
+    def plot(self,show=True):
+        waveform_restrictions = self.provider.waveform_restrictions
+        processing = self.provider.processing
+        st = self.provider.client.get_waveforms(waveform_restrictions.network,
+                                waveform_restrictions.station,
+                                waveform_restrictions.location,
+                                waveform_restrictions.channel,
+                                waveform_restrictions.starttime,
+                                waveform_restrictions.endtime)
+        fig = ut.plot_multiple_picker(st,self.picks,processing )
         if show:
             plt.show()
         return fig
 
-    def plot_all_stations(self,picker,
-                            starttime,endtime,
-                            select_networks=[],
-                            select_stations=[],
-                            filter_networks=[],
-                            filter_stations=[],
-                            st_proc = {
-                            "normalize":True,
-                            "merge":{"fill_value":0},
-                            "detrend":{"type":"demean"},
-                            "taper":{"max_percentage":0.001, 
-                                    "type":"cosine", 
-                                    "max_length":2} , 
-                            "filter":{"type":'bandpass', 
-                                    "freqmin" : 1, 
-                                    "freqmax" : 45, 
-                                    "corners":2, 
-                                    "zerophase":True},
-                            },
-                            show=True):
-        pass
+class Streamer():
+    def __init__(self,providers,picks):
+        self.providers = providers
+        self.picks = picks
+
+    def plot(self,picker,starttime,endtime,
+                order=("CM","URMC"),
+                fontsize=6,
+                show=True):
+        picker_csv = self.picks[picker]
+
+        streams = ut.get_ordered_streams(self.providers,order,
+                                    starttime,endtime)
+        
+        n_traces = len(list(streams.keys()))
+
+        # Pcmap = cm.get_cmap("Blues",10)
+        # Scmap = cm.get_cmap("Reds",10)
+
+        fig, ax = plt.subplots(n_traces, sharex=True,
+                    gridspec_kw = {'wspace':0, 'hspace':0})
+        
+        for i,(strid,st) in enumerate(streams.items()):
+            tr = ut.get_proc_tr(st)
+            STARTTIME = mdates.date2num(starttime.datetime)
+
+            x = tr.times("matplotlib")-STARTTIME
+            ax[i].plot(x, tr.data, "k-")
+            ax[i].xaxis_date()
+            ax[i].set_xlim([min(x),max(x)])
+            ymin, ymax = ax[i].get_ylim()
+            ax[i].set_yticks([])
+            ax[i].set_ylabel(strid,rotation=0,labelpad=24,fontsize=fontsize)
+
+            df = ut.get_picks(picker_csv,starttime,endtime,
+                        select_stations=[tr.stats.station])
+            for j, (_, row) in enumerate(df.iterrows()):
+                pick = mdates.date2num(row['arrival_time'])-STARTTIME
+                if row['phasehint'].upper() == 'P':
+                    # color = Pcmap(row['probability']-0.001) # -0.001 removes a bug in Cbar 
+                    color = "blue" # -0.001 removes a bug in Cbar 
+                elif row['phasehint'].upper() == 'S':
+                    # color = Scmap(row['probability']-0.001)
+                    color = "red"
+                
+                ax[i].vlines(pick, ymin, ymax, color=color, 
+                            # linewidth=0.7, 
+                            linewidth=5, 
+                            label=row['phasehint'])
+                ax[i].set_facecolor('lightgray')
+
+            # text = ".".join((network,station,
+                 
+            #         location,channel))
+            # text = text.rjust(len(text) + 18)
+        text = "starttime: " + starttime.strftime("%Y-%m-%d %H:%M:%S.%f")+\
+                "\nendtime : " + endtime.strftime("%Y-%m-%d %H:%M:%S.%f")
+
+        props = dict(boxstyle='round', facecolor='wheat', alpha=0.5)
+        # ax[0].text(.03, .95, text,
+        ax[0].text(0.8, 5, text,
+                    horizontalalignment='left',
+                    verticalalignment='top',
+                    transform=ax[0].transAxes,
+                    backgroundcolor= "white",
+                    fontdict={"fontsize":9},
+                    bbox=props)
+        ax[i].set_xlabel(f"dt", size=16)
+        # ax.set_xlabel(f"dt", size=16)
+        fig.autofmt_xdate()
+        plt.tight_layout()
+        plt.show()
+        # print(json_info)
+        # print(provider[0].waveform_restrictions.__dict__)
 
 if __name__ == "__main__":
     client = Client(base_url='http://sismo.sgc.gov.co:8080/')

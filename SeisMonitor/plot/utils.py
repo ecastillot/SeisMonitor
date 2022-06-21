@@ -1,8 +1,9 @@
+from concurrent.futures import process
 from obspy.clients.fdsn import Client
 from obspy.core.utcdatetime import UTCDateTime
 from obspy.realtime.signal import scale
 # from obspy.core.stream import Stream
-
+import concurrent.futures as cf
 import matplotlib.pyplot as plt
 import matplotlib.cm     as cm
 import datetime as dt
@@ -12,7 +13,7 @@ from mpl_toolkits.axes_grid1 import make_axes_locatable
 import matplotlib.gridspec as gs
 import matplotlib.dates as mdates
 from obspy.geodetics.base import gps2dist_azimuth
-
+from SeisMonitor.monitor.downloader import utils as dld_ut
 def order_by_coord(coord,picks):
     lat,lon = coord
     
@@ -31,6 +32,85 @@ def order_by_coord(coord,picks):
     picks['id'] = picks.index
     # print(df)
     return df
+
+def get_ordered_streams(providers,order,
+                        starttime,endtime,
+                        n_processor=None):
+    ordered_info,providers = get_ordered_info(providers,order)
+
+    def get_client_waveforms_by_thread(netsta):
+        strid = ".".join(netsta)
+        bulk = (netsta[0],netsta[1],waveform_restrictions.location,
+                waveform_restrictions.channel,starttime,endtime)
+        st,_,_ = dld_ut.get_client_waveforms(client,bulk,
+                                waveform_restrictions,
+                                processing  )
+        if len(st)==0:
+            return 
+
+        return (strid,st)
+
+    for provider in providers:
+        provider.waveform_restrictions.starttime = starttime
+        provider.waveform_restrictions.endtime = endtime
+        client = provider.client
+        waveform_restrictions = provider.waveform_restrictions
+        bulk_info = waveform_restrictions.bulk_info
+        processing = provider.processing
+
+        if n_processor == 1:
+            result = []
+            for netsta in waveform_restrictions.bulk_info:
+                st = get_client_waveforms_by_thread(netsta)
+                result.append(st)
+        else:
+            with cf.ThreadPoolExecutor(n_processor) as executor:
+                result = executor.map(get_client_waveforms_by_thread,bulk_info)
+                result = list(result)
+        
+        result = list(filter(None, result))
+        result = dict(list(result))
+
+    st_keys = list(result.keys())        
+
+    streams = {}
+    for netsta,row in ordered_info.iterrows():
+        strid = ".".join(netsta)
+
+        if strid in st_keys:
+            st = result[strid]
+        else:
+            print("no",strid)
+            continue
+
+        streams[strid] = st
+
+    # print(streams)
+
+    return streams
+        
+def get_ordered_info(providers,order):
+    inv,json_info,providers,sod = dld_ut.get_merged_inv_and_json(providers)
+    
+    json_info = pd.DataFrame.from_dict(json_info, orient='index')
+    json_info["station"] = json_info.index
+    json_info = json_info.set_index(["network","station"])
+
+    if order == None:
+        return json_info
+    elif isinstance(order[0],str):
+        lat,lon,_ = json_info.loc[order,"coords"]
+    elif isinstance(order[0],float):
+        lat,lon = order
+
+    # json_info = json_info.reset_index(drop=True)
+    distance_func = lambda y: gps2dist_azimuth(y[0],y[1],lat,lon)[0]
+    json_info["r"] = json_info["coords"].apply(distance_func)
+    
+    json_info = json_info.sort_values(by="r")
+    return json_info,providers
+
+
 
 ### multiple picker trace
 def get_picks(csv,starttime=None,endtime=None,
@@ -68,34 +148,14 @@ def get_picks(csv,starttime=None,endtime=None,
     return df
 
 def get_proc_tr(st,
-        st_proc= {"normalize":True,
-                "merge":{"fill_value":0},
-                "detrend":{"type":"demean"},
-                "taper":{"max_percentage":0.001, 
-                        "type":"cosine", 
-                        "max_length":2} , 
-                "filter":{"type":'bandpass', 
-                        "freqmin" : 1.0, 
-                        "freqmax" : 45, 
-                        "corners":2, 
-                        "zerophase":True},
-                }):
+        processing=None):
     "returns the first processed trace"
     
-    if not st_proc:
-        pass
+    if processing == None:
+        processed = False
+        comment = ""
     else:
-        for key,value in st_proc.items():
-            if (key == "normalize") and (value == True):
-                st.normalize()
-            elif key == "merge":
-                st.merge(**value)
-            elif key == "detrend":
-                st.detrend(**value)
-            elif key == "taper":
-                st.taper(**value)  
-            elif key == "filter":
-                st.filter(**value)  
+        st,processed, comment = processing.run(st) 
 
     st.trim(min([tr.stats.starttime for tr in st]),
              max([tr.stats.endtime for tr in st]), 
@@ -147,20 +207,7 @@ def get_multiple_picker_figure(n_pickers,tr_h = 0.7):
     return fig, time_axes, prob_axes
 
 def plot_multiple_picker(st,info,
-                        st_proc = {
-                                    "normalize":True,
-                                    # "merge":{"fill_value":0},
-                                    "merge":{"method":0,"fill_value":'latest'},
-                                    "detrend":{"type":"demean"},
-                                    "taper":{"max_percentage":0.001, 
-                                            "type":"cosine", 
-                                            "max_length":2} , 
-                                    "filter":{"type":'bandpass', 
-                                            "freqmin" : 1, 
-                                            "freqmax" : 45, 
-                                            "corners":2, 
-                                            "zerophase":True},
-                                    },
+                        processing = None,
                         tr_h =0.7
                         ):
 
@@ -169,7 +216,7 @@ def plot_multiple_picker(st,info,
 
     len_axes = len(ax)
 
-    tr = get_proc_tr(st,st_proc)
+    tr = get_proc_tr(st,processing )
 
     network = tr.stats.network
     station = tr.stats.station
@@ -204,8 +251,13 @@ def plot_multiple_picker(st,info,
     ax[len_axes-1].set_xlabel(f"dt", size=16)
 
     # https://stackoverflow.com/questions/8342549/matplotlib-add-colorbar-to-a-sequence-of-line-plots
-    Pcmap = cm.winter.reversed()
-    Scmap = cm.autumn.reversed()
+    # Pcmap = cm.winter.reversed()
+    # Scmap = cm.autumn.reversed()
+    # Pcmap = cm.get_cmap("winter",10)
+    Pcmap = cm.get_cmap("Blues",10)
+    # Pcmap = Pcmap.reversed()
+    Scmap = cm.get_cmap("Reds",10)
+    # Scmap = Scmap.reversed()
     for i,(picker,csv) in enumerate(info.items(),1):
         df = get_picks(csv,starttime,endtime,
                         select_stations=[tr.stats.station])
@@ -217,7 +269,8 @@ def plot_multiple_picker(st,info,
                 color = Scmap(row['probability']-0.001)
 
             ax[i].vlines(pick, ymin, ymax, color=color, 
-                            linewidth=0.7, 
+                            # linewidth=0.7, 
+                            linewidth=1, 
                             label=row['phasehint'])
             ax[i].set_facecolor('lightgray')
             ax[i].set_yticks([])
@@ -226,7 +279,7 @@ def plot_multiple_picker(st,info,
     fig.autofmt_xdate()
 
     Pclb = fig.colorbar(cm.ScalarMappable(cmap=Pcmap), cax=pax[0],orientation="vertical")
-    Pclb.ax.tick_params(labelsize=0.7)
+    Pclb.ax.tick_params(labelsize=1)
     Pclb.ax.set_title('P',fontsize=18)
     Sclb = fig.colorbar(cm.ScalarMappable(cmap=Scmap), cax=pax[1],orientation="vertical")
     Sclb.ax.set_title('S',fontsize=18)

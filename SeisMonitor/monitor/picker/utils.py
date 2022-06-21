@@ -61,6 +61,7 @@ def eqt_picks_2_seismonitor_fmt(eqt_folder,mseed_folder,out_path):
                 dfs.append(df)
 
     df = pd.concat(dfs,ignore_index=True)
+    df["station"] = df["station"].apply(lambda x: x.strip())
     df = df.sort_values(by="p_arrival_time",ignore_index=True)
 
     x_results_path = os.path.join(os.path.dirname(out_path),
