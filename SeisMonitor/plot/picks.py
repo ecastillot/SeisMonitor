@@ -45,11 +45,10 @@ class Streamer():
                 order,
                 fontsize=6,
                 show=True):
-        picker_csv = self.picks[picker]
 
+        picker_csv = self.picks[picker]
         streams = ut.get_ordered_streams(self.providers,order,
                                     starttime,endtime)
-        
         fig = ut.get_streamer_plot(streams,picker_csv,
                                     starttime,endtime,
                                     fontsize,show)
@@ -60,11 +59,11 @@ class Streamer():
                         phase_second = 2,
                         window = 15,
                         show=True):
+
         picker_csv = self.picks[picker]
         df = ut.get_picks(picker_csv,
                     select_networks=[netsta[0]],
                     select_stations=[netsta[1]])
-
         fig = ut.get_plot_by_station(self.providers,netsta,
                             df,n_picks,align,phase_second,
                             window,

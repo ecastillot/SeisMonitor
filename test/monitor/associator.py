@@ -15,7 +15,7 @@ import matplotlib.pyplot as plt
 
 picks = "/home/emmanuel/EDCT/test/picks/eqt/seismonitor_picks.csv"
 resp = "/home/emmanuel/EDCT/SeisMonitor/data/metadata/CM_201601_202206.xml"
-out = "/home/emmanuel/EDCT/SeisMonitor/test/monitor"
+out = "/home/emmanuel/EDCT/test"
 
 # region = [-84.798, -66.546,-1.628, 15.445,0, 41]
 region = [-76.729, -72.315,1.55, 5.314,0, 150]
@@ -25,10 +25,11 @@ gc = GaMMAObj(resp,region,"EPSG:3116",
                 use_dbscan=False,
                 calculate_amp=False)
 g = GaMMA(picks,resp,out)
-catalog,assignments,station_df = g.associator(gc)
-
+catalog = g.associator(gc)
 print(catalog)
 
+
+exit()
 fig = plt.figure(figsize=(10, 10))
 ax = fig.add_subplot(111)
 ax.set_aspect("equal")

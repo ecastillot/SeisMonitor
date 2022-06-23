@@ -2,11 +2,25 @@ import numpy as np
 import pandas as pd
 import datetime as dt
 import pyproj
+import os
 from . import utils as ut
+from SeisMonitor.utils import isfile
 from gamma.utils import association
 from obspy.core.inventory.inventory import (Inventory,read_inventory)
 from tqdm import tqdm
-
+from obspy import UTCDateTime
+from obspy.core.event.event import Event
+from obspy.core.event import ResourceIdentifier,Catalog
+from obspy.core.event.base import CreationInfo
+from obspy.core.event.origin import Pick
+from obspy.core.event.base import (QuantityError,
+                                WaveformStreamID,
+                                CreationInfo,
+                                Comment)
+from obspy.core.event import ResourceIdentifier
+from obspy.core.event.origin import Origin, OriginQuality
+from obspy.core.event.base import QuantityError
+from obspy.core.event.origin import Arrival
 
 class GaMMAObj():
     def __init__(self,response,region,epsg_proj,
@@ -95,12 +109,106 @@ class GaMMAObj():
         in_proj = pyproj.Proj("EPSG:4326")
         out_proj = pyproj.Proj(self.epsg_proj)
 
-        stations["x(km)"] = stations.apply(lambda x: pyproj.transform(in_proj,out_proj,
-                                            x["latitude"], x["longitude"])[0] / 1e3, axis=1)
         stations["y(km)"] = stations.apply(lambda x: pyproj.transform(in_proj,out_proj,
+                                            x["latitude"], x["longitude"])[0] / 1e3, axis=1)
+        stations["x(km)"] = stations.apply(lambda x: pyproj.transform(in_proj,out_proj,
                                             x["latitude"], x["longitude"])[1] / 1e3, axis=1)
         stations["z(km)"] = stations["elevation(m)"] / -1e3
         return stations
+
+def get_gamma_picks(event_picks):
+    pick_list = []
+    for i, row in event_picks.iterrows():
+        str_id = ".".join((row.network,row.station,
+                           "{:02d}".format(row.location),row.instrument_type + "Z"))
+        pick_obj = Pick(resource_id=ResourceIdentifier( id= row.pick_id,prefix="pick"),
+                                time=UTCDateTime(row.timestamp),
+                                time_errors=QuantityError(uncertainty=row.prob,
+                                                        confidence_level=row.prob*100),
+                                waveform_id=WaveformStreamID(network_code=row.network,
+                                                             station_code=row.station,
+                                                             location_code="{:02d}".format(row.location),
+                                                             channel_code=row.instrument_type + "Z",
+                                                             resource_uri= ResourceIdentifier(id= str_id ),
+                                                             seed_string = str_id),
+                                phase_hint = row["type"],
+                                evaluation_mode = 'automatic',
+                                creation_info= CreationInfo(author=row.author,
+                                                            creation_time=UTCDateTime.now()),
+                                method_id=row.author,
+                                comments= [Comment(text=f"GaMMA prob: {row.prob_gamma}")]
+                                )
+        pick_list.append(pick_obj)
+    
+    return pick_list
+
+def picks2arrivals(picks):
+    arrivals = []
+    for pick in picks:
+        arrival = Arrival( resource_id =ResourceIdentifier(id=pick.resource_id.id,
+                                                            prefix='arrival'),
+                           pick_id = pick.resource_id,
+                           phase = pick.phase_hint,
+                           creation_info=pick.creation_info )
+        arrivals.append(arrival)
+    return arrivals
+        
+def get_gamma_origin(catalog_info,event_picks,in_proj="EPSG:3116",
+                    out_proj ="EPSG:4326"):
+    y,x = catalog_info["y(km)"]*1e3,catalog_info["x(km)"]*1e3
+    in_proj = pyproj.Proj(in_proj) #colombia/MAGNA SIRGAS BOGOTÁ/ZONE
+    out_proj = pyproj.Proj(out_proj)
+    lat,lon = pyproj.transform(in_proj,out_proj,y,x)
+
+    origin = Origin(resource_id = ResourceIdentifier(id=UTCDateTime(catalog_info.time).strftime("%Y%m%d.%H%M%S.%f"),
+                                                    prefix='origin'),
+                    time = UTCDateTime(catalog_info.time),
+                    time_errors = QuantityError(uncertainty=catalog_info.sigma_time),
+                    longitude = lon,
+                    longitude_errors = QuantityError(),
+                    latitude = lat,
+                    latitude_errors = QuantityError(),
+                    depth = catalog_info["z(km)"],
+                    depth_errors = QuantityError(),
+                    method_id = ResourceIdentifier(id="GaMMA"),
+                    arrivals = picks2arrivals(event_picks),
+                    quality = OriginQuality(associated_phase_count=len(event_picks)),
+                    evaluation_status = "preliminary",
+                    evaluation_mode = "automatic",
+                    creation_info = CreationInfo(author="SeisMonitor",
+                                                creation_time=UTCDateTime.now())
+                     )
+    return origin
+
+def get_gamma_catalog(picks_df,catalog_df):
+
+    events = []
+    for i, row in catalog_df.iterrows():
+        picks = picks_df[picks_df["event_idx"]==i]
+        picks = get_gamma_picks(picks)
+        origin = get_gamma_origin(row,picks)
+        ev = Event(resource_id = ResourceIdentifier(id=origin.resource_id.id,
+                                                            prefix='event'),
+                    event_type = "earthquake",
+                    event_type_certainty = "known",
+                    creation_info = CreationInfo(author="SeisMonitor",
+                                                creation_time=UTCDateTime.now()),
+                    picks = picks,
+                    amplitudes = [],
+                    focal_mechanisms = [],
+                    origins = [origin],
+                    magnitudes = [],
+                    station_magnitudes = []
+                    )
+        ev.preferred_origin_id = origin.resource_id.id
+        events.append(ev)
+    
+    catalog = Catalog(events = events,
+                    resource_id = ResourceIdentifier(prefix='catalog'),
+                    creation_info = CreationInfo(author="SeisMonitor",
+                                    creation_time=UTCDateTime.now()) )
+    return catalog
+
 
 class GaMMA():
     def __init__(self,picks_csv,xml_path,out_dir):
@@ -108,6 +216,7 @@ class GaMMA():
         self.xml_path = xml_path
         self.response = read_inventory(xml_path)
         self.out_dir = out_dir
+        self.xml_out_file = os.path.join(out_dir,"associations","associations.xml")
 
 
     def associator(self,gamma_obj):
@@ -125,15 +234,38 @@ class GaMMA():
 
         config = gamma_obj.__dict__
 
-        # pbar = tqdm(1)
+        pbar = tqdm(1)
         catalogs, assignments = association(picks_df, station_df, config, 
-                                method=gamma_obj.method)
+                                method=gamma_obj.method,pbar=pbar)
         
         catalog = pd.DataFrame(catalogs)
-        assignments = pd.DataFrame(assignments,
-                                columns=["pick_idx", "event_idx", "prob_gamma"])
-        print(picks_df)
-        print(catalog)
-        print(assignments)
-        return catalog,assignments,station_df
+        catalog["time"] = pd.to_datetime(catalog["time"],format="%Y-%m-%dT%H:%M:%S.%f")
+        catalog["event_index"] = catalog["time"].apply(lambda x: x)
 
+        assignments = pd.DataFrame(assignments,
+                                columns=["pick_index", "event_idx", "prob_gamma"])
+        assignments = assignments.set_index("pick_index")
+
+        picks = pd.merge(picks_df, assignments, left_index=True, 
+                        right_index=True, how='right')
+
+        catalog = get_gamma_catalog(picks,catalog)
+
+
+        isfile(self.xml_out_file)
+        catalog.write(self.xml_out_file,format="QUAKEML")
+
+
+        return catalog
+
+if __name__ == "__main__":
+    csv = "/home/emmanuel/EDCT/SeisMonitor/SeisMonitor/monitor/associator/test.csv"
+    cat_csv = "/home/emmanuel/EDCT/SeisMonitor/SeisMonitor/monitor/associator/cat_test.csv"
+    df = pd.read_csv(csv)
+    df["timestamp"] = pd.to_datetime(df["timestamp"])
+    cat_df = pd.read_csv(cat_csv)
+    cat_df["time"] = pd.to_datetime(cat_df["time"])
+
+    # print(df)
+    # print(cat_df)
+    get_gamma_catalog(df,cat_df)

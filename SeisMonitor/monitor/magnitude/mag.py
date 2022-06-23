@@ -17,10 +17,12 @@ from obspy.io.xseed.parser import Parser
 from obspy.core.event import Magnitude as Mag
 from obspy.core.event import Catalog
 from obspy.core.event import read_events, Comment
+from SeisMonitor.utils import isfile
 import mtspec
 import numpy as np
 import scipy
-import utils as ut
+import os
+from . import utils as ut
 
 class MwPhysicalMagParams():
     def __init__(self,
@@ -52,7 +54,7 @@ class MwProcessingMagParams():
         self.only_proc_s_pick = only_proc_s_pick
 
 class Magnitude():
-    def __init__(self,client,catalog,response) -> None:
+    def __init__(self,client,catalog,response,out_dir) -> None:
         self.client = client
         # super().__init__(sds_archive,sds_type,format)
         self.response = response
@@ -61,12 +63,16 @@ class Magnitude():
             self.catalog = catalog
         else:
             self.catalog = read_events(catalog)
+        self.out_dir = out_dir
+        self.xml_ml_out_file = os.path.join(out_dir,"magnitude","Ml_magnitude.xml")    
+        self.xml_mw_out_file = os.path.join(out_dir,"magnitude","Mw_magnitude.xml")    
 
     def get_Ml(self,
                 mag_type="RSNC",
                 trimmedtime=50,
                 padding=20,waterlevel=10,
-                zone=None):
+                zone=None,
+                out_format="QUAKEML"):
         for event in self.catalog:
             print("event:",event.resource_id)
 
@@ -121,8 +127,14 @@ class Magnitude():
             event.magnitudes.append(mag)
             event.preferred_magnitude_id = mag.resource_id
 
+        if self.xml_ml_out_file != None:
+            print ("Writing output file...")
+            isfile(self.xml_ml_out_file)
+            self.catalog.write(self.xml_ml_out_file, out_format)
+        return self.catalog
+
     def get_Mw(self,physparams,procparams,
-                outfile=None,out_format="QUAKEML"):
+            out_format="QUAKEML"):
 
         Mws = []
         Mws_std = []
@@ -210,9 +222,10 @@ class Magnitude():
             event.magnitudes.append(mag)
             event.preferred_magnitude_id = mag.resource_id
 
-        if outfile != None:
+        if self.xml_mw_out_file != None:
             print ("Writing output file...")
-            self.catalog.write(outfile, out_format)
+            isfile(self.xml_mw_out_file)
+            self.catalog.write(self.xml_mw_out_file, out_format)
         return self.catalog
                 
     def _get_corresponding_st(self,waveform_id, 
