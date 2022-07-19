@@ -26,7 +26,7 @@ lbi = lut.LocatorBasicInputs(catalog =catalog,
                 vel_model=vel_model,
                 stations = stations)
 nlloc = NLLoc(region = [-84,-62,-5,15,-200,5],
-        nodes=[374,583,70],
-        basic_inputs=lbi
+        basic_inputs=lbi,
+        delta_in_km = 1
         )
 nlloc.relocate(tmp_folder="/home/emmanuel/EDCT/test_nlloc")
