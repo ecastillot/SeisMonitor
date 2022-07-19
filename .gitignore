@@ -1,2 +1,5 @@
 **/hypocenter/core
 **/hypoDD/core
+**/nlloc/core
+**/nlloc/test*
+**/nlloc/TEST*
