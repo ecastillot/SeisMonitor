@@ -57,8 +57,9 @@ def eqt_picks_2_seismonitor_fmt(eqt_folder,mseed_folder,out_path):
             if f == "X_prediction_results.csv" :
                 search_path = os.path.join(dp, f)
                 df = pd.read_csv(search_path)
-                df[date_cols] = df[date_cols].apply(pd.to_datetime)
-                dfs.append(df)
+                if not df.empty:
+                    df[date_cols] = df[date_cols].apply(pd.to_datetime)
+                    dfs.append(df)
 
     df = pd.concat(dfs,ignore_index=True)
     df["station"] = df["station"].apply(lambda x: x.strip())

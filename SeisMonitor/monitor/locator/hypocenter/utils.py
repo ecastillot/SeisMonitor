@@ -12,7 +12,10 @@ from glob import glob
 from multiprocessing import Pool
 from obspy import read_inventory
 import time
+from obspy.core.event.catalog import Catalog, read_events
 import pexpect
+import subprocess
+from SeisMonitor.utils import printlog, isfile
 # import SeisMonitor.utils as ut
 
 # if 'google.colab' in sys.modules:
@@ -24,6 +27,7 @@ SEISAN_path = os.path.join(CORE_SEISAN,"seismo")
 COM_path = os.path.join(SEISAN_path,"COM")
 PRO_path = os.path.join(SEISAN_path,"PRO")
 DAT_path = os.path.join(SEISAN_path,"DAT")
+STATION0_path = os.path.join(DAT_path,"STATION0.HYP")
 
 
 def download_seisan(libgfortran_path):
@@ -242,6 +246,7 @@ def sta2station0(df):
         CA01A 353.16N 7341.07W 436
 
     """
+    df = df.sort_values(by="station")
 
     df["lon_dec"] = df["longitude"].apply(lambda x: round((abs(x) % 1)*60,2))
     df["lat_dec"] = df["latitude"].apply(lambda x: round((abs(x) % 1)*60,2))
@@ -272,7 +277,7 @@ def sta2station0(df):
         # print(msg)
     return msgs
 
-def vel2station0(df):
+def vel2station0(df,only_vp=True):
     """
     Parameters:
     -----------
@@ -301,11 +306,19 @@ def vel2station0(df):
     msgs = []
     for i,row in df.iterrows():
         if row.disc != None:
-            fmt = "%7.3f%7.3f%7.3f%1s\n"
-            msg = fmt % (row.vp,row.dep,row.vs,row.disc)
+            if only_vp:
+                fmt = "%7.3f%7.3f%1s\n"
+                msg = fmt % (row.vp,row.depth,row.disc)
+            else:
+                fmt = "%7.3f%7.3f%7.3f%1s\n"
+                msg = fmt % (row.vp,row.depth,row.vs,row.disc)
         else: 
-            fmt = "%7.3f%7.3f%7.3f\n"
-            msg = fmt % (row.vp,row.dep,row.vs)
+            if only_vp:
+                fmt = "%7.3f%7.3f\n"
+                msg = fmt % (row.vp,row.depth)
+            else:
+                fmt = "%7.3f%7.3f%7.3f\n"
+                msg = fmt % (row.vp,row.depth,row.vs)
 
         # print(msg)
         msgs.append(msg)
@@ -413,10 +426,174 @@ def check_sfile_integrity(sfile_folder,rm_not_locatable=True):
                             os.remove(sfilepath)
                             print("Removed:",sfilepath,"not_locatable")
 
+class STATION0():
+    def __init__(self,xml_path, vel_path,
+            test={"02":500.0,"11":99.0,
+                "13":1.0,"41":20000.0,
+                "43":5.0,"56":1.0,
+                "85":0.1},
+            vsp_ratio = {"starting_depth":2,
+                        "xnear":100,
+                        "xfar": 800,
+                        "vps": 1.78},
+            agency = "TES",
+            only_vp = True
+                ):
+        """
+        Parameters:
+        -----------
+        sta_df: DataFrame
+            Dataframe with the next columns
+            network,station,latitude,longitude,elevation.
+            Review resp2df function.
+        vel_df: DataFrame
+            Dataframe with the next columns
+            dep,vp,vs,disc
+        test: dict
+            key: str
+                Number of the SEISAN HYPOCENTER test line
+            value: int
+                Value of the respective key
+        vsp_ratio: ordered dict
+            The key order of the dictionary must be the next:
+            "starting_depth","xnear","xfar","vps"
+
+            ---------example--------
+            {"starting_depth":2,
+            "xnear":100,
+            "xfar": 800,
+            "vps": 1.84},
+        agency: str
+            Agency 
+        """
+
+        self.test = test
+        self.sta_df = resp2df(xml_path)
+        self.vel_df = pd.read_csv(vel_path)
+        self.vsp_ratio = vsp_ratio
+        self.agency = agency
+        self.only_vp = only_vp
+    
+    def _get_msgs(self):
+        """
+        Get the messages to write in the station0 file
+        """
+        test_msgs = test2station0(self.test) 
+        sta_msgs = sta2station0(self.sta_df)
+        vel_msgs = vel2station0(self.vel_df,only_vp=self.only_vp)
+        vsp_msg = vsp_ratio2station0(self.vsp_ratio)
+
+
+        msgs = test_msgs + ["\n"] +sta_msgs +\
+                ["\n"] + vel_msgs + ["\n"] +\
+                [vsp_msg] + [self.agency]
+        # print(msgs)
+
+        return msgs
+
+    def write(self,out):
+        """
+        Parameters:
+        -----------
+        out: str
+            Station0 path file
+        """
+        # ut.isfile(out)
+        f = open(out, "w")
+        for line in self._get_msgs():
+            f.write(line)
+        f.close()
+
+class HypocenterTools():
+    def __init__(self,sfile_folder,from_sfilename=None):
+        """
+        Parameters:
+        -----------
+        sfile_folder: str
+            It is the folderpath where is located all sfiles.
+        station0: str
+            Station0 path
+        from_sfilename: str
+            Name of the only one sfile with specific filename
+            that you want to locate.
+        """
+        self.sfile_folder = sfile_folder
+        self.sfilename = from_sfilename
+
+    def remodl_and_setbrn(self):
+        """
+        Copy station0 in sfiles folder
+        """
+        subprocess.Popen(["remodl","setbrn"],cwd=self.sfile_folder)
+
+        # cp_station0(self.station0_base,self.sfile_folder)
+    
+    def update(self):
+        """
+        Locate the events with the update seisan command
+        """
+        update(self.sfile_folder)
+    
+    def collect(self):
+        """
+        Collect all sfiles in only one collect sfile and write it
+        in {out} path with the {format} specified.
+
+        Parameters:
+        -----------
+        out: str
+            Output Path of the collected catalog
+        format: str
+            Format supported by OBspy catalogs
+        """
+        collect(self.sfile_folder)
+        nordic = os.path.join(self.sfile_folder,"collect.out")
+        ## check if nordic event is ok
+        catalog = read_events(nordic,format="NORDIC")
+        ## put network and channel in catalog
+
+        # # ut.isfile(out)
+        # catalog.write(out,format=format)
+        return catalog
+
+    def select(self):
+        """
+        Runs select seisan command
+        """
+        select(self.sfile_folder)
+
+    def norhead(self):
+        """
+        Runs norhead seisan command
+        """
+        norhead(self.sfile_folder)
+
+    def split(self):
+        """
+        Runs split seisan command
+        """
+        split(self.sfile_folder,self.sfilename)
+
+
+
 if __name__ == "__main__":
     # download_seisan()
 
-    seisan_folder= "/home/emmanuel/EDCT/SeisMonitor/SeisMonitor/monitor/locator/hypocenter/test/"
-    sfilename = "12-2223-00L.S202106"
-    split(seisan_folder,sfilename )
+    # xml_path = "/home/emmanuel/EDCT/SeisMonitor/data/metadata/CM.xml"
+    # vel_path = "/home/emmanuel/EDCT/SeisMonitor/data/metadata/vel1d_col.csv"
+
+    # sta0 = STATION0(xml_path,vel_path)
+    # sta0.write("./STATION0.HYP")
+
+    # seisan_folder= "/home/emmanuel/EDCT/SeisMonitor/SeisMonitor/monitor/locator/hypocenter/test/"
+    # sfilename = "12-2223-00L.S202106"
+    # split(seisan_folder,sfilename )
     # update(seisan_folder )
+
+
+    ####### cse
+    xml_path = "/home/emmanuel/G-Ecopetrol/ecastillo/Avances/2022/cano_sur_datos_iniciales/CSE.xml"
+    vel_path = "/home/emmanuel/G-Ecopetrol/ecastillo/Avances/2022/cano_sur_datos_iniciales/vel_model.csv"
+
+    sta0 = STATION0(xml_path,vel_path)
+    sta0.write("./STATION0.HYP")

@@ -114,9 +114,13 @@ def get_streamer_plot(streams,picker_csv,
                     starttime,endtime,
                     y_fontsize=6,show=True):
     n_traces = len(list(streams.keys()))
-
     fig, ax = plt.subplots(n_traces, sharex=True,
                 gridspec_kw = {'wspace':0, 'hspace':0})
+    
+    if n_traces == 1:
+        ax = [ax]
+
+
     
     for i,(strid,st) in enumerate(streams.items()):
         tr = get_proc_tr(st)
@@ -142,21 +146,22 @@ def get_streamer_plot(streams,picker_csv,
             ax[i].vlines(pick, ymin, ymax, color=color, 
                         linewidth=5, 
                         label=row['phasehint'])
-            ax[i].set_facecolor('lightgray')
+            # ax[i].set_facecolor('lightgray')
 
     text = "starttime: " + starttime.strftime("%Y-%m-%d %H:%M:%S.%f")+\
             "\nendtime : " + endtime.strftime("%Y-%m-%d %H:%M:%S.%f")
-
     props = dict(boxstyle='round', facecolor='wheat', alpha=0.5)
-    ax[0].text(0.8, 5, text,
+    # ax[0].text(0.8, 5, text,
+    ax[0].text(0.45, 1.2, text,
                 horizontalalignment='left',
                 verticalalignment='top',
                 transform=ax[0].transAxes,
                 backgroundcolor= "white",
                 fontdict={"fontsize":9},
-                bbox=props)
-    ax[i].set_xlabel(f"dt", size=16)
+                bbox=props
+                )
 
+    ax[i].set_xlabel(f"dt", size=16)
     # fig.autofmt_xdate()
     formatter = DateFormatter('%H:%M:%S')
     plt.gcf().axes[i].xaxis.set_major_formatter(formatter)  

@@ -504,7 +504,6 @@ def get_client_waveforms(client,bulk,
 		comment = ""
 	else:
 		st,ppc,comment = processing.run(st)
-
 	return st,ppc,comment
 
 def write_client_waveforms(client,bulk,

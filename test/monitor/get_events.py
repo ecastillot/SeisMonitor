@@ -9,6 +9,5 @@ from SeisMonitor.core import utils as ut
 
 xml_file = "/home/emmanuel/EDCT/test/magnitude/Ml_magnitude.xml"
 out= "/home/emmanuel/EDCT/test/csv_events/events.csv"
-df = ut.get_csv_events(xml_file,from_format="QUAKEML",
-                    export=out)
+df = ut.get_csv_events(xml_file,from_format="SC3ML",export=out)
 print(df)

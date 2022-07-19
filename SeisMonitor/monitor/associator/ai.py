@@ -1,5 +1,6 @@
 import numpy as np
 import pandas as pd
+import json
 import datetime as dt
 import pyproj
 import os
@@ -121,6 +122,16 @@ def get_gamma_picks(event_picks):
     for i, row in event_picks.iterrows():
         str_id = ".".join((row.network,row.station,
                            "{:02d}".format(row.location),row.instrument_type + "Z"))
+        
+        comment = {'probability': row.prob,
+                'GaMMA_probability':row.prob_gamma}
+
+        if row.author == "EQTransformer":
+            comment['snr'] = row.snr
+            comment['detection_probability'] = row.detection_probability
+            comment['event_start_time'] = row.event_start_time.strftime("%Y-%m-%d %H:%M:%S.%f")
+            comment['event_end_time'] = row.event_end_time.strftime("%Y-%m-%d %H:%M:%S.%f")
+       
         pick_obj = Pick(resource_id=ResourceIdentifier( id= row.pick_id,prefix="pick"),
                                 time=UTCDateTime(row.timestamp),
                                 time_errors=QuantityError(uncertainty=row.prob,
@@ -136,7 +147,7 @@ def get_gamma_picks(event_picks):
                                 creation_info= CreationInfo(author=row.author,
                                                             creation_time=UTCDateTime.now()),
                                 method_id=row.author,
-                                comments= [Comment(text=f"GaMMA prob: {row.prob_gamma}")]
+                                comments= [Comment(text=json.dumps(comment))]
                                 )
         pick_list.append(pick_obj)
     
@@ -217,7 +228,6 @@ class GaMMA():
         self.response = read_inventory(xml_path)
         self.out_dir = out_dir
         self.xml_out_file = os.path.join(out_dir,"associations","associations.xml")
-
 
     def associator(self,gamma_obj):
         picks_df = ut.get_picks_GaMMa_df(self.picks_csv,

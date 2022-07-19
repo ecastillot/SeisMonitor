@@ -25,8 +25,9 @@ gc = GaMMAObj(resp,region,"EPSG:3116",
                 use_dbscan=False,
                 calculate_amp=False)
 g = GaMMA(picks,resp,out)
-catalog = g.associator(gc)
-print(catalog)
+print(gc.stations)
+# catalog = g.associator(gc)
+# print(catalog)
 
 
 exit()

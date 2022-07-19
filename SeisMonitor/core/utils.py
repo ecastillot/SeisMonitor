@@ -14,6 +14,7 @@
 import datetime as dt
 import time
 import os
+import ast
 import json
 import pandas as pd
 import concurrent.futures
@@ -104,8 +105,8 @@ def preproc_stream(st,
 	return st, processed, comment
 
 def get_csv_events(seiscomp_file, version="0.9", with_magnitude=True, 
-					picker=None,sort='time_event',export = None, 
-					from_format="SC3ML",pick_counts=False, inside_polygon=False ):
+					export = None, 
+					from_format="SC3ML", inside_polygon=False ):
 	"""
 	parameters
 	----------
@@ -135,13 +136,23 @@ def get_csv_events(seiscomp_file, version="0.9", with_magnitude=True,
 		if version not in ["0.5", "0.6", "0.7", "0.8", "0.9", "0.10"]:
 			change_xml_version(seiscomp_file,new_version="0.10")
 
-
+	datefmt = "%Y-%m-%d %H:%M:%S.%f"
 	seiscomp_file_path = os.path.splitext(seiscomp_file)[0]
 	catalog = read_events(seiscomp_file,format = from_format)
 	event_list = catalog.events 
 
-	events = []
-	for event in event_list:
+
+	event_colname= ["n_event","event_id","event_time","latitude","latitude_uncertainty",
+					"longitude","longitude_uncertainty","depth","depth_uncertainty",
+					"rms","region","method","earth_model","event_type","magnitude",
+					"magnitude_type","n_P_phases","n_S_phases"]
+	pick_colname = ["n_event","event_id","pick_id","phasehint","arrival_time",
+					"probability","snr","detection_probability",
+					"network","station","location","channel","picker"
+					]
+	events_df = []
+	picks_df = []
+	for n_ev,event in enumerate(event_list):
 		loc_id = os.path.basename(str(event.resource_id))
 		ev_type = event.event_type
 		agency = event.creation_info.agency_id
@@ -167,10 +178,10 @@ def get_csv_events(seiscomp_file, version="0.9", with_magnitude=True,
 		evaluation_mode = pref_origin.evaluation_mode
 
 		if depth != None:
-			depth = float(depth)/1000 #in km
+			depth = float(depth) #in km
 		if depth_error != None:
 			if depth_error.uncertainty != None:
-				depth_error = depth_error.uncertainty/1000 #in km
+				depth_error = depth_error.uncertainty #in km
 			else:
 				depth_error = None
 		else:
@@ -178,7 +189,6 @@ def get_csv_events(seiscomp_file, version="0.9", with_magnitude=True,
 		## Preferred Magnitude
 		if with_magnitude:
 			pref_magnitude = event.preferred_magnitude()
-			# print("aca",pref_magnitude)
 			if pref_magnitude != None:
 				magnitude = pref_magnitude.mag
 				magnitude_type = pref_magnitude.magnitude_type
@@ -192,39 +202,32 @@ def get_csv_events(seiscomp_file, version="0.9", with_magnitude=True,
 			magnitude = None
 			magnitude_type = None
 		
+		
 		## Dictionary with the picks information
 		picks = {}
 		for pick in event.picks:
 			if pick.resource_id.id not in picks.keys():
 				
-				## conditions to get the filter_id
-				if pick.filter_id == None:
-					prob = None
+				comment = ast.literal_eval(pick.comments[0].text)
+				author = pick.creation_info.author
+				
+				prob = comment["probability"]
+				if author == "EQTransformer":
+					snr = comment["snr"]
+					ev_prob = comment["detection_probability"]
+				else:
 					snr = None
 					ev_prob = None
-					pick.filter_id = ResourceIdentifier(id=None)
-				else:
-					if "Probability" in str(pick.filter_id):
-						prob,snr,ev_prob = str(pick.filter_id).split("+")
-						prob = float(str(prob).split("_")[-1])
-						snr = str(snr).split("_")[-1]
-						ev_prob = str(ev_prob).split("_")[-1]
-						if snr != 'None':
-							snr = float(snr)
-						if ev_prob != 'None':
-							ev_prob = float(ev_prob)
-						pick.filter_id= ResourceIdentifier(id=None)
-					else:
-						prob = None
-						snr = None
-						ev_prob = None
+
 
 				if pick.creation_info == None:
 					_author = None
 				else:
 					_author = pick.creation_info.author
 
-				picks[pick.resource_id.id] = {"network_code":pick.waveform_id.network_code,
+				picks[pick.resource_id.id] = {
+											"id":os.path.basename(str(pick.resource_id)),
+											"network_code":pick.waveform_id.network_code,
 											"station_code":pick.waveform_id.station_code,
 											"location_code":pick.waveform_id.location_code,
 											"channel_code":pick.waveform_id.channel_code,
@@ -233,7 +236,7 @@ def get_csv_events(seiscomp_file, version="0.9", with_magnitude=True,
 											"author":_author,
 											"probability": prob,
 											"snr":snr,
-											"ev_prob":ev_prob,
+											"detection_probability":ev_prob,
 											"time_errors":pick.time_errors,
 											"filter_id":pick.filter_id,
 											"method_id":pick.method_id,
@@ -241,53 +244,48 @@ def get_csv_events(seiscomp_file, version="0.9", with_magnitude=True,
 											"evaluation_mode":pick.evaluation_mode,
 											"evaluation_status":pick.evaluation_status } 
 		
-		## Preferred picks
-		columns = ["agency","id","time_event","latitude","latitude_uncertainty",
-					"longitude","longitude_uncertainty","depth","depth_uncertainty",
-					"rms","region","method","earth_model","event_type","magnitude",
-					"magnitude_type","picker","network","station","location","channel",
-					"pick","time_pick","probability","snr","detection_probability"]
-		data = []
-		fmt = "%Y-%m-%d %H:%M:%S.%f" #2020-01-01 00:02:38
+		p_count = 0
+		s_count = 0
 		for i,arrival in enumerate(pref_origin.arrivals):
 
 			pick = picks[arrival.pick_id.id]
+			pick_row = [n_ev,loc_id,pick["id"],pick["phase_hint"],
+						pick["time"].datetime,pick["probability"],
+						pick["snr"],pick["detection_probability"],
+						pick["network_code"],pick["station_code"],
+						pick["location_code"],pick["channel_code"],
+						pick["author"]
+						]
+			
+			picks_df.append(pick_row)
 
-			line = [agency,loc_id,time.strftime(fmt),latitude,latitude_error,\
+			if pick["phase_hint"].upper() == "P":
+				p_count += 1
+			elif pick["phase_hint"].upper() == "S":
+				s_count += 1
+
+		
+		event_row = [n_ev,loc_id,time.datetime,latitude,latitude_error,\
 					longitude,longitude_error,depth,depth_error,rms,region,\
-					method, earth_model,ev_type,  magnitude, magnitude_type,\
-					pick["author"],pick["network_code"],pick["station_code"],\
-					pick["location_code"],pick["channel_code"],pick["phase_hint"],\
-					pick["time"].strftime(fmt),pick["probability"],pick["snr"],pick["ev_prob"]]
-			data.append(line)
+					method, earth_model,ev_type,  magnitude, magnitude_type,
+					p_count,s_count]
 
-		picks_df = pd.DataFrame(data,columns=columns)
-		picks_p = picks_df[ picks_df["pick"] == 'P']
-		picks_s = picks_df[ picks_df["pick"] == 'S']
-		if picker in ("eqt","EQTransformer","eqtransformer",
-					"phasenet","PhaseNet"):
-			merge_on = columns[:-5]
-		else:
-			merge_on = columns[:-6]
-		picks_df = pd.merge(picks_p,picks_s,how='left',suffixes=("_p", "_s"),on=merge_on)
-		events.append(picks_df)
+		events_df.append(event_row)
 
-	events_df = pd.concat(events)
+	events_df = pd.DataFrame(events_df,columns=event_colname)
+	picks_df = pd.DataFrame(picks_df,columns=pick_colname)
 
-	events_df.dropna(subset=['latitude','longitude'],inplace=True)
 
-	events_df.index+=1
-	events_df.index.name= 'No'
-
-	if sort != None:   
-		events_df = events_df.sort_values(by=sort,ascending=True,ignore_index=True)
-	
-	if pick_counts:
-		events_df = get_pick_counts(events_df)
+	events_df = events_df.sort_values(by="event_time",
+										ascending=True,
+										ignore_index=True)
+	picks_df = picks_df.sort_values(by="arrival_time",
+										ascending=True,
+										ignore_index=True)
 
 	if export != None:
 		if os.path.isdir(os.path.dirname(export)) == False:
 			os.makedirs(os.path.dirname(export))
 		events_df.to_csv(export)
 		print(f"Events_csv_file: {export}")
-	return events_df
+	return events_df,picks_df
