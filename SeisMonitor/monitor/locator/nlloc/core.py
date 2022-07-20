@@ -17,7 +17,9 @@ class NLLoc():
                 kwargs_for_trans:dict={},
                 kwargs_for_vel2grid:dict={},
                 kwargs_for_grid2time:dict={},
-                kwargs_for_time2loc:dict={}):
+                kwargs_for_time2loc:dict={},
+                tmp_folder:str = os.getcwd(),
+                rm_tmp_folder:bool = False):
 
         self.region = region
         self.basic_inputs = basic_inputs
@@ -26,6 +28,18 @@ class NLLoc():
         self.kwargs_for_vel2grid = kwargs_for_vel2grid
         self.kwargs_for_grid2time = kwargs_for_grid2time
         self.kwargs_for_time2loc = kwargs_for_time2loc
+        self.tmp_folder = tmp_folder
+        self.tm_tmp_folder = rm_tmp_folder
+
+
+        self.vel_model_out = os.path.join(tmp_folder,"time_grid","vel_model.dat")
+        self.station_out = os.path.join(tmp_folder,"time_grid","station.dat")
+        self.catalog_out = os.path.join(tmp_folder,"catalog.out")
+        self.p_control_file_out = os.path.join(tmp_folder,"time_grid","p_nlloc.in")
+        self.s_control_file_out = os.path.join(tmp_folder,"time_grid","s_nlloc.in")
+        self.grid_folder_out = os.path.join(tmp_folder,"time_grid","model","layer")
+        self.time_folder_out = os.path.join(tmp_folder,"time_grid","time","layer")
+        self.loc_folder_out = os.path.join(tmp_folder,"time_grid","loc","SeisMonitor")
 
     def _prepare_grid_args(self):
         lonw,lone,lats,latn,zmin,zmax = self.region
@@ -50,29 +64,23 @@ class NLLoc():
                             }
         return args
 
-    def _prepare_basic_inputs(self,tmp_folder:str = os.getcwd()):
-        vel_model_out = os.path.join(tmp_folder,"vel_model.dat")
-        station_out = os.path.join(tmp_folder,"station.dat")
-        catalog_out = os.path.join(tmp_folder,"catalog.out")
+    def _prepare_basic_inputs(self):
         
-        sut.isfile(vel_model_out)
-        self.basic_inputs.vel_model.to_nlloc(vel_model_out)
-        sut.isfile(station_out)
-        self.basic_inputs.stations.to_nlloc(station_out)
-        sut.isfile(catalog_out)
-        self.basic_inputs.catalog.write(catalog_out,
+        
+        sut.isfile(self.vel_model_out)
+        self.basic_inputs.vel_model.to_nlloc(self.vel_model_out)
+        sut.isfile(self.station_out)
+        self.basic_inputs.stations.to_nlloc(self.station_out)
+        sut.isfile(self.catalog_out)
+        self.basic_inputs.catalog.write(self.catalog_out,
                                         format="NORDIC")
-        return vel_model_out,station_out,catalog_out
+        return self.vel_model_out,self.station_out,self.catalog_out
 
 
-    def _write_control_files(self,tmp_folder:str=os.getcwd()):
+    def _write_control_files(self):
 
-        p_control_file_out = os.path.join(tmp_folder,"p_nlloc.in")
-        s_control_file_out = os.path.join(tmp_folder,"s_nlloc.in")
-        grid_folder_out = os.path.join(tmp_folder,"model","layer")
-        time_folder_out = os.path.join(tmp_folder,"time","layer")
-        loc_folder_out = os.path.join(tmp_folder,"loc","SeisMonitor")
-        vel_model_path,station_path,catalog_path = self._prepare_basic_inputs(tmp_folder)
+        
+        vel_model_path,station_path,catalog_path = self._prepare_basic_inputs()
         
         grid_args = self._prepare_grid_args()
 
@@ -86,15 +94,15 @@ class NLLoc():
 
         gen_control = ut.GenericControlStatement(trans=grid_args["trans"])
         vel2grid = ut.Vel2Grid(vel_path=vel_model_path,
-                    grid_folder_out=grid_folder_out,
+                    grid_folder_out=self.grid_folder_out,
                     grid=grid_args["velgrid"])
         p_grid2time = ut.Grid2Time(station_path=station_path,
-                            grid_folder_out=grid_folder_out,
-                            time_folder_out=time_folder_out,
+                            grid_folder_out=self.grid_folder_out,
+                            time_folder_out=self.time_folder_out,
                             phase="P")
         s_grid2time = ut.Grid2Time(station_path=station_path,
-                            grid_folder_out=grid_folder_out,
-                            time_folder_out=time_folder_out,
+                            grid_folder_out=self.grid_folder_out,
+                            time_folder_out=self.time_folder_out,
                             phase="S")
 
         time2loc = ut.Time2Loc(catalog=[catalog_path,"SEISAN"],
@@ -111,11 +119,12 @@ class NLLoc():
 
         return p_control_file_out,s_control_file_out
 
+    def compute_time_grids(self):
+
+
     def relocate(self,
                 out:str = None,
-                out_format:str = "NORDIC",
-                tmp_folder:str = os.getcwd(),
-                rm_tmp_folder:bool = False):
+                out_format:str = "NORDIC"):
         
         # p_control_file_path,s_control_file_path = self._write_control_files(tmp_folder)
         # ut.run_nlloc(p_control_file_path,
