@@ -25,8 +25,13 @@ stations = lut.Stations(station_path)
 lbi = lut.LocatorBasicInputs(catalog =catalog,
                 vel_model=vel_model,
                 stations = stations)
-nlloc = NLLoc(region = [-84,-62,-5,15,-200,5],
+
+nlloc = NLLoc(region = [-84,-62,-5,15,-5,200],
         basic_inputs=lbi,
-        delta_in_km = 1
+        delta_in_km = 1,
+        tmp_folder="/home/emmanuel/EDCT/test_nlloc"
         )
-nlloc.relocate(tmp_folder="/home/emmanuel/EDCT/test_nlloc")
+nlloc.compute_travel_times()
+nlloc_folder="/home/emmanuel/EDCT/test_nlloc/loc_o"
+nlloc.relocate(nlloc_folder)
+exit()

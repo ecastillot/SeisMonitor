@@ -1,6 +1,7 @@
 import os
 import shutil
 import sys
+from time import time
 import pandas as pd
 from subprocess import run
 from obspy import read_inventory
@@ -51,7 +52,7 @@ def download_nlloc(forced=False):
         else:
             pass
 
-    isfile = ut.isfile(zip_path)
+    isfile = sut.isfile(zip_path)
     if not isfile:
         os.system(f"wget https://github.com/alomax/NonLinLoc/archive/refs/heads/main.zip -O {zip_path}")
 
@@ -125,7 +126,6 @@ def resp2df(resp):
 
 def write_station_file(sta_path,out):
     df = resp2df(sta_path)
-    print(df)
 
     vs = open(out, 'w')
     msg = "# GTSRCE label LATLON latSrce longSrce zSrce elev\n"
@@ -150,7 +150,6 @@ class GenericControlStatement():
                 control:list=[1,54321]):
         self.control = join_args(control)
         self.trans = join_args(trans)
-        print(self.__init__.__annotations__)
         sut.validate(self.__init__, locals())
 
     def get_msg(self):
@@ -348,41 +347,57 @@ class NLLocControlFile():
         self.time2loc = time2loc
         sut.validate(self.__init__, locals())
 
-    def _validate_args(self):
+    def _validate_args(self,key:str,input:str,output:str):
         sut.printlog("debug","NLLoc:validate_control_file_args",
                     "validating control file args")
 
-        paths = {"vel_path":self.vel2grid.vel_path,
-                "station_path":self.grid2time.station_path,
-                "catalog_path":self.time2loc.catalog.split(" ")[0]}
-        for key,path in paths.items():
-            if os.path.isfile(path):
-                sut.printlog("debug","NLLoc:validate_control_file_args",
-                    f"{key} is ok.")
-            else:
-                raise Exception(f"NLLoc: {key} path doesn't exist. Check:{path}")
+        if os.path.isfile(input):
+            sut.printlog("debug","NLLoc:validate_control_file_args",
+                f"{key} is ok.")
+        else:
+            raise Exception(f"NLLoc: {key} path doesn't exist. Check:{input}")
 
-        paths = [self.vel2grid.grid_folder_out,
-                self.grid2time.time_folder_out,
-                self.time2loc.loc_folder_out]
-        for path in paths:
-            sut.isfile(path)
+        sut.isfile(output)
 
         sut.printlog("debug","NLLoc:validate_control_file_args",
                     "control file args are ok")
 
+    def get_msg(self,
+            vel2grid:bool=True,
+            grid2time:bool=True,
+            time2loc:bool=True):
+
+        msg = self.generic_control.get_msg()
+
+        if vel2grid:
+            msg += self.vel2grid.get_msg()
+            input = self.vel2grid.vel_path
+            output = self.vel2grid.grid_folder_out
+            self._validate_args("vel_path",input,output)
+        if grid2time:
+            input = self.grid2time.station_path
+            output = self.grid2time.time_folder_out
+            self._validate_args("station_path",input,output)
+            msg += self.grid2time.get_msg()
+        if time2loc:
+            input = self.time2loc.catalog.split(" ")[0]
+            output = self.time2loc.loc_folder_out
+            self._validate_args("catalog_path",input,output)
+            msg += self.time2loc.get_msg()
+
+        return msg
+
     def write(self,
-            out:str):
+            out:str,
+            vel2grid:bool=True,
+            grid2time:bool=True,
+            time2loc:bool=True):
 
         sut.printlog("info","NLLoc:write_control_file",
                     "Running")
         sut.isfile(out)
-        self._validate_args()
 
-        msg = self.generic_control.get_msg()
-        msg += self.vel2grid.get_msg()
-        msg += self.grid2time.get_msg()
-        msg += self.time2loc.get_msg()
+        msg = self.get_msg(vel2grid,grid2time,time2loc)
 
         control_file_msg = open(out,"w")
         control_file_msg.write(msg)
