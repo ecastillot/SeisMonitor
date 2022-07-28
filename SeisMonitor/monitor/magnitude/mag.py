@@ -18,6 +18,8 @@ from obspy.core.event import Magnitude as Mag
 from obspy.core.event import Catalog
 from obspy.core.event import read_events, Comment
 from SeisMonitor.utils import isfile
+from obspy.core.event.base import CreationInfo
+from obspy import UTCDateTime
 import mtspec
 import numpy as np
 import scipy
@@ -73,6 +75,7 @@ class Magnitude():
                 padding=20,waterlevel=10,
                 zone=None,
                 out_format="QUAKEML"):
+        events_mag = []
         for event in self.catalog:
             print("event:",event.resource_id)
 
@@ -107,16 +110,17 @@ class Magnitude():
                                 ev_params,
                                 trimmedtime,
                                 waterlevel)
-                
                 if ampl == None:
                     continue
 
 
                 Ml = ut.get_Ml(ampl,epi_dist,mag_type,zone)
                 Mls.append(Ml)
-
-            Ml = scipy.stats.trim_mean(Mls,0.25)
-            print(Ml)
+            if not Mls:
+                Ml = 0
+                print(f"No magnitude for {event.resource_id}")
+            else:
+                Ml = scipy.stats.trim_mean(Mls,0.25)
             mag = ut.write_magnitude_values(Ml,0,len(Mls),"Ml",
                            evaluation_mode = "automatic",
                            evaluation_status = "preliminary",
@@ -126,11 +130,15 @@ class Magnitude():
 
             event.magnitudes.append(mag)
             event.preferred_magnitude_id = mag.resource_id
+            events_mag.append(event)
 
+        catalog = Catalog(events = events_mag,
+                          creation_info= CreationInfo(author="SeisMonitor",
+                                            creation_time=UTCDateTime.now())  )
         if self.xml_ml_out_file != None:
             print ("Writing output file...")
             isfile(self.xml_ml_out_file)
-            self.catalog.write(self.xml_ml_out_file, out_format)
+            catalog.write(self.xml_ml_out_file, out_format)
         return self.catalog
 
     def get_Mw(self,physparams,procparams,
@@ -241,16 +249,26 @@ class Magnitude():
         
         start = pick_time - padding
         end = pick_time + padding
+
+        if (waveform_id.network_code == None) or\
+            (waveform_id.network_code == ""):
+            net = "CM"
+        else:
+            net = waveform_id.network_code
+        if (waveform_id.channel_code == None):
+            cha = ""
+        else:
+            cha = waveform_id.channel_code[0:2]
         try:
-            st= self.client.get_waveforms(waveform_id.network_code,
+            st= self.client.get_waveforms(net,
                                     waveform_id.station_code,
                                     "*",
-                                    waveform_id.channel_code[0:2]+"*",start,end
+                                    cha+"*",start,end
                                     )
             
         except:
-            print(f"\t->Not found: {waveform_id.network_code}-{waveform_id.station_code}"+\
-                    f"-*-{waveform_id.channel_code[0:2]}* |"+\
+            print(f"\t->Not found: {net}-{waveform_id.station_code}"+\
+                    f"-*-{cha}* |"+\
                         f"{start} - {end}  ")
             return None
 

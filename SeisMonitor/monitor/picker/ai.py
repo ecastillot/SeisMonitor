@@ -106,7 +106,7 @@ class EQTransformer():
         self.pick_storage = os.path.join(out_dir,"results")
         self.msg_author = "Picker: EQTransfomer"
     
-    def picker(self,eqt_obj):
+    def pick(self,eqt_obj):
         """
         Parameters:
         --------------
@@ -201,7 +201,7 @@ class PhaseNet():
         exetime = dt.timedelta(seconds=toc-tic)
         printlog("info",self.msg_author,f"Datalist created in {exetime.total_seconds()} seconds.")
 
-    def picker(self,pnet_obj):
+    def pick(self,pnet_obj):
         tf.compat.v1.reset_default_graph()
         tf.keras.backend.clear_session()
 

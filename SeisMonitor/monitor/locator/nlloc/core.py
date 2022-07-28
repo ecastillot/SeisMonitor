@@ -1,11 +1,14 @@
 import os
+import glob
+from posixpath import basename
 import numpy as np
 from typing import Union
 import concurrent.futures as cf
 from obspy.core.event.catalog import Catalog, read_events
 from obspy.geodetics.base import gps2dist_azimuth
 from obspy.io.nlloc.core import read_nlloc_hyp
-
+from obspy.core.event.base import CreationInfo
+from obspy import UTCDateTime
 from . import utils as ut
 from SeisMonitor import utils as sut
 from SeisMonitor.monitor.locator import utils as slut
@@ -147,7 +150,7 @@ class NLLoc():
 
         nlloc_inp = os.path.join(nlloc_out_folder,"catalog_input.out")
         nlloc_folder = os.path.join(nlloc_out_folder,"nlloc","SeisMonitor")
-        nlloc_out = os.path.join(nlloc_out_folder,"catalog_output.out")
+        nlloc_out = os.path.join(nlloc_out_folder,"catalog_output.xml")
         nlloc_control = os.path.join(nlloc_out_folder,"loc.in")
 
         sut.isfile(nlloc_inp)
@@ -163,9 +166,22 @@ class NLLoc():
         sut.printlog("info","NLLoc:NLLoc", "Running")
         os.system(f"{nll_exe_path} {nlloc_control} > /dev/null")
 
-        _nll_out = os.path.join(os.path.dirname(nlloc_folder),"last.hyp")
-        catalog = read_nlloc_hyp(_nll_out,format="NORDIC")
-
+        
+        _nll_out = nlloc_folder+"*.hyp"
+        all_events = []
+        for path in glob.glob(_nll_out):
+            basename = os.path.basename(path)
+            date = basename.split(".")[1]
+            if (date == "sum") or (date=="last.hyp"):
+                continue
+            else:
+                catalog = read_nlloc_hyp(path,format="NORDIC")
+                events = catalog.events
+                for event in events:
+                    all_events.append(event)
+        catalog = Catalog(events = all_events,
+                        creation_info= CreationInfo(author="SeisMonitor",
+                                        creation_time=UTCDateTime.now()))
         sut.isfile(nlloc_out)
         catalog.write(nlloc_out,
                     format=out_format)
