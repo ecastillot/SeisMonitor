@@ -13,6 +13,7 @@ Created on Fri Nov 12 20:00:00 2020
 @author: Emmanuel_Castillo
 last update: 06-01-2021 
 """
+import os
 import json
 import time
 import logging
@@ -47,11 +48,12 @@ class MseedDownloader(object):
 
     If the stations are not available. It doesn't download them.
     """
-    self.providers = providers
+    self.providers = ut.sanitize_provider_times(providers)
     self.new_providers = None
     self._stations_outside_domains = None
 
-  def make_inv_and_json(self, out=None):
+
+  def make_inv_and_json(self, out_folder=None):
     """
     Returns:
     --------
@@ -59,23 +61,28 @@ class MseedDownloader(object):
     {self.info_dir}/json/station_list.json')
     """
     tic = time.time()
-    printlog("info",'json',"running to create json")
+    printlog("info",'metadata',"running to create inventory and json files")
 
     # print(inv)
     inv,json_info,uprovider,sod = ut.get_merged_inv_and_json(self.providers)
     
-    print(uprovider)
     self.new_providers = uprovider
     self._stations_outside_domains = sod
 
-    if out != None:
-      isfile(out)
-      with open(out, 'w') as fp:
+    if out_folder != None:
+      json_out = os.path.join(out_folder,"stations.json")
+      inv_out = os.path.join(out_folder,"inv.xml")
+
+      isfile(inv_out)
+      inv.write(inv_out,format="STATIONXML")
+
+      isfile(json_out)
+      with open(json_out, 'w') as fp:
         json.dump(json_info, fp)
 
       toc = time.time()
       exetime = timedelta(seconds=toc-tic)
-      printlog("info",'json',
+      printlog("info",'metadata',
           f'Total time of execution: {exetime.total_seconds()} seconds')  
     return inv,json_info
 

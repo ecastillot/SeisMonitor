@@ -26,7 +26,7 @@ mseed_storage = "/home/emmanuel/EDCT/test/downloads"
 json_path = "/home/emmanuel/EDCT/test/json/test.json"
 out_dir = "/home/emmanuel/EDCT/test/picks/eqt"
 eqt = EQTransformer(mseed_storage,json_path,out_dir)
-eqt.picker(eqtobj)
+eqt.pick(eqtobj)
 
 
 

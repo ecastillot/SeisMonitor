@@ -1,3 +1,4 @@
+from genericpath import isdir
 from . import utils as ut
 
 import os
@@ -12,6 +13,11 @@ from EQTransformer.core.mseed_predictor import mseed_predictor
 
 warnings.simplefilter(action='ignore', category=FutureWarning)
 tf.compat.v1.logging.set_verbosity(tf.compat.v1.logging.ERROR)
+
+EQTransformer_core_path = os.path.join(os.path.dirname(__file__),"core","EQTransformer")
+EQTransformer_model_path = os.path.join(EQTransformer_core_path,"ModelsAndSampleData","EqT_model.h5")
+PhaseNet_core_path = os.path.join(os.path.dirname(__file__),"core","PhaseNet")
+PhaseNet_model_path = os.path.join(PhaseNet_core_path,"model","190703-214543")
 
 class EQTransformerObj(object):
     def __init__(self,model_path,
@@ -96,13 +102,14 @@ class PhaseNetObj(object):
         self.valid_dir = valid_dir
         self.valid_list = valid_list
         self.output_dir = output_dir
+        self.overlap = 0.5
         self.name = "PhaseNet"
 
 class EQTransformer():
-    def __init__(self,mseed_storage,json_path,
+    def __init__(self,mseed_storage,metadata_dir,
                 out_dir):
         self.mseed_storage = mseed_storage
-        self.json_path = json_path
+        self.json_path = os.path.join(metadata_dir,"stations.json")
         self.pick_storage = os.path.join(out_dir,"results")
         self.msg_author = "Picker: EQTransfomer"
     
@@ -156,10 +163,10 @@ class EQTransformer():
             f'Total time of execution: {exetime.total_seconds()} seconds')
 
 class PhaseNet():
-    def __init__(self,mseed_storage,json_path,
+    def __init__(self,mseed_storage,metadata_dir,
                 out_dir):
         self.mseed_storage = mseed_storage
-        self.json_path = json_path
+        self.json_path = os.path.join(metadata_dir,"stations.json")
         self.pick_storage = os.path.join(out_dir,"results")
         self.datadir = os.path.join(out_dir,"datadir")
         self.datalist = os.path.join(out_dir,"datalist",'fname.csv')
@@ -172,6 +179,9 @@ class PhaseNet():
         tic = time.time()
         # ut.get_one_stream(self.mseed_storage,
         #                 self.datadir)
+        if not os.path.isdir(self.datadir):
+            os.makedirs(self.datadir)
+
         ut.mv_mseed2onefolder(self.mseed_storage,self.datadir)
         # ut.mv_mseed2stationfolder(self.datadir,self.mseed_storage)
         # exit()
@@ -214,7 +224,6 @@ class PhaseNet():
         args.output_dir  = self.pick_storage
 
         ut.phasenet_from_console(args,self.msg_author)
-
         datapicks = os.path.join(self.pick_storage,'picks.csv')
         seismonitor_datapicks = os.path.join(self.pick_storage,'seismonitor_picks.csv')
         ut.get_picks(datapicks=datapicks,

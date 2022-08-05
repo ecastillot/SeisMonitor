@@ -33,6 +33,16 @@ class DownloadRestrictions():
 		self.groupby = groupby
 		self.n_processor=n_processor
 
+def sanitize_provider_times(providers):
+    provider_times = [(provider.waveform_restrictions.starttime,
+                        provider.waveform_restrictions.endtime)\
+                        for provider in providers]
+    if provider_times.count(provider_times[0]) == len(provider_times):
+        return  providers
+    else:
+        raise Exception("Providers must have the same interval time")
+
+
 def write_stream(one_st,mseed_storage, 
 				threshold=None, to_pick=None,
 				ppc_and_comment = [False,""]):
@@ -149,7 +159,7 @@ def get_mseed_filename(_str, network, station, location, channel,
 	strftime = "%Y%m%dT%H%M%SZ"
 
 	if ppc == True:
-		ppc_str = ".ppc"
+		ppc_str = "ppc"
 	else:
 		ppc_str = ""
 

@@ -31,8 +31,8 @@ carma_rest = WaveformRestrictions(network="YU",
                     station="*",
                     location="*",
                     channel="H*",
-                    starttime=UTCDateTime("2016-12-24T19:00:00.000000Z"),
-                    endtime=UTCDateTime("2016-12-24T20:00:00.000000Z"),
+                    starttime=UTCDateTime("2019-12-24T19:00:00.000000Z"),
+                    endtime=UTCDateTime("2019-12-24T20:00:00.000000Z"),
                     location_preferences=["","00","20","10","40"],
                     channel_preferences=["HH","BH","EH","HN","HL"],
                     filter_networks=[], 
@@ -48,9 +48,12 @@ local_client = LocalClient(root,fmt)
 # print(rest.domain)
 sgc_provider = Provider(sgc_client,sgc_rest,xml=sgc_xml)
 carma_provider = Provider(carma_client,carma_rest)
+
+providers = [carma_provider,sgc_provider]
+
 md = MseedDownloader(providers=[sgc_provider])
-json_path = "/home/emmanuel/EDCT/test/json/test.json"
-mseed_storage = ("/home/emmanuel/EDCT/test/downloads/"
+json_path = "/home/emmanuel/test_downloads/test_metadata"
+mseed_storage = ("/home/emmanuel/test_downloads/"
                   "{station}/{network}.{station}.{location}.{channel}__{starttime}__{endtime}.mseed")
 md.make_inv_and_json(json_path)
 md.download(mseed_storage,chunklength_in_sec=3600,n_processor=None)

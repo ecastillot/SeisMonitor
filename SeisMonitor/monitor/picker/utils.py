@@ -37,7 +37,7 @@ from obspy import UTCDateTime
 from datetime import timedelta
 from SeisMonitor.utils import printlog,isfile
 from SeisMonitor.monitor.downloader.utils import get_chunktimes
-
+import concurrent.futures as cf
 from obspy.core.event.origin import Pick
 from obspy.core.event.base import (QuantityError,
                                 WaveformStreamID,
@@ -193,7 +193,9 @@ def mv_mseed2stationfolder(one_folder,mseed_folder):
                 src_id = f.split("__")[0]
                 net,sta,loc,cha = src_id.split(".")
 
-                moved_mseed_file = os.path.join(mseed_folder, net,sta,f)
+                moved_mseed_file = os.path.join(mseed_folder, sta,f)
+                if not os.path.isdir(os.path.dirname(moved_mseed_file)):
+                    os.makedirs(os.path.dirname(moved_mseed_file))
                 # os.copy()
                 print(mseed_file, moved_mseed_file)
                 shutil.move(mseed_file, moved_mseed_file)
@@ -496,20 +498,27 @@ def get_picks(datapicks, datalist,
         List of Pick objects
     """
 
-    picks = []
-    with open(datapicks, newline='') as csvfile: 
-        reader = csv.reader(csvfile, delimiter=',') 
-        for i, row in enumerate(reader): 
-            if i != 0: 
-                wf_name = row[0]
-                picks_p = row[1].strip('[]').strip().split() 
-                prob_p = row[2].strip('[]').strip().split() 
-                picks_s = row[3].strip('[]').strip().split() 
-                prob_s = row[4].strip('[]').strip().split() 
-                P_picks = pick_constructor(datalist,picks_p, prob_p, wf_name, 'P', min_p_prob)
-                S_picks = pick_constructor(datalist,picks_s, prob_s, wf_name, 'S', min_s_prob)
-                picks += P_picks + S_picks
+    df = pd.read_csv(datapicks)
+    df = df.astype({'itp':'string','tp_prob':'string',
+                    'its':'string','ts_prob':'string'})
+    df = df.replace("[]",np.nan)
+    df = df.dropna(subset=['itp','tp_prob','its','ts_prob'],how="all")
 
+    picks = []
+    def _get_picks(irow):
+        i,row = irow
+        wf_name = row["fname"]
+        picks_p = row["itp"].strip('[]').strip().split() 
+        prob_p = row["tp_prob"].strip('[]').strip().split() 
+        picks_s = row["its"].strip('[]').strip().split() 
+        prob_s = row["ts_prob"].strip('[]').strip().split() 
+        P_picks = pick_constructor(datalist,picks_p, prob_p, wf_name, 'P', min_p_prob)
+        S_picks = pick_constructor(datalist,picks_s, prob_s, wf_name, 'S', min_s_prob)
+        picks.append(P_picks+S_picks)
+
+    with cf.ThreadPoolExecutor() as executor:
+        executor.map(_get_picks,df.iterrows())
+    picks = [x for n in picks for x in n]
 
     if mode == 'pick_obj':
         pass

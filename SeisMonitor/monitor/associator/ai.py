@@ -24,7 +24,7 @@ from obspy.core.event.base import QuantityError
 from obspy.core.event.origin import Arrival
 
 class GaMMAObj():
-    def __init__(self,response,region,epsg_proj,
+    def __init__(self,region,epsg_proj,
                 use_dbscan=True,use_amplitude=True,
                 dbscan_eps=10.0,dbscan_min_samples=3,
                 vel = {"p": 7.0, "s": 7.0 / 1.75},
@@ -34,11 +34,6 @@ class GaMMAObj():
                 calculate_amp=True,p_window=10,
                 s_window=5,waterlevel=10
                 ):
-        if isinstance(response,Inventory):
-            self.response = response
-        else:
-            self.response = read_inventory(response)
-
         self.lon_lims = region[0:2]
         self.lat_lims = region[2:4]
         self.z_lims = region[4:]
@@ -59,7 +54,9 @@ class GaMMAObj():
         self.p_window=p_window
         self.s_window=s_window
         self.waterlevel=waterlevel
+
         self.config = self._get_config()
+        self.response = None
 
     # def _get_config(self):
 
@@ -81,6 +78,11 @@ class GaMMAObj():
     #     stations["z(km)"] = stations["elevation(m)"].apply(lambda x: -x / 1e3)
     #     return stations
         
+    def add_response(self,response):
+        if isinstance(response,Inventory):
+            self.response = response
+        else:
+            self.response = read_inventory(response)
 
     def _get_config(self):
 
@@ -105,6 +107,10 @@ class GaMMAObj():
 
     @property
     def stations(self):
+
+        if self.response == None:
+            raise Exception("You must add response file to the GaMMA Object")
+
         stations = ut.get_stations_GaMMA_df(self.response)
 
         in_proj = pyproj.Proj("EPSG:4326")
@@ -230,6 +236,7 @@ class GaMMA():
         self.xml_out_file = os.path.join(out_dir,"associations","associations.xml")
 
     def associator(self,gamma_obj):
+
         picks_df = ut.get_picks_GaMMa_df(self.picks_csv,
                                 self.response,
                                 compute_amplitudes=gamma_obj.calculate_amp,
@@ -238,6 +245,7 @@ class GaMMA():
                                 waterlevel = gamma_obj.waterlevel)
         stations = list(set(picks_df["station"].to_list()))
 
+        gamma_obj.add_response(self.response)
         station_df = gamma_obj.stations
         station_df =  station_df[station_df["station_name"].isin(stations)]
         station_df = station_df.reset_index(drop=True)

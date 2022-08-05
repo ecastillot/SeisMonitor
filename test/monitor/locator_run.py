@@ -4,7 +4,7 @@ seismopath = "/home/emmanuel/EDCT"
 seismonitor = os.path.join(seismopath,"SeisMonitor")
 sys.path.insert(0,seismonitor)
 
-from SeisMonitor.monitor.locator.nlloc.core import NLLoc
+from SeisMonitor.SeisMonitor.monitor.locator.nlloc.nlloc import NLLoc
 from SeisMonitor.monitor.locator import utils as lut
 import logging
 # logging.basicConfig(level=logging.DEBUG,
