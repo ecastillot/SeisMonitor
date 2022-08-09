@@ -1,9 +1,41 @@
+import warnings
+warnings.simplefilter(action='ignore', category=FutureWarning)
 import os
+import glob
+import shutil
 from SeisMonitor.monitor.downloader.utils import get_chunktimes
 from SeisMonitor.monitor.downloader.seismonitor import MseedDownloader
+from SeisMonitor.monitor.downloader.utils import sanitize_provider_times
 from SeisMonitor.monitor.picker import ai as ai_picker
 from SeisMonitor.monitor.associator import ai as ai_asso
 from SeisMonitor.monitor.locator.nlloc import nlloc
+
+def get_preproc_providers(providers,chunklength_in_sec,
+                            out_folder):
+    sanitize_provider_times(providers)
+    oneprovider = providers[0]
+    restrictions = oneprovider.waveform_restrictions
+    starttime = restrictions.starttime
+    endtime = restrictions.endtime
+    chunktimes = get_chunktimes(starttime,endtime,
+                                chunklength_in_sec)
+    preproc_providers = []
+    for starttime,endtime in chunktimes:
+        folders = get_folders_by_chunk(out_folder,
+                                        starttime,endtime)
+
+        new_providers = []
+        for provider in providers:
+            _provider = provider.copy()
+            _provider.waveform_restrictions.starttime = starttime
+            _provider.waveform_restrictions.endtime = endtime
+            new_providers.append(_provider)
+
+        chunk_provider = {"providers":new_providers,
+                        "folders":folders}
+        preproc_providers.append(chunk_provider)
+    return preproc_providers
+
 
 
 def get_chunktimes_by_provider(providers,chunklength_in_sec):
@@ -48,6 +80,15 @@ def sanitize_pick_batch_size(pickers,download_args):
     download_args["pick_batch_size"] = (min(overlaps),min(batch_sizes))
     return download_args
 
+def sanitize_downloads(pickers):
+    new_pickers = {}
+    for i,(picker,args) in enumerate(pickers.items()):
+        if i == (len(pickers.keys())-1):
+            pass
+        else:
+            args.rm_download = False
+        new_pickers[picker] = args
+    return new_pickers
 
 
 class SeisMonitor():
@@ -66,101 +107,99 @@ class SeisMonitor():
         self.process = {}
 
     def add_downloader(self,
-                    download_args={"chunklength_in_sec":None,
-                    "threshold": 60,
-                    "overlap_in_sec":0,
-                    "pick_batch_size": (20,0.3),
-                    "groupby":'{network}.{station}.{channel}',
-                    "n_processor":None}):
-        self.process["download"] = download_args
+                    threshold= 60,
+                    overlap_in_sec=0,
+                    pick_batch_size= (20,0.3),
+                    groupby='{network}.{station}.{channel}',
+                    n_processor=None):
+        dld_args = locals().copy()
+        dld_args["chunklength_in_sec"] = self.chunklength_in_sec
+        dld_args.pop("self")
+        self.process["download"] = dld_args
         
     def add_picker(self,
                     pickers={}):
         if pickers:
+            pickers = sanitize_downloads(pickers)
             self.process["pick"] = pickers
             if "download" in list(self.process.keys()):
                 self.process["download"] = sanitize_pick_batch_size(pickers,self.process["download"])
 
-    # def add_associator(self,
-    #                     associators={}):
-        
-    # def add_associator(self,
-    #                 associators={"GaMMA":ai_asso.GaMMAObj(
-    #                                     region=[-76.729, -72.315,1.55, 5.314,0, 150],
-    #                                     epsg_proj="EPSG:3116",
-    #                                     use_amplitude = False,
-    #                                     use_dbscan=False,
-    #                                     calculate_amp=False) 
-    #                              }
-    #                 ):
+    def add_associator(self,
+                        associators={}):
+        if associators:
+            self.process["associator"] = associators
 
-    # def add_locator(self,
-    #                 locators={ "NLLoc":nlloc.NLLoc()
 
-    #                         }
-    #                 )
-
-    # def add_task(self,
-    #             download={"chunklength_in_sec":None,
-    #                         "threshold": 60,
-    #                         "overlap_in_sec":0,
-    #                         "pick_batch_size ": (20,0.3),
-    #                         "groupby":'{network}.{station}.{channel}',
-    #                         "n_processor":None},
-    #             pick={"EQTransformer":EQTransformerObj(model_path = ai_picker.EQTransformer_model_path,
-    #                                     n_processor = 4,
-    #                                     overlap = 0.3,
-    #                                     detection_threshold =0.1,
-    #                                     P_threshold = 0.01,
-    #                                     S_threshold = 0.01,
-    #                                     batch_size = 100,
-    #                                     number_of_plots = 0,
-    #                                     plot_mode = 1 ) } ,
-    #             association,
-    #             location,
-    #             magnitude):
-
+    def add_locator(self,
+                    locators={}
+                    ):
+        if locators:
+            self.process["locator"] = locators
 
     def run(self):
-        for provider in self.providers:
-            restrictions = provider.waveform_restrictions
-            starttime = restrictions.starttime
-            endtime = restrictions.endtime
+        
+        preproc_providers = get_preproc_providers(self.providers,
+                                            self.chunklength_in_sec,
+                                            self.out_folder)
+        for chunk_provider in preproc_providers:
+            print("chunk:",chunk_provider["providers"][0].waveform_restrictions.starttime,
+                "--",chunk_provider["providers"][0].waveform_restrictions.endtime)
+            providers = chunk_provider["providers"]
+            folders = chunk_provider["folders"]
 
-            chunktimes = get_chunktimes(starttime,endtime,
-                                    self.chunklength_in_sec)
 
-            for starttime,endtime in chunktimes:
-                provider.waveform_restrictions.starttime = starttime
-                provider.waveform_restrictions.endtime = endtime
+            for process, process_args in self.process.items():
 
-                folders = get_folders_by_chunk(self.out_folder,starttime,endtime)
+                if process == "download":
+                    structure = os.path.join("{station}","{network}.{station}.{location}.{channel}__{starttime}__{endtime}.mseed")
+                    download_path = os.path.join(folders["downloads"],structure)
+                    md = MseedDownloader(providers)
+                    md.make_inv_and_json(folders["metadata"])
+                    md.download(download_path,**process_args)
 
-                for process, process_args in self.process.items():
-
-                    if process == "download":
-                        structure = os.path.join("{station}","{network}.{station}.{location}.{channel}__{starttime}__{endtime}.mseed")
-                        download_path = os.path.join(folders["downloads"],structure)
-                        md = MseedDownloader([provider])
-                        md.make_inv_and_json(folders["metadata"])
-                        md.download(download_path,**process_args)
-
-                    if process == "pick":
-                        for picker,picker_args in process_args.items():
-                            out_path = os.path.join(folders["detections"],picker)
-                            if picker == "EQTransformer":
-                                _picker = ai_picker.EQTransformer(folders["downloads"],
-                                                                folders["metadata"],
-                                                                out_path)
-                                _picker.pick(picker_args)
-                            elif picker == "PhaseNet":
-                                _picker = ai_picker.PhaseNet(folders["downloads"],
+                elif process == "pick":
+                    for picker,picker_args in process_args.items():
+                        out_path = os.path.join(folders["detections"],picker)
+                        if picker == "EQTransformer":
+                            _picker = ai_picker.EQTransformer(picker_args)
+                            result = _picker.pick(folders["downloads"],
                                                             folders["metadata"],
                                                             out_path)
-                                _picker.mv_downloads2onefolder()
-                                _picker.make_datalist()
-                                _picker.pick(picker_args)
-                                _picker.mv_downloads2stationfolder()
+                            if result.empty:
+                                print("No picks")
+                                exit()
+
+                        elif picker == "PhaseNet":
+                            _picker = ai_picker.PhaseNet(picker_args)
+                            result = _picker.pick(folders["downloads"],
+                                                        folders["metadata"],
+                                                        out_path)
+                            if result.empty:
+                                print("No picks")
+                                exit()
+
+                elif process == "associator":
+                    inv = os.path.join(folders["metadata"],"inv.xml")
+
+                    for picker_path in glob.glob(os.path.join(folders["detections"],"*")):
+                        picker_name = os.path.basename(picker_path)
+                        picks_path = os.path.join(picker_path,"results",
+                                                "seismonitor_picks.csv")
+                        for associator,associator_args in process_args.items():
+                            out_folder = os.path.join(folders["associations"],f"{associator}2{picker_name}")
+                            if associator == "GaMMA":
+                                _associator = ai_asso.GaMMA(picks_path,
+                                                            inv,out_folder)
+                                result = _associator.associate(associator_args)
+                                if result.empty:
+                                    print("No associated picks")
+                                    exit()
+
+            #     # elif process == "locator":
+
+
+
 
 
 

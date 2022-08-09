@@ -83,22 +83,12 @@ class Stations():
             msg = f"GTSRCE  {row.station:<5}  LATLON  {row.latitude:<7.3f}  {row.longitude:<8.3f}  0.000  {elv:<7.3f}{enter}"
             vs.write(msg)
         vs.close()
-
+        
 class LocatorBasicInputs():
     def __init__(self,
-                catalog:Union[Catalog,str],
                 vel_model:VelModel,
                 stations:Stations):
-        self._catalog = catalog
         self.vel_model = vel_model
         self.stations = stations
 
-
-    @property
-    def catalog(self):
-
-        if isinstance(self._catalog,Catalog):
-            return self._catalog
-        else:
-            return read_events(self._catalog)
         

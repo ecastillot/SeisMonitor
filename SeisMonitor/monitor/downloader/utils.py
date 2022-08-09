@@ -520,7 +520,6 @@ def write_client_waveforms(client,bulk,
 						waveform_restrictions,
 						download_restrictions,
 						processing):
-	
 	st,ppc,comment = get_client_waveforms(client,bulk,
 						waveform_restrictions,
 						processing)

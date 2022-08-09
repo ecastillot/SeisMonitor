@@ -61,6 +61,9 @@ def eqt_picks_2_seismonitor_fmt(eqt_folder,mseed_folder,out_path):
                     df[date_cols] = df[date_cols].apply(pd.to_datetime)
                     dfs.append(df)
 
+    if not dfs:
+        return pd.DataFrame()
+
     df = pd.concat(dfs,ignore_index=True)
     df["station"] = df["station"].apply(lambda x: x.strip())
     df = df.sort_values(by="p_arrival_time",ignore_index=True)
@@ -125,7 +128,7 @@ def eqt_picks_2_seismonitor_fmt(eqt_folder,mseed_folder,out_path):
     df = df.sort_values(by="arrival_time",ignore_index=True)
     df.to_csv(out_path,index=False,
             date_format="%Y-%m-%d %H:%M:%S.%f")
-
+    return df
 ## PhaseNet functions
 def get_filenames(mseed, filter_net=[],
                 filter_sta=[],filter_cha=[]):
@@ -181,7 +184,8 @@ def mv_mseed2onefolder(mseed_folder,one_folder):
                 mseed_file = os.path.join(dp, f)
                 moved_mseed_file = os.path.join(one_folder, f)
                 # os.copy()
-                print(mseed_file, moved_mseed_file)
+                # print(mseed_file, moved_mseed_file)
+                printlog("debug","mv_mseed2onefolder",f"{mseed_file} -> {moved_mseed_file}")
                 shutil.move(mseed_file, moved_mseed_file)
 
 def mv_mseed2stationfolder(one_folder,mseed_folder):
@@ -197,7 +201,8 @@ def mv_mseed2stationfolder(one_folder,mseed_folder):
                 if not os.path.isdir(os.path.dirname(moved_mseed_file)):
                     os.makedirs(os.path.dirname(moved_mseed_file))
                 # os.copy()
-                print(mseed_file, moved_mseed_file)
+                printlog("debug","mv_mseed2stationfolder",f"{mseed_file} -> {moved_mseed_file}")
+                # print(mseed_file, moved_mseed_file)
                 shutil.move(mseed_file, moved_mseed_file)
 
 def make_dataframe(mseed,json_path, filter_net=[],
@@ -315,7 +320,7 @@ def phasenet_from_console(pnet_obj,msg_author):
             --model_dir={pnet_obj.model_dir} --data_dir={pnet_obj.data_dir} \
             --data_list={pnet_obj.data_list} --output_dir={pnet_obj.output_dir}\
             --batch_size={pnet_obj.batch_size} --tp_prob={pnet_obj.tp_prob}\
-            --ts_prob={pnet_obj.ts_prob} --input_mseed"
+            --ts_prob={pnet_obj.ts_prob} --resampling={pnet_obj.one_single_sampling_rate} --input_mseed"
 
     if pnet_obj.plot_figure == True:
         command += ' ' + '--plot_figure' +' '+'' 
@@ -472,7 +477,6 @@ def picks2df(picks):
 
         df.append(seismonitor)
     df = pd.DataFrame(df)
-
     date_cols = ["arrival_time","creation_time",
                 "event_start_time","event_end_time",
                 "mseed_start_time","mseed_end_time"]
@@ -482,8 +486,9 @@ def picks2df(picks):
 def get_picks(datapicks, datalist, 
              min_p_prob=0.3,
              min_s_prob=0.3,
-              mode='df_obj',
-              export=None):   #mode: pick_obj ; df_obj
+             one_single_sampling_rate = -1,
+            mode='df_obj',
+            export=None):   #mode: pick_obj ; df_obj
     """Read phaseNet picks and returns list of Pick objects
     Parameters
     ----------
@@ -507,28 +512,46 @@ def get_picks(datapicks, datalist,
     picks = []
     def _get_picks(irow):
         i,row = irow
+
         wf_name = row["fname"]
-        picks_p = row["itp"].strip('[]').strip().split() 
-        prob_p = row["tp_prob"].strip('[]').strip().split() 
-        picks_s = row["its"].strip('[]').strip().split() 
-        prob_s = row["ts_prob"].strip('[]').strip().split() 
-        P_picks = pick_constructor(datalist,picks_p, prob_p, wf_name, 'P', min_p_prob)
-        S_picks = pick_constructor(datalist,picks_s, prob_s, wf_name, 'S', min_s_prob)
+        if not pd.isna(row["itp"]):
+            picks_p = row["itp"].strip('[]').strip().split() 
+            prob_p = row["tp_prob"].strip('[]').strip().split() 
+            P_picks = pick_constructor(datalist,picks_p, 
+                                prob_p, wf_name, 'P', min_p_prob,
+                                one_single_sampling_rate )
+        else:
+            P_picks = []
+        
+        if not pd.isna(row["its"]):
+            picks_s = row["its"].strip('[]').strip().split() 
+            prob_s = row["ts_prob"].strip('[]').strip().split() 
+            S_picks = pick_constructor(datalist,picks_s, 
+                            prob_s, wf_name, 'S', min_s_prob,
+                            one_single_sampling_rate )
+        else:
+            S_picks = []
+
         picks.append(P_picks+S_picks)
 
+    # for irow in df.iterrows():
+    #     _get_picks(irow)
     with cf.ThreadPoolExecutor() as executor:
         executor.map(_get_picks,df.iterrows())
+    
     picks = [x for n in picks for x in n]
 
     if mode == 'pick_obj':
         pass
     if (mode ==  'df_obj') or (export != None):
+        if not picks:
+            return pd.DataFrame()
         picks= picks2df(picks)
 
         logger = logging.getLogger(f'PhaseNet: picks2df')
         if isinstance(picks, pd.DataFrame) == False:
             logger.warning('There are no picks to convert.')
-            return None
+            return pd.DataFrame()
         else:
             pnet_cols = ["mseed_start_time","mseed_end_time","sampling_rate","sample",
                     "segment","segment_type"]
@@ -542,7 +565,8 @@ def get_picks(datapicks, datalist,
                             date_format="%Y-%m-%d %H:%M:%S.%f")
     return picks
 
-def pick_constructor(datalist,picks, prob, wf_name, ph_type, min_prob):
+def pick_constructor(datalist,picks, prob, wf_name, ph_type, min_prob,
+                    one_single_sampling_rate  = -1):
     """Construct Pick objects
     Parameters
     ----------
@@ -597,7 +621,12 @@ def pick_constructor(datalist,picks, prob, wf_name, ph_type, min_prob):
                 sta = row["station"]
                 loc = row["location"]
                 ch = row["instrument_type"]
-                sampling_rate = row["sampling_rate"]
+                
+                if one_single_sampling_rate == -1:
+                    sampling_rate = row["sampling_rate"]
+                else:
+                    sampling_rate = one_single_sampling_rate
+
                 mseed_starttime = row['mseed_start_time']
                 mseed_endtime = row['mseed_end_time']
                 sta_lat = row["sta_lat"]

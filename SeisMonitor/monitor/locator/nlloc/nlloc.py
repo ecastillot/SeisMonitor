@@ -21,10 +21,14 @@ vel2grid_exe_path = os.path.join(bin_path,"Vel2Grid")
 grid2time_exe_path = os.path.join(bin_path,"Grid2Time")
 nll_exe_path = os.path.join(bin_path,"NLLoc")
 
+
+
+
 class NLLoc():
     def __init__(self,
                 region:list,
-                basic_inputs:slut.LocatorBasicInputs,
+                vel_model:slut.VelModel,
+                stations:slut.Stations,
                 delta_in_km: float=2,
                 kwargs_for_trans:dict={},
                 kwargs_for_vel2grid:dict={},
@@ -34,7 +38,8 @@ class NLLoc():
                 rm_tmp_folder:bool = False):
 
         self.region = region
-        self.basic_inputs = basic_inputs
+        self.basic_inputs = slut.LocatorBasicInputs(vel_model=vel_model,
+                                                    stations=stations)
         self.delta_in_km = delta_in_km
         self.kwargs_for_trans = kwargs_for_trans
         self.kwargs_for_vel2grid = kwargs_for_vel2grid
@@ -143,10 +148,15 @@ class NLLoc():
         sut.printlog("info","NLLoc:Grid2Time:S", "Running")
         grid2time = os.system(f"{grid2time_exe_path} {self.s_control_file_out} > /dev/null")
 
-    def relocate(self,
+    def locate(self,
+                catalog:Union[Catalog,str],
                 nlloc_out_folder:str,
                 out_format:str = "NORDIC"):
-        
+
+        if isinstance(catalog,Catalog):
+            pass
+        else:
+            catalog = read_events(catalog)
 
         nlloc_inp = os.path.join(nlloc_out_folder,"catalog_input.out")
         nlloc_folder = os.path.join(nlloc_out_folder,"nlloc","SeisMonitor")
@@ -154,8 +164,7 @@ class NLLoc():
         nlloc_control = os.path.join(nlloc_out_folder,"loc.in")
 
         sut.isfile(nlloc_inp)
-        self.basic_inputs.catalog.write(nlloc_inp,
-                                        format="NORDIC")
+        catalog.write(nlloc_inp,format="NORDIC")
         
         
         nlloc_control_file = self.nll_control_file

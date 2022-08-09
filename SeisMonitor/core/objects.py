@@ -1,5 +1,5 @@
 from . import utils as ut
-
+import copy
 class Provider():
 	def __init__(self,client,waveform_restrictions, 
 				processing=None,xml=None) -> None:
@@ -7,6 +7,9 @@ class Provider():
 		self.waveform_restrictions = waveform_restrictions
 		self.processing = processing
 		self.xml = xml
+
+	def copy(self):
+		return copy.deepcopy(self)
 
 class WaveformRestrictions():
 	def __init__(self,network,station,

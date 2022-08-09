@@ -126,7 +126,6 @@ class MseedDownloader(object):
 
                 
     for provider in self.providers:
-
       client = provider.client
       waveform_restrictions = provider.waveform_restrictions
       processing = provider.processing

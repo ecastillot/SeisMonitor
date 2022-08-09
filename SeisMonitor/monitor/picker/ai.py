@@ -1,6 +1,6 @@
 from genericpath import isdir
 from . import utils as ut
-
+import shutil
 import os
 import time
 import logging
@@ -27,7 +27,8 @@ class EQTransformerObj(object):
                 S_threshold=0.1,number_of_plots=1,
                 batch_size=1,
                 plot_mode=1,
-                overwrite=False):
+                overwrite=False,
+                rm_downloads=False):
 
         """
         EQTransformer parameters
@@ -44,6 +45,7 @@ class EQTransformerObj(object):
         self.batch_size = batch_size
         self.plot_mode = plot_mode
         self.overwrite = overwrite
+        self.rm_downloads = rm_downloads
         self.name = "EQTransformer"
 
 class PhaseNetObj(object):
@@ -57,12 +59,14 @@ class PhaseNetObj(object):
                 weight_decay = 0, optimizer = "adam",   summary = True,
                 class_weights = [1, 1, 1],log_dir = "log",  num_plots = 10,
                 input_length = None,input_mseed = True, filename_picks = "picks",
+                one_single_sampling_rate=-1,
                 data_dir = "./dataset/waveform_pred/",
                 data_list = "./dataset/waveform.csv",
                 train_dir = "./dataset/waveform_train/",
                 train_list ="./dataset/waveform.csv",
                 valid_dir = None, valid_list = None,
-                output_dir = None ):
+                output_dir = None,
+                rm_downloads=False ):
         """
         PhaseNet parameters
         """
@@ -103,17 +107,16 @@ class PhaseNetObj(object):
         self.valid_list = valid_list
         self.output_dir = output_dir
         self.overlap = 0.5
+        self.rm_downloads = rm_downloads
+        self.one_single_sampling_rate = one_single_sampling_rate
         self.name = "PhaseNet"
 
 class EQTransformer():
-    def __init__(self,mseed_storage,metadata_dir,
-                out_dir):
-        self.mseed_storage = mseed_storage
-        self.json_path = os.path.join(metadata_dir,"stations.json")
-        self.pick_storage = os.path.join(out_dir,"results")
-        self.msg_author = "Picker: EQTransfomer"
+    def __init__(self,eqt_obj):
+        self.eqt_obj = eqt_obj
     
-    def pick(self,eqt_obj):
+    def pick(self,mseed_storage,metadata_dir,
+                out_dir):
         """
         Parameters:
         --------------
@@ -128,51 +131,59 @@ class EQTransformer():
         It saves your EQtransformer solutions in the next path:
         {self.picks_dir}/eqt
         """
+        self.mseed_storage = mseed_storage
+        self.json_path = os.path.join(metadata_dir,"stations.json")
+        self.pick_storage = os.path.join(out_dir,"results")
+        self.msg_author = "Picker: EQTransfomer"
 
         tic = time.time()
         printlog('info',self.msg_author,'Running EQTransformer')
-        # try:
-        tf.compat.v1.reset_default_graph()
-        mseed_predictor(
-                input_dir=self.mseed_storage,
-                input_model=eqt_obj.model_path,
-                stations_json=self.json_path,
-                output_dir=self.pick_storage,
-                detection_threshold=eqt_obj.detection_threshold,
-                P_threshold=eqt_obj.P_threshold, 
-                S_threshold=eqt_obj.S_threshold,
-                number_of_plots=eqt_obj.number_of_plots, 
-                plot_mode=eqt_obj.plot_mode, 
-                overlap=eqt_obj.overlap, 
-                batch_size=eqt_obj.batch_size,
-                overwrite = eqt_obj.overwrite)
-        # except ValueError as e:
-        #     if str(e) == ("The target structure is of type `<class 'NoneType'>`\n"+
-        #                 "  None\n"+
-        #                 "However the input structure is a sequence (<class 'list'>) of length 0.\n"+
-        #                 "  []\n"+
-        #                 "nest cannot guarantee that it is safe to map one to the other."):
-        #         printlog('info',self.msg_author,
-        #         f"Error in batch_size: {eqt_obj.batch_size} to the"+
-        #         " last mseed. Check 'to_pick' parameter in DownloadRestrictions")
-
+        try:
+            tf.compat.v1.reset_default_graph()
+            mseed_predictor(
+                    input_dir=self.mseed_storage,
+                    input_model=self.eqt_obj.model_path,
+                    stations_json=self.json_path,
+                    output_dir=self.pick_storage,
+                    detection_threshold=self.eqt_obj.detection_threshold,
+                    P_threshold=self.eqt_obj.P_threshold, 
+                    S_threshold=self.eqt_obj.S_threshold,
+                    number_of_plots=self.eqt_obj.number_of_plots, 
+                    plot_mode=self.eqt_obj.plot_mode, 
+                    overlap=self.eqt_obj.overlap, 
+                    batch_size=self.eqt_obj.batch_size,
+                    overwrite = self.eqt_obj.overwrite)
+        except ValueError as e:
+            if str(e) == ("The target structure is of type `<class 'NoneType'>`\n"+
+                        "  None\n"+
+                        "However the input structure is a sequence (<class 'list'>) of length 0.\n"+
+                        "  []\n"+
+                        "nest cannot guarantee that it is safe to map one to the other."):
+                printlog('info',self.msg_author,
+                f"Error in batch_size: {self.eqt_obj.batch_size} to the"+
+                " last mseed. Check 'to_pick' parameter in DownloadRestrictions")
+        # eqt_merge = os.path.join(self.pick_storage,"eqt_merge.csv")
+        # ut.merge_picks(self.pick_storage,"X_prediction_results.csv",
+                    #    eqt_merge)
+        output_path = os.path.join(self.pick_storage,"seismonitor_picks.csv")
+        result = ut.eqt_picks_2_seismonitor_fmt(self.pick_storage,self.mseed_storage,
+                                        output_path)
         tf.keras.backend.clear_session()   
         toc = time.time()
         exetime = dt.timedelta(seconds=toc-tic)
         printlog('info',self.msg_author,
             f'Total time of execution: {exetime.total_seconds()} seconds')
 
-class PhaseNet():
-    def __init__(self,mseed_storage,metadata_dir,
-                out_dir):
-        self.mseed_storage = mseed_storage
-        self.json_path = os.path.join(metadata_dir,"stations.json")
-        self.pick_storage = os.path.join(out_dir,"results")
-        self.datadir = os.path.join(out_dir,"datadir")
-        self.datalist = os.path.join(out_dir,"datalist",'fname.csv')
-        self.msg_author = "Picker: PhaseNet"
+        if self.eqt_obj.rm_downloads:
+            shutil.rmtree(self.mseed_storage, ignore_errors=True)
+        return result
 
-    def mv_downloads2onefolder(self):
+class PhaseNet():
+    def __init__(self,pnet_obj):
+        self.pnet_obj = pnet_obj
+        
+
+    def __mv_downloads2onefolder(self):
         """
         Move all downloads to folder to all_mseed folder.
         """
@@ -189,7 +200,7 @@ class PhaseNet():
         exetime = dt.timedelta(seconds=toc-tic)
         printlog("info",self.msg_author,f"Moving mseed2onefolder in {exetime.total_seconds()} seconds.")
 
-    def mv_downloads2stationfolder(self):
+    def __mv_downloads2stationfolder(self):
         """
         Move all downloads to folder to all_mseed folder.
         """
@@ -199,7 +210,7 @@ class PhaseNet():
         exetime = dt.timedelta(seconds=toc-tic)
         printlog("info",self.msg_author,f"Moving mseed2stationfolder in {exetime.total_seconds()} seconds.")
 
-    def make_datalist(self):
+    def __make_datalist(self):
         tic = time.time()
         printlog("info",self.msg_author,"Running to create datalist")
         
@@ -211,14 +222,25 @@ class PhaseNet():
         exetime = dt.timedelta(seconds=toc-tic)
         printlog("info",self.msg_author,f"Datalist created in {exetime.total_seconds()} seconds.")
 
-    def pick(self,pnet_obj):
+    def pick(self,mseed_storage,metadata_dir,
+                out_dir):
+        self.mseed_storage = mseed_storage
+        self.json_path = os.path.join(metadata_dir,"stations.json")
+        self.pick_storage = os.path.join(out_dir,"results")
+        self.datadir = os.path.join(out_dir,"datadir")
+        self.datalist = os.path.join(out_dir,"datalist",'fname.csv')
+        self.msg_author = "Picker: PhaseNet"
+        
+        self.__mv_downloads2onefolder()
+        self.__make_datalist()
+
         tf.compat.v1.reset_default_graph()
         tf.keras.backend.clear_session()
 
         tic = time.time()
         printlog("info",self.msg_author,"Running PhaseNet pretrained model.")
 
-        args = pnet_obj
+        args = self.pnet_obj
         args.data_dir = self.datadir
         args.data_list = self.datalist
         args.output_dir  = self.pick_storage
@@ -226,10 +248,11 @@ class PhaseNet():
         ut.phasenet_from_console(args,self.msg_author)
         datapicks = os.path.join(self.pick_storage,'picks.csv')
         seismonitor_datapicks = os.path.join(self.pick_storage,'seismonitor_picks.csv')
-        ut.get_picks(datapicks=datapicks,
+        result = ut.get_picks(datapicks=datapicks,
                             datalist=self.datalist,
-                            min_p_prob=pnet_obj.tp_prob, 
-                            min_s_prob=pnet_obj.ts_prob, 
+                            min_p_prob=self.pnet_obj.tp_prob, 
+                            min_s_prob=self.pnet_obj.ts_prob, 
+                            one_single_sampling_rate = self.pnet_obj.one_single_sampling_rate,
                              mode='df_obj',
                             export=seismonitor_datapicks)
 
@@ -245,4 +268,9 @@ class PhaseNet():
         toc = time.time()
         exetime = dt.timedelta(seconds=toc-tic)
         printlog("info",self.msg_author,f'Time of prediction: {exetime.total_seconds()} seconds')
-    
+
+        self.__mv_downloads2stationfolder()        
+        if self.pnet_obj.rm_downloads:
+            shutil.rmtree(self.mseed_storage, ignore_errors=True)
+
+        return result

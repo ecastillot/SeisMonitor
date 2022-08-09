@@ -228,35 +228,37 @@ def get_gamma_catalog(picks_df,catalog_df):
 
 
 class GaMMA():
-    def __init__(self,picks_csv,xml_path,out_dir):
+    def __init__(self,gamma_obj):
+        self.gamma_obj = gamma_obj
+
+    def associate(self,picks_csv,xml_path,out_dir):
         self.picks_csv = picks_csv
         self.xml_path = xml_path
         self.response = read_inventory(xml_path)
         self.out_dir = out_dir
         self.xml_out_file = os.path.join(out_dir,"associations","associations.xml")
 
-    def associator(self,gamma_obj):
-
         picks_df = ut.get_picks_GaMMa_df(self.picks_csv,
                                 self.response,
-                                compute_amplitudes=gamma_obj.calculate_amp,
-                                p_window=gamma_obj.p_window,
-                                s_window=gamma_obj.s_window,
-                                waterlevel = gamma_obj.waterlevel)
+                                compute_amplitudes=self.gamma_obj.calculate_amp,
+                                p_window=self.gamma_obj.p_window,
+                                s_window=self.gamma_obj.s_window,
+                                waterlevel = self.gamma_obj.waterlevel)
         stations = list(set(picks_df["station"].to_list()))
 
-        gamma_obj.add_response(self.response)
-        station_df = gamma_obj.stations
+        self.gamma_obj.add_response(self.response)
+        station_df = self.gamma_obj.stations
         station_df =  station_df[station_df["station_name"].isin(stations)]
         station_df = station_df.reset_index(drop=True)
 
-        config = gamma_obj.__dict__
-
+        config = self.gamma_obj.__dict__
         pbar = tqdm(1)
         catalogs, assignments = association(picks_df, station_df, config, 
-                                method=gamma_obj.method,pbar=pbar)
-        
+                                method=self.gamma_obj.method,pbar=pbar)
+        if not catalogs:
+            return pd.DataFrame()
         catalog = pd.DataFrame(catalogs)
+        
         catalog["time"] = pd.to_datetime(catalog["time"],format="%Y-%m-%dT%H:%M:%S.%f")
         catalog["event_index"] = catalog["time"].apply(lambda x: x)
 
