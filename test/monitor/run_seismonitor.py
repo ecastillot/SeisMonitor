@@ -10,16 +10,16 @@ from SeisMonitor.core.objects import WaveformRestrictions,Provider
 from obspy.clients.fdsn import Client as FDSNClient
 from obspy.core.utcdatetime import UTCDateTime
 import os 
-out = "/home/emmanuel/sss"
+out = "/home/emmanuel/ColSeismicity"
 
-# sgc_client = FDSNClient('http://10.100.100.13:8091')
-sgc_client = FDSNClient('http://sismo.sgc.gov.co:8080')
+sgc_client = FDSNClient('http://10.100.100.13:8091')
+# sgc_client = FDSNClient('http://sismo.sgc.gov.co:8080')
 sgc_rest = WaveformRestrictions(network="CM",
-                    station="PDSC",
+                    station="*",
                     location="*",
                     channel="*",
-                    starttime=UTCDateTime("2019-12-01T02:00:00"),
-                    endtime=UTCDateTime("2019-12-01T04:00:00"),
+                    starttime=UTCDateTime("2016-01-01T02:00:00.000000Z"),
+                    endtime=UTCDateTime("2016-06-01T00:00:00.000000Z"),
                     location_preferences=["","00","20","10","40"],
                     channel_preferences=["HH","BH","EH","HN","HL"],
                     filter_networks=[], 
@@ -28,15 +28,15 @@ sgc_rest = WaveformRestrictions(network="CM",
                     # filter_domain= [-76.536,-71.168,7.758,11.823],
                     )
 sgc_xml = "/home/emmanuel/EDCT/SeisMonitor/data/metadata/CM.xml"
-sgc_provider = Provider(sgc_client,sgc_rest)
+sgc_provider = Provider(sgc_client,sgc_rest,xml=sgc_xml )
 
 carma_client = FDSNClient(base_url="IRIS")
 carma_rest = WaveformRestrictions(network="YU",
                     station="*",
                     location="*",
                     channel="H*",
-                    starttime=UTCDateTime("2016-12-24T19:00:00.000000Z"),
-                    endtime=UTCDateTime("2016-12-25T00:00:00.000000Z"),
+                    starttime=UTCDateTime("2016-01-01T02:00:00.000000Z"),
+                    endtime=UTCDateTime("2016-06-01T00:00:00.000000Z"),
                     location_preferences=["","00","20","10","40"],
                     channel_preferences=["HH","BH","EH","HN","HL"],
                     filter_networks=[], 
@@ -45,21 +45,21 @@ carma_rest = WaveformRestrictions(network="YU",
                     # filter_domain= [-76.536,-71.168,7.758,11.823],
                     )
 carma_provider = Provider(carma_client,carma_rest)
-seismo = SeisMonitor(providers = [sgc_provider],chunklength_in_sec=7200,
+seismo = SeisMonitor(providers = [sgc_provider,carma_provider ],chunklength_in_sec=21600,
 # seismo = SeisMonitor(providers = [sgc_provider],
                     out_folder = out)
-# seismo.add_downloader()
+seismo.add_downloader()
 seismo.add_picker(pickers={
-                            # "EQTransformer":ai_picker.EQTransformerObj(
-                            #                 model_path = ai_picker.EQTransformer_model_path,
-                            #                 n_processor = 32,
-                            #                 overlap = 0.3,
-                            #                 detection_threshold =0.1,
-                            #                 P_threshold = 0.01,
-                            #                 S_threshold = 0.01,
-                            #                 batch_size = 20,
-                            #                 number_of_plots = 0,
-                            #                 plot_mode = 1 ) ,
+                            "EQTransformer":ai_picker.EQTransformerObj(
+                                            model_path = ai_picker.EQTransformer_model_path,
+                                            n_processor = 32,
+                                            overlap = 0.3,
+                                            detection_threshold =0.1,
+                                            P_threshold = 0.01,
+                                            S_threshold = 0.01,
+                                            batch_size = 100,
+                                            number_of_plots = 0,
+                                            plot_mode = 1 ) ,
                             "PhaseNet":ai_picker.PhaseNetObj(model_path = ai_picker.PhaseNet_model_path,
                                                     mode='pred',
                                                     P_threshold=0.75,
@@ -68,7 +68,7 @@ seismo.add_picker(pickers={
                                                     one_single_sampling_rate=100,
                                                     plot=False, 
                                                     save_result=False,
-                                                    rm_downloads=False) 
+                                                    rm_downloads=True) 
                             }
                 )
 # print(seismo.process["download"])

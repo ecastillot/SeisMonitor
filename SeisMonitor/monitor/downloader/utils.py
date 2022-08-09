@@ -544,22 +544,34 @@ def get_merged_inv_and_json(providers):
 		client = provider.client
 		restrictions = provider.waveform_restrictions
 		if provider.xml != None:
-			inv = read_inventory(provider.xml)
-			inv = select_inventory(inv=inv,network=restrictions.network,
-										station=restrictions.station,
-										location=restrictions.location,
-										channel=restrictions.channel,
-										starttime=restrictions.starttime, 
-										endtime=restrictions.endtime)
-
+			# print("with xml")
+			# print(restrictions.__dict__)
+			try:
+				inv = read_inventory(provider.xml)
+				inv = select_inventory(inv=inv,network=restrictions.network,
+											station=restrictions.station,
+											location=restrictions.location,
+											channel=restrictions.channel,
+											starttime=restrictions.starttime, 
+											endtime=restrictions.endtime)
+			except:
+				printlog("info","Inventory",f"No get_stations with {restrictions.__dict__}")
+				inv = Inventory()
 		else:
-			inv=  client.get_stations(network=restrictions.network,
-														station=restrictions.station,
-														location=restrictions.location,
-														channel=restrictions.channel,
-														starttime=restrictions.starttime, 
-														endtime=restrictions.endtime, 
-														level='channel')
+			# print("no xml")
+			# print(restrictions.__dict__)
+			try:
+				inv=  client.get_stations(network=restrictions.network,
+															station=restrictions.station,
+															location=restrictions.location,
+															channel=restrictions.channel,
+															starttime=restrictions.starttime, 
+															endtime=restrictions.endtime, 
+															level='channel')
+			except:
+				printlog("info","Inventory",f"No get_stations with {restrictions.__dict__}")
+				inv = Inventory()
+				
 
 		inv,jinf,sod = get_inv_and_json(inv, 
 									restrictions.filter_networks, 

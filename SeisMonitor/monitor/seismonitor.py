@@ -142,12 +142,18 @@ class SeisMonitor():
         preproc_providers = get_preproc_providers(self.providers,
                                             self.chunklength_in_sec,
                                             self.out_folder)
+
         for chunk_provider in preproc_providers:
             print("chunk:",chunk_provider["providers"][0].waveform_restrictions.starttime,
                 "--",chunk_provider["providers"][0].waveform_restrictions.endtime)
             providers = chunk_provider["providers"]
             folders = chunk_provider["folders"]
 
+            # for provider in providers:
+            #     wav = provider.waveform_restrictions
+            #     print(provider.__dict__)
+            
+            # exit()
 
             for process, process_args in self.process.items():
 
