@@ -51,6 +51,7 @@ def get_picks_GaMMa_df(picks,response,compute_amplitudes=True
                         "probability":"prob",
                         "phasehint":"type",
                         "amplitude":"amp"})
+    df = df.drop_duplicates(ignore_index=True)
     return df
 
 def get_stations_GaMMA_df(response):
@@ -66,7 +67,6 @@ def get_stations_GaMMA_df(response):
             elv = station.elevation
             lat = station.latitude
             lon = station.longitude
-
             # components = []
             # sensitivities = []
             # for channel in station:
@@ -93,8 +93,10 @@ def get_stations_GaMMA_df(response):
         "longitude":longitude_list,
         "latitude":latitude_list,
         "elevation(m)":elevation_list,
-        "station_name":station_list}
+        "station_name":station_list,
+        }
     df = pd.DataFrame(df)
+    df = df.drop_duplicates(subset="id",ignore_index=True)
     # print(df)
     return df
 

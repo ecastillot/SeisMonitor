@@ -42,8 +42,21 @@ def sanitize_provider_times(providers):
     else:
         raise Exception("Providers must have the same interval time")
 
+def get_max_allowed_batch_size(data_length,segment_length,overlap):
+    """
+    data_length : length of the data in seconds
+    segment_length: length of each batch segment in seconds 
+    overlap: overlap (0-1)
+    """
+    max_batch_size = (data_length-(overlap*segment_length)) / (segment_length*(1-overlap))
+    max_batch_size = int(max_batch_size)
 
-def write_stream(one_st,mseed_storage, 
+    if max_batch_size == 0:
+        max_batch_size = 1
+
+    return max_batch_size
+
+def write_stream(st,mseed_storage, 
 				threshold=None, to_pick=None,
 				ppc_and_comment = [False,""]):
 	"""
@@ -51,7 +64,7 @@ def write_stream(one_st,mseed_storage,
 
 	Parameters:
 	-----------
-	one_st: obspy.Stream object
+	st: obspy.Stream object
 		Stream that will be written.
 	ppc_restrictions: PreprocRestrictions object
 		Restrictions to preprocess a stream.
@@ -74,7 +87,7 @@ def write_stream(one_st,mseed_storage,
 	
 
 	ppc,comment = ppc_and_comment
-	tr = one_st[0]
+	tr = st[0]
 
 	mseed_filename = get_mseed_filename(_str=mseed_storage, 
 									network=tr.stats.network, 
@@ -98,11 +111,12 @@ def write_stream(one_st,mseed_storage,
 			download = True
 
 	if to_pick != None:
-		batch_size, overlap = to_pick
-		length = abs(tr.stats.endtime - tr.stats.starttime)
-		mybatch = (length + overlap*length)/60
-		if mybatch < batch_size:
-			comment = (f"This mseed only can be used with {int(mybatch)} batchs. "+\
+		overlap,batch_size = to_pick
+		data_length = abs(tr.stats.endtime - tr.stats.starttime)
+		max_batch_size = get_max_allowed_batch_size(data_length,60,overlap)
+		
+		if max_batch_size < batch_size:
+			comment = (f"This mseed only can be used with {max_batch_size} batchs. "+\
 					f"In order to download the data, the batch size must be >= {batch_size}."+\
 					f" Modify this condition changing 'to_pick':{to_pick}' parameter.")
 			# logger =logging.getLogger('Downloaded: False') 
@@ -125,7 +139,7 @@ def write_stream(one_st,mseed_storage,
 				os.makedirs(mseed_dir)
 			else:
 				pass
-			one_st.write(mseed_filename,format="MSEED")
+			st.write(mseed_filename,format="MSEED")
 			# logger =logging.getLogger('Downloaded: True')
 			# logger.info(f'{mseed_filename}  {comment}') 
 
@@ -137,6 +151,7 @@ def write_stream(one_st,mseed_storage,
 		# logger.info(f'{mseed_filename}  {comment}') 
 		printlog("info",'Downloader: Exist',
 					f'{mseed_filename}  {comment}')
+	del tr; del st
 
 def get_mseed_filename(_str, network, station, location, channel,
 					   starttime, endtime,ppc=False):
@@ -526,14 +541,14 @@ def write_client_waveforms(client,bulk,
 
 	groupby = download_restrictions.groupby
 	st_dict = st._groupby(groupby)
-	for one_st in st_dict.values():
-		write_stream(one_st,
+	for st in st_dict.values():
+		write_stream(st,
 					download_restrictions.mseed_storage,
 					download_restrictions.threshold,
 					download_restrictions.pick_batch_size,
 					[ppc,comment])
-
-	return st_dict
+	del st;st_dict;del client;del bulk;del waveform_restrictions;del processing
+	# return st_dict
 
 def get_merged_inv_and_json(providers):
 	json_info = {}

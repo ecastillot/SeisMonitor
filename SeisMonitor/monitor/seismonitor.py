@@ -26,10 +26,10 @@ def get_preproc_providers(providers,chunklength_in_sec,
 
         new_providers = []
         for provider in providers:
-            _provider = provider.copy()
-            _provider.waveform_restrictions.starttime = starttime
-            _provider.waveform_restrictions.endtime = endtime
-            new_providers.append(_provider)
+            provider = provider.copy()
+            provider.waveform_restrictions.starttime = starttime
+            provider.waveform_restrictions.endtime = endtime
+            new_providers.append(provider)
 
         chunk_provider = {"providers":new_providers,
                         "folders":folders}
@@ -163,6 +163,7 @@ class SeisMonitor():
                     md = MseedDownloader(providers)
                     md.make_inv_and_json(folders["metadata"])
                     md.download(download_path,**process_args)
+                    del md
 
                 elif process == "pick":
                     for picker,picker_args in process_args.items():
@@ -175,6 +176,8 @@ class SeisMonitor():
                             if result.empty:
                                 print("No picks")
                                 exit()
+                            del _picker
+                            del result
 
                         elif picker == "PhaseNet":
                             _picker = ai_picker.PhaseNet(picker_args)
@@ -184,7 +187,9 @@ class SeisMonitor():
                             if result.empty:
                                 print("No picks")
                                 exit()
-
+                            del _picker
+                            del result
+                            
                 elif process == "associator":
                     inv = os.path.join(folders["metadata"],"inv.xml")
 
@@ -195,9 +200,9 @@ class SeisMonitor():
                         for associator,associator_args in process_args.items():
                             out_folder = os.path.join(folders["associations"],f"{associator}2{picker_name}")
                             if associator == "GaMMA":
-                                _associator = ai_asso.GaMMA(picks_path,
+                                _associator = ai_asso.GaMMA(associator_args)
+                                _,result,_ = _associator.associate(picks_path,
                                                             inv,out_folder)
-                                result = _associator.associate(associator_args)
                                 if result.empty:
                                     print("No associated picks")
                                     exit()

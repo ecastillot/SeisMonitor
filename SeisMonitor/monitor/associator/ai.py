@@ -121,6 +121,8 @@ class GaMMAObj():
         stations["x(km)"] = stations.apply(lambda x: pyproj.transform(in_proj,out_proj,
                                             x["latitude"], x["longitude"])[1] / 1e3, axis=1)
         stations["z(km)"] = stations["elevation(m)"] / -1e3
+
+        stations = stations.drop_duplicates(ignore_index=True)
         return stations
 
 def get_gamma_picks(event_picks):
@@ -237,6 +239,8 @@ class GaMMA():
         self.response = read_inventory(xml_path)
         self.out_dir = out_dir
         self.xml_out_file = os.path.join(out_dir,"associations","associations.xml")
+        self.catalog_out_file = os.path.join(out_dir,"associations","catalog.csv")
+        self.picks_out_file = os.path.join(out_dir,"associations","picks.csv")
 
         picks_df = ut.get_picks_GaMMa_df(self.picks_csv,
                                 self.response,
@@ -253,10 +257,12 @@ class GaMMA():
 
         config = self.gamma_obj.__dict__
         pbar = tqdm(1)
+        meta = station_df.merge(picks_df["id"], how="right", on="id")
         catalogs, assignments = association(picks_df, station_df, config, 
                                 method=self.gamma_obj.method,pbar=pbar)
         if not catalogs:
-            return pd.DataFrame()
+            return Catalog(),pd.DataFrame(),pd.DataFrame()
+        
         catalog = pd.DataFrame(catalogs)
         
         catalog["time"] = pd.to_datetime(catalog["time"],format="%Y-%m-%dT%H:%M:%S.%f")
@@ -265,18 +271,21 @@ class GaMMA():
         assignments = pd.DataFrame(assignments,
                                 columns=["pick_index", "event_idx", "prob_gamma"])
         assignments = assignments.set_index("pick_index")
+        
 
         picks = pd.merge(picks_df, assignments, left_index=True, 
                         right_index=True, how='right')
-
-        catalog = get_gamma_catalog(picks,catalog)
-
-
+        isfile(self.catalog_out_file)
+        catalog.to_csv(self.catalog_out_file,index=False)
+        isfile(self.picks_out_file)
+        picks.to_csv(self.picks_out_file,index=False)
+       
+        obspy_catalog = get_gamma_catalog(picks,catalog)
         isfile(self.xml_out_file)
-        catalog.write(self.xml_out_file,format="QUAKEML")
+        obspy_catalog.write(self.xml_out_file,format="QUAKEML")
 
 
-        return catalog
+        return obspy_catalog,catalog,picks
 
 if __name__ == "__main__":
     csv = "/home/emmanuel/EDCT/SeisMonitor/SeisMonitor/monitor/associator/test.csv"

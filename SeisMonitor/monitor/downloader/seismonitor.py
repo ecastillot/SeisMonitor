@@ -49,7 +49,7 @@ class MseedDownloader(object):
     If the stations are not available. It doesn't download them.
     """
     self.providers = ut.sanitize_provider_times(providers)
-    self.new_providers = None
+    self.providers_are_processed = False
     self._stations_outside_domains = None
 
 
@@ -64,9 +64,9 @@ class MseedDownloader(object):
     printlog("info",'metadata',"running to create inventory and json files")
 
     # print(inv)
-    inv,json_info,uprovider,sod = ut.get_merged_inv_and_json(self.providers)
+    inv,json_info,self.providers,sod = ut.get_merged_inv_and_json(self.providers.copy())
     
-    self.new_providers = uprovider
+    self.providers_are_processed = True
     self._stations_outside_domains = sod
 
     if out_folder != None:
@@ -119,13 +119,14 @@ class MseedDownloader(object):
     n_processor: int
       Number of processor
     """
-    if self.new_providers == None:
+    if not self.providers_are_processed:
       self.make_inv_and_json()
     else:
-      self.providers = self.new_providers
+      pass
 
                 
     for provider in self.providers:
+      provider = provider.copy()
       client = provider.client
       waveform_restrictions = provider.waveform_restrictions
       processing = provider.processing
@@ -140,7 +141,9 @@ class MseedDownloader(object):
       self._run_download(client,waveform_restrictions,
                         download_restrictions,
                         processing)
-
+      del client; del waveform_restrictions; del download_restrictions; del processing
+    del provider
+  
   def _run_download(self,client,waveform_restrictions,
                         download_restrictions,
                         processing=None):
@@ -194,7 +197,8 @@ class MseedDownloader(object):
 
     chunktoc = time.time()
     wav_exetime = timedelta(seconds=chunktoc-chunktic)
-    print(wav_exetime)
+    
+    # print(wav_exetime)
 
 if __name__ == "__main__":
   logging.basicConfig(level=logging.DEBUG,
