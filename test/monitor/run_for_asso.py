@@ -18,8 +18,8 @@ sgc_rest = WaveformRestrictions(network="CM",
                     station="*",
                     location="*",
                     channel="*",
-                    starttime=UTCDateTime("2019-12-24T21:30:00.000000Z"),
-                    endtime=UTCDateTime("2019-12-25T22:00:00.000000Z"),
+                    starttime=UTCDateTime("2019-12-24T19:00:00.000000Z"),
+                    endtime=UTCDateTime("2019-12-24T21:30:00.000000Z"),
                     location_preferences=["","00","20","10","40"],
                     channel_preferences=["HH","BH","EH","HN","HL"],
                     filter_networks=[], 
@@ -48,14 +48,14 @@ seismo.add_picker(pickers={
                                             plot_mode = 1 ) ,
                             }
                 )
-# seismo.add_associator(associators={
-#                         "GaMMA":ai_asso.GaMMAObj(
-#                                             [-76.729, -72.315,1.55, 5.314,0, 150],
-#                                             "EPSG:3116",
-#                                             use_amplitude = False,
-#                                             use_dbscan=False,
-#                                             calculate_amp=False)
+seismo.add_associator(associators={
+                        "GaMMA":ai_asso.GaMMAObj(
+                                            [-76.729, -72.315,1.55, 5.314,0, 150],
+                                            "EPSG:3116",
+                                            use_amplitude = False,
+                                            use_dbscan=False,
+                                            calculate_amp=False)
 
-#                         }
-                        # )
+                        }
+                        )
 seismo.run()

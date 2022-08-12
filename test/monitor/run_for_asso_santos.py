@@ -10,7 +10,7 @@ from SeisMonitor.core.objects import WaveformRestrictions,Provider
 from obspy.clients.fdsn import Client as FDSNClient
 from obspy.core.utcdatetime import UTCDateTime
 import os 
-out = "/home/emmanuel/associations_result/santos_seccionado"
+out = "/home/emmanuel/associations_result/santos_all_gamma_hiper_alto"
 
 # sgc_client = FDSNClient('http://10.100.100.13:8091')
 sgc_client = FDSNClient('http://sismo.sgc.gov.co:8080')
@@ -24,6 +24,7 @@ sgc_rest = WaveformRestrictions(network="CM",
                     channel_preferences=["HH","BH","EH","HN","HL"],
                     filter_networks=[], 
                     filter_stations=[],
+                    # filter_domain= [-76.341,-71.268,5.202,10.408],#santos
                     # filter_domain= [-75.3105,-73.6362,3.2033,4.4337],#mesetas
                     # filter_domain= [-83.101,-64.549,-2.229,14.945],
                     # filter_domain= [-76.274,-71.213,5.248,10.345],
@@ -32,26 +33,28 @@ sgc_xml = "/home/emmanuel/EDCT/SeisMonitor/data/metadata/CM.xml"
 sgc_provider = Provider(sgc_client,sgc_rest,xml=sgc_xml )
 
 seismo = SeisMonitor(providers = [sgc_provider],
-                    chunklength_in_sec=1800,
+                    chunklength_in_sec=10800,
                     out_folder = out)
-seismo.add_downloader()
-seismo.add_picker(pickers={
-                            "EQTransformer":ai_picker.EQTransformerObj(
-                                            model_path = ai_picker.EQTransformer_model_path,
-                                            n_processor = 32,
-                                            overlap = 0.3,
-                                            detection_threshold =0.1,
-                                            P_threshold = 0.01,
-                                            S_threshold = 0.01,
-                                            batch_size = 20,
-                                            number_of_plots = 0,
-                                            plot_mode = 1 ) ,
-                            }
-                )
+# seismo.add_downloader()
+# seismo.add_picker(pickers={
+#                             "EQTransformer":ai_picker.EQTransformerObj(
+#                                             model_path = ai_picker.EQTransformer_model_path,
+#                                             n_processor = 32,
+#                                             overlap = 0.3,
+#                                             detection_threshold =0.1,
+#                                             P_threshold = 0.01,
+#                                             S_threshold = 0.01,
+#                                             batch_size = 20,
+#                                             number_of_plots = 0,
+#                                             plot_mode = 1 ) ,
+#                             }
+#                 )
 seismo.add_associator(associators={
                         "GaMMA":ai_asso.GaMMAObj(
                                             [-76.729, -72.315,1.55, 5.314,0, 150],
                                             "EPSG:3116",
+                                            max_sigma11=180.0,
+                                            oversample_factor=10,
                                             use_amplitude = False,
                                             use_dbscan=False,
                                             calculate_amp=False)

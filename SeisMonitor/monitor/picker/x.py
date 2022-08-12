@@ -1,15 +1,24 @@
-import pandas as pd
-import numpy as np
-import concurrent.futures as cf
-picks = "/home/emmanuel/sss/20191224T190000__20191224T200000/detections/PhaseNet/results/picks.csv"
 
 
-df = pd.read_csv(picks)
-df = df.astype({'itp':'string','tp_prob':'string',
-                'its':'string','ts_prob':'string'})
-df = df.replace("[]",np.nan)
-df = df.dropna(subset=['itp','tp_prob','its','ts_prob'],how="all")
-print(df)
+r = get_max_allowed_batch_size(120,60,0.3)
+print(r)
+
+print(int(2.8))
+# import pandas as pd
+# import numpy as np
+# import concurrent.futures as cf
+# picks = "/home/emmanuel/sss/20191224T190000__20191224T200000/detections/PhaseNet/results/picks.csv"
+
+
+# df = pd.read_csv(picks)
+# df = df.astype({'itp':'string','tp_prob':'string',
+#                 'its':'string','ts_prob':'string'})
+# df = df.replace("[]",np.nan)
+# df = df.dropna(subset=['itp','tp_prob','its','ts_prob'],how="all")
+# print(df)
+
+
+
 # picks = []
 
 # # for i,row in df.iterrows():
@@ -24,7 +33,7 @@ print(df)
 
 # with cf.ThreadPoolExecutor() as executor:
 #     executor.map(_get_picks,df.iterrows())
-print(picks)
+# print(picks)
 
 # print(df)
 # print(df.info())
