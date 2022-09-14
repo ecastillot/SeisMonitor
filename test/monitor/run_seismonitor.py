@@ -101,10 +101,11 @@ vel_model = lut.VelModel(vel_path)
 inv,_,_,_ = dut.get_merged_inv_and_json(seismo.providers.copy())
 stations = lut.Stations(inv)
 # nlloc = NLLoc(region = [-84,-62,-5,15,-5,200],
-nlloc = NLLoc(region = [-85, -68,-2, 15,0, 180],
+# nlloc = NLLoc(region = [-85, -68,0, 15,-5, 180],
+nlloc = NLLoc(region = [-81, -65,-3, 13,-5, 180],
         vel_model = vel_model,
         stations = stations,
-        delta_in_km = 1,
+        delta_in_km = 3.5,
         tmp_folder="/home/emmanuel/EDCT/test2_nlloc"
         )
 nlloc.download()

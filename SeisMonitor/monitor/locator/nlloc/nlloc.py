@@ -118,20 +118,27 @@ class NLLoc():
     def _prepare_grid_args(self):
         lonw,lone,lats,latn,zmin,zmax = self.region
 
-        x,_,_ = gps2dist_azimuth(lats,lonw,lats,lone)
-        x = int(x/1e3/self.delta_in_km)
-        y,_,_ = gps2dist_azimuth(lats,lonw,latn,lonw)
-        y = int(y/1e3/self.delta_in_km)
+        c_lat = (lats+latn)/2
+        c_lon = (lonw+lone)/2
 
-        z = int((zmax-zmin)/self.delta_in_km)
+        x,_,_ = gps2dist_azimuth(lats,lonw,lats,c_lon)
+        x = x/1e3
+        x_num = int(x*2/self.delta_in_km)
+        y,_,_ = gps2dist_azimuth(lats,lonw,c_lat,lonw)
+        y = y/1e3
+        y_num = int(y*2/self.delta_in_km)
 
-        args = {"trans":["SIMPLE",lats,lonw,0],
-                "velgrid":[2,y,z,
-                            0,0,-5.0,
+        z_num = int((zmax-zmin)/self.delta_in_km)
+
+        args = {
+                "trans":["SIMPLE",c_lat,c_lon,0],
+                # "trans":["LAMBERT","WGS-84",lats,lonw,0,15,0],
+                "velgrid":[2,y_num,z_num,
+                            -x,-y,zmin,
                             self.delta_in_km,self.delta_in_km,
                             self.delta_in_km,"SLOW_LEN"],
-                "locgrid":[x,y,z,
-                            0,0,-5.0,
+                "locgrid":[x_num,y_num,z_num,
+                            -x,-y,zmin,
                             self.delta_in_km,self.delta_in_km,
                             self.delta_in_km,
                             "PROB_DENSITY","SAVE"]
@@ -194,7 +201,11 @@ class NLLoc():
             if (date == "sum") or (date=="last.hyp"):
                 continue
             else:
-                catalog = read_nlloc_hyp(path,format="NORDIC")
+                print(path)
+                try:
+                    catalog = read_nlloc_hyp(path,format="NORDIC")
+                except:
+                    continue
                 events = catalog.events
                 for event in events:
                     all_events.append(event)
