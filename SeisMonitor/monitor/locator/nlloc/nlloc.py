@@ -22,8 +22,7 @@ grid2time_exe_path = os.path.join(bin_path,"Grid2Time")
 nll_exe_path = os.path.join(bin_path,"NLLoc")
 
 
-
-
+#https://github.com/SEISAN-EARTHQUAKE-ANALYSIS-SOFTWARE/SEISAN-manual/blob/master/appendix/nordic-format.tex seisan format
 class NLLoc():
     def __init__(self,
                 region:list,
@@ -48,13 +47,13 @@ class NLLoc():
         self.tmp_folder = tmp_folder
         self.tm_tmp_folder = rm_tmp_folder
 
-    def __initialize(self):
+    def __initialize(self,write_nlloc_files=True):
         ### inputs
         self.vel_model_path = os.path.join(self.tmp_folder,"time_grid","vel_model.dat")
         self.station_path = os.path.join(self.tmp_folder,"time_grid","station.dat")
-        sut.isfile(self.vel_model_path)
+        # sut.isfile(self.vel_model_path)
         self.basic_inputs.vel_model.to_nlloc(self.vel_model_path)
-        sut.isfile(self.station_path)
+        # sut.isfile(self.station_path)
         self.basic_inputs.stations.to_nlloc(self.station_path)
 
         self.grid_folder_out = os.path.join(self.tmp_folder,"time_grid","model","layer")
@@ -109,9 +108,10 @@ class NLLoc():
         nlloc_control_files = [(p_nlloc,self.p_control_file_out),
                                 (s_nlloc,self.s_control_file_out)]
 
-        ## The parallelization doesn't work, therefore I only use max_workers=1. I am too lazy to change the code. 
-        with cf.ThreadPoolExecutor(max_workers=1) as executor:
-            executor.map(write_each_nlloc_file,nlloc_control_files)
+        if write_nlloc_files:
+            ## The parallelization doesn't work properly, therefore I only use max_workers=1. I am too lazy to change the code. 
+            with cf.ThreadPoolExecutor(max_workers=1) as executor:
+                executor.map(write_each_nlloc_file,nlloc_control_files)
 
         self.nll_control_file = p_nlloc
 
@@ -137,6 +137,12 @@ class NLLoc():
                             "PROB_DENSITY","SAVE"]
                             }
         return args
+
+    def download(self):
+        if not os.path.isdir(ut.NLLOC_path):
+            ut.download_nlloc()
+        else:
+            print(f"NonLinLoc is located in {ut.NLLOC_path}")
 
     def compute_travel_times(self):
         self.__initialize()
@@ -166,8 +172,12 @@ class NLLoc():
         sut.isfile(nlloc_inp)
         catalog.write(nlloc_inp,format="NORDIC")
         
-        
-        nlloc_control_file = self.nll_control_file
+        try:
+            nlloc_control_file = self.nll_control_file
+        except:
+            self.__initialize(False)
+            nlloc_control_file = self.nll_control_file
+
         nlloc_control_file.time2loc.catalog = " ".join((nlloc_inp,"SEISAN")) 
         nlloc_control_file.time2loc.loc_folder_out = nlloc_folder 
         nlloc_control_file.write(nlloc_control)

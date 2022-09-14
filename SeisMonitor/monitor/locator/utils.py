@@ -3,7 +3,7 @@ import pandas as pd
 import SeisMonitor.utils as sut
 from obspy import read_inventory
 from obspy.core.event.catalog import Catalog, read_events
-
+from obspy.core.inventory.inventory import (Inventory,read_inventory)
 def resp2df(resp):
     """
     Parameters:
@@ -20,7 +20,12 @@ def resp2df(resp):
     longitudes = []
     latitudes = []
     elevations = []
-    inv = read_inventory(resp)
+
+    if isinstance(resp,str):
+        inv = read_inventory(resp)
+    else:
+        inv = resp
+
     for net in inv:
         for sta in net:
             latitudes.append(sta.latitude)
@@ -65,9 +70,10 @@ class VelModel():
         vm.close()
 
 class Stations():
-    def __init__(self,stations_path) -> None:
-        self.stations_path = stations_path
-        self.stations = resp2df(stations_path)
+    def __init__(self,stations) -> None:
+        self.stations = resp2df(stations)
+        # else:
+        #     raise Exception("Error: NLLOC Stations class")
 
     def to_nlloc(self,out):
         vs = open(out, 'w')

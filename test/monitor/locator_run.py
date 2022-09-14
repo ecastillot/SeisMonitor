@@ -4,7 +4,7 @@ seismopath = "/home/emmanuel/EDCT"
 seismonitor = os.path.join(seismopath,"SeisMonitor")
 sys.path.insert(0,seismonitor)
 
-from SeisMonitor.SeisMonitor.monitor.locator.nlloc.nlloc import NLLoc
+from SeisMonitor.monitor.locator.nlloc.nlloc import NLLoc
 from SeisMonitor.monitor.locator import utils as lut
 import logging
 # logging.basicConfig(level=logging.DEBUG,
@@ -26,9 +26,10 @@ nlloc = NLLoc(region = [-84,-62,-5,15,-5,200],
         vel_model = vel_model,
         stations = stations,
         delta_in_km = 1,
-        tmp_folder="/home/emmanuel/EDCT/test_nlloc"
+        tmp_folder="/home/emmanuel/EDCT/test2_nlloc"
         )
+nlloc.download()
 nlloc.compute_travel_times()
-nlloc_folder="/home/emmanuel/EDCT/test_nlloc/loc_o"
-nlloc.relocate(catalog,nlloc_folder)
+# nlloc_folder="/home/emmanuel/EDCT/test_nlloc/loc_o"
+# nlloc.locate(catalog,nlloc_folder)
 exit()

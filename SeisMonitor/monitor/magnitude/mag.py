@@ -13,6 +13,7 @@
 
 
 from obspy.core.inventory.inventory import Inventory
+from obspy.core.stream import Stream
 from obspy.io.xseed.parser import Parser
 from obspy.core.event import Magnitude as Mag
 from obspy.core.event import Catalog
@@ -56,10 +57,11 @@ class MwProcessingMagParams():
         self.only_proc_s_pick = only_proc_s_pick
 
 class Magnitude():
-    def __init__(self,client,catalog,response,out_dir) -> None:
-        self.client = client
+    def __init__(self,providers,catalog,out_dir) -> None:
+        # self.client = client
         # super().__init__(sds_archive,sds_type,format)
-        self.response = response
+        # self.response = response
+        self.providers = providers
 
         if isinstance(catalog,Catalog):
             self.catalog = catalog
@@ -76,8 +78,8 @@ class Magnitude():
                 zone=None,
                 out_format="QUAKEML"):
         events_mag = []
-        for event in self.catalog:
-            print("event:",event.resource_id)
+        for n_ev,event in enumerate(self.catalog,1):
+            print(f"Event No. {n_ev}:",event.resource_id,f"from {len(self.catalog)} events")
 
             if not event.origins:
                 print ("No origin for event %s" % event.resource_id)
@@ -106,7 +108,22 @@ class Magnitude():
 
                 ev_params = {"picktime":pick.time, "latitude":latitude,
                             "longitude":longitude}
-                ampl,epi_dist = ut.get_Ml_magparams_by_station(st,self.response,
+
+
+                resp = Inventory()
+                for provider in self.providers:
+                    if len(resp) > 0:
+                        continue
+
+                    response = provider.inventory
+                    selected_response = response.select(network = pick.waveform_id.network_code,
+                                                        station = pick.waveform_id.station_code,
+                                                        location = "*",
+                                                        channel = pick.waveform_id.channel_code[0:2] +"*" )
+                                    
+                    resp = selected_response.__add__(selected_response)
+
+                ampl,epi_dist = ut.get_Ml_magparams_by_station(st,resp,
                                 ev_params,
                                 trimmedtime,
                                 waterlevel)
@@ -116,12 +133,20 @@ class Magnitude():
 
                 Ml = ut.get_Ml(ampl,epi_dist,mag_type,zone)
                 Mls.append(Ml)
+
+                staname = ".".join((pick.waveform_id.network_code, pick.waveform_id.station_code,
+                              pick.waveform_id.location_code ,pick.waveform_id.channel_code))
+                print(f"\t-> Ml | {staname}-{pick.phase_hint.upper()} | {Ml}")
+
             if not Mls:
                 Ml = 0
+                Ml_std = 0
                 print(f"No magnitude for {event.resource_id}")
             else:
                 Ml = scipy.stats.trim_mean(Mls,0.25)
-            mag = ut.write_magnitude_values(Ml,0,len(Mls),"Ml",
+                Ml_std = np.array(Mls).std()
+
+            mag = ut.write_magnitude_values(Ml,Ml_std,len(Mls),"Ml",
                            evaluation_mode = "automatic",
                            evaluation_status = "preliminary",
                            method="Rengifo&Ojeda(2004)",
@@ -131,6 +156,7 @@ class Magnitude():
             event.magnitudes.append(mag)
             event.preferred_magnitude_id = mag.resource_id
             events_mag.append(event)
+            print(f"{event.resource_id} | Ml: {round(Ml,2)} | Ml_std {round(Ml_std,2)} | stations:{len(Mls)}\n\n")
 
         catalog = Catalog(events = events_mag,
                           creation_info= CreationInfo(author="SeisMonitor",
@@ -147,8 +173,8 @@ class Magnitude():
         Mws = []
         Mws_std = []
 
-        for event in self.catalog:
-            print("event:",event.resource_id)
+        for n_ev,event in enumerate(self.catalog,1):
+            print(f"Event No. {n_ev}:",event.resource_id,f"from {len(self.catalog)} events.")
 
             if not event.origins:
                 print ("No origin for event %s" % event.resource_id)
@@ -178,7 +204,19 @@ class Magnitude():
                 if st == None:
                     continue
 
-                st = ut.Mw_st_processing(st, self.response,
+                resp = Inventory()
+                for provider in self.providers:
+                    if len(resp) > 0:
+                        continue
+
+                    response = provider.inventory
+                    selected_response = response.select(network = pick.waveform_id.network_code,
+                                                        station = pick.waveform_id.station_code,
+                                                        location = "*",
+                                                        channel = pick.waveform_id.channel_code[0:2] +"*" )
+                                    
+                    resp = selected_response.__add__(selected_response)
+                st = ut.Mw_st_processing(st, resp,
                                             physparams.waterlevel,
                                              pick.time-procparams.padding)
 
@@ -196,7 +234,7 @@ class Magnitude():
                               pick.waveform_id.location_code ,pick.waveform_id.channel_code))
                     
                     Mw_sta = 2.0 / 3.0 * (np.log10(M_0) - 9.1)
-                    print(f"\t-> M0 | {staname}-{pick.phase_hint.upper()} | {Mw_sta}")
+                    print(f"\t-> Mw | {staname}-{pick.phase_hint.upper()} | {Mw_sta}")
 
                     moments.append(M_0)
                     corner_frequencies.extend(corner_freqs)
@@ -218,7 +256,7 @@ class Magnitude():
             Mws_std.append(Mw_std)
             Mws.append(Mw)
 
-            print(f"Mw | {Mw} | Mw std |  {Mw_std} | {event.resource_id}")
+            print(f"{event.resource_id} | Mw: {round(Mw,2)} | Mw_std {round(Mw_std,2)} | stations:{len(moments)}\n\n")
 
             mag = ut.write_magnitude_values(Mw,Mw_std,len(moments),"Mw",
                            evaluation_mode = "automatic",
@@ -226,7 +264,6 @@ class Magnitude():
                            method="smi:com.github/krischer/moment_magnitude_calculator/automatic/1",
                            origin_id=event.origins[0].resource_id,
                            comments=None)
-
             event.magnitudes.append(mag)
             event.preferred_magnitude_id = mag.resource_id
 
@@ -259,20 +296,33 @@ class Magnitude():
             cha = ""
         else:
             cha = waveform_id.channel_code[0:2]
-        try:
-            st= self.client.get_waveforms(net,
-                                    waveform_id.station_code,
-                                    "*",
-                                    cha+"*",start,end
-                                    )
+
+        stream = Stream()
+        for provider in self.providers:
+
+            if len(stream) > 0:
+                continue
+
+            client = provider.client
+            try:
+                st= client.get_waveforms(net,
+                                        waveform_id.station_code,
+                                        "*",
+                                        cha+"*",start,end
+                                        )
+                stream += st
+            except:
+                pass
+
+        if len(stream) > 0:
+            return st
             
-        except:
-            print(f"\t->Not found: {net}-{waveform_id.station_code}"+\
+        else:
+            print(f"\t-> Not found: {net}-{waveform_id.station_code}"+\
                     f"-*-{cha}* |"+\
                         f"{start} - {end}  ")
             return None
 
-        return st
 
 if __name__ =="__main__":
     import math

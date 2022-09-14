@@ -98,11 +98,12 @@ class SeisMonitor():
         self.out_folder = out_folder
         self.chunklength_in_sec = chunklength_in_sec
 
-        self.download_folder = os.path.join(out_folder,"downloads")
-        self.pick_folder = os.path.join(out_folder,"picks")
-        self.association_folder = os.path.join(out_folder,"asso")
-        self.location_folder = os.path.join(out_folder,"loc")
-        self.mag_folder = os.path.join(out_folder,"mag")
+        # self.download_folder = os.path.join("%s","downloads")
+        # self.metadata_folder = os.path.join("%s","metadata")
+        # self.pick_folder = os.path.join("%s","detections")
+        # self.association_folder = os.path.join("%s","associations")
+        # self.location_folder = os.path.join("%s","locations")
+        # self.mag_folder = os.path.join("%s","magnitudes")
 
         self.process = {}
 
@@ -116,26 +117,54 @@ class SeisMonitor():
         dld_args["chunklength_in_sec"] = self.chunklength_in_sec
         dld_args.pop("self")
         self.process["download"] = dld_args
+
         
     def add_picker(self,
                     pickers={}):
+
         if pickers:
             pickers = sanitize_downloads(pickers)
             self.process["pick"] = pickers
             if "download" in list(self.process.keys()):
                 self.process["download"] = sanitize_pick_batch_size(pickers,self.process["download"])
+        self.picker_output = list(self.pickers.keys())
+        return list(self.pickers.keys())
 
-    def add_associator(self,
+    def add_associator(self,input,
                         associators={}):
+        self.associator_input = input
         if associators:
             self.process["associator"] = associators
 
+        out = {}
+        for associator in associators.keys():
+            for picker in self.associator_input:
+                name = "_".join((associator,picker))
+                out[name] = os.path.join(associator,picker)
+        self.associator_output = out
+        return out
 
     def add_locator(self,
+                    input,
                     locators={}
                     ):
+        self.locator_input = input
+
         if locators:
             self.process["locator"] = locators
+
+        out = {}
+        for locator in locators.keys():
+            for task,project in self.locator_input.items():
+                assert task in ["associations","locations","events"]
+                assert isinstance(project,tuple)
+                assert len(project)==2
+
+                out_name = "_".join((locator,task,project[0],project[1]))
+                out[out_name] = os.path.join(locator,task,project[0],project[1])
+
+        self.locator_output = out
+        return out
 
     def run(self):
         
@@ -162,7 +191,7 @@ class SeisMonitor():
                     download_path = os.path.join(folders["downloads"],structure)
                     md = MseedDownloader(providers)
                     md.make_inv_and_json(folders["metadata"])
-                    md.download(download_path,**process_args)
+                    # md.download(download_path,**process_args)
                     del md
 
                 elif process == "pick":
@@ -171,8 +200,8 @@ class SeisMonitor():
                         if picker == "EQTransformer":
                             _picker = ai_picker.EQTransformer(picker_args)
                             result = _picker.pick(folders["downloads"],
-                                                            folders["metadata"],
-                                                            out_path)
+                                                folders["metadata"],
+                                                out_path)
                             if result.empty:
                                 print("No picks")
                                 exit()
@@ -182,8 +211,8 @@ class SeisMonitor():
                         elif picker == "PhaseNet":
                             _picker = ai_picker.PhaseNet(picker_args)
                             result = _picker.pick(folders["downloads"],
-                                                        folders["metadata"],
-                                                        out_path)
+                                                folders["metadata"],
+                                                out_path)
                             if result.empty:
                                 print("No picks")
                                 exit()
@@ -193,12 +222,13 @@ class SeisMonitor():
                 elif process == "associator":
                     inv = os.path.join(folders["metadata"],"inv.xml")
 
-                    for picker_path in glob.glob(os.path.join(folders["detections"],"*")):
-                        picker_name = os.path.basename(picker_path)
+                    for picker in self.associator_input:
+                        picker_path = os.path.join(folders["detections"],picker)
                         picks_path = os.path.join(picker_path,"results",
                                                 "seismonitor_picks.csv")
                         for associator,associator_args in process_args.items():
-                            out_folder = os.path.join(folders["associations"],f"{associator}2{picker_name}")
+                            out_name = self.associator_output[f"{associator_args.name}_{picker}"]
+                            out_folder = os.path.join(folders["associations"],out_name)
                             if associator == "GaMMA":
                                 _associator = ai_asso.GaMMA(associator_args)
                                 _,result,_ = _associator.associate(picks_path,
@@ -207,7 +237,21 @@ class SeisMonitor():
                                     print("No associated picks")
                                     exit()
 
-            #     # elif process == "locator":
+                elif process == "locator":
+                    for locator,locator_args in process_args.items():
+                        for task,project in self.locator_input.items():
+                            catalog = os.path.join(folders[task],project[0],project[1],task+".xml")
+                            nlloc_folder = os.path.join(folders["locations"],locator,project[0],project[1])
+                            locator_args.locate(catalog,nlloc_folder)
+
+
+
+                # elif process == "magnitude":
+                #     inv = os.path.join(folders["metadata"],"inv.xml")
+                #     for magnitude,magnitude_args in process_args.items():
+                #         out_folder = os.path.join(folders["associations"],f"{associator}_{picker_name}")
+
+
 
 
 

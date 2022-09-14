@@ -57,6 +57,7 @@ class GaMMAObj():
 
         self.config = self._get_config()
         self.response = None
+        self.name = "GaMMA"
 
     # def _get_config(self):
 
@@ -238,9 +239,9 @@ class GaMMA():
         self.xml_path = xml_path
         self.response = read_inventory(xml_path)
         self.out_dir = out_dir
-        self.xml_out_file = os.path.join(out_dir,"associations","associations.xml")
-        self.catalog_out_file = os.path.join(out_dir,"associations","catalog.csv")
-        self.picks_out_file = os.path.join(out_dir,"associations","picks.csv")
+        self.xml_out_file = os.path.join(out_dir,"associations.xml")
+        self.catalog_out_file = os.path.join(out_dir,"catalog.csv")
+        self.picks_out_file = os.path.join(out_dir,"picks.csv")
 
         picks_df = ut.get_picks_GaMMa_df(self.picks_csv,
                                 self.response,

@@ -1,5 +1,7 @@
 from . import utils as ut
+from obspy import read_inventory
 import copy
+
 class Provider():
 	def __init__(self,client,waveform_restrictions, 
 				processing=None,xml=None) -> None:
@@ -7,6 +9,9 @@ class Provider():
 		self.waveform_restrictions = waveform_restrictions
 		self.processing = processing
 		self.xml = xml
+
+		if xml != None:
+			self.inventory = read_inventory(xml)
 
 	def copy(self):
 		return copy.deepcopy(self)
