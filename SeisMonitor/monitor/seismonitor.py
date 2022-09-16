@@ -9,6 +9,7 @@ from SeisMonitor.monitor.downloader.utils import sanitize_provider_times
 from SeisMonitor.monitor.picker import ai as ai_picker
 from SeisMonitor.monitor.associator import ai as ai_asso
 from SeisMonitor.monitor.locator.nlloc import nlloc
+from SeisMonitor.monitor.magnitude.mag import Magnitude
 
 def get_preproc_providers(providers,chunklength_in_sec,
                             out_folder):
@@ -61,14 +62,14 @@ def get_folders_by_chunk(out_folder,starttime,endtime):
     detections_dir = os.path.join(chunk_dir,'detections')
     asso_dir = os.path.join(chunk_dir,'associations')
     loc_dir = os.path.join(chunk_dir,'locations')
-    events_dir = os.path.join(chunk_dir,'events')
+    events_dir = os.path.join(chunk_dir,'magnitudes')
 
     return {"metadata":metadata_dir,
             "downloads":downloads_dir,
             "detections":detections_dir,
             "associations":asso_dir,
             "locations":loc_dir,
-            "events":events_dir}
+            "magnitudes":events_dir}
 
 def sanitize_pick_batch_size(pickers,download_args):
     overlaps = []
@@ -156,7 +157,7 @@ class SeisMonitor():
         out = {}
         for locator in locators.keys():
             for task,project in self.locator_input.items():
-                assert task in ["associations","locations","events"]
+                assert task in ["associations","locations","magnitudes"]
                 assert isinstance(project,tuple)
                 assert len(project)==2
 
@@ -164,6 +165,28 @@ class SeisMonitor():
                 out[out_name] = os.path.join(locator,task,project[0],project[1])
 
         self.locator_output = out
+        return out
+
+    def add_magnitude(self,
+                    input,
+                    magnitudes={}
+                    ):
+        self.magnitude_input = input
+
+        if magnitudes:
+            self.process["magnitude"] = magnitudes
+
+        out = {}
+        for magnitude in magnitudes.keys():
+            for task,project in self.magnitude_input.items():
+                assert task in ["associations","locations","magnitudes"]
+                assert isinstance(project,tuple)
+                assert len(project)==2
+
+                out_name = "_".join((magnitude,task,project[0],project[1]))
+                out[out_name] = os.path.join(magnitude,task,project[0],project[1])
+
+        self.magnitude_output = out
         return out
 
     def run(self):
@@ -244,12 +267,18 @@ class SeisMonitor():
                             nlloc_folder = os.path.join(folders["locations"],locator,project[0],project[1])
                             locator_args.locate(catalog,nlloc_folder)
 
+                elif process == "magnitude":
+                    for magnitude,magnitude_args in process_args.items():
+                        for task,project in self.magnitude_input.items():
+                            catalog = os.path.join(folders[task],project[0],project[1],task+".xml")
+                            mag_folder = os.path.join(folders["magnitudes"],magnitude,project[0],project[1])
+                            mag = Magnitude(providers=self.providers,catalog=catalog,
+                                            out_dir=mag_folder)
+                            if magnitude == "Ml":
+                                mag.get_Ml(**magnitude_args)
 
 
-                # elif process == "magnitude":
-                #     inv = os.path.join(folders["metadata"],"inv.xml")
-                #     for magnitude,magnitude_args in process_args.items():
-                #         out_folder = os.path.join(folders["associations"],f"{associator}_{picker_name}")
+
 
 
 

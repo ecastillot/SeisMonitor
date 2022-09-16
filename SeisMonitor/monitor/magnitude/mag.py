@@ -62,14 +62,14 @@ class Magnitude():
         # super().__init__(sds_archive,sds_type,format)
         # self.response = response
         self.providers = providers
-
+        print("Reading catalog... ")
         if isinstance(catalog,Catalog):
             self.catalog = catalog
         else:
             self.catalog = read_events(catalog)
         self.out_dir = out_dir
-        self.xml_ml_out_file = os.path.join(out_dir,"magnitude","Ml_magnitude.xml")    
-        self.xml_mw_out_file = os.path.join(out_dir,"magnitude","Mw_magnitude.xml")    
+        self.xml_ml_out_file = os.path.join(out_dir,"Ml_magnitude.xml")    
+        self.xml_mw_out_file = os.path.join(out_dir,"Mw_magnitude.xml")    
 
     def get_Ml(self,
                 mag_type="RSNC",
@@ -162,7 +162,7 @@ class Magnitude():
                           creation_info= CreationInfo(author="SeisMonitor",
                                             creation_time=UTCDateTime.now())  )
         if self.xml_ml_out_file != None:
-            print ("Writing output file...")
+            print (f"Writing output file in {self.xml_ml_out_file}")
             isfile(self.xml_ml_out_file)
             catalog.write(self.xml_ml_out_file, out_format)
         return self.catalog
@@ -268,7 +268,7 @@ class Magnitude():
             event.preferred_magnitude_id = mag.resource_id
 
         if self.xml_mw_out_file != None:
-            print ("Writing output file...")
+            print (f"Writing output file in {self.xml_mw_out_file}")
             isfile(self.xml_mw_out_file)
             self.catalog.write(self.xml_mw_out_file, out_format)
         return self.catalog

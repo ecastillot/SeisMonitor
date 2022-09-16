@@ -9,6 +9,7 @@ from obspy.geodetics.base import gps2dist_azimuth
 from obspy.io.nlloc.core import read_nlloc_hyp
 from obspy.core.event.base import CreationInfo
 from obspy import UTCDateTime
+from tqdm import tqdm
 from . import utils as ut
 from SeisMonitor import utils as sut
 from SeisMonitor.monitor.locator import utils as slut
@@ -133,12 +134,12 @@ class NLLoc():
         args = {
                 "trans":["SIMPLE",c_lat,c_lon,0],
                 # "trans":["LAMBERT","WGS-84",lats,lonw,0,15,0],
-                "velgrid":[2,y_num,z_num,
-                            -x,-y,zmin,
+                "velgrid":[x_num,y_num,z_num,
+                            -round(x,2),-round(y,2),round(zmin,2),
                             self.delta_in_km,self.delta_in_km,
                             self.delta_in_km,"SLOW_LEN"],
                 "locgrid":[x_num,y_num,z_num,
-                            -x,-y,zmin,
+                            -round(x,2),-round(y,2),round(zmin,2),
                             self.delta_in_km,self.delta_in_km,
                             self.delta_in_km,
                             "PROB_DENSITY","SAVE"]
@@ -171,12 +172,13 @@ class NLLoc():
         else:
             catalog = read_events(catalog)
 
-        nlloc_inp = os.path.join(nlloc_out_folder,"catalog_input.out")
+        nlloc_inp = os.path.join(nlloc_out_folder,"catalog_input.inp")
         nlloc_folder = os.path.join(nlloc_out_folder,"nlloc","SeisMonitor")
-        nlloc_out = os.path.join(nlloc_out_folder,"catalog_output.xml")
+        nlloc_out = os.path.join(nlloc_out_folder,"catalog_output.out")
         nlloc_control = os.path.join(nlloc_out_folder,"loc.in")
 
-        sut.isfile(nlloc_inp)
+        # sut.isfile(nlloc_inp)
+        # print(catalog)
         catalog.write(nlloc_inp,format="NORDIC")
         
         try:
@@ -195,13 +197,13 @@ class NLLoc():
         
         _nll_out = nlloc_folder+"*.hyp"
         all_events = []
-        for path in glob.glob(_nll_out):
+        for path in tqdm(glob.glob(_nll_out)):
             basename = os.path.basename(path)
             date = basename.split(".")[1]
             if (date == "sum") or (date=="last.hyp"):
                 continue
             else:
-                print(path)
+                # print(path)
                 try:
                     catalog = read_nlloc_hyp(path,format="NORDIC")
                 except:

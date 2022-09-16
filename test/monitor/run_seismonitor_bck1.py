@@ -16,8 +16,7 @@ from obspy import read_events
 from obspy.core.event.origin import OriginUncertainty
 from obspy.core.event.event import Event
 
-# out = "/home/emmanuel/Results/2019"
-out = "/home/emmanuel/Mi_Unidad/ColSeismicity/2019"
+out = "/home/emmanuel/Results/2019"
 
 sgc_client = FDSNClient('http://10.100.100.13:8091')
 # sgc_client = FDSNClient('http://sismo.sgc.gov.co:8080')
@@ -27,8 +26,8 @@ sgc_rest = WaveformRestrictions(network="CM",
                     channel="*",
                     # starttime=UTCDateTime("2021-06-01T00:00:00.000000Z"),
                     # endtime=UTCDateTime("2022-01-01T00:00:00.000000Z"),
-                    starttime=UTCDateTime("2019-01-01T00:00:00.000000Z"),
-                    endtime=UTCDateTime("2019-01-02T00:00:00.000000Z"),
+                    starttime=UTCDateTime("2019-12-01T00:00:00.000000Z"),
+                    endtime=UTCDateTime("2019-12-02T00:00:00.000000Z"),
                     location_preferences=["","00","20","10","40"],
                     channel_preferences=["HH","BH","EH","HN","HL"],
                     filter_networks=[], 
@@ -85,20 +84,86 @@ seismo = SeisMonitor(providers = [sgc_provider],chunklength_in_sec=86400,
 #                             }
 #                 )
 # print(seismo.process["download"])
-seismo.add_associator(input=["EQTransformer"],
-                        associators={
-                        "GaMMA":ai_asso.GaMMAObj(
-                                            [-85, -68,-2, 15,0, 180],
-#                                             [-76.729, -72.315,1.55, 5.314,0, 150],
-                                            "EPSG:3116",
-                                            use_amplitude = False,
-                                            use_dbscan=False,
-                                            max_sigma11=5.0,
-                                            calculate_amp=False)
+# seismo.add_associator(input=["EQTransformer"],
+#                         associators={
+#                         "GaMMA":ai_asso.GaMMAObj(
+#                                             [-85, -68,-2, 15,0, 180],
+# #                                             [-76.729, -72.315,1.55, 5.314,0, 150],
+#                                             "EPSG:3116",
+#                                             use_amplitude = False,
+#                                             use_dbscan=False,
+#                                             max_sigma11=5.0,
+#                                             calculate_amp=False)
 
-                        }
-                        )
+#                         }
+#                         )
 
+
+
+vel_path = "/home/emmanuel/EDCT/SeisMonitor/data/metadata/vel1d_col.csv"
+vel_model = lut.VelModel(vel_path)
+inv = "/home/emmanuel/1/inv.xml"
+# inv,_,_,_ = dut.get_merged_inv_and_json(seismo.providers.copy())
+stations = lut.Stations(inv)
+# nlloc = NLLoc(region = [-84,-62,-5,15,-5,200],
+nlloc = NLLoc(region = [-85, -68,0, 15,-5, 205],
+# nlloc = NLLoc(region = [-81, -65,-3, 13,-5, 205],
+        vel_model = vel_model,
+        stations = stations,
+        delta_in_km = 2.5,
+        tmp_folder="/home/emmanuel/EDCT/test2_nlloc"
+        )
+# nlloc.download()
+# nlloc.compute_travel_times()
+
+# catalog = "/home/emmanuel/Tesis/auto/aipicker/events/events_1d/xml/CM/2019/335/eqt_events.xml"
+# catalog = "/home/emmanuel/Tesis/auto/aipicker/events/events_1d/xml/CM/2019/336/eqt_events.xml"
+# catalog = read_events(catalog,format="SC3ML")
+# for event in catalog:
+#     origins = event.origins
+#     for origin in origins:
+#         origin_unc = origin.origin_uncertainty
+
+#         if origin_unc == None:
+#             origin_unc = OriginUncertainty(horizontal_uncertainty=0,
+#                            min_horizontal_uncertainty=0,
+#                             max_horizontal_uncertainty=0    )
+#             origin.origin_uncertainty = origin_unc
+# # pref origin
+# # events = []
+# # for event in catalog.events:
+# #     pref_origin = event.preferred_origin() 
+# #     origin_unc = pref_origin.origin_uncertainty
+# #     pref_magnitude = event.preferred_magnitude() 
+
+# #     if origin_unc == None:
+# #         continue
+
+# #     picks = {}
+# #     for pick in event.picks:
+# #         picks[pick.resource_id.id] = pick
+
+# #     new_picks = []
+# #     for i,arrival in enumerate(pref_origin.arrivals):
+# #         pick = picks[arrival.pick_id.id]
+# #         new_picks.append(pick)
+
+# #     event.picks = new_picks
+# #     ev = Event(origins = [pref_origin],magnitudes = [pref_magnitude],picks = new_picks)
+# #     events.append(ev)
+# # catalog.events = events
+
+# for event in catalog.events:
+#     origins = event.origins
+#     print(len(origins))
+        # print(origin_unc)
+# print(catalog)
+# nlloc.locate(catalog,"/home/emmanuel/1")
+
+# seismo.add_locator(input={"associations":("GaMMA","EQTransformer")},
+#                     locators={
+#                         "NLLOC":nlloc}
+#                         )
 seismo.add_magnitude(input={"associations":("GaMMA","EQTransformer")},
                     magnitudes={
                         "Ml":{"mag_type":"RSNC",
