@@ -1,6 +1,7 @@
 import numpy as np
 import pandas as pd
 import json
+import math
 import datetime as dt
 import pyproj
 import os
@@ -129,8 +130,14 @@ class GaMMAObj():
 def get_gamma_picks(event_picks):
     pick_list = []
     for i, row in event_picks.iterrows():
+        # print(row.location)
+        if math.isnan(row.location):
+            loc = ""
+        else:
+            loc = "{:02d}".format(int(row.location))
+
         str_id = ".".join((row.network,row.station,
-                           "{:02d}".format(int(row.location)),row.instrument_type + "Z"))
+                           loc,row.instrument_type + "Z"))
         
         comment = {'probability': row.prob,
                 'GaMMA_probability':row.prob_gamma}
@@ -147,7 +154,7 @@ def get_gamma_picks(event_picks):
                                                         confidence_level=row.prob*100),
                                 waveform_id=WaveformStreamID(network_code=row.network,
                                                              station_code=row.station,
-                                                             location_code="{:02d}".format(int(row.location)),
+                                                             location_code=loc,
                                                              channel_code=row.instrument_type + "Z",
                                                              resource_uri= ResourceIdentifier(id= str_id ),
                                                              seed_string = str_id),

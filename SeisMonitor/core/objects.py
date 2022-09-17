@@ -12,6 +12,12 @@ class Provider():
 
 		if xml != None:
 			self.inventory = read_inventory(xml)
+		else:
+			self.inventory = client.get_stations(network=waveform_restrictions.network,
+												station=waveform_restrictions.station,
+												location="*",
+												channel="*",level='response')
+
 
 	def copy(self):
 		return copy.deepcopy(self)

@@ -24,17 +24,27 @@ def get_preproc_providers(providers,chunklength_in_sec,
     for starttime,endtime in chunktimes:
         folders = get_folders_by_chunk(out_folder,
                                         starttime,endtime)
+        # print("folders")
 
         new_providers = []
         for provider in providers:
-            provider = provider.copy()
+            # provider = provider.copy()
             provider.waveform_restrictions.starttime = starttime
             provider.waveform_restrictions.endtime = endtime
             new_providers.append(provider)
 
+        # providers = new_providers
+
         chunk_provider = {"providers":new_providers,
-                        "folders":folders}
+                        "folders":folders,
+                        "dates":{"starttime":starttime,"endtime":endtime}}
         preproc_providers.append(chunk_provider)
+
+   
+    # import time
+    # print("sleep")
+    # time.sleep(60)
+    # exit()
     return preproc_providers
 
 
@@ -117,7 +127,7 @@ class SeisMonitor():
         dld_args = locals().copy()
         dld_args["chunklength_in_sec"] = self.chunklength_in_sec
         dld_args.pop("self")
-        self.process["download"] = dld_args
+        self.process["downloader"] = dld_args
 
         
     def add_picker(self,
@@ -125,11 +135,12 @@ class SeisMonitor():
 
         if pickers:
             pickers = sanitize_downloads(pickers)
-            self.process["pick"] = pickers
-            if "download" in list(self.process.keys()):
-                self.process["download"] = sanitize_pick_batch_size(pickers,self.process["download"])
-        self.picker_output = list(self.pickers.keys())
-        return list(self.pickers.keys())
+            self.process["picker"] = pickers
+            if "downloader" in list(self.process.keys()):
+                self.process["downloader"] = sanitize_pick_batch_size(pickers,self.process["downloader"])
+        
+        self.picker_output = list(pickers.keys())
+        return list(pickers.keys())
 
     def add_associator(self,input,
                         associators={}):
@@ -190,14 +201,15 @@ class SeisMonitor():
         return out
 
     def run(self):
-        
         preproc_providers = get_preproc_providers(self.providers,
                                             self.chunklength_in_sec,
                                             self.out_folder)
+        # print("preproc_providers")
 
         for chunk_provider in preproc_providers:
-            print("chunk:",chunk_provider["providers"][0].waveform_restrictions.starttime,
-                "--",chunk_provider["providers"][0].waveform_restrictions.endtime)
+            print("chunk:",chunk_provider["dates"]["starttime"],
+                "--",chunk_provider["dates"]["endtime"])
+            # print(chunk_provider)
             providers = chunk_provider["providers"]
             folders = chunk_provider["folders"]
 
@@ -209,15 +221,15 @@ class SeisMonitor():
 
             for process, process_args in self.process.items():
 
-                if process == "download":
+                if process == "downloader":
                     structure = os.path.join("{station}","{network}.{station}.{location}.{channel}__{starttime}__{endtime}.mseed")
                     download_path = os.path.join(folders["downloads"],structure)
                     md = MseedDownloader(providers)
                     md.make_inv_and_json(folders["metadata"])
-                    # md.download(download_path,**process_args)
+                    md.download(download_path,**process_args)
                     del md
 
-                elif process == "pick":
+                elif process == "picker":
                     for picker,picker_args in process_args.items():
                         out_path = os.path.join(folders["detections"],picker)
                         if picker == "EQTransformer":

@@ -89,7 +89,8 @@ def get_Ml_magparams_by_station(st,response,
     latitude = ev_params["latitude"]
     longitude = ev_params["longitude"]
 
-    if st is None or len(st) != 3:
+    # if st is None or len(st) != 3:
+    if st is None or len(st)==0:
         return (None,None)
 
     for tr in st:
@@ -107,11 +108,26 @@ def get_Ml_magparams_by_station(st,response,
 
     st.trim(picktime,picktime+trimmedtime)
 
-    tr_n = st.select(component="N")[0]
-    ampl_n = max(abs(tr_n.data))
-    tr_e = st.select(component="E")[0]
-    ampl_e = max(abs(tr_e.data))
-    ampl = max(ampl_n, ampl_e)
+    # common_channels_info = list(st._get_common_channels_info().keys())
+    # channels = list(map(lambda x: x[-1] ,common_channels_info))
+    components = [ tr.stats.channel[-1] for tr in st]
+    components = list(set(components))
+
+    if len(components) == 1:
+        tr= st.select(component=components[0])[0]
+        ampl = max(abs(tr.data))
+    else:
+        if ("N" in components) or ("E" in components):
+            tr_n = st.select(component="N")[0]
+            ampl_n = max(abs(tr_n.data))
+            tr_e = st.select(component="E")[0]
+            ampl_e = max(abs(tr_e.data))
+            ampl = max(ampl_n, ampl_e)
+        elif "Z" in components:
+            tr= st.select(component="Z")[0]
+            ampl = max(abs(tr.data))
+        else:
+            return (None,None)
 
 
     sta_lat = coords["latitude"]

@@ -18,8 +18,8 @@ from obspy.core.event.event import Event
 
 # 2016-01-17T00:00:00.000000Z no picks
 
-# out = "/home/emmanuel/Results/2019"
-out = r"/media/emmanuel/TOSHIBA EXT/ColSeismicity/2019"
+out = "/home/emmanuel/R/2019"
+# out = r"/media/emmanuel/TOSHIBA EXT/ColSeismicity/2016"
 print(out,os.path.isdir(out))
 sgc_client = FDSNClient('http://10.100.100.13:8091')
 # sgc_client = FDSNClient('http://sismo.sgc.gov.co:8080')
@@ -27,10 +27,10 @@ sgc_rest = WaveformRestrictions(network="CM",
                     station="*",
                     location="*",
                     channel="*",
-                    starttime=UTCDateTime("2019-03-28T00:00:00.000000Z"),
-                    endtime=UTCDateTime("2020-01-01T00:00:00.000000Z"),
-                #     starttime=UTCDateTime("2016-04-22T00:00:00.000000Z"),
-                #     endtime=UTCDateTime("2017-01-01T00:00:00.000000Z"),
+                    # starttime=UTCDateTime("2021-06-01T00:00:00.000000Z"),
+                    # endtime=UTCDateTime("2022-01-01T00:00:00.000000Z"),
+                    starttime=UTCDateTime("2019-01-01T00:00:00.000000Z"),
+                    endtime=UTCDateTime("2019-01-02T00:00:00.000000Z"),
                     location_preferences=["","00","20","10","40"],
                     channel_preferences=["HH","BH","EH","HN","HL"],
                     filter_networks=[], 
@@ -46,10 +46,8 @@ sgc_provider = Provider(sgc_client,sgc_rest,xml=sgc_xml )
 #                     station="*",
 #                     location="*",
 #                     channel="H*",
-#                     starttime=UTCDateTime("2016-04-22T00:00:00.000000Z"),
+#                     starttime=UTCDateTime("2016-01-18T00:00:00.000000Z"),
 #                     endtime=UTCDateTime("2017-01-01T00:00:00.000000Z"),
-#                 #     starttime=UTCDateTime("2016-04-22T00:00:00.000000Z"),
-#                 #     endtime=UTCDateTime("2017-01-01T00:00:00.000000Z"),
 #                     location_preferences=["","00","20","10","40"],
 #                     channel_preferences=["HH","BH","EH","HN","HL"],
 #                     filter_networks=[], 
