@@ -98,7 +98,7 @@ class LocalClient(Client):
             filename = self.fmt.format(
                             network=network, station=station, location=location,
                             channel=channel, year=year, month=month, 
-                            day=day, doy=doy,sds_type=sds_type)
+                            day=day, julday=doy,sds_type=sds_type)
             full_path = os.path.join(self.sds_root, filename)
             full_paths = full_paths.union(glob.glob(full_path))
         return full_paths

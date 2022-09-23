@@ -74,6 +74,7 @@ def get_Ml(ampl,epi_dist,mag_type,zone=None):
 
                 k = ml_params["a"]*math.log10(ml_params["r_ref"]/100) +\
                     ml_params["b"]* (ml_params["r_ref"]-100) +3
+                    
                 return math.log10(ampl * 1e3) + ml_params["a"] * math.log10(epi_dist/ml_params["r_ref"]) +\
                                 ml_params["b"] * (epi_dist-ml_params["r_ref"]) + k
 
@@ -118,11 +119,25 @@ def get_Ml_magparams_by_station(st,response,
         ampl = max(abs(tr.data))
     else:
         if ("N" in components) or ("E" in components):
-            tr_n = st.select(component="N")[0]
-            ampl_n = max(abs(tr_n.data))
-            tr_e = st.select(component="E")[0]
-            ampl_e = max(abs(tr_e.data))
-            ampl = max(ampl_n, ampl_e)
+            if "N" in components:
+                tr_n = st.select(component="N")[0]
+                ampl_n = max(abs(tr_n.data))
+            else:
+                ampl_n = None
+
+            if "E" in components:
+                tr_e = st.select(component="E")[0]
+                ampl_e = max(abs(tr_e.data))
+            else:
+                ampl_e = None
+
+            if ampl_n == None:
+                ampl = ampl_e
+            elif ampl_e == None:
+                ampl = ampl_n
+            else:
+                ampl = max(ampl_n,ampl_e)
+
         elif "Z" in components:
             tr= st.select(component="Z")[0]
             ampl = max(abs(tr.data))

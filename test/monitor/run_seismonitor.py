@@ -16,10 +16,19 @@ from obspy import read_events
 from obspy.core.event.origin import OriginUncertainty
 from obspy.core.event.event import Event
 
+# Event No. 47: smi:local/20170402.210402.873000 from 49 events
+# chunk: 2020-01-30T00:00:00.000000Z -- 2020-01-31T00:00:00.000000Z
+# 2019-06-27T00:00:00.000000Z gamma error
 # 2016-01-17T00:00:00.000000Z no picks
 
 # out = "/home/emmanuel/Results/2019"
-out = r"/media/emmanuel/TOSHIBA EXT/ColSeismicity/2019"
+# out = r"/media/emmanuel/TOSHIBA EXT/ColSeismicity/2020"
+# out = r"/media/emmanuel/TOSHIBA EXT/ColSeismicity/2017"
+# out = r"/media/emmanuel/TOSHIBA EXT/ColSeismicity/2016"
+# out = r"/media/emmanuel/TOSHIBA EXT/ColSeismicity/2018"
+# out = r"/media/emmanuel/TOSHIBA EXT/ColSeismicity/2022"
+out = r"/media/emmanuel/TOSHIBA EXT/ColSeismicity/2021"
+
 print(out,os.path.isdir(out))
 sgc_client = FDSNClient('http://10.100.100.13:8091')
 # sgc_client = FDSNClient('http://sismo.sgc.gov.co:8080')
@@ -27,10 +36,14 @@ sgc_rest = WaveformRestrictions(network="CM",
                     station="*",
                     location="*",
                     channel="*",
-                    starttime=UTCDateTime("2019-03-28T00:00:00.000000Z"),
-                    endtime=UTCDateTime("2020-01-01T00:00:00.000000Z"),
-                #     starttime=UTCDateTime("2016-04-22T00:00:00.000000Z"),
-                #     endtime=UTCDateTime("2017-01-01T00:00:00.000000Z"),
+                    # starttime=UTCDateTime("2021-01-01T00:00:00.000000Z"),
+                    # endtime=UTCDateTime("2021-03-01T00:00:00.000000Z"),
+                    # starttime=UTCDateTime("2021-03-01T00:00:00.000000Z"),
+                    # endtime=UTCDateTime("2021-06-01T00:00:00.000000Z"),
+                    # starttime=UTCDateTime("2021-06-01T00:00:00.000000Z"),
+                    # endtime=UTCDateTime("2021-09-01T00:00:00.000000Z"),
+                    starttime=UTCDateTime("2021-09-01T00:00:00.000000Z"),
+                    endtime=UTCDateTime("2022-01-01T00:00:00.000000Z"),
                     location_preferences=["","00","20","10","40"],
                     channel_preferences=["HH","BH","EH","HN","HL"],
                     filter_networks=[], 
@@ -46,8 +59,10 @@ sgc_provider = Provider(sgc_client,sgc_rest,xml=sgc_xml )
 #                     station="*",
 #                     location="*",
 #                     channel="H*",
-#                     starttime=UTCDateTime("2016-04-22T00:00:00.000000Z"),
-#                     endtime=UTCDateTime("2017-01-01T00:00:00.000000Z"),
+#                     starttime=UTCDateTime("2017-11-18T00:00:00.000000Z"),
+#                     endtime=UTCDateTime("2018-01-01T00:00:00.000000Z"),
+#                     # starttime=UTCDateTime("2016-11-17T00:00:00.000000Z"),
+#                     # endtime=UTCDateTime("2017-01-01T00:00:00.000000Z"),
 #                 #     starttime=UTCDateTime("2016-04-22T00:00:00.000000Z"),
 #                 #     endtime=UTCDateTime("2017-01-01T00:00:00.000000Z"),
 #                     location_preferences=["","00","20","10","40"],
@@ -60,7 +75,7 @@ sgc_provider = Provider(sgc_client,sgc_rest,xml=sgc_xml )
 # carma_provider = Provider(carma_client,carma_rest)
 
 seismo = SeisMonitor(providers = [sgc_provider],chunklength_in_sec=86400,
-# seismo = SeisMonitor(providers = [sgc_provider,carma_provider],chunklength_in_sec=86400,
+# seismo = SeisMonitor(providers = [carma_provider,sgc_provider],chunklength_in_sec=86400,
 # seismo = SeisMonitor(providers = [sgc_provider],
                     out_folder = out)
 # seismo.add_downloader()

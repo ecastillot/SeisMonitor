@@ -89,6 +89,7 @@ class Magnitude():
             latitude = event.origins[0].latitude
             longitude = event.origins[0].longitude
             depth = event.origins[0].depth
+            # depth = event.origins[0].depth *1e3
 
             if latitude ==None or longitude==None:
                 continue
@@ -127,7 +128,7 @@ class Magnitude():
                                 ev_params,
                                 trimmedtime,
                                 waterlevel)
-                if ampl == None:
+                if (ampl == None) or (ampl==0):
                     continue
 
 

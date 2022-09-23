@@ -207,40 +207,93 @@ def get_chunktimes(starttime,endtime,chunklength_in_sec, overlap_in_sec=0):
 # starttime = UTCDateTime("2019-12-01 00:00:00")
 # endtime = UTCDateTime("2021-01-01 00:00:00")
 
-seismonitor_path = "/home/emmanuel/Tesis/seismonitor_eqt_picks__20160101__20170101.csv"
-out_folder = "/home/emmanuel/Results"
-starttime = UTCDateTime("2016-01-01 00:00:00")
-endtime = UTCDateTime("2017-01-01 00:00:00")
+# seismonitor_path = "/home/emmanuel/Tesis/seismonitor_eqt_picks__20160101__20170101.csv"
+# out_folder = "/home/emmanuel/Results"
+# starttime = UTCDateTime("2016-01-01 00:00:00")
+# endtime = UTCDateTime("2017-01-01 00:00:00")
 
-chunktimes = get_chunktimes(starttime,endtime,86400)
-df = pd.read_csv(seismonitor_path)
-df["arrival_time"] = pd.to_datetime(df["arrival_time"])
+# chunktimes = get_chunktimes(starttime,endtime,86400)
+# df = pd.read_csv(seismonitor_path)
+# df["arrival_time"] = pd.to_datetime(df["arrival_time"])
 
-# print(df)
-# exit()
-for start,end in chunktimes:
-    year = str(start.year)
-    start_fmt, end_fmt = start.strftime("%Y%m%dT%H%M%S"),end.strftime("%Y%m%dT%H%M%S")
-    folder_name = start_fmt+"__"+end_fmt
-    detections = os.path.join(out_folder,year,folder_name,"detections","EQTransformer","results")
-    csv_detections = os.path.join(detections,"seismonitor_picks.csv")
+# # print(df)
+# # exit()
+# for start,end in chunktimes:
+#     year = str(start.year)
+#     start_fmt, end_fmt = start.strftime("%Y%m%dT%H%M%S"),end.strftime("%Y%m%dT%H%M%S")
+#     folder_name = start_fmt+"__"+end_fmt
+#     detections = os.path.join(out_folder,year,folder_name,"detections","EQTransformer","results")
+#     csv_detections = os.path.join(detections,"seismonitor_picks.csv")
 
-    if not os.path.isdir(detections):
-        os.makedirs(detections)
+#     if not os.path.isdir(detections):
+#         os.makedirs(detections)
 
-    print(detections)
-    time_df = df[(df["arrival_time"] >= start.datetime) & (df["arrival_time"] <= end.datetime)]
-    time_df.to_csv(csv_detections,index=False)
+#     print(detections)
+#     time_df = df[(df["arrival_time"] >= start.datetime) & (df["arrival_time"] <= end.datetime)]
+#     time_df.to_csv(csv_detections,index=False)
 
     # print(time_df)
 
+# storage = "/home/emmanuel/Mi_Unidad/ColSeismicity/2021"
+storage = "/home/emmanuel/Mi_Unidad/ColSeismicity/2021"
+out = r"/media/emmanuel/TOSHIBA\ EXT/ColSeismicity/2021"
+search = ["seismonitor_picks.csv"]
+# search = ["seismonitor_picks.csv","inv.xml","stations.json"]
 
-# events = []
+events = []
 # for dp, dn, filenames in os.walk(storage):
 #     for f in filenames:
-#         if f == search:
+#         if f in search:
 #             search_path = os.path.join(dp, f)
-#             # print(search_path)
-#             df = pd.read_csv(search_path, index_col=0)
-#             events.append(df)
+#             new_path = search_path.replace(storage,out)
+#             print(search_path,new_path)
+#             # df = pd.read_csv(search_path, index_col=0)
+#             # events.append(df)
+# import glob
+# import shutil
+# print(os.path.join(storage,"**","seismonitor_picks.csv"))
+# for x in glob.glob(os.path.join(storage,"**","seismonitor_picks.csv"),recursive=True):
+#     nx = x.replace(storage,out)
+
+#     if not os.path.dirname(nx):
+#         os.makedirs(nx)
+#     shutil.copyfile(x, nx)
+#     print(x,nx)
+    
+##move
+storage = r"/media/emmanuel/TOSHIBA EXT/ColSeismicity/2021"
+out = r"/media/emmanuel/TOSHIBA EXT/ColSeismicity/2021"
+import glob
+import shutil
+
+file = "seismonitor_picks.csv"
+
+print(os.path.join(storage,"**",file))
+for x in glob.glob(os.path.join(storage,"**",file),recursive=True):
+    # nx = x.replace(storage,out)
+    # print(x)
+    if os.path.isfile(x):
+        dirname = os.path.basename(os.path.dirname(x))
+        # print(x,dirname)
+
+        if dirname == file:
+            good_path = os.path.dirname(x)
+
+            folder_good_path = os.path.dirname(good_path)
+            tmp_path = os.path.join(folder_good_path,"tmp_"+file)
+            path = os.path.join(folder_good_path,file)
+            
+            shutil.move(x,tmp_path)
+            shutil.rmtree(os.path.dirname(x))
+            shutil.move(tmp_path,path)
+            print(path)
+            # print("\n")
+
+
+        # print(x)
+    # if not os.path.isdir(os.path.dirname(nx)):
+    #     os.makedirs(nx)
+    # shutil.copy(x, nx)
+    # print(x,nx)
+    # print(x,nx)
 

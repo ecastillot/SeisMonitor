@@ -196,6 +196,7 @@ def get_gamma_origin(catalog_info,event_picks,in_proj="EPSG:3116",
                     latitude = lat,
                     latitude_errors = QuantityError(),
                     depth = catalog_info["z(km)"],
+                    # depth = catalog_info["z(km)"]*1e3,
                     depth_errors = QuantityError(),
                     method_id = ResourceIdentifier(id="GaMMA"),
                     arrivals = picks2arrivals(event_picks),
@@ -266,6 +267,7 @@ class GaMMA():
         config = self.gamma_obj.__dict__
         pbar = tqdm(1)
         meta = station_df.merge(picks_df["id"], how="right", on="id")
+
         catalogs, assignments = association(picks_df, station_df, config, 
                                 method=self.gamma_obj.method,pbar=pbar)
         if not catalogs:
