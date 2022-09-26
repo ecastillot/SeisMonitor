@@ -27,7 +27,7 @@ from obspy.core.event.event import Event
 # out = r"/media/emmanuel/TOSHIBA EXT/ColSeismicity/2016"
 # out = r"/media/emmanuel/TOSHIBA EXT/ColSeismicity/2018"
 # out = r"/media/emmanuel/TOSHIBA EXT/ColSeismicity/2022"
-out = r"/media/emmanuel/TOSHIBA EXT/ColSeismicity/2021"
+out = r"/media/emmanuel/TOSHIBA EXT/ColSeismicity/siervo2"
 
 print(out,os.path.isdir(out))
 sgc_client = FDSNClient('http://10.100.100.13:8091')
@@ -43,7 +43,7 @@ sgc_rest = WaveformRestrictions(network="CM",
                     # starttime=UTCDateTime("2021-06-01T00:00:00.000000Z"),
                     # endtime=UTCDateTime("2021-09-01T00:00:00.000000Z"),
                     starttime=UTCDateTime("2021-09-01T00:00:00.000000Z"),
-                    endtime=UTCDateTime("2022-01-01T00:00:00.000000Z"),
+                    endtime=UTCDateTime("2021-09-01T02:00:00.000000Z"),
                     location_preferences=["","00","20","10","40"],
                     channel_preferences=["HH","BH","EH","HN","HL"],
                     filter_networks=[], 
@@ -74,55 +74,55 @@ sgc_provider = Provider(sgc_client,sgc_rest,xml=sgc_xml )
 #                     )
 # carma_provider = Provider(carma_client,carma_rest)
 
-seismo = SeisMonitor(providers = [sgc_provider],chunklength_in_sec=86400,
+# seismo = SeisMonitor(providers = [sgc_provider],chunklength_in_sec=7200,
 # seismo = SeisMonitor(providers = [carma_provider,sgc_provider],chunklength_in_sec=86400,
 # seismo = SeisMonitor(providers = [sgc_provider],
-                    out_folder = out)
-# seismo.add_downloader()
+                    # out_folder = out)
+# seismo.add_downloader(pick_batch_size=(100,0.3))
 # seismo.add_picker(
 #                   pickers={
-#                             "EQTransformer":ai_picker.EQTransformerObj(
-#                                             model_path = ai_picker.EQTransformer_model_path,
-#                                             n_processor = 32,
-#                                             overlap = 0.3,
-#                                             detection_threshold =0.1,
-#                                             P_threshold = 0.01,
-#                                             S_threshold = 0.01,
-#                                             batch_size = 100,
-#                                             number_of_plots = 0,
-#                                             plot_mode = 1,
-#                                             rm_downloads=True ) ,
-#                             # "PhaseNet":ai_picker.PhaseNetObj(model_path = ai_picker.PhaseNet_model_path,
-#                             #                         mode='pred',
-#                             #                         P_threshold=0.75,
-#                             #                         S_threshold=0.75,
-#                             #                         batch_size=100, 
-#                             #                         one_single_sampling_rate=100,
-#                             #                         plot=False, 
-#                             #                         save_result=False,
-#                             #                         rm_downloads=True) 
+#                             # "EQTransformer":ai_picker.EQTransformerObj(
+#                             #                 model_path = ai_picker.EQTransformer_model_path,
+#                             #                 n_processor = 32,
+#                             #                 overlap = 0.3,
+#                             #                 detection_threshold =0.1,
+#                             #                 P_threshold = 0.01,
+#                             #                 S_threshold = 0.01,
+#                             #                 batch_size = 20,
+#                             #                 number_of_plots = 0,
+#                             #                 plot_mode = 1,
+#                             #                 rm_downloads=True ) ,
+#                             "PhaseNet":ai_picker.PhaseNetObj(model_path = ai_picker.PhaseNet_model_path,
+#                                                     mode='pred',
+#                                                     P_threshold=0.75,
+#                                                     S_threshold=0.75,
+#                                                     batch_size=100, 
+#                                                     one_single_sampling_rate=100,
+#                                                     plot=False, 
+#                                                     save_result=False,
+#                                                     rm_downloads=True) 
 #                             }
 #                 )
 # print(seismo.process["download"])
-seismo.add_associator(input=["EQTransformer"],
-                        associators={
-                        "GaMMA":ai_asso.GaMMAObj(
-                                            [-85, -68,-2, 15,0, 180],
-#                                             [-76.729, -72.315,1.55, 5.314,0, 150],
-                                            "EPSG:3116",
-                                            use_amplitude = False,
-                                            use_dbscan=False,
-                                            max_sigma11=5.0,
-                                            calculate_amp=False)
+# seismo.add_associator(input=["EQTransformer"],
+#                         associators={
+#                         "GaMMA":ai_asso.GaMMAObj(
+#                                             [-85, -68,-2, 15,0, 180],
+# #                                             [-76.729, -72.315,1.55, 5.314,0, 150],
+#                                             "EPSG:3116",
+#                                             use_amplitude = False,
+#                                             use_dbscan=False,
+#                                             max_sigma11=5.0,
+#                                             calculate_amp=False)
 
-                        }
-                        )
+#                         }
+#                         )
 
-seismo.add_magnitude(input={"associations":("GaMMA","EQTransformer")},
-                    magnitudes={
-                        "Ml":{"mag_type":"RSNC",
-                                "trimmedtime":5,
-                                "out_format":"SC3ML"}}
-                                )
-print("running SeisMonitor")
-seismo.run()
+# seismo.add_magnitude(input={"associations":("GaMMA","EQTransformer")},
+#                     magnitudes={
+#                         "Ml":{"mag_type":"RSNC",
+#                                 "trimmedtime":5,
+#                                 "out_format":"SC3ML"}}
+#                                 )
+# print("running SeisMonitor")
+# seismo.run()

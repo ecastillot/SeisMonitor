@@ -9,6 +9,7 @@ from obspy.geodetics.base import gps2dist_azimuth
 from obspy.io.nlloc.core import read_nlloc_hyp
 from obspy.core.event.base import CreationInfo
 from obspy import UTCDateTime
+import subprocess
 from tqdm import tqdm
 from . import utils as ut
 from SeisMonitor import utils as sut
@@ -156,11 +157,12 @@ class NLLoc():
         self.__initialize()
 
         sut.printlog("info","NLLoc:Vel2Grid", "Running")
-        vel2grid = os.system(f"{vel2grid_exe_path} {self.p_control_file_out} > /dev/null")
+        # vel2grid = subprocess.call(f"{vel2grid_exe_path} {self.p_control_file_out} > /dev/null")
+        vel2grid = subprocess.call(f"{vel2grid_exe_path} {self.p_control_file_out}",shell=True)
         sut.printlog("info","NLLoc:Grid2Time:P", "Running")
-        grid2time = os.system(f"{grid2time_exe_path} {self.p_control_file_out} > /dev/null")
+        grid2time = subprocess.call(f"{grid2time_exe_path} {self.p_control_file_out}",shell=True)
         sut.printlog("info","NLLoc:Grid2Time:S", "Running")
-        grid2time = os.system(f"{grid2time_exe_path} {self.s_control_file_out} > /dev/null")
+        grid2time = subprocess.call(f"{grid2time_exe_path} {self.s_control_file_out}",shell=True)
 
     def locate(self,
                 catalog:Union[Catalog,str],

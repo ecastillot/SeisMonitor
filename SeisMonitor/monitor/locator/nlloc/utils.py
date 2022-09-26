@@ -212,7 +212,7 @@ class Grid2Time():
         grid_folder_out:str,
         time_folder_out:str,
         phase:str="P",
-        mode:list=["GRID2D","ANGLES_YES"],
+        mode:list=["GRID3D","ANGLES_YES"],
         plfd:list=[1e-3,0]) -> None:
 
         self.station_path = station_path 

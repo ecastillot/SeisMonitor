@@ -312,23 +312,32 @@ def merge_csv(storage,sort=None,export=None):
 
 
 ### good_events
-events = "/media/emmanuel/TOSHIBA EXT/ColSeismicity/events_20160101T20220901.csv"
-events_ok = "/media/emmanuel/TOSHIBA EXT/ColSeismicity/events_20160101T20220901_ok.csv"
+# events = "/media/emmanuel/TOSHIBA EXT/ColSeismicity/events_20160101T20220901.csv"
+# events_ok = "/media/emmanuel/TOSHIBA EXT/ColSeismicity/events_20160101T20220901_ok.csv"
 
-evs=[]
-events = pd.read_csv(events)
-gp_ev = events.groupby("id")
-for id,ev in gp_ev.__iter__():
-    # print(ev)
-    ev = get_pick_counts(ev)
-    # print("\n")
-    ev = ev[(ev["#P_picks"] >=4) & (ev["#S_picks"] >=2)]
-    if ev.empty:
-        continue
-    evs.append(ev)
-events_df = pd.concat(evs,ignore_index=True)
-events_df = events_df.sort_values(by="time_event",ascending=True,ignore_index=True)
-if os.path.isdir(os.path.dirname(events_ok)) == False:
-    os.makedirs(os.path.dirname(events_ok))
-events_df.to_csv(events_ok)
-print(f"Events_csv_file: {events_ok}")
+# evs=[]
+# events = pd.read_csv(events)
+# gp_ev = events.groupby("id")
+# for id,ev in gp_ev.__iter__():
+#     # print(ev)
+#     ev = get_pick_counts(ev)
+#     # print("\n")
+#     ev = ev[(ev["#P_picks"] >=4) & (ev["#S_picks"] >=2)]
+#     if ev.empty:
+#         continue
+#     evs.append(ev)
+# events_df = pd.concat(evs,ignore_index=True)
+# events_df = events_df.sort_values(by="time_event",ascending=True,ignore_index=True)
+# if os.path.isdir(os.path.dirname(events_ok)) == False:
+#     os.makedirs(os.path.dirname(events_ok))
+# events_df.to_csv(events_ok,index=False)
+# print(f"Events_csv_file: {events_ok}")
+
+
+
+###other
+ev_path= "/media/emmanuel/TOSHIBA EXT/ColSeismicity/events_20160101T20220901_ok.csv"
+events = pd.read_csv(ev_path)
+print(events)
+events["No"] = events.index
+events.to_csv(ev_path,index=False)
