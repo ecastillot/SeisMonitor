@@ -179,7 +179,7 @@ class NLLoc():
         nlloc_out = os.path.join(nlloc_out_folder,"catalog_output.out")
         nlloc_control = os.path.join(nlloc_out_folder,"loc.in")
 
-        # sut.isfile(nlloc_inp)
+        sut.isfile(nlloc_inp)
         # print(catalog)
         catalog.write(nlloc_inp,format="NORDIC")
         
@@ -194,7 +194,8 @@ class NLLoc():
         nlloc_control_file.write(nlloc_control)
 
         sut.printlog("info","NLLoc:NLLoc", "Running")
-        os.system(f"{nll_exe_path} {nlloc_control} > /dev/null")
+        subprocess.call(f"{nll_exe_path} {nlloc_control}",shell=True)
+        # os.system(f"{nll_exe_path} {nlloc_control} > /dev/null")
 
         
         _nll_out = nlloc_folder+"*.hyp"

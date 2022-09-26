@@ -17,7 +17,8 @@ from obspy import read_events
 from obspy.core.event.origin import OriginUncertainty
 from obspy.core.event.event import Event
 
-out = "/home/emmanuel/inventories"
+# out = "/home/emmanuel/inventories"
+out = "/home/emmanuel/E_ColSeismicity/ColSeismicity/2016"
 
 sgc_client = FDSNClient('http://10.100.100.13:8091')
 # # sgc_client = FDSNClient('http://sismo.sgc.gov.co:8080')
@@ -45,7 +46,7 @@ carma_rest = WaveformRestrictions(network="YU",
                     location="*",
                     channel="H*",
                     starttime=UTCDateTime("2016-01-01T00:00:00.000000Z"),
-                    endtime=UTCDateTime("2022-09-01T00:00:00.000000Z"),
+                    endtime=UTCDateTime("2016-01-02T00:00:00.000000Z"),
                     location_preferences=["","00","20","10","40"],
                     channel_preferences=["HH","BH","EH","HN","HL"],
                     filter_networks=[], 
@@ -55,14 +56,14 @@ carma_rest = WaveformRestrictions(network="YU",
                     )
 carma_provider = Provider(carma_client,carma_rest)
 providers = [sgc_provider,carma_provider]
-inventory,json_info,updated_providers,stations_outside_domains = get_merged_inv_and_json(providers)
-inventory.write(r"/media/emmanuel/TOSHIBA EXT/ColSeismicity/NLLoc_grid/time_grid/CM_YU.xml",
-                format="STATIONXML")  
-exit()
-# seismo = SeisMonitor(providers = [sgc_provider],chunklength_in_sec=86400,
+# inventory,json_info,updated_providers,stations_outside_domains = get_merged_inv_and_json(providers)
+# inventory.write(r"/media/emmanuel/TOSHIBA EXT/ColSeismicity/NLLoc_grid/time_grid/CM_YU.xml",
+#                 format="STATIONXML")  
+# exit()
+seismo = SeisMonitor(providers = [sgc_provider],chunklength_in_sec=86400,
 # seismo = SeisMonitor(providers = [sgc_provider,carma_provider],chunklength_in_sec=86400,
 # # seismo = SeisMonitor(providers = [sgc_provider],
-                #     out_folder = out)
+                    out_folder = out)
 # seismo.add_downloader()
 # seismo.add_picker(
 #                   pickers={
@@ -107,7 +108,7 @@ exit()
 
 vel_path = "/home/emmanuel/EDCT/SeisMonitor/data/metadata/vel1d_col.csv"
 vel_model = lut.VelModel(vel_path)
-inv = "/home/emmanuel/1/inv.xml"
+inv = "/home/emmanuel/NLLoc_grid/NLLoc_grid/time_grid/CM_YU.xml"
 # inv,_,_,_ = dut.get_merged_inv_and_json(seismo.providers.copy())
 stations = lut.Stations(inv)
 # nlloc = NLLoc(region = [-84,-62,-5,15,-5,200],
@@ -119,7 +120,10 @@ nlloc = NLLoc(region = [-85, -68,0, 15,-5, 205],
         tmp_folder="/home/emmanuel/NLLoc_grid/NLLoc_grid"
         )
 # nlloc.download()
-nlloc.compute_travel_times()
+# nlloc.compute_travel_times()
+# nlloc.locate("/home/emmanuel/NLLoc_grid/NLLoc_grid/t.xml",
+#               "/home/emmanuel/NLLoc_grid/NLLoc_grid/out" ,
+#               "SC3ML" )
 
 # catalog = "/home/emmanuel/Tesis/auto/aipicker/events/events_1d/xml/CM/2019/335/eqt_events.xml"
 # catalog = "/home/emmanuel/Tesis/auto/aipicker/events/events_1d/xml/CM/2019/336/eqt_events.xml"
@@ -165,14 +169,14 @@ nlloc.compute_travel_times()
 # print(catalog)
 # nlloc.locate(catalog,"/home/emmanuel/1")
 
-# seismo.add_locator(input={"associations":("GaMMA","EQTransformer")},
-#                     locators={
-#                         "NLLOC":nlloc}
-#                         )
+seismo.add_locator(input={"associations":("GaMMA","EQTransformer")},
+                    locators={
+                        "NLLOC":nlloc}
+                        )
 # seismo.add_magnitude(input={"associations":("GaMMA","EQTransformer")},
 #                     magnitudes={
 #                         "Ml":{"mag_type":"RSNC",
 #                                 "trimmedtime":5,
 #                                 "out_format":"SC3ML"}}
 #                                 )
-# seismo.run()
+seismo.run()
