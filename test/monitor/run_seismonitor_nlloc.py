@@ -54,8 +54,10 @@ carma_rest = WaveformRestrictions(network="YU",
                     # filter_domain= [-76.536,-71.168,7.758,11.823],
                     )
 carma_provider = Provider(carma_client,carma_rest)
-
-get_merged_inv_and_json(providers)
+providers = [sgc_provider,carma_provider]
+inventory,json_info,updated_providers,stations_outside_domains = get_merged_inv_and_json(providers)
+inventory.write(r"/media/emmanuel/TOSHIBA EXT/ColSeismicity/NLLoc_grid/time_grid/CM_YU.xml",
+                format="STATIONXML")  
 exit()
 # seismo = SeisMonitor(providers = [sgc_provider],chunklength_in_sec=86400,
 # seismo = SeisMonitor(providers = [sgc_provider,carma_provider],chunklength_in_sec=86400,
