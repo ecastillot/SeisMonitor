@@ -18,18 +18,64 @@ from obspy.core.event.origin import OriginUncertainty
 from obspy.core.event.event import Event
 
 # out = "/home/emmanuel/inventories"
-out = "/home/emmanuel/E_ColSeismicity/ColSeismicity/2016"
+# out = "/home/emmanuel/E_ColSeismicity/ColSeismicity/2018"
+# out = "/home/emmanuel/E_ColSeismicity/ColSeismicity/2020"
+# out = "/home/emmanuel/E_ColSeismicity/ColSeismicity/2021"
+out = "/home/emmanuel/E_ColSeismicity/ColSeismicity/2019"
+# out = "/home/emmanuel/E_ColSeismicity/ColSeismicity/2022"
 
 sgc_client = FDSNClient('http://10.100.100.13:8091')
+sgc2_client = FDSNClient('http://10.100.100.232:8091')
 # # sgc_client = FDSNClient('http://sismo.sgc.gov.co:8080')
 sgc_rest = WaveformRestrictions(network="CM",
                     station="*",
                     location="*",
                     channel="*",
-                    # starttime=UTCDateTime("2021-06-01T00:00:00.000000Z"),
+                    # starttime=UTCDateTime("2020-01-05T00:00:00.000000Z"),
+                    # endtime=UTCDateTime("2020-03-01T00:00:00.000000Z"),
+                    # starttime=UTCDateTime("2020-03-06T00:00:00.000000Z"),
+                    # endtime=UTCDateTime("2020-05-01T00:00:00.000000Z"),
+                    # starttime=UTCDateTime("2020-05-19T00:00:00.000000Z"),
+                    # endtime=UTCDateTime("2020-07-01T00:00:00.000000Z"),
+
+                    # starttime=UTCDateTime("2019-01-01T00:00:00.000000Z"),
+                    # endtime=UTCDateTime("2019-03-01T00:00:00.000000Z"),
+                    # starttime=UTCDateTime("2019-03-01T00:00:00.000000Z"),
+                    # endtime=UTCDateTime("2019-05-01T00:00:00.000000Z"),
+                    # starttime=UTCDateTime("2019-05-01T00:00:00.000000Z"),
+                    # endtime=UTCDateTime("2019-07-01T00:00:00.000000Z"),
+                    # starttime=UTCDateTime("2019-07-01T00:00:00.000000Z"),
+                    # endtime=UTCDateTime("2019-09-01T00:00:00.000000Z"),
+                    # starttime=UTCDateTime("2019-09-19T00:00:00.000000Z"),
+                    # endtime=UTCDateTime("2019-11-01T00:00:00.000000Z"),
+                    # starttime=UTCDateTime("2019-11-14T00:00:00.000000Z"),
+                    # endtime=UTCDateTime("2020-01-01T00:00:00.000000Z"),
+
+                    # starttime=UTCDateTime("2021-01-01T00:00:00.000000Z"),
+                    # endtime=UTCDateTime("2021-03-01T00:00:00.000000Z"),
+                    # starttime=UTCDateTime("2021-03-01T00:00:00.000000Z"),
+                    # endtime=UTCDateTime("2021-05-01T00:00:00.000000Z"),
+                    # starttime=UTCDateTime("2021-05-01T00:00:00.000000Z"),
+                    # endtime=UTCDateTime("2021-07-01T00:00:00.000000Z"),
+                    # starttime=UTCDateTime("2021-07-01T00:00:00.000000Z"),
+                    # endtime=UTCDateTime("2021-09-01T00:00:00.000000Z"),
+                    # starttime=UTCDateTime("2021-09-19T00:00:00.000000Z"),
+                    # endtime=UTCDateTime("2021-11-01T00:00:00.000000Z"),
+                    # starttime=UTCDateTime("2021-11-14T00:00:00.000000Z"),
                     # endtime=UTCDateTime("2022-01-01T00:00:00.000000Z"),
-                    starttime=UTCDateTime("2016-01-01T00:00:00.000000Z"),
-                    endtime=UTCDateTime("2022-09-01T00:00:00.000000Z"),
+
+                    # starttime=UTCDateTime("2022-01-01T00:00:00.000000Z"),
+                    # endtime=UTCDateTime("2022-03-01T00:00:00.000000Z"),
+                    # starttime=UTCDateTime("2022-03-01T00:00:00.000000Z"),
+                    # endtime=UTCDateTime("2022-05-01T00:00:00.000000Z"),
+                    # starttime=UTCDateTime("2022-05-03T00:00:00.000000Z"),
+                    # endtime=UTCDateTime("2022-07-01T00:00:00.000000Z"),
+                    # starttime=UTCDateTime("2022-07-29T00:00:00.000000Z"),
+                    # endtime=UTCDateTime("2022-09-01T00:00:00.000000Z"),
+
+
+                #     starttime=UTCDateTime("2018-05-09T00:00:00.000000Z"),
+                #     endtime=UTCDateTime("2019-01-01T00:00:00.000000Z"),
                     location_preferences=["","00","20","10","40"],
                     channel_preferences=["HH","BH","EH","HN","HL"],
                     filter_networks=[], 
@@ -39,28 +85,31 @@ sgc_rest = WaveformRestrictions(network="CM",
                     )
 sgc_xml = "/home/emmanuel/EDCT/SeisMonitor/data/metadata/CM.xml"
 sgc_provider = Provider(sgc_client,sgc_rest,xml=sgc_xml )
+sgc2_provider = Provider(sgc2_client,sgc_rest,xml=sgc_xml )
 
-carma_client = FDSNClient(base_url="IRIS")
-carma_rest = WaveformRestrictions(network="YU",
-                    station="*",
-                    location="*",
-                    channel="H*",
-                    starttime=UTCDateTime("2016-01-01T00:00:00.000000Z"),
-                    endtime=UTCDateTime("2016-01-02T00:00:00.000000Z"),
-                    location_preferences=["","00","20","10","40"],
-                    channel_preferences=["HH","BH","EH","HN","HL"],
-                    filter_networks=[], 
-                    filter_stations=[],
-                    # filter_domain= [-83.101,-64.549,-2.229,14.945],
-                    # filter_domain= [-76.536,-71.168,7.758,11.823],
-                    )
-carma_provider = Provider(carma_client,carma_rest)
-providers = [sgc_provider,carma_provider]
+# carma_client = FDSNClient(base_url="IRIS")
+# carma_rest = WaveformRestrictions(network="YU",
+#                     station="*",
+#                     location="*",
+#                     channel="H*",
+#                     starttime=UTCDateTime("2018-01-31T00:00:00.000000Z"),
+#                     endtime=UTCDateTime("2018-01-01T00:00:00.000000Z"),
+#                     location_preferences=["","00","20","10","40"],
+#                     channel_preferences=["HH","BH","EH","HN","HL"],
+#                     filter_networks=[], 
+#                     filter_stations=[],
+#                     # filter_domain= [-83.101,-64.549,-2.229,14.945],
+#                     # filter_domain= [-76.536,-71.168,7.758,11.823],
+#                     )
+# carma_provider = Provider(carma_client,carma_rest)
+# providers = [carma_provider,sgc_provider]
+providers = [sgc_provider,sgc2_provider]
+
 # inventory,json_info,updated_providers,stations_outside_domains = get_merged_inv_and_json(providers)
 # inventory.write(r"/media/emmanuel/TOSHIBA EXT/ColSeismicity/NLLoc_grid/time_grid/CM_YU.xml",
 #                 format="STATIONXML")  
 # exit()
-seismo = SeisMonitor(providers = [sgc_provider],chunklength_in_sec=86400,
+seismo = SeisMonitor(providers = providers,chunklength_in_sec=86400,
 # seismo = SeisMonitor(providers = [sgc_provider,carma_provider],chunklength_in_sec=86400,
 # # seismo = SeisMonitor(providers = [sgc_provider],
                     out_folder = out)
@@ -173,10 +222,10 @@ seismo.add_locator(input={"associations":("GaMMA","EQTransformer")},
                     locators={
                         "NLLOC":nlloc}
                         )
-# seismo.add_magnitude(input={"associations":("GaMMA","EQTransformer")},
-#                     magnitudes={
-#                         "Ml":{"mag_type":"RSNC",
-#                                 "trimmedtime":5,
-#                                 "out_format":"SC3ML"}}
-#                                 )
+seismo.add_magnitude(input={"locations":("NLLOC","GaMMA/EQTransformer")},
+                    magnitudes={
+                        "Ml":{"mag_type":"RSNC",
+                                "trimmedtime":5,
+                                "out_format":"SC3ML"}}
+                                )
 seismo.run()

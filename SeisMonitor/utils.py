@@ -56,7 +56,7 @@ def printlog(levelname,name,msg):
     elif levelname in ("error","ERROR"):
         logger.error(msg)
 
-def isfile(filepath):
+def isfile(filepath,overwrite=False):
     """
     Parameters:
     filepath: file path will be saved
@@ -65,11 +65,14 @@ def isfile(filepath):
     If the file is already exist, then ask to the user if want to replace it.
     """
 
+
     dirpath = os.path.dirname(filepath)
     if os.path.isdir(dirpath ) == False:
         os.makedirs(dirpath)
     else:
         pass
+    if overwrite:
+        return True
 
     if os.path.isfile(filepath) == True:
         while True:

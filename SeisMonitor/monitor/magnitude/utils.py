@@ -4,7 +4,7 @@ from obspy.core.event import Magnitude as Mag
 from obspy.core.event import Catalog
 from obspy.core.event import read_events, Comment
 from obspy.geodetics import gps2dist_azimuth
-from obspy.signal.invsim import estimate_magnitude
+from obspy.signal.invsim import estimate_wood_anderson_amplitude_using_response
 import mtspec
 import numpy as np
 import scipy
@@ -102,6 +102,8 @@ def get_Ml_magparams_by_station(st,response,
             return (None,None)
 
         coords = response.get_coordinates(tr.id,tr.stats.starttime)
+        # paz_wa = estimate_wood_anderson_amplitude_using_response(response, amplitude,
+        #                                             timespan)
         tr.simulate(paz_remove=paz, 
                     paz_simulate=paz_wa, 
                     water_level=waterlevel)

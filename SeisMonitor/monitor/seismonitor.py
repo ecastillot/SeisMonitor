@@ -104,7 +104,8 @@ def sanitize_downloads(pickers):
 
 class SeisMonitor():
     def __init__(self,providers,out_folder,
-                chunklength_in_sec=3600):
+                chunklength_in_sec=3600,
+                overwrite=False):
         self.providers = providers
         self.out_folder = out_folder
         self.chunklength_in_sec = chunklength_in_sec
@@ -115,7 +116,7 @@ class SeisMonitor():
         # self.association_folder = os.path.join("%s","associations")
         # self.location_folder = os.path.join("%s","locations")
         # self.mag_folder = os.path.join("%s","magnitudes")
-
+        self.overwrite = overwrite
         self.process = {}
 
     def add_downloader(self,

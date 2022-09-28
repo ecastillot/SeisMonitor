@@ -8,6 +8,7 @@ from obspy.core.event.catalog import Catalog, read_events
 from obspy.geodetics.base import gps2dist_azimuth
 from obspy.io.nlloc.core import read_nlloc_hyp
 from obspy.core.event.base import CreationInfo
+from obspy.core.event.resourceid import ResourceIdentifier
 from obspy import UTCDateTime
 import subprocess
 from tqdm import tqdm
@@ -87,7 +88,7 @@ class NLLoc():
                             phase="S")
 
         self.catalog_path = os.path.join(self.tmp_folder,"time_grid","catalog.out")
-        sut.isfile(self.catalog_path)
+        sut.isfile(self.catalog_path,overwrite=True)
         open(self.catalog_path, "w")
         gen_time2loc = ut.Time2Loc(catalog=[self.catalog_path,"SEISAN"],
                     grid = grid_args["locgrid"],
@@ -167,7 +168,8 @@ class NLLoc():
     def locate(self,
                 catalog:Union[Catalog,str],
                 nlloc_out_folder:str,
-                out_format:str = "NORDIC"):
+                out_filename:str = "locations.xml",
+                out_format:str = "SC3ML"):
 
         if isinstance(catalog,Catalog):
             pass
@@ -176,10 +178,10 @@ class NLLoc():
 
         nlloc_inp = os.path.join(nlloc_out_folder,"catalog_input.inp")
         nlloc_folder = os.path.join(nlloc_out_folder,"nlloc","SeisMonitor")
-        nlloc_out = os.path.join(nlloc_out_folder,"catalog_output.out")
+        nlloc_out = os.path.join(nlloc_out_folder,out_filename)
         nlloc_control = os.path.join(nlloc_out_folder,"loc.in")
 
-        sut.isfile(nlloc_inp)
+        sut.isfile(nlloc_inp,overwrite=True)
         # print(catalog)
         catalog.write(nlloc_inp,format="NORDIC")
         
@@ -211,7 +213,13 @@ class NLLoc():
                     catalog = read_nlloc_hyp(path,format="NORDIC")
                 except:
                     continue
-                events = catalog.events
+                # events = catalog.events
+                events = []
+                for ev in catalog.events:
+                    ori_pref  = ev.preferred_origin()
+                    ori_pref.method_id = ResourceIdentifier(id="NLLOC")
+                    events.append(ev)
+
                 for event in events:
                     all_events.append(event)
         catalog = Catalog(events = all_events,
