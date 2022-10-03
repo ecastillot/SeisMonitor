@@ -390,7 +390,9 @@ class Magnitude():
 
         if (waveform_id.network_code == None) or\
             (waveform_id.network_code == ""):
-            net = "*"
+            # net = "*"
+            net = [ x.waveform_restrictions.network for x in self.providers]
+            net = ",".join(net)
         else:
             net = waveform_id.network_code
         if (waveform_id.channel_code == None):

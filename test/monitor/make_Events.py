@@ -285,14 +285,18 @@ def merge_csv(storage,sort=None,export=None):
     return events_df
 
 
-
+# test
+# path = "/media/emmanuel/TOSHIBA EXT/ColSeismicity/2020/20200918T000000__20200919T000000/magnitudes/Ml/NLLOC/GaMMA/EQTransformer/Ml_magnitude.xml"
+# x = get_csv_events(path,pick_counts=False)
+# print(x)
+# exit()
 
 
 # file = "Ml_magnitude.xml"
-# out_folder = r"/media/emmanuel/TOSHIBA EXT/Events"
+# out_folder = r"/media/emmanuel/TOSHIBA EXT/Events_NLLOC"
 # storage = r"/media/emmanuel/TOSHIBA EXT/ColSeismicity"
 # print(os.path.join(storage,"**",file))
-# x = glob.glob(os.path.join(storage,"**",file),recursive=True)
+# x = glob.glob(os.path.join(storage,"**","NLLOC","**",file),recursive=True)
 
 
 # def make_evs(path):
@@ -306,38 +310,44 @@ def merge_csv(storage,sort=None,export=None):
 
 
 # ### collect
-# storage = r"/media/emmanuel/TOSHIBA EXT/Events"
-# export="/media/emmanuel/TOSHIBA EXT/ColSeismicity/events_20160101T20220901.csv"
+# storage = r"/media/emmanuel/TOSHIBA EXT/Events_NLLOC"
+# export="/media/emmanuel/TOSHIBA EXT/ColSeismicity/events_20160101T20220901_NLLOC.csv"
 # merge_csv(storage,sort="time_event",export=export)
 
 
 ### good_events
-# events = "/media/emmanuel/TOSHIBA EXT/ColSeismicity/events_20160101T20220901.csv"
-# events_ok = "/media/emmanuel/TOSHIBA EXT/ColSeismicity/events_20160101T20220901_ok.csv"
+events = "/media/emmanuel/TOSHIBA EXT/ColSeismicity/events_20160101T20220901_NLLOC.csv"
+events_ok = "/media/emmanuel/TOSHIBA EXT/ColSeismicity/events_20160101T20220901_NLLOC_ok.csv"
 
-# evs=[]
-# events = pd.read_csv(events)
-# gp_ev = events.groupby("id")
-# for id,ev in gp_ev.__iter__():
-#     # print(ev)
-#     ev = get_pick_counts(ev)
-#     # print("\n")
-#     ev = ev[(ev["#P_picks"] >=4) & (ev["#S_picks"] >=2)]
-#     if ev.empty:
-#         continue
-#     evs.append(ev)
-# events_df = pd.concat(evs,ignore_index=True)
-# events_df = events_df.sort_values(by="time_event",ascending=True,ignore_index=True)
-# if os.path.isdir(os.path.dirname(events_ok)) == False:
-#     os.makedirs(os.path.dirname(events_ok))
-# events_df.to_csv(events_ok,index=False)
-# print(f"Events_csv_file: {events_ok}")
+evs=[]
+events = pd.read_csv(events)
+gp_ev = events.groupby("id")
+for id,ev in gp_ev.__iter__():
+    # print(ev)
+    ev = get_pick_counts(ev)
+    # print("\n")
+    ev = ev[(ev["#P_picks"] >=4) & (ev["#S_picks"] >=2)]
+    ev = ev[(ev["latitude_uncertainty"] <=10) \
+        & (ev["longitude_uncertainty"] <=10)\
+        & (ev["depth_uncertainty"] <=10)\
+        & (ev["rms"] <=2.5)\
+            
+            ]
+    if ev.empty:
+        continue
+    evs.append(ev)
+events_df = pd.concat(evs,ignore_index=True)
+events_df = events_df.sort_values(by="time_event",ascending=True,ignore_index=True)
+if os.path.isdir(os.path.dirname(events_ok)) == False:
+    os.makedirs(os.path.dirname(events_ok))
+events_df.to_csv(events_ok,index=False)
+print(f"Events_csv_file: {events_ok}")
 
 
 
 ###other
-ev_path= "/media/emmanuel/TOSHIBA EXT/ColSeismicity/events_20160101T20220901_ok.csv"
-events = pd.read_csv(ev_path)
-print(events)
-events["No"] = events.index
-events.to_csv(ev_path,index=False)
+# ev_path= "/media/emmanuel/TOSHIBA EXT/ColSeismicity/events_20160101T20220901_ok.csv"
+# events = pd.read_csv(ev_path)
+# print(events)
+# events["No"] = events.index
+# events.to_csv(ev_path,index=False)
