@@ -40,6 +40,40 @@ def apt_install(pkgs):
     )
     result.check_returncode()
 
+def write_pref_origin_removing_phaselocinfo(catalog):
+    events = []
+    for ev in catalog:
+        pref_origin = ev.preferred_origin()
+
+        # replace none by NN
+        for pick in ev.picks:
+            pick.waveform_id.network_code= "NN"
+            pick.waveform_id.location_code= "NN"
+            pick.waveform_id.channel_code= "NNN"
+            pick.evaluation_mode = "automatic"
+
+
+        new_arrivals = []
+        for arrival in pref_origin.arrivals:
+            arrival.azimuth = None
+            arrival.distance = None
+            arrival.takeoff_angle=None
+            arrival.time_residual=None
+            arrival.time_weight=None
+            new_arrivals.append(arrival)
+
+        for i,origin in enumerate(ev.origins):
+            if origin.resource_id.id == ev.preferred_origin_id:
+                ev.origins[i].arrivals = new_arrivals 
+            else:
+                continueagency_id=self.agency
+
+        del ev.origins
+        ev.origins = [pref_origin]
+        events.append(ev)
+    catalog.events = events
+    return catalog
+
 def download_nlloc(forced=False):
     name = "nll.zip"
     zip_path = os.path.join(CORE_NLLOC,name)

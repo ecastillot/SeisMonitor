@@ -42,9 +42,10 @@ def resp2df(resp):
 
 class VelModel():
     def __init__(self,vel_path,
+                model_name=None,
                 vp_vs_ratio=1.78,
                 compute_vs=True):
-
+        self.model_name = model_name
         self.vel_path = vel_path
         self.vp_vs_ratio = vp_vs_ratio
         self.compute_vs = compute_vs
