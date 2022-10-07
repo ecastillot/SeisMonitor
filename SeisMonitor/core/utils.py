@@ -24,6 +24,7 @@ from obspy.core.event.resourceid import ResourceIdentifier
 from obspy.core.event.catalog import read_events
 from obspy.core.event import Catalog
 
+
 def add_aditional_origin_info(origin,
 				agency = None,
 				region = None,

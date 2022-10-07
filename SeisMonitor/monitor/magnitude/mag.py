@@ -10,8 +10,8 @@
 # https://github.com/krischer/moment_magnitude_calculator/tree/master/scripts
 # :copyright:
 # Lion Krischer (krischer@geophysik.uni-muenchen.de), 2012
-
-
+from obspy.core.event.resourceid import ResourceIdentifier
+from obspy.core.event.base import TimeWindow,WaveformStreamID
 from obspy.core.inventory.inventory import Inventory
 from obspy.core.stream import Stream
 from obspy.io.xseed.parser import Parser
@@ -19,6 +19,7 @@ from obspy.core.event import Magnitude as Mag
 from obspy.core.event import Catalog
 from obspy.core.event import read_events, Comment
 from SeisMonitor.utils import isfile
+from SeisMonitor.core import utils as scut
 from obspy.core.event.base import CreationInfo
 from obspy import UTCDateTime
 import mtspec
@@ -160,6 +161,8 @@ class Magnitude():
             self.catalog = catalog
         else:
             self.catalog = read_events(catalog)
+
+        self.agency = self.catalog.creation_info.agency_id
         self.out_dir = out_dir
         self.xml_ml_out_file = os.path.join(out_dir,"Ml_magnitude.xml")    
         self.xml_mw_out_file = os.path.join(out_dir,"Mw_magnitude.xml")    
@@ -178,15 +181,22 @@ class Magnitude():
                 print ("No origin for event %s" % event.resource_id)
                 continue
 
-            origin_time = event.origins[0].time
-            latitude = event.origins[0].latitude
-            longitude = event.origins[0].longitude
-            depth = event.origins[0].depth
-            # depth = event.origins[0].depth *1e3
+            ori_pref  = event.preferred_origin()
+            if ori_pref == None:
+                event.preferred_origin_id = event.origins[0].resource_id.id
+                ori_pref  = event.preferred_origin()
+
+            origin_time = ori_pref.time
+            latitude = ori_pref.latitude
+            longitude = ori_pref.longitude
+            depth = ori_pref.depth
+            # depth = ori_pref.depth *1e3
 
             if latitude ==None or longitude==None:
                 continue
-
+            
+            amplitudes = []
+            station_magnitudes = []
             Mls = []
             for pick in event.picks:
                 
@@ -219,16 +229,38 @@ class Magnitude():
                                     
                     resp = selected_response.__add__(selected_response)
 
-                ampl,epi_dist = ut.get_Ml_magparams_by_station(st,resp,
+                ampl,epi_dist,tr_id = ut.get_Ml_magparams_by_station(st,resp,
                                 ev_params,
                                 trimmedtime,
                                 waterlevel)
+                net,sta,loc,cha = tr_id.split(".")
+                amp = ut.write_amplitude_values(ampl,
+                                                time_window=TimeWindow(begin=0,
+                                                                        end=trimmedtime,
+                                                                        reference=ev_params["picktime"]),
+                                                pick_id=pick.resource_id,
+                                                waveform_id=WaveformStreamID(net,sta,loc,cha),
+                                                magnitude_hint="Ml",
+                                                agency=self.agency)
+                
+                amplitudes.append(amp)
+
                 if (ampl == None) or (ampl==0):
                     continue
 
-
+                
                 Ml = ut.get_Ml(ampl,epi_dist,mag_type,zone)
                 Mls.append(Ml)
+
+                stamag = ut.write_magsta_values(value=Ml,uncertainty=None,
+                                                mag_type="Ml",
+                                                origin_id =ori_pref.resource_id,
+                                                amplitude_id=amp.resource_id,
+                                                method_id=ResourceIdentifier(id="https://docs.obspy.org/tutorial/advanced_exercise/advanced_exercise_solution_3b.html"),
+                                                waveform_id=WaveformStreamID(net,sta,loc,cha),
+                                                agency=self.agency
+                                                 )
+                station_magnitudes.append(stamag)
 
                 staname = ".".join((stats.network, stats.station,
                               stats.location ,stats.channel[:2]+"*"))
@@ -245,18 +277,22 @@ class Magnitude():
             mag = ut.write_magnitude_values(Ml,Ml_std,len(Mls),"Ml",
                            evaluation_mode = "automatic",
                            evaluation_status = "preliminary",
-                           method="Rengifo&Ojeda(2004)",
-                           origin_id=event.origins[0].resource_id,
+                           method_id=ResourceIdentifier(id="https://docs.obspy.org/tutorial/advanced_exercise/advanced_exercise_solution_3b.html"),
+                           origin_id=ori_pref.resource_id,
+                           agency=self.agency,
                            comments=None)
 
+            event.amplitudes = amplitudes
+            event.station_magnitudes = station_magnitudes
             event.magnitudes.append(mag)
             event.preferred_magnitude_id = mag.resource_id
+
             events_mag.append(event)
             print(f"{event.resource_id} | Ml: {round(Ml,2)} | Ml_std {round(Ml_std,2)} | stations:{len(Mls)}\n\n")
 
-        catalog = Catalog(events = events_mag,
-                          creation_info= CreationInfo(author="SeisMonitor",
-                                            creation_time=UTCDateTime.now())  )
+        catalog = Catalog(events = events_mag )
+        catalog = scut.add_aditional_catalog_info(catalog,agency=self.agency)
+
         if self.xml_ml_out_file != None:
             print (f"Writing output file in {self.xml_ml_out_file}")
             isfile(self.xml_ml_out_file)
@@ -364,6 +400,7 @@ class Magnitude():
                            evaluation_status = "preliminary",
                            method="smi:com.github/krischer/moment_magnitude_calculator/automatic/1",
                            origin_id=event.origins[0].resource_id,
+                           agency=self.agency,
                            comments=None)
             event.magnitudes.append(mag)
             event.preferred_magnitude_id = mag.resource_id

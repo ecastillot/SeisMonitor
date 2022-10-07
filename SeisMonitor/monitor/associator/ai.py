@@ -226,7 +226,9 @@ def get_gamma_catalog(picks_df,catalog_df):
                     focal_mechanisms = [],
                     origins = [origin],
                     magnitudes = [],
-                    station_magnitudes = []
+                    station_magnitudes = [],
+                    creation_info = CreationInfo(author="SeisMonitor",
+                                                creation_time=UTCDateTime.now())
                     )
         ev.preferred_origin_id = origin.resource_id.id
         events.append(ev)

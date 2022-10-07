@@ -30,8 +30,8 @@ sgc_rest = WaveformRestrictions(network="CM",
 sgc_xml = "/home/emmanuel/EDCT/SeisMonitor/data/metadata/CM.xml"
 sgc_provider = Provider(sgc_client,sgc_rest,xml=sgc_xml )
 
-catalog = "/home/emmanuel/EDCT/test/associations/associations.xml"
-out = "/home/emmanuel/EDCT/test"
+catalog = "/home/emmanuel/nlloc_iter/out/LOC.xml"
+out = "/home/emmanuel/nlloc_iter/mag_out"
 
 mag = Magnitude([sgc_provider],catalog,out) #catalog,providers,out
 cat = mag.get_Ml(mag_type="RSNC",trimmedtime=5,out_format="SC3ML")

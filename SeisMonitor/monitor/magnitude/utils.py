@@ -1,10 +1,16 @@
 from obspy.core.inventory.inventory import Inventory
 from obspy.io.xseed.parser import Parser
 from obspy.core.event import Magnitude as Mag
+from obspy.core.event.magnitude import StationMagnitude
 from obspy.core.event import Catalog
 from obspy.core.event import read_events, Comment
 from obspy.geodetics import gps2dist_azimuth
 from obspy.signal.invsim import estimate_wood_anderson_amplitude_using_response
+from obspy import UTCDateTime
+from obspy.core.event.base import CreationInfo,WaveformStreamID,TimeWindow
+from obspy.core.event.resourceid import ResourceIdentifier
+
+from obspy.core.event.magnitude import Amplitude
 import mtspec
 import numpy as np
 import scipy
@@ -92,14 +98,14 @@ def get_Ml_magparams_by_station(st,response,
 
     # if st is None or len(st) != 3:
     if st is None or len(st)==0:
-        return (None,None)
+        return (None,None,None)
 
     for tr in st:
         paz = get_paz_from_response(tr.id,response,
                                 tr.stats.starttime)
         if paz == None:
             print(f"\t->No response found: {tr.id}-{tr.stats.starttime}")
-            return (None,None)
+            return (None,None,None)
 
         coords = response.get_coordinates(tr.id,tr.stats.starttime)
         # paz_wa = estimate_wood_anderson_amplitude_using_response(response, amplitude,
@@ -119,32 +125,42 @@ def get_Ml_magparams_by_station(st,response,
     if len(components) == 1:
         tr= st.select(component=components[0])[0]
         ampl = max(abs(tr.data))
+        tr_id = tr.get_id()
     else:
         if ("N" in components) or ("E" in components):
             if "N" in components:
                 tr_n = st.select(component="N")[0]
+                tr_n_id = tr_n.get_id()
                 ampl_n = max(abs(tr_n.data))
             else:
                 ampl_n = None
+                tr_n_id = None
 
             if "E" in components:
                 tr_e = st.select(component="E")[0]
+                tr_e_id = tr_e.get_id()
                 ampl_e = max(abs(tr_e.data))
             else:
                 ampl_e = None
+                tr_e_id = None
 
             if ampl_n == None:
                 ampl = ampl_e
+                tr_id = tr_e_id
             elif ampl_e == None:
                 ampl = ampl_n
+                tr_id = tr_n_id
             else:
-                ampl = max(ampl_n,ampl_e)
-
+                ampls = [ampl_n,ampl_e]
+                trs_id = [tr_n_id,tr_e_id]
+                ampl = max(ampls)
+                tr_id = trs_id[ampls.index(ampl)]
         elif "Z" in components:
             tr= st.select(component="Z")[0]
             ampl = max(abs(tr.data))
+            tr_id = tr.get_id()
         else:
-            return (None,None)
+            return (None,None,None)
 
 
     sta_lat = coords["latitude"]
@@ -154,7 +170,7 @@ def get_Ml_magparams_by_station(st,response,
                                          sta_lat, sta_lon)
     epi_dist = epi_dist / 1e3
 
-    return ampl,epi_dist
+    return ampl,epi_dist,tr_id
 
 def Mw_st_processing(st,response,waterlevel,datetime):
     for trace in st:
@@ -282,11 +298,66 @@ def get_M0_magnitude_by_pick(st,picktime,traveltime,
     else:
         return (None,None)
 
+def write_magsta_values(value,
+                        uncertainty,
+                        mag_type,
+                        origin_id = ResourceIdentifier(),
+                        amplitude_id = ResourceIdentifier(),
+                        method_id = ResourceIdentifier(),
+                        waveform_id = WaveformStreamID(),
+                        agency=None ):
+    stamag = StationMagnitude()
+    stamag.resource_id = ResourceIdentifier()
+    stamag.mag = value
+    stamag.mag_errors.uncertainty = uncertainty
+    stamag.station_magnitude_type = mag_type
+    stamag.origin_id = origin_id
+    stamag.method_id = method_id
+    stamag.amplitude_id = amplitude_id 
+    stamag.waveform_id = waveform_id
+    stamag.creation_info = CreationInfo(agency_id=agency,
+										agency_uri=ResourceIdentifier(id=agency),
+										author="SeisMonitor",
+										author_uri=ResourceIdentifier(id="SeisMonitor"),
+										creation_time=UTCDateTime.now())
+    return stamag
+
+def write_amplitude_values(value,amp_type="A",category="duration",
+                           unit="m/s",
+                           method_id = "https://docs.obspy.org/tutorial/advanced_exercise/advanced_exercise_solution_3b.html",
+                           time_window=TimeWindow(),
+                           pick_id = ResourceIdentifier(),
+                           waveform_id = WaveformStreamID(),
+                           magnitude_hint = "M",
+                           evaluation_mode = "automatic",
+                           evaluation_status = "preliminary",
+                           agency=None ):
+    amp = Amplitude()
+    amp.resource_id = ResourceIdentifier()
+    amp.generic_amplitude = value
+    amp.type = amp_type
+    amp.category = category
+    amp.unit = unit
+    amp.method_id = method_id
+    amp.time_window = time_window
+    amp.pick_id = pick_id 
+    amp.waveform_id = waveform_id
+    amp.magnitude_hint  = magnitude_hint
+    amp.evaluation_mode = evaluation_mode
+    amp.evaluation_status = evaluation_status
+    amp.creation_info = CreationInfo(agency_id=agency,
+										agency_uri=ResourceIdentifier(id=agency),
+										author="SeisMonitor",
+										author_uri=ResourceIdentifier(id="SeisMonitor"),
+										creation_time=UTCDateTime.now())
+    return amp
+
 def write_magnitude_values(value,uncertainty,station_count,mag_type,
                            evaluation_mode = "automatic",
                            evaluation_status = "preliminary",
-                           method="smi:com.github/krischer/moment_magnitude_calculator/automatic/1",
-                           origin_id=None,
+                           method_id=ResourceIdentifier(),
+                           agency=None,
+                           origin_id=ResourceIdentifier(),
                            comments=None):
     mag = Mag()
     mag.mag = value
@@ -296,10 +367,16 @@ def write_magnitude_values(value,uncertainty,station_count,mag_type,
     mag.station_count = station_count
     mag.evaluation_mode = evaluation_mode 
     mag.evaluation_status = evaluation_status
-    mag.method_id = method
+    mag.method_id = method_id
     mag.comments.append(Comment( \
         "Magnitude=%e Nm; uncertainty=%e" % (value,
         uncertainty)))
     if comments != None:
         mag.comments.append(Comment(comments))
+    mag.creation_info = CreationInfo(agency_id=agency,
+										agency_uri=ResourceIdentifier(id=agency),
+										author="SeisMonitor",
+										author_uri=ResourceIdentifier(id="SeisMonitor"),
+										creation_time=UTCDateTime.now())
+    
     return mag
