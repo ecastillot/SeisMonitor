@@ -233,11 +233,23 @@ class NLLoc():
                 events = []
                 for ev in catalog.events:
                     ori_pref  = ev.preferred_origin()
+                    ori_pref.evaluation_status = "preliminary"
+                    ori_pref.evaluation_mode = "automatic"
                     ev.creation_info = CreationInfo(agency_id=self.agency,
+                                                    agency_uri=ResourceIdentifier(id=self.agency),
                                                     author="SeisMonitor",
+                                                    author_uri=ResourceIdentifier(id="SeisMonitor"),
+                                                    creation_time=UTCDateTime.now())
+                    ori_pref.creation_info = CreationInfo(agency_id=self.agency,
+                                                    agency_uri=ResourceIdentifier(id=self.agency),
+                                                    author="SeisMonitor",
+                                                    author_uri=ResourceIdentifier(id="SeisMonitor"),
                                                     creation_time=UTCDateTime.now())
                     if self.vel_model.model_name != None:
                         ev.earth_model_id = ResourceIdentifier(id=self.vel_model.model_name)
+                        ori_pref.earth_model_id = ResourceIdentifier(id=self.vel_model.model_name)
+                    
+                    
                     true_picks = []
                     pick_conversion = {}
                     for pick in ev.picks:
@@ -270,10 +282,13 @@ class NLLoc():
                     all_events.append(ev)
 
         catalog = Catalog(events = all_events,
-                        creation_info= CreationInfo(
-                                        agency_id=self.agency,
-                                        author="SeisMonitor",
-                                        creation_time=UTCDateTime.now()))
+                        creation_info= CreationInfo(agency_id=self.agency,
+                                                    agency_uri=ResourceIdentifier(id=self.agency),
+                                                    author="SeisMonitor",
+                                                    author_uri=ResourceIdentifier(id="SeisMonitor"),
+                                                    creation_time=UTCDateTime.now()))
+        # print(catalog.creation_info)
+        # exit()
         sut.isfile(nlloc_out)
         catalog.write(nlloc_out,
                     format=out_format)
