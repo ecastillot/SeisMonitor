@@ -19,9 +19,62 @@ import json
 import pandas as pd
 import concurrent.futures
 from obspy import UTCDateTime
+from obspy.core.event.base import CreationInfo
 from obspy.core.event.resourceid import ResourceIdentifier
 from obspy.core.event.catalog import read_events
 from obspy.core.event import Catalog
+
+def add_aditional_origin_info(origin,
+				agency = None,
+				region = None,
+				method_id = None,
+				earth_model_id = None,
+				evaluation_mode = "automatic",
+				evaluation_status = "preliminary"):
+
+	if region != None:
+		origin.region = region
+	if earth_model_id != None:
+		origin.earth_model_id = ResourceIdentifier(id=earth_model_id)
+	if method_id != None:
+		origin.method_id = ResourceIdentifier(id=method_id)
+		
+	origin.evaluation_mode = evaluation_mode
+	origin.evaluation_status = evaluation_status
+	origin.creation_info = CreationInfo(agency_id=agency,
+                                                    agency_uri=ResourceIdentifier(id=agency),
+                                                    author="SeisMonitor",
+                                                    author_uri=ResourceIdentifier(id="SeisMonitor"),
+                                                    creation_time=UTCDateTime.now())
+	return origin
+
+def add_aditional_event_info(event,
+				agency = None,
+				event_type = "earthquake",
+				event_type_certainty = "suspected"):
+	
+	ori_pref  = event.preferred_origin()
+	if ori_pref == None:
+		event.preferred_origin_id = event.origins[0].resource_id.id
+
+	event.event_type = event_type
+	event.event_type_certainty = event_type_certainty
+	event.creation_info = CreationInfo(agency_id=agency,
+										agency_uri=ResourceIdentifier(id=agency),
+										author="SeisMonitor",
+										author_uri=ResourceIdentifier(id="SeisMonitor"),
+										creation_time=UTCDateTime.now())
+	return event
+
+def add_aditional_catalog_info(catalog,
+				agency = None):
+	catalog.creation_info = CreationInfo(agency_id=agency,
+										agency_uri=ResourceIdentifier(id=agency),
+										author="SeisMonitor",
+										author_uri=ResourceIdentifier(id="SeisMonitor"),
+										creation_time=UTCDateTime.now())
+	return catalog
+
 
 def preproc_stream(st,
 				order=['normalize','merge','detrend',

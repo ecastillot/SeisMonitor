@@ -5,6 +5,8 @@ from time import time
 import pandas as pd
 from subprocess import run
 from obspy import read_inventory
+from tqdm import tqdm
+import glob
 import SeisMonitor.utils as sut
 
 CORE_NLLOC = os.path.join(os.path.dirname(__file__),"core")
@@ -14,7 +16,6 @@ bin_path = os.path.join(src_path,"bin")
 vel2grid_exe_path = os.path.join(bin_path,"Vel2Grid")
 grid2time_exe_path = os.path.join(bin_path,"Grid2Time")
 nll_exe_path = os.path.join(bin_path,"NLLoc")
-
 
 def run_nlloc(p_control_file_path,
             s_control_file_path):
@@ -65,8 +66,8 @@ def write_pref_origin_removing_phaselocinfo(catalog):
         for i,origin in enumerate(ev.origins):
             if origin.resource_id.id == ev.preferred_origin_id:
                 ev.origins[i].arrivals = new_arrivals 
-            else:
-                continueagency_id=self.agency
+            # else:
+            #     continueagency_id=self.agency
 
         del ev.origins
         ev.origins = [pref_origin]
@@ -366,10 +367,6 @@ class Time2Loc():
                     "Message received")
         return msg
 
-# class NLLocObj():
-#     def __init__(self,region,nodes):
-#         self.
-
 class NLLocControlFile():
     def __init__(self,
                 generic_control:GenericControlStatement,
@@ -439,9 +436,6 @@ class NLLocControlFile():
         control_file_msg.close()
         sut.printlog("info","NLLoc:write_control_file",
                     f"Finished. Control file: {out} ")
-
-
-
 
 if __name__=="__main__":
     catalog = "/home/emmanuel/EDCT/SeisMonitor/SeisMonitor/monitor/locator/nlloc/test3/select.out"

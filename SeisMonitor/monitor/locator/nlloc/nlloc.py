@@ -13,10 +13,10 @@ from obspy.core.event.base import CreationInfo
 from obspy.core.event.resourceid import ResourceIdentifier
 from obspy import UTCDateTime
 import subprocess
-from itertools import groupby
 from tqdm import tqdm
 from . import utils as ut
 from SeisMonitor import utils as sut
+from SeisMonitor.core import utils as scut
 from SeisMonitor.monitor.locator import utils as slut
 
 CORE_NLLOC = os.path.join(os.path.dirname(__file__),"core")
@@ -189,16 +189,9 @@ class NLLoc():
         nlloc_control = os.path.join(nlloc_out_folder,"loc.in")
 
         sut.isfile(nlloc_inp,overwrite=True)
-        # catalog = ut.write_pref_origin_removing_phaselocinfo(catalog)
         catalog.write(nlloc_inp,format="NORDIC")
 
-        picks = {}
-        for ev in catalog:
-            for pick in ev.picks:
-                station = pick.waveform_id.station_code
-                phasehint = pick.phase_hint
-                time = pick.time.strftime("%Y%m%dT%H%M%S")
-                picks[station+"_"+phasehint+"_"+time] = pick
+        picks_from_unproc_catalog = slut.get_picks(catalog)
 
         try:
             nlloc_control_file = self.nll_control_file
@@ -212,8 +205,6 @@ class NLLoc():
 
         sut.printlog("info","NLLoc:NLLoc", "Running")
         subprocess.call(f"{nll_exe_path} {nlloc_control}",shell=True)
-        # os.system(f"{nll_exe_path} {nlloc_control} > /dev/null")
-
         
         _nll_out = nlloc_folder+"*.hyp"
         all_events = []
@@ -223,75 +214,29 @@ class NLLoc():
             if (date == "sum") or (date=="last.hyp"):
                 continue
             else:
-                # print(path)
                 try:
                     catalog = read_nlloc_hyp(path,format="NORDIC")
                 except:
                     print(f"Unread: {path}")
                     continue
 
-                events = []
                 for ev in catalog.events:
                     ori_pref  = ev.preferred_origin()
-                    ori_pref.evaluation_status = "preliminary"
-                    ori_pref.evaluation_mode = "automatic"
-                    ev.creation_info = CreationInfo(agency_id=self.agency,
-                                                    agency_uri=ResourceIdentifier(id=self.agency),
-                                                    author="SeisMonitor",
-                                                    author_uri=ResourceIdentifier(id="SeisMonitor"),
-                                                    creation_time=UTCDateTime.now())
-                    ori_pref.creation_info = CreationInfo(agency_id=self.agency,
-                                                    agency_uri=ResourceIdentifier(id=self.agency),
-                                                    author="SeisMonitor",
-                                                    author_uri=ResourceIdentifier(id="SeisMonitor"),
-                                                    creation_time=UTCDateTime.now())
-                    if self.vel_model.model_name != None:
-                        ev.earth_model_id = ResourceIdentifier(id=self.vel_model.model_name)
-                        ori_pref.earth_model_id = ResourceIdentifier(id=self.vel_model.model_name)
-                    
-                    
-                    true_picks = []
-                    pick_conversion = {}
-                    for pick in ev.picks:
-                        station = pick.waveform_id.station_code
-                        phasehint = pick.phase_hint
-                        time = pick.time.strftime("%Y%m%dT%H%M%S")
-                        true_pick = picks[station+"_"+phasehint+"_"+time]
+                    ori_pref = scut.add_aditional_origin_info(ori_pref,
+                                    agency=self.agency,
+                                    method_id="NLLOC",
+                                    earth_model_id=self.vel_model.model_name)
+                    ev.preferred_origin_id = ori_pref.resource_id.id
 
-                        pick_conversion[pick.resource_id.id] = true_pick.resource_id.id
-                        true_picks.append(true_pick)
-                    # print(true_picks)
-                    # exit()
-                    true_arrivals = []
-                    for arrival in ori_pref.arrivals:
-                        arrival.pick_id.id = pick_conversion[arrival.pick_id.id]
-                        true_arrivals.append(arrival)
-
-                    ori_pref.arrivals = true_arrivals
-                    # print(ori_pref.arrivals)    
-                    # print(true_picks)    
-                    # exit()
-                    ev.picks = true_picks
-                    # print(ev.picks[0])
-                    # print(old_catalog.events[0].picks[0])
-                    # exit()
-                    ori_pref.method_id = ResourceIdentifier(id="NLLOC")
-                #     events.append(ev)
-
-                # for event in events:
+                    ev = slut.changing_picks_info(ev,picks_from_unproc_catalog)
+                    ev = scut.add_aditional_event_info(ev,agency=self.agency)
                     all_events.append(ev)
 
-        catalog = Catalog(events = all_events,
-                        creation_info= CreationInfo(agency_id=self.agency,
-                                                    agency_uri=ResourceIdentifier(id=self.agency),
-                                                    author="SeisMonitor",
-                                                    author_uri=ResourceIdentifier(id="SeisMonitor"),
-                                                    creation_time=UTCDateTime.now()))
-        # print(catalog.creation_info)
-        # exit()
+        catalog = Catalog(events = all_events)
+        catalog = scut.add_aditional_catalog_info(catalog,agency=self.agency)
+
         sut.isfile(nlloc_out)
-        catalog.write(nlloc_out,
-                    format=out_format)
+        catalog.write(nlloc_out,format=out_format)
         sut.printlog("info","NLLoc:NLLoc", f"Finished. See your results in {nlloc_out}")
         return catalog
 
@@ -305,12 +250,6 @@ class NLLoc():
                 ):     
         
         nlloc_out = os.path.join(nlloc_out_folder,out_filename)
-
-        def all_equal(iterable):
-            g = groupby(iterable)
-            return next(g, True) and not next(g, False)
-
-        
         reloc_catalog = self.locate(catalog,nlloc_out_folder,
                     out_filename="base.xml",out_format="SC3ML")
         if degrees == None:
@@ -318,72 +257,11 @@ class NLLoc():
         else:
             pass
 
-        def get_events(reloc_catalog):
-            bad_events = []
-            good_events = []
-            for ev in reloc_catalog:
-                pref_origin = ev.preferred_origin()
-                arrivals = pref_origin.arrivals
-                azimuths = [x.azimuth for x in arrivals] 
-                equal = all_equal(azimuths)
-                if equal:
-                    bad_events.append(ev)
-                        
-                else:
-                    good_events.append(ev)
-            return good_events,bad_events
-
-        def filter_arrivals_by_distance(events,distance,
-                                        min_P_phases=3,
-                                        min_S_phases=2):
-            new_events = []
-            for ev in events:
-                pref_origin = ev.preferred_origin()
-                arrivals = pref_origin.arrivals
-
-                # new_arrivals = [ x for x in arrivals if x.distance <= distance]
-
-                picks = {}
-                for pick in ev.picks:
-                    picks[pick.resource_id.id] = pick
-
-                new_arrivals = []
-                counts = {"P":[],"S":[]}
-                for arrival in arrivals:
-                    if arrival.distance <= distance:
-                        new_arrivals.append(arrival)
-                    else:
-                        # print(arrival,"aca")
-                        # print(list(picks.keys()))
-                        # exit()
-                        picks.pop(arrival.pick_id.id, None)
-
-                    counts[arrival.phase].append(arrival.phase)
-                
-                counts["P"] = len(counts["P"])
-                counts["S"] = len(counts["S"])
-
-                if (counts["P"] < min_P_phases) or\
-                   (counts["S"] < min_S_phases) :
-                   continue
-
-                for i,origin in enumerate(ev.origins):
-                    if origin.resource_id.id == ev.preferred_origin_id:
-                        ev.origins[i].arrivals = new_arrivals 
-                    else:
-                        continue
-
-                ev.picks = list(picks.values())
-                # print(ev.picks)
-                # print(ev.origins[i].arrivals)
-                new_events.append(ev)
-            return new_events
-
         good_evs = []
         bad_catalog = reloc_catalog
         iter = 0
         while True:
-            good_events,bad_events = get_events(bad_catalog)
+            good_events,bad_events = slut.get_bad_and_good_events(bad_catalog)
             good_evs.append(good_events)
             degree = degrees[iter]
             if not bad_events:
@@ -393,7 +271,7 @@ class NLLoc():
                     print(f"convergence in {iter} iterations, only stations with distance < {degrees[iter-1]} degrees")
                 break
             else:
-                bad_events = filter_arrivals_by_distance(bad_events,degree)
+                bad_events = slut.filter_arrivals_by_distance(bad_events,degree)
                 
                 if not bad_events:
                     break
@@ -403,7 +281,6 @@ class NLLoc():
                 bad_catalog = self.locate(bad_catalog,tmp_path,
                     out_filename=f"{iter}.xml",out_format="SC3ML")
                 iter +=1
-                    # exit()
         good_evs = [ y for x in good_evs for y in x]
 
         if not good_evs:
