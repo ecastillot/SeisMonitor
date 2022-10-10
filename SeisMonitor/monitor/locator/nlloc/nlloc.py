@@ -41,7 +41,10 @@ class NLLoc():
                 kwargs_for_grid2time:dict={},
                 kwargs_for_time2loc:dict={},
                 tmp_folder:str = os.getcwd(),
-                rm_tmp_folder:bool = False):
+                exhaustively:bool = False,
+                search_in_degrees:list = [],
+                rm_attempts:bool = False
+                ):
 
         self.agency = agency
         self.region = region
@@ -55,7 +58,18 @@ class NLLoc():
         self.kwargs_for_grid2time = kwargs_for_grid2time
         self.kwargs_for_time2loc = kwargs_for_time2loc
         self.tmp_folder = tmp_folder
-        self.tm_tmp_folder = rm_tmp_folder
+        self.rm_attempts = rm_attempts
+
+        self.exhaustively = exhaustively
+        if exhaustively:
+            #     lon_distance_in_deg = abs(region[0]-region[1])
+            #     lat_distance_in_deg = abs(region[2]-region[3])
+            #     r = np.sqrt(lon_distance_in_deg**2 + lat_distance_in_deg**2 )
+            #     self.search_in_degrees = np.linspace(1/111,r/2,5)[::-1]
+            if not search_in_degrees:
+                self.search_in_degrees = list(reversed(np.arange(1,4,0.5)))
+            else:
+                self.search_in_degrees = search_in_degrees
 
     def __initialize(self,write_nlloc_files=True):
         ### inputs
@@ -172,7 +186,7 @@ class NLLoc():
         sut.printlog("info","NLLoc:Grid2Time:S", "Running")
         grid2time = subprocess.call(f"{grid2time_exe_path} {self.s_control_file_out}",shell=True)
 
-    def locate(self,
+    def _locate(self,
                 catalog:Union[Catalog,str],
                 nlloc_out_folder:str,
                 out_filename:str = "locations.xml",
@@ -192,6 +206,7 @@ class NLLoc():
         catalog.write(nlloc_inp,format="NORDIC")
 
         picks_from_unproc_catalog = slut.get_picks(catalog)
+        # arrivals_from_unproc_catalog = slut.get_picks(catalog)
 
         try:
             nlloc_control_file = self.nll_control_file
@@ -240,7 +255,7 @@ class NLLoc():
         sut.printlog("info","NLLoc:NLLoc", f"Finished. See your results in {nlloc_out}")
         return catalog
 
-    def iterlocate(self,
+    def _iterlocate(self,
                 catalog:Union[Catalog,str],
                 nlloc_out_folder:str,
                 out_filename:str = "locations.xml",
@@ -248,15 +263,10 @@ class NLLoc():
                 degrees=[4,3,2.5,2,1.5,1],
                 rm_attempts=False
                 ):     
-        
         nlloc_out = os.path.join(nlloc_out_folder,out_filename)
-        reloc_catalog = self.locate(catalog,nlloc_out_folder,
+        reloc_catalog = self._locate(catalog,nlloc_out_folder,
                     out_filename="base.xml",out_format="SC3ML")
-        if degrees == None:
-            degrees = list(reversed(np.arange(1,4,0.5)))
-        else:
-            pass
-
+        
         good_evs = []
         bad_catalog = reloc_catalog
         iter = 0
@@ -278,7 +288,7 @@ class NLLoc():
                 
                 bad_catalog = Catalog(bad_events)
                 tmp_path = os.path.join(nlloc_out_folder,"tmp",f"deg_{degree}")
-                bad_catalog = self.locate(bad_catalog,tmp_path,
+                bad_catalog = self._locate(bad_catalog,tmp_path,
                     out_filename=f"{iter}.xml",out_format="SC3ML")
                 iter +=1
         good_evs = [ y for x in good_evs for y in x]
@@ -297,3 +307,22 @@ class NLLoc():
             shutil.rmtree(os.path.join(nlloc_out_folder,"tmp"))
 
         return catalog
+
+    def locate(self,
+                catalog:Union[Catalog,str],
+                nlloc_out_folder:str,
+                out_filename:str = "locations.xml",
+                out_format:str = "SC3ML"
+                ):
+        if self.exhaustively:
+            self._iterlocate(catalog=catalog,
+                            nlloc_out_folder=nlloc_out_folder,
+                            out_filename=out_filename,
+                            out_format=out_format,
+                            degrees=self.search_in_degrees,
+                            rm_attempts=self.rm_attempts)
+        else:
+            self._locate(catalog=catalog,
+                            nlloc_out_folder=nlloc_out_folder,
+                            out_filename=out_filename,
+                            out_format=out_format)

@@ -150,7 +150,7 @@ def get_gamma_picks(event_picks):
        
         pick_obj = Pick(resource_id=ResourceIdentifier( id= row.pick_id,prefix="pick"),
                                 time=UTCDateTime(row.timestamp),
-                                time_errors=QuantityError(uncertainty=row.prob,
+                                time_errors=QuantityError(uncertainty=20/100, # 20 samples before and 20 samples after
                                                         confidence_level=row.prob*100),
                                 waveform_id=WaveformStreamID(network_code=row.network,
                                                              station_code=row.station,
@@ -176,6 +176,7 @@ def picks2arrivals(picks):
                                                             prefix='arrival'),
                            pick_id = pick.resource_id,
                            phase = pick.phase_hint,
+                           time_weight = pick.time_errors.confidence_level/100,
                            creation_info=pick.creation_info )
         arrivals.append(arrival)
     return arrivals
@@ -219,8 +220,6 @@ def get_gamma_catalog(picks_df,catalog_df):
                                                             prefix='event'),
                     event_type = "earthquake",
                     event_type_certainty = "known",
-                    creation_info = CreationInfo(author="SeisMonitor",
-                                                creation_time=UTCDateTime.now()),
                     picks = picks,
                     amplitudes = [],
                     focal_mechanisms = [],
@@ -294,7 +293,7 @@ class GaMMA():
        
         obspy_catalog = get_gamma_catalog(picks,catalog)
         isfile(self.xml_out_file)
-        obspy_catalog.write(self.xml_out_file,format="QUAKEML")
+        obspy_catalog.write(self.xml_out_file,format="SC3ML")
 
 
         return obspy_catalog,catalog,picks

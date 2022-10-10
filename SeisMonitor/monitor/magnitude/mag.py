@@ -21,6 +21,7 @@ from obspy.core.event import read_events, Comment
 from SeisMonitor.utils import isfile
 from SeisMonitor.core import utils as scut
 from obspy.core.event.base import CreationInfo
+import concurrent.futures as cf
 from obspy import UTCDateTime
 import mtspec
 import numpy as np
@@ -198,15 +199,19 @@ class Magnitude():
             amplitudes = []
             station_magnitudes = []
             Mls = []
-            for pick in event.picks:
+
+            def _get_maginfo_by_station(pick):
+            # for pick in event.picks:
                 
                 if pick.phase_hint.upper() != "S":
-                    continue
+                    # continue
+                    return None
                 
                 st = self._get_corresponding_st(pick.waveform_id, pick.time,
                                                 padding)
                 if st == None:
-                    continue
+                    # continue
+                    return None
 
                 stats = st[0].stats
 
@@ -246,7 +251,8 @@ class Magnitude():
                 amplitudes.append(amp)
 
                 if (ampl == None) or (ampl==0):
-                    continue
+                    # continue
+                    return None
 
                 
                 Ml = ut.get_Ml(ampl,epi_dist,mag_type,zone)
@@ -266,6 +272,9 @@ class Magnitude():
                               stats.location ,stats.channel[:2]+"*"))
                 print(f"\t-> Ml | {staname}-{pick.phase_hint.upper()} | {Ml}")
 
+            with cf.ThreadPoolExecutor() as executor:
+                executor.map(_get_maginfo_by_station,event.picks)
+                
             if not Mls:
                 Ml = 0
                 Ml_std = 0
@@ -290,6 +299,7 @@ class Magnitude():
             events_mag.append(event)
             print(f"{event.resource_id} | Ml: {round(Ml,2)} | Ml_std {round(Ml_std,2)} | stations:{len(Mls)}\n\n")
 
+        # _get_maginfo_by_station(pick)
         catalog = Catalog(events = events_mag )
         catalog = scut.add_aditional_catalog_info(catalog,agency=self.agency)
 
