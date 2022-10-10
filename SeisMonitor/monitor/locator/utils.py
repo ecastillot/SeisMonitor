@@ -1,6 +1,7 @@
 from typing import Union
 import pandas as pd
 from itertools import groupby
+import json
 import SeisMonitor.utils as sut
 from obspy import read_inventory
 from obspy.core.event.catalog import Catalog, read_events
@@ -15,17 +16,25 @@ def changing_picks_info(ev,ref_picks):
         time = pick.time.strftime("%Y%m%dT%H%M%S")
         true_pick = ref_picks[station+"_"+phasehint+"_"+time]
 
-        picks_dict[pick.resource_id.id] = true_pick.resource_id.id
+        # picks_dict[pick.resource_id.id] = true_pick.resource_id.id
+        picks_dict[pick.resource_id.id] = true_pick
         true_picks.append(true_pick)
 
     ori_pref  = ev.preferred_origin()
     true_arrivals = []
     for arrival in ori_pref.arrivals:
-        arrival.pick_id.id = picks_dict[arrival.pick_id.id]
+        arrival_prob = json.loads(picks_dict[arrival.pick_id.id].comments[0].text)
+        arrival.time_weight = arrival_prob["probability"]
+        arrival.comments = picks_dict[arrival.pick_id.id].comments
+        # print(picks_dict[arrival.pick_id.id])
+        arrival.pick_id.id = picks_dict[arrival.pick_id.id].resource_id.id
         true_arrivals.append(arrival)
+
+    
 
     ori_pref.arrivals = true_arrivals
     ev.picks = true_picks
+    # for arrival in ori_pref.arrivals:
     return ev
 
 def get_picks(catalog):
