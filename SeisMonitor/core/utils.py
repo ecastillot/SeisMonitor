@@ -209,7 +209,10 @@ def get_csv_events(seiscomp_file, version="0.9", with_magnitude=True,
 	for n_ev,event in enumerate(event_list):
 		loc_id = os.path.basename(str(event.resource_id))
 		ev_type = event.event_type
-		agency = event.creation_info.agency_id
+		# if event.creation_info != None:
+		# 	agency = event.creation_info.agency_id
+		# else:
+		# 	agency = None
 
 		if event.event_descriptions:
 			region = event.event_descriptions[0].text
@@ -262,22 +265,27 @@ def get_csv_events(seiscomp_file, version="0.9", with_magnitude=True,
 		for pick in event.picks:
 			if pick.resource_id.id not in picks.keys():
 				
-				comment = ast.literal_eval(pick.comments[0].text)
-				author = pick.creation_info.author
-				
-				prob = comment["probability"]
-				if author == "EQTransformer":
-					snr = comment["snr"]
-					ev_prob = comment["detection_probability"]
-				else:
-					snr = None
-					ev_prob = None
-
-
 				if pick.creation_info == None:
 					_author = None
 				else:
 					_author = pick.creation_info.author
+				
+				if pick.comments:
+					comment = ast.literal_eval(pick.comments[0].text)
+					prob = comment["probability"]
+					if _author == "EQTransformer":
+						snr = comment["snr"]
+						ev_prob = comment["detection_probability"]
+					else:
+						snr = None
+						ev_prob = None
+				else:
+					prob = None
+					snr = None
+					ev_prob = None
+
+
+				
 
 				picks[pick.resource_id.id] = {
 											"id":os.path.basename(str(pick.resource_id)),
@@ -340,6 +348,6 @@ def get_csv_events(seiscomp_file, version="0.9", with_magnitude=True,
 	if export != None:
 		if os.path.isdir(os.path.dirname(export)) == False:
 			os.makedirs(os.path.dirname(export))
-		events_df.to_csv(export)
+		events_df.to_csv(export,index=False)
 		print(f"Events_csv_file: {export}")
 	return events_df,picks_df

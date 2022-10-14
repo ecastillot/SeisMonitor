@@ -23,8 +23,11 @@ def changing_picks_info(ev,ref_picks):
     ori_pref  = ev.preferred_origin()
     true_arrivals = []
     for arrival in ori_pref.arrivals:
-        arrival_prob = json.loads(picks_dict[arrival.pick_id.id].comments[0].text)
-        arrival.time_weight = arrival_prob["probability"]
+        try:
+            arrival_prob = json.loads(picks_dict[arrival.pick_id.id].comments[0].text)
+            arrival.time_weight = arrival_prob["probability"]
+        except:
+            print("picks don't have probability")
         arrival.comments = picks_dict[arrival.pick_id.id].comments
         # print(picks_dict[arrival.pick_id.id])
         arrival.pick_id.id = picks_dict[arrival.pick_id.id].resource_id.id

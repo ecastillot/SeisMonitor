@@ -75,9 +75,9 @@ class NLLoc():
         ### inputs
         self.vel_model_path = os.path.join(self.tmp_folder,"time_grid","vel_model.dat")
         self.station_path = os.path.join(self.tmp_folder,"time_grid","station.dat")
-        # sut.isfile(self.vel_model_path)
+        sut.isfile(self.vel_model_path,overwrite=True)
         self.basic_inputs.vel_model.to_nlloc(self.vel_model_path)
-        # sut.isfile(self.station_path)
+        sut.isfile(self.station_path,overwrite=True)
         self.basic_inputs.stations.to_nlloc(self.station_path)
 
         self.grid_folder_out = os.path.join(self.tmp_folder,"time_grid","model","layer")
