@@ -1,13 +1,13 @@
 _*/
 out/
+other_test
+asso_mesetas_test
 **/hypocenter/core
 **/hypoDD/core
 **/nlloc/core
 **/nlloc/test*
 **/nlloc/TEST*
 **/examples
-asso_mesetas_test/
-other*/
 build/
 dist/
 SeisMonitor.egg-info/

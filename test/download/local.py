@@ -16,7 +16,11 @@ from obspy.clients.fdsn import Client as FDSNClient
 from SeisMonitor.core.objects import WaveformRestrictions,Provider
 from SeisMonitor.monitor.downloader.seismonitor import MseedDownloader
 
-import bs4
+from zipfile import (
+    BadZipFile,   
+    ZipFile,
+)
+from io import BytesIO,StringIO
 import requests
 
 
@@ -27,16 +31,13 @@ if not os.path.isdir(out_folder):
     os.makedirs(out_folder)
 
 
-SeisMonitor_dataset = 'https://drive.google.com/drive/folders/1CU1Fgyb9ar3QmF76WrsdbSdVQIC-Ya_x?usp=sharing'
+SeisMonitor_dataset = '738dbcaed1b6fbb8ef72dd4885ae448ab4f6bfda'
 # SeisMonitor_dataset = 'https://mega.nz/file/bl4TETbb#IfaVZvYce3zN6Ek7LTwckdt991NOSSPqz789EfDcYuk'
 
-url = SeisMonitor_dataset
-r = requests.get(url)
-data = bs4.BeautifulSoup(r.text, "html.parser")
-for l in data.find_all("a"):
-    r = requests.get(url + l["href"])
-    print(r.status_code)
-
+# # response = wget.download(SeisMonitor_dataset, os.path.join(out_folder,"SeisMonitor_dataset"))
+r =  requests.get(SeisMonitor_dataset, allow_redirects=True, stream = True) 
+z = ZipFile(BytesIO(r.content))
+z.extractall(out_folder)
 
 
 
