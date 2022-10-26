@@ -90,7 +90,7 @@ class MseedDownloader(object):
                 chunklength_in_sec=None,
                 threshold= 60,
                 overlap_in_sec=0,
-                pick_batch_size = (20,0.3),
+                picker_args = {},
                 groupby='{network}.{station}.{channel}',
                 n_processor=None):
     """
@@ -111,10 +111,10 @@ class MseedDownloader(object):
 			This parameter can take the value 'id' which groups the traces by SEED id.
 		threshold: int
 			limit of length in seconds, length less than threshold will not be downloaded.
-    pick_batch_size : tuple
-			(batch_size,overlap)
+    picker_args : dict
+			keys: batch_size,overlap,length
 			It's used to know if the stream can be downloaded according to the 
-			picker overlap and batch size parameters. If the the segments given by the length of the stream
+			picker keys. If the the segments given by the length of the stream
 			and overlap parammeter are less than batch_size, then no download the stream.
     n_processor: int
       Number of processor
@@ -134,7 +134,7 @@ class MseedDownloader(object):
                                                 chunklength_in_sec,
                                                 threshold,
                                                 overlap_in_sec,
-                                                pick_batch_size,
+                                                picker_args,
                                                 groupby,
                                                 n_processor)
 

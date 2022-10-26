@@ -22,14 +22,14 @@ class DownloadRestrictions():
                 chunklength_in_sec=None,
                 threshold= 60,
                 overlap_in_sec=0,
-                pick_batch_size = (20,0.3),
+                picker_args={}, # {"batch_size":10,"overlap":0.3,"lenght":60}
                 groupby='{network}.{station}.{channel}',
                 n_processor=None) -> None:
 		self.mseed_storage = mseed_storage
 		self.chunklength_in_sec = chunklength_in_sec
 		self.threshold = threshold
 		self.overlap_in_sec = overlap_in_sec
-		self.pick_batch_size = pick_batch_size
+		self.picker_args = picker_args
 		self.groupby = groupby
 		self.n_processor=n_processor
 
@@ -57,7 +57,8 @@ def get_max_allowed_batch_size(data_length,segment_length,overlap):
     return max_batch_size
 
 def write_stream(st,mseed_storage, 
-				threshold=None, to_pick=None,
+				threshold=None, 
+				picker_args={}, # {"batch_size":10,"overlap":0.3,"lenght":60}
 				ppc_and_comment = [False,""]):
 	"""
 	Write a stream in a specific storage given by mseed_storage
@@ -75,11 +76,11 @@ def write_stream(st,mseed_storage,
 		e.g. '{network}.{station}.{location}.{channel}__{starttime}__{endtime}
 	threshold: int
 		data length in seconds
-	to_pick: tuple
-		(batch_size,overlap)
+	picker_args : dict
+		keys: batch_size,overlap,length
 		It's used to know if the stream can be downloaded according to the 
-		picker batch size. If the the segments given by the length of the stream
-		and overlap parammeter are less than batcg_size, then no download the stream.
+		picker keys. If the the segments given by the length of the stream
+		and overlap parammeter are less than batch_size, then no download the stream.
 
 	Returns:
 		write one stream
@@ -110,15 +111,15 @@ def write_stream(st,mseed_storage,
 		else:
 			download = True
 
-	if to_pick != None:
-		overlap,batch_size = to_pick
+	if picker_args:
+		overlap,batch_size,length = picker_args["overlap"],picker_args["batch_size"],picker_args["length"]
 		data_length = abs(tr.stats.endtime - tr.stats.starttime)
-		max_batch_size = get_max_allowed_batch_size(data_length,60,overlap)
+		max_batch_size = get_max_allowed_batch_size(data_length,length,overlap)
 		
 		if max_batch_size < batch_size:
 			comment = (f"This mseed only can be used with {max_batch_size} batchs. "+\
 					f"In order to download the data, the batch size must be >= {batch_size}."+\
-					f" Modify this condition changing 'to_pick':{to_pick}' parameter.")
+					f" Modify this condition changing 'picker_args':{picker_args}' parameter.")
 			# logger =logging.getLogger('Downloaded: False') 
 			# logger.info(f'{mseed_filename}  {comment}')
 			printlog("info",'Downloader: False',
@@ -126,7 +127,7 @@ def write_stream(st,mseed_storage,
 			download = False
 		else:
 			download = True
-	if (threshold == None) or (to_pick == None):
+	if (threshold == None) or (bool(picker_args) == False):
 		download = True
 
 	if os.path.isfile(mseed_filename) == False:
@@ -510,10 +511,13 @@ def get_client_waveforms(client,bulk,
 
 	try:
 		st = client.get_waveforms(net,sta,loc,cha,starttime,endtime)
-	except:
+	except Exception as e:
+		strftime = "%Y%m%dT%H%M%SZ"
+		why = "-".join((net,sta,loc,cha,starttime.strftime(strftime),endtime.strftime(strftime)))
 		st = Stream()
 		ppc = False
 		comment = ""
+		printlog("warning","Downloader",why+"->"+e)
 		return st,ppc,comment
 	
 	if len(st)==0:
@@ -545,7 +549,7 @@ def write_client_waveforms(client,bulk,
 		write_stream(st,
 					download_restrictions.mseed_storage,
 					download_restrictions.threshold,
-					download_restrictions.pick_batch_size,
+					download_restrictions.picker_args,
 					[ppc,comment])
 	del st;st_dict;del client;del bulk;del waveform_restrictions;del processing
 	# return st_dict

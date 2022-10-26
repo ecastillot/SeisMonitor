@@ -1,2 +1,0 @@
-file_name,network,station,instrument_type,station_lat,station_lon,station_elv,event_start_time,event_end_time,detection_probability,detection_uncertainty,p_arrival_time,p_probability,p_uncertainty,p_snr,s_arrival_time,s_probability,s_uncertainty,s_snr
-BAR2/CM.BAR2.00.HHE__20201209T081509Z__20201209T081609Z.mseed,CM,BAR2,HH,6.592,-73.182,1864.0,2020-12-09 08:15:09.998393,2020-12-09 08:15:33.668393,0.82,,,,,,2020-12-09 08:15:10.188393,0.02,,4.6
