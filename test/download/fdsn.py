@@ -1,6 +1,11 @@
-import sys
-Seismonitor_path = "/home/emmanuel/EDCT/SeisMonitor"
-sys.path.insert(0,Seismonitor_path)
+# /**
+#  * @author [Emmanuel Castillo]
+#  * @email [ecastillot@unal.edu.co]
+#  * @create date 2022-10-26 14:13:40
+#  * @modify date 2022-10-26 14:13:40
+#  * @desc [description]
+#  */
+
 
 import os
 from obspy.core.utcdatetime import UTCDateTime
@@ -8,10 +13,10 @@ from obspy.clients.fdsn import Client as FDSNClient
 from SeisMonitor.core.objects import WaveformRestrictions,Provider
 from SeisMonitor.monitor.downloader.seismonitor import MseedDownloader
 
-out_download_folder = os.path.join(Seismonitor_path,"out","download","fdsn")
+# out_download_folder = "./out/download/fdsn"
 
 carma_rest = WaveformRestrictions(network="YU",
-                    station="*",
+                    station="GJ*,CS*",
                     location="*",
                     channel="*",
                     starttime=UTCDateTime("2017-12-24T00:00:00.000000Z"),
@@ -25,6 +30,8 @@ carma_rest = WaveformRestrictions(network="YU",
 carma_client = FDSNClient(base_url="IRIS")
 carma_provider = Provider(carma_client,carma_rest)
 json_path = os.path.join(out_download_folder,"json","test.json")
+
+
 mseed_storage = os.path.join(out_download_folder,"downloads/{station}/{network}.{station}.{location}.{channel}__{starttime}__{endtime}.mseed")
 
 md = MseedDownloader(providers=[carma_provider])

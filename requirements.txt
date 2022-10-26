@@ -7,7 +7,7 @@ backcall==0.2.0
 beautifulsoup4==4.11.1
 bleach==5.0.1
 cachetools==4.2.4
-certifi @ file:///opt/conda/conda-bld/certifi_1663615672595/work/certifi
+#certifi @ file:///opt/conda/conda-bld/certifi_1663615672595/work/certifi
 cffi==1.15.1
 charset-normalizer==2.1.1
 cryptography==38.0.1
@@ -20,7 +20,7 @@ EQTransformer==0.1.59
 fastjsonschema==2.16.2
 fonttools==4.37.3
 gast==0.2.2
-GMMA @ git+https://github.com/wayneweiqiang/GaMMA.git@1a5a5371c294727d2f814bcfd48f73bde94627b4
+#GMMA @ git+https://github.com/wayneweiqiang/GaMMA.git@1a5a5371c294727d2f814bcfd48f73bde94627b4
 google-auth==1.35.0
 google-auth-oauthlib==0.4.6
 google-pasta==0.2.0

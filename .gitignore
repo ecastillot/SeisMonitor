@@ -6,4 +6,10 @@ out/
 **/nlloc/test*
 **/nlloc/TEST*
 **/examples
-**/asso_mesetas_test
+asso_mesetas_test/
+other*/
+build/
+dist/
+SeisMonitor.egg-info/
+time_tracks.pkl
+x.input

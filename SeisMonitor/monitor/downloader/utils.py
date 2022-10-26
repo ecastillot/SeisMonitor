@@ -91,13 +91,16 @@ def write_stream(st,mseed_storage,
 	tr = st[0]
 
 	mseed_filename = get_mseed_filename(_str=mseed_storage, 
-									network=tr.stats.network, 
-									station=tr.stats.station,
-									location=tr.stats.location, 
-									channel=tr.stats.channel,
-									starttime=tr.stats.starttime, 
-									endtime=tr.stats.endtime,
+									tr=tr,
 									ppc=ppc)
+	# mseed_filename = get_mseed_filename(_str=mseed_storage, 
+	# 								network=tr.stats.network, 
+	# 								station=tr.stats.station,
+	# 								location=tr.stats.location, 
+	# 								channel=tr.stats.channel,
+	# 								starttime=tr.stats.starttime, 
+	# 								endtime=tr.stats.endtime,
+	# 								ppc=ppc)
 
 	if threshold != None:
 		length = abs(tr.stats.endtime - tr.stats.starttime)
@@ -154,57 +157,40 @@ def write_stream(st,mseed_storage,
 					f'{mseed_filename}  {comment}')
 	del tr; del st
 
-def get_mseed_filename(_str, network, station, location, channel,
-					   starttime, endtime,ppc=False):
+
+def get_mseed_filename(_str, tr,ppc=False):
 	"""
-	Function taken from obspy
+	It generates the path of the file.
 
-	Helper function getting the filename of a MiniSEED file.
-
-	If it is a string, and it contains ``"{network}"``,  ``"{station}"``,
-	``"{location}"``, ``"{channel}"``, ``"{starttime}"``, and ``"{endtime}"``
-	formatting specifiers, ``str.format()`` is called.
-
-	Otherwise it is considered to be a folder name and the resulting
-	filename will be
-	``"FOLDER_NAME/NET.STA.LOC.CHAN__STARTTIME__ENDTIME.mseed"``
-
-	In the last two cases, the times will be formatted with
-	``"%Y%m%dT%H%M%SZ"``.
+	_str : str
+		string with the wildcards
+		possible wildcards: network,station,location,channel,starttime,endtime,year,month,day,julday
+	tr: Trace
+		trace to take the information
+	ppc: bool
+		True if it was preprocesed. If true .pcc is added in the path.
 	"""
 	strftime = "%Y%m%dT%H%M%SZ"
+	network=tr.stats.network 
+	station=tr.stats.station
+	location=tr.stats.location 
+	channel=tr.stats.channel
+	starttime=tr.stats.starttime 
+	_starttime=starttime.strftime(strftime) 
+	endtime=tr.stats.endtime
+	_endtime=endtime.strftime(strftime)
+	year = starttime.year
+	month = starttime.month
+	day = starttime.day
+	julday = starttime.julday
+	path = _str.format(
+                    network=network, station=station, location=location,
+                    channel=channel, year=year, month=month, 
+                    day=day, julday=julday,starttime=_starttime,endtime=_endtime)
+	if ppc:
+		path = path + ".ppc"
 
-	if ppc == True:
-		ppc_str = "ppc"
-	else:
-		ppc_str = ""
-
-	if ("{network}" in _str) and ("{station}" in _str) and \
-			("{location}" in _str) and ("{channel}" in _str) and \
-			("{starttime}" in _str) and ("{endtime}" in _str) and \
-			("{ppc}" in _str):
-		
-		path = _str.format(
-			network=network, station=station, location=location,
-			channel=channel, starttime=starttime.strftime(strftime),
-			endtime=endtime.strftime(strftime), ppc=ppc_str)
-	elif ("{network}" in _str) and ("{station}" in _str) and \
-			("{location}" in _str) and ("{channel}" in _str) and \
-			("{starttime}" in _str) and ("{endtime}" in _str):
-		path = _str.format(
-			network=network, station=station, location=location,
-			channel=channel, starttime=starttime.strftime(strftime),
-			endtime=endtime.strftime(strftime))
-	else:
-		path = os.path.join(
-			_str,
-			"{network}.{station}.{location}.{channel}__{s}__{e}.{ppc}.mseed".format(
-				network=network, station=station, location=location,
-				channel=channel, s=starttime.strftime(strftime),
-				e=endtime.strftime(strftime), ppc=ppc_str) )
-	if path is True:
-		return True
-	elif not isinstance(path, (str, bytes)):
+	if not isinstance(path, (str, bytes)):
 		raise TypeError("'%s' is not a filepath." % str(path))
 	return path
 
