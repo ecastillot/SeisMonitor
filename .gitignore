@@ -1,0 +1,15 @@
+_*/
+out/
+**/hypocenter/core
+**/hypoDD/core
+**/nlloc/core
+**/nlloc/test*
+**/nlloc/TEST*
+**/examples
+asso_mesetas_test/
+other*/
+build/
+dist/
+SeisMonitor.egg-info/
+time_tracks.pkl
+x.input

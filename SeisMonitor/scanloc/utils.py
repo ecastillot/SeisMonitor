@@ -877,9 +877,11 @@ def id_maker(pick_time, net, station, loc, ch, phaseHint):
     """
     dateID = pick_time.strftime('%Y%m%d.%H%M%S.%f')[:-4]
     if phaseHint == 'P':
-        publicID = dateID+f'-AIC-{net}.{station}.{loc}.{ch}'
+        # publicID = dateID+f'-AIC-{net}.{station}.{loc}.{ch}'
+        publicID = dateID+f'-P-{net}.{station}.{loc}.{ch[:-1]}'
     elif phaseHint == 'S':
-        publicID = dateID+f'-S-L2-{net}.{station}.{loc}.{ch}'
+        # publicID = dateID+f'-S-L2-{net}.{station}.{loc}.{ch}'
+        publicID = dateID+f'-S-{net}.{station}.{loc}.{ch[:-1]}'
     return publicID
 
 def sample2time(sample, to, df, segment, dt):
