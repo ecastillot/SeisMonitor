@@ -108,7 +108,7 @@ six==1.16.0
 soupsieve==2.3.2.post1
 SQLAlchemy==1.4.41
 tensorboard==2.0.2
-tensorflow==2.0.0
+tensorflow==2.7.2
 tensorflow-estimator==2.0.1
 termcolor==2.0.1
 terminado==0.15.0
