@@ -500,11 +500,10 @@ def get_client_waveforms(client,bulk,
 	try:
 		st = client.get_waveforms(net,sta,loc,cha,starttime,endtime)
 	except Exception as e:
-		# print(e)
+		printlog("error","Downloader: False",why+"->"+str(e))
 		st = Stream()
 		ppc = False
 		comment = ""
-		printlog("error","Downloader",why+"->"+e)
 		return st,ppc,comment
 	# print(st)
 	if len(st)==0:
@@ -538,7 +537,7 @@ def write_client_waveforms(client,bulk,
 					download_restrictions.threshold,
 					download_restrictions.picker_args,
 					[ppc,comment])
-	del st;st_dict;del client;del bulk;del waveform_restrictions;del processing
+	# del st;st_dict;del client;del bulk;del waveform_restrictions;del processing
 	# return st_dict
 
 def get_merged_inv_and_json(providers):

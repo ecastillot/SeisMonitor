@@ -142,24 +142,12 @@ if __name__ == "__main__":
                     "{network}.{station}.{location}.{channel}.{year}.{julday:03d}")
     carma_client = LocalClient(archive,my_local_fmt)
     st = carma_client.get_waveforms(network="YU",
-                        station="CS*,GJ*",
+                        station="GJ*",
                         location="*",
                         channel="*",
                         starttime=UTCDateTime("2017-12-24T00:00:00.000000Z"),
                         endtime=UTCDateTime("2017-12-24T00:10:00.000000Z"))
     print(st)
 
-    # # ## Apiay
-    # global_path = "/home/emmanuel/antares_archive/APIAY/seedfiles"
-    # fmt = os.path.join("{year}-{month:02d}", 
-    #                 "{year}-{month:02d}-{day:02d}", 
-    #                 "{network}.{station}.{location}.{channel}.{year}.{doy:03d}")
-
-    # client = LocalClient(global_path,fmt)
-    # st = client.get_waveforms("EY","AP01A","*",
-    #                     channel="*Z",starttime = UTCDateTime("20220102T000100"),
-    #                     endtime = UTCDateTime("20220102T000200"))
-    # st.plot()
-    # print(st)
 
 

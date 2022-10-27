@@ -141,8 +141,8 @@ class MseedDownloader(object):
       self._run_download(client,waveform_restrictions,
                         download_restrictions,
                         processing)
-      del client; del waveform_restrictions; del download_restrictions; del processing
-    del provider
+    #   del client; del waveform_restrictions; del download_restrictions; del processing
+    # del provider
   
   def _run_download(self,client,waveform_restrictions,
                         download_restrictions,
