@@ -101,6 +101,7 @@ class LocalClient(Client):
                             day=day, julday=doy,sds_type=sds_type)
             full_path = os.path.join(self.sds_root, filename)
             full_paths = full_paths.union(glob.glob(full_path))
+        
         return full_paths
 
     def _get_filename(self, network, station, location, channel, time, sds_type=None):
@@ -127,13 +128,25 @@ class LocalClient(Client):
 if __name__ == "__main__":
     from obspy import UTCDateTime
 
-    ### RSNC
-    root = "/home/emmanuel/RSNC-2016"
-    fmt = '{year}/{station}/{channel}.{sds_type}/{network}.{station}.{location}.{channel}.{sds_type}.{year}.{doy:03d}'
-    client = LocalClient(root,fmt)
-    st = client.get_waveforms("CM","BAR2","*",
-                        channel="*Z",starttime = UTCDateTime("20160627T235400"),
-                        endtime = UTCDateTime("20160627T235600"))
+    # ### RSNC
+    # root = "/home/emmanuel/RSNC-2016"
+    # fmt = '{year}/{station}/{channel}.{sds_type}/{network}.{station}.{location}.{channel}.{sds_type}.{year}.{doy:03d}'
+    # client = LocalClient(root,fmt)
+    # st = client.get_waveforms("CM","BAR2","*",
+    #                     channel="*Z",starttime = UTCDateTime("20160627T235400"),
+    #                     endtime = UTCDateTime("20160627T235600"))
+
+    archive = "/home/emmanuel/Descargas/SeisMonitor_dataset/archive/mseed"
+    my_local_fmt = os.path.join("{year}-{month:02d}", 
+                    "{year}-{month:02d}-{day:02d}", 
+                    "{network}.{station}.{location}.{channel}.{year}.{julday:03d}")
+    carma_client = LocalClient(archive,my_local_fmt)
+    st = carma_client.get_waveforms(network="YU",
+                        station="CS*,GJ*",
+                        location="*",
+                        channel="*",
+                        starttime=UTCDateTime("2017-12-24T00:00:00.000000Z"),
+                        endtime=UTCDateTime("2017-12-24T00:10:00.000000Z"))
     print(st)
 
     # # ## Apiay

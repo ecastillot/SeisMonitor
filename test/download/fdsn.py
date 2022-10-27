@@ -6,14 +6,13 @@
 #  * @desc [description]
 #  */
 
-
 import os
 from obspy.core.utcdatetime import UTCDateTime
 from obspy.clients.fdsn import Client as FDSNClient
 from SeisMonitor.core.objects import WaveformRestrictions,Provider
 from SeisMonitor.monitor.downloader.seismonitor import MseedDownloader
 
-# out_download_folder = "./out/download/fdsn"
+out_download_folder = "./out/download/fdsn"
 
 carma_rest = WaveformRestrictions(network="YU",
                     station="GJ*,CS*",

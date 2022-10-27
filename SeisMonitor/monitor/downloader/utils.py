@@ -427,7 +427,7 @@ def get_all_sdswaveforms(client,**kwargs):
 						# print(f"not obtained: {net}.{sta}.{loc}.{cha}."+\
 						#	   f"{myargs['starttime']}.{myargs['endtime']}:{e}")
 						seedname = f"{net}.{sta}.{loc}.{cha}.{myargs['starttime']}.{myargs['endtime']}"
-						printlog("warning",seedname,f"{e}")
+						printlog("error",seedname,f"{e}")
 
 	return st
 
@@ -491,22 +491,24 @@ def select_inventory(inv,network,station,location,
 def get_client_waveforms(client,bulk,
 						waveform_restrictions,
 						processing):
+	strftime = "%Y%m%dT%H%M%SZ"
 	net,sta,loc,cha,starttime,endtime = bulk
 	loc_preference = waveform_restrictions.location_preferences
 	cha_preference = waveform_restrictions.channel_preferences
 
+	why = "-".join((net,sta,loc,cha,starttime.strftime(strftime),endtime.strftime(strftime)))
 	try:
 		st = client.get_waveforms(net,sta,loc,cha,starttime,endtime)
 	except Exception as e:
-		strftime = "%Y%m%dT%H%M%SZ"
-		why = "-".join((net,sta,loc,cha,starttime.strftime(strftime),endtime.strftime(strftime)))
+		# print(e)
 		st = Stream()
 		ppc = False
 		comment = ""
-		printlog("warning","Downloader",why+"->"+e)
+		printlog("error","Downloader",why+"->"+e)
 		return st,ppc,comment
-	
+	# print(st)
 	if len(st)==0:
+		printlog("warning","Downloader: False","0 Trace(s) in Stream: "+why)
 		ppc = False
 		comment = ""
 		return st,ppc,comment
@@ -528,7 +530,6 @@ def write_client_waveforms(client,bulk,
 	st,ppc,comment = get_client_waveforms(client,bulk,
 						waveform_restrictions,
 						processing)
-
 	groupby = download_restrictions.groupby
 	st_dict = st._groupby(groupby)
 	for st in st_dict.values():
@@ -560,7 +561,7 @@ def get_merged_inv_and_json(providers):
 											starttime=restrictions.starttime, 
 											endtime=restrictions.endtime)
 			except:
-				printlog("info","Inventory",f"No get_stations with {restrictions.__dict__}")
+				printlog("error","Inventory",f"No get_stations with {restrictions.__dict__}")
 				inv = Inventory()
 		else:
 			# print("no xml")
@@ -574,7 +575,7 @@ def get_merged_inv_and_json(providers):
 															endtime=restrictions.endtime, 
 															level='channel')
 			except:
-				printlog("info","Inventory",f"No get_stations with {restrictions.__dict__}")
+				printlog("error","Inventory",f"No get_stations with {restrictions.__dict__}")
 				inv = Inventory()
 				
 
