@@ -32,6 +32,7 @@ class DownloadRestrictions():
 		self.picker_args = picker_args
 		self.groupby = groupby
 		self.n_processor=n_processor
+		
 
 def sanitize_provider_times(providers):
     provider_times = [(provider.waveform_restrictions.starttime,
@@ -93,14 +94,6 @@ def write_stream(st,mseed_storage,
 	mseed_filename = get_mseed_filename(_str=mseed_storage, 
 									tr=tr,
 									ppc=ppc)
-	# mseed_filename = get_mseed_filename(_str=mseed_storage, 
-	# 								network=tr.stats.network, 
-	# 								station=tr.stats.station,
-	# 								location=tr.stats.location, 
-	# 								channel=tr.stats.channel,
-	# 								starttime=tr.stats.starttime, 
-	# 								endtime=tr.stats.endtime,
-	# 								ppc=ppc)
 
 	if threshold != None:
 		length = abs(tr.stats.endtime - tr.stats.starttime)
@@ -115,9 +108,9 @@ def write_stream(st,mseed_storage,
 			download = True
 
 	if picker_args:
-		overlap,batch_size,length = picker_args["overlap"],picker_args["batch_size"],picker_args["length"]
+		overlap,batch_size,segment_length = picker_args["overlap"],picker_args["batch_size"],picker_args["length"]
 		data_length = abs(tr.stats.endtime - tr.stats.starttime)
-		max_batch_size = get_max_allowed_batch_size(data_length,length,overlap)
+		max_batch_size = get_max_allowed_batch_size(data_length,segment_length,overlap)
 		
 		if max_batch_size < batch_size:
 			comment = (f"This mseed only can be used with {max_batch_size} batchs. "+\
@@ -500,7 +493,7 @@ def get_client_waveforms(client,bulk,
 	try:
 		st = client.get_waveforms(net,sta,loc,cha,starttime,endtime)
 	except Exception as e:
-		printlog("error","Downloader: False",why+"->"+str(e))
+		printlog("info","Downloader: False",why+"->"+str(e))
 		st = Stream()
 		ppc = False
 		comment = ""
