@@ -1,17 +1,16 @@
-# SeisMonitor
-
-Set of routines to monitor seismic activity.
+![seismonitor](docs/figures/seismonitor.PNG)     
+# A package for seismological monitoring.
 
 *In process.*
 
 # Installation
 
-## Pip
+## pip
 ```bash
 pip install SeisMonitor==0.0.4
 pip install git+https://github.com/wayneweiqiang/GaMMA.git
 ```
-## Anaconda
+## conda
 ```bash
 conda create --name seismonitor python=3.7.9
 conda activate seismonitor
@@ -23,4 +22,4 @@ pip install git+https://github.com/wayneweiqiang/GaMMA.git
 
 # Examples
 
-For now, you can see the test folder
+For now, you can see some examples in the test folder. I am preparing some examples for you.
