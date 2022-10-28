@@ -1,5 +1,6 @@
 from typing import Union
 import pandas as pd
+import datetime as dt
 from itertools import groupby
 import json
 import SeisMonitor.utils as sut
@@ -13,8 +14,21 @@ def changing_picks_info(ev,ref_picks):
     for pick in ev.picks:
         station = pick.waveform_id.station_code
         phasehint = pick.phase_hint
-        time = pick.time.strftime("%Y%m%dT%H%M%S")
-        true_pick = ref_picks[station+"_"+phasehint+"_"+time]
+        try:
+            time = pick.time.strftime("%Y%m%dT%H%M%S")
+            true_pick = ref_picks[station+"_"+phasehint+"_"+time]
+        except:
+            try:
+                time = (pick.time-dt.timedelta(seconds=1)).strftime("%Y%m%dT%H%M%S")
+                true_pick = ref_picks[station+"_"+phasehint+"_"+time]
+            except:
+                try:
+                    time = (pick.time+dt.timedelta(seconds=1)).strftime("%Y%m%dT%H%M%S")
+                    true_pick = ref_picks[station+"_"+phasehint+"_"+time]
+                except:
+                    sut.printlog("warning","NLLOC",f'no information could be extracted from the mext pick in the input catalog: {station+"_"+phasehint+"_"+time}')
+
+        # print(list(ref_picks.keys()))
 
         # picks_dict[pick.resource_id.id] = true_pick.resource_id.id
         picks_dict[pick.resource_id.id] = true_pick

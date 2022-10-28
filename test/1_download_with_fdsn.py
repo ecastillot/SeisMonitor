@@ -29,7 +29,7 @@ sgc_rest = WaveformRestrictions(network="CM",
 sgc_client = FDSNClient('http://sismo.sgc.gov.co:8080')
 sgc_provider = Provider(sgc_client,sgc_rest)
 
-json_path = os.path.join(out_download_folder,"json","test.json")
+json_path = os.path.join(out_download_folder,"stations")
 
 
 mseed_storage = os.path.join(out_download_folder,"downloads/{station}/{network}.{station}.{location}.{channel}__{starttime}__{endtime}.mseed")

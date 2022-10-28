@@ -88,7 +88,8 @@ def sanitize_pick_batch_size(pickers,download_args):
         batch_sizes.append(args.batch_size)
         overlaps.append(args.overlap)
 
-    download_args["pick_batch_size"] = (min(overlaps),min(batch_sizes))
+    download_args["picker_args"]["overlap"] = min(overlaps)
+    download_args["picker_args"]["batch_size"] = min(batch_sizes)
     return download_args
 
 def sanitize_downloads(pickers):
@@ -122,7 +123,7 @@ class SeisMonitor():
     def add_downloader(self,
                     threshold= 60,
                     overlap_in_sec=0,
-                    pick_batch_size= (20,0.3),
+                    picker_args= {},
                     groupby='{network}.{station}.{channel}',
                     n_processor=None):
         dld_args = locals().copy()

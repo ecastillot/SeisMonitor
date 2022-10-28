@@ -44,7 +44,7 @@ carma_client = LocalClient(archive,my_local_fmt)
 xml_path = "/home/emmanuel/Descargas/SeisMonitor_dataset/archive/dataless/YU.xml"
 carma_provider = Provider(carma_client,carma_rest,xml=xml_path)
 
-json_path = os.path.join(out_folder,"json","test.json")
+json_path = os.path.join(out_folder,"stations")
 
 
 
