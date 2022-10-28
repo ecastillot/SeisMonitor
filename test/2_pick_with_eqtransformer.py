@@ -12,8 +12,8 @@ archive = "./out/download/fdsn"
 json_path = os.path.join(archive,"json/stations.json")
 mseed_storage = os.path.join(archive,"downloads/{station}/{network}.{station}.{location}.{channel}__{starttime}__{endtime}.mseed")
 
-
-eqt_model = os.path.join("/home/emmanuel/test/seismo",'EQTransformer/ModelsAndSampleData/EqT_model.h5')
+dataset = os.path.join(os.path.dirname(os.path.dirname(__file__)),"data")
+eqt_model = os.path.join(dataset,"models",'EqT_model.h5')
 eqtobj = EQTransformerObj(model_path = eqt_model,
             n_processor = 6,
             overlap = 0.3,

@@ -37,10 +37,13 @@ seismo = SeisMonitor(providers = [sgc_provider],
                     out_folder = out)
 
 seismo.add_downloader(picker_args= {"batch_size":100,"overlap":0.3,"length":60})
+
+dataset = os.path.join(os.path.dirname(os.path.dirname(__file__)),"data")
+eqt_model = os.path.join(dataset,"models",'EqT_model.h5')
 seismo.add_picker(
                   pickers={
                             "EQTransformer":ai_picker.EQTransformerObj(
-                                            model_path = ai_picker.EQTransformer_model_path,
+                                            model_path = eqt_model,
                                             n_processor = 32,
                                             overlap = 0.3,
                                             detection_threshold =0.1,
