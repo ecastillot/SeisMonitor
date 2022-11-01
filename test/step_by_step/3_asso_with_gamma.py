@@ -4,7 +4,8 @@ from obspy.core.utcdatetime import UTCDateTime
 from obspy.core.inventory.inventory import read_inventory
 from SeisMonitor.monitor.associator.ai import GaMMA,GaMMAObj
 
-archive = "./out/download/fdsn"
+# archive = "./out/download/fdsn"
+archive = "/home/emmanuel/EDCT/SeisMonitor/out/download/fdsn"
 
 resp = os.path.join(archive,"stations","inv.xml")
 picks = os.path.join(archive,"picks","seismonitor_picks.csv")
