@@ -7,7 +7,7 @@
 
 ## pip
 ```bash
-pip install SeisMonitor==0.0.4
+pip install SeisMonitor
 pip install git+https://github.com/wayneweiqiang/GaMMA.git
 ```
 ## conda
@@ -15,7 +15,7 @@ pip install git+https://github.com/wayneweiqiang/GaMMA.git
 conda create --name seismonitor python=3.7.9
 conda activate seismonitor
 conda install pip
-pip install SeisMonitor==0.0.4
+pip install SeisMonitor
 pip install git+https://github.com/wayneweiqiang/GaMMA.git
 ```
 
