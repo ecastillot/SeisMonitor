@@ -1,6 +1,6 @@
 ![seismonitor](docs/figures/seismonitor.PNG)     
 # A package for seismological monitoring.
-
+For now only supported for linux
 *In process.*
 
 # Installation
