@@ -1,7 +1,7 @@
 ![seismonitor](docs/figures/seismonitor.PNG)     
 # A package for seismological monitoring.
 For now only supported for linux
-*In process.*
+*In process...*
 
 # Installation
 
@@ -14,7 +14,6 @@ pip install git+https://github.com/wayneweiqiang/GaMMA.git
 ```bash
 conda create --name seismonitor python=3.7.9
 conda activate seismonitor
-conda install pip
 pip install SeisMonitor
 pip install git+https://github.com/wayneweiqiang/GaMMA.git
 ```
@@ -22,4 +21,8 @@ pip install git+https://github.com/wayneweiqiang/GaMMA.git
 
 # Examples
 
-For now, you can see some examples in the test folder. I am preparing some examples for you.
+We will be uploading examples.
+
+| Examples |  |
+|---|---|
+| Download| [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/ecastillot/SeisMonitor/blob/master/examples/1.download.ipynb) |
