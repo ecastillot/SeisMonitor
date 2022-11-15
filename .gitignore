@@ -5,7 +5,6 @@ out/
 **/nlloc/core
 **/nlloc/test*
 **/nlloc/TEST*
-**/examples
 build/
 dist/
 SeisMonitor.egg-info/

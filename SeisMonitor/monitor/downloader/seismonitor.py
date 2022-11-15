@@ -98,10 +98,15 @@ class MseedDownloader(object):
     -----------
     
     mseed_storage: str
-      Where to store the waveform files.
+      Path where to store the waveform files.
+      You could use the next key words to set the path for downloading:
+      -----------------------
+      network,station, location,
+      channel, year, month, 
+      day, julday,starttime,endtime
     chunklength_in_sec: None or int
 			The length of one chunk in seconds. 
-			If set, the time between starttime and endtime will be divided 
+			The time between starttime and endtime will be divided 
 			into segments of chunklength_in_sec seconds.
 		overlap_in_sec: None or int
 			For more than one chunk, each segment will have overlapping seconds
