@@ -14,9 +14,9 @@ import logging
 import os
 import sys
 
-logging.basicConfig(level=logging.INFO,
-                   format='%(asctime)s [%(levelname)s] [%(name)s] %(message)s',
-                   datefmt='%m-%d %H:%M') 
+# logging.basicConfig(level=logging.INFO,
+#                    format='%(asctime)s [%(levelname)s] [%(name)s] %(message)s',
+#                    datefmt='%m-%d %H:%M') 
 
 def validate(func, locals):
     for var, test in func.__annotations__.items():
@@ -33,7 +33,7 @@ def validate(func, locals):
         msg = f"Error in {func}: {var} argument must be {_test_msg}"
         assert isinstance(value,test),msg
 
-def printlog(levelname,name,msg):
+def printlog(levelname,name,msg,configure_logging=True):
     """
     Parameters:
     -----------
@@ -47,6 +47,20 @@ def printlog(levelname,name,msg):
 
     """
     logger = logging.getLogger(name)
+    if configure_logging:
+        logger.setLevel(logging.DEBUG)
+        # Prevent propagating to higher loggers.
+        logger.propagate = 0
+        # Console log handler.
+        ch = logging.StreamHandler()
+        ch.setLevel(logging.INFO)
+        # Add formatter
+        formatter = logging.Formatter(
+                '%(asctime)s [%(levelname)s] [%(name)s] %(message)s',
+                '%m-%d %H:%M')
+        ch.setFormatter(formatter)
+        logger.addHandler(ch)
+
     if levelname in ("info","information","INFO","Info","INFORMATION"):
         logger.info(msg)
     elif levelname in ("debug","DEBUG","Debug"):
