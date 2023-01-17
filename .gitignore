@@ -10,3 +10,4 @@ dist/
 SeisMonitor.egg-info/
 time_tracks.pkl
 x.input
+analisis/

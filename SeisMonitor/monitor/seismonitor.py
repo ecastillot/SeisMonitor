@@ -241,7 +241,7 @@ class SeisMonitor():
                                                 out_path)
                             if result.empty:
                                 print("No picks")
-                                exit()
+                                continue
                             del _picker
                             del result
 
@@ -252,7 +252,7 @@ class SeisMonitor():
                                                 out_path)
                             if result.empty:
                                 print("No picks")
-                                exit()
+                                continue
                             del _picker
                             del result
                             
@@ -272,7 +272,7 @@ class SeisMonitor():
                                                             inv,out_folder)
                                 if result.empty:
                                     print("No associated picks")
-                                    exit()
+                                    continue
 
                 elif process == "locator":
                     for locator,locator_args in process_args.items():

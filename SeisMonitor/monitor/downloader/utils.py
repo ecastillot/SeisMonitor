@@ -174,8 +174,8 @@ def get_mseed_filename(_str, tr,ppc=False):
 	_endtime=endtime.strftime(strftime)
 	year = starttime.year
 	month = starttime.month
-	day = starttime.day
-	julday = starttime.julday
+	day = endtime.day
+	julday = endtime.julday
 	path = _str.format(
                     network=network, station=station, location=location,
                     channel=channel, year=year, month=month, 
