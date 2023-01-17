@@ -178,6 +178,8 @@ def get_filenames(mseed, filter_net=[],
     return filenames
 
 def mv_mseed2onefolder(mseed_folder,one_folder):
+    print("aca",mseed_folder)
+    print("aca",one_folder)
     for dp, dn, filenames in os.walk(mseed_folder):
         for f in filenames:
             if f.endswith(".mseed") :

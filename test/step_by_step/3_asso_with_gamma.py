@@ -1,3 +1,7 @@
+import sys
+repository_path = r"/home/emmanuel/SeisMonitor"  
+sys.path.insert(0,repository_path)
+
 import os
 from SeisMonitor.monitor.associator import utils as ut
 from obspy.core.utcdatetime import UTCDateTime
@@ -5,13 +9,13 @@ from obspy.core.inventory.inventory import read_inventory
 from SeisMonitor.monitor.associator.ai import GaMMA,GaMMAObj
 
 # archive = "./out/download/fdsn"
-archive = "/home/emmanuel/EDCT/SeisMonitor/out/download/fdsn"
+archive = "/home/emmanuel/SeisMonitor/out"
 
 resp = os.path.join(archive,"stations","inv.xml")
-picks = os.path.join(archive,"picks","seismonitor_picks.csv")
+picks = os.path.join(archive,"picks","pnet","results","seismonitor_picks.csv")
 out_dir = os.path.join(archive,"asso","gamma")
 
-# region = [-84.798, -66.546,-1.628, 15.445,0, 41]
+# region = [-84.798, -66.546,-1.628, 15.445,0, 150]
 region = [-76.729, -72.315,1.55, 5.314,0, 150]
 
 gc = GaMMAObj(region,"EPSG:3116",

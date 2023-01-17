@@ -14,28 +14,27 @@ from EQTransformer.core.mseed_predictor import mseed_predictor
 warnings.simplefilter(action='ignore', category=FutureWarning)
 tf.compat.v1.logging.set_verbosity(tf.compat.v1.logging.ERROR)
 
-EQTransformer_core_path = os.path.join(os.path.dirname(__file__),"core","EQTransformer")
-EQTransformer_model_path = os.path.join(EQTransformer_core_path,"ModelsAndSampleData","EqT_model.h5")
-PhaseNet_core_path = os.path.join(os.path.dirname(__file__),"core","PhaseNet")
-PhaseNet_model_path = os.path.join(PhaseNet_core_path,"model","190703-214543")
+# EQTransformer_core_path = os.path.join(os.path.dirname(__file__),"core","EQTransformer")
+# EQTransformer_model_path = os.path.join(EQTransformer_core_path,"ModelsAndSampleData","EqT_model.h5")
+# PhaseNet_core_path = os.path.join(os.path.dirname(__file__),"core","PhaseNet")
+# PhaseNet_model_path = os.path.join(PhaseNet_core_path,"model","190703-214543")
 
 class EQTransformerObj(object):
-    def __init__(self,model_path,
-                # chunk_size=3600,
+    def __init__(self,eqt_path,
                 n_processor=2,overlap=0.3,
                 detection_threshold=0.1, P_threshold=0.1,
                 S_threshold=0.1,number_of_plots=1,
                 batch_size=1,
                 plot_mode=1,
                 overwrite=False,
+                # chunk_size=3600,
                 rm_downloads=False):
 
         """
         EQTransformer parameters
         """
-
-        self.model_path = model_path
-        # self.chunk_size = chunk_size
+        self.eqt_path = eqt_path
+        self.model_path = os.path.join(eqt_path,"ModelsAndSampleData","EqT_model.h5")
         self.n_processor = n_processor
         self.overlap = overlap
         self.detection_threshold = detection_threshold
@@ -49,7 +48,7 @@ class EQTransformerObj(object):
         self.name = "EQTransformer"
 
 class PhaseNetObj(object):
-    def __init__(self, model_path,
+    def __init__(self, phasenet_path,
                  mode='pred', P_threshold=0.3, S_threshold=0.3,
                 batch_size=2, plot = False, save_result=False,
                 epochs = 100,learning_rate= 0.01,decay_step = -1,
@@ -71,7 +70,8 @@ class PhaseNetObj(object):
         PhaseNet parameters
         """
 
-        self.model_dir = model_path
+        self.phasenet_path = phasenet_path
+        self.model_dir = os.path.join(phasenet_path,"model","190703-214543")
         self.mode = mode
         self.tp_prob = P_threshold
         self.ts_prob = S_threshold
@@ -181,7 +181,7 @@ class EQTransformer():
 class PhaseNet():
     def __init__(self,pnet_obj):
         self.pnet_obj = pnet_obj
-        
+        self.msg_author = "Picker: PhaseNet"
 
     def __mv_downloads2onefolder(self):
         """
@@ -229,7 +229,7 @@ class PhaseNet():
         self.pick_storage = os.path.join(out_dir,"results")
         self.datadir = os.path.join(out_dir,"datadir")
         self.datalist = os.path.join(out_dir,"datalist",'fname.csv')
-        self.msg_author = "Picker: PhaseNet"
+        
         
         self.__mv_downloads2onefolder()
         self.__make_datalist()

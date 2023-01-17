@@ -18,6 +18,20 @@ import sys
 #                    format='%(asctime)s [%(levelname)s] [%(name)s] %(message)s',
 #                    datefmt='%m-%d %H:%M') 
 
+logger = logging.getLogger("SeisMonitor")
+logger.setLevel(logging.DEBUG)
+# Prevent propagating to higher loggers.
+logger.propagate = 0
+# Console log handler.
+ch = logging.StreamHandler()
+ch.setLevel(logging.INFO)
+# Add formatter
+formatter = logging.Formatter(
+        '%(asctime)s [%(levelname)s] [%(name)s] %(message)s',
+        '%m-%d %H:%M')
+ch.setFormatter(formatter)
+logger.addHandler(ch)
+
 def validate(func, locals):
     for var, test in func.__annotations__.items():
         try:
@@ -46,29 +60,15 @@ def printlog(levelname,name,msg,configure_logging=True):
         Message that you want to print
 
     """
-    logger = logging.getLogger(name)
-    if configure_logging:
-        logger.setLevel(logging.DEBUG)
-        # Prevent propagating to higher loggers.
-        logger.propagate = 0
-        # Console log handler.
-        ch = logging.StreamHandler()
-        ch.setLevel(logging.INFO)
-        # Add formatter
-        formatter = logging.Formatter(
-                '%(asctime)s [%(levelname)s] [%(name)s] %(message)s',
-                '%m-%d %H:%M')
-        ch.setFormatter(formatter)
-        logger.addHandler(ch)
-
+    new_logger = logger.getChild(name)
     if levelname in ("info","information","INFO","Info","INFORMATION"):
-        logger.info(msg)
+        new_logger.info(msg)
     elif levelname in ("debug","DEBUG","Debug"):
-        logger.debug(msg)
+        new_logger.debug(msg)
     elif levelname in ("warning","Warning","WARNING"):
-        logger.warning(msg)
+        new_logger.warning(msg)
     elif levelname in ("error","ERROR"):
-        logger.error(msg)
+        new_logger.error(msg)
 
 def isfile(filepath,overwrite=False):
     """

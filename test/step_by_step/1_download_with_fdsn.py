@@ -5,6 +5,9 @@
 #  * @modify date 2022-10-26 14:13:40
 #  * @desc [description]
 #  */
+import sys
+repository_path = r"/home/emmanuel/SeisMonitor"  
+sys.path.insert(0,repository_path)
 
 import os
 from obspy.core.utcdatetime import UTCDateTime
@@ -12,10 +15,10 @@ from obspy.clients.fdsn import Client as FDSNClient
 from SeisMonitor.core.objects import WaveformRestrictions,Provider
 from SeisMonitor.monitor.downloader.seismonitor import MseedDownloader
 
-out_download_folder = "./out/download/fdsn"
+out_download_folder = "/home/emmanuel/SeisMonitor/out"
 
 sgc_rest = WaveformRestrictions(network="CM",
-                    station="*",
+                    station="VMM*",
                     location="*",
                     channel="*",
                     starttime=UTCDateTime("2019-12-24T19:00:00.000000Z"),

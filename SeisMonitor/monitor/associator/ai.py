@@ -269,10 +269,10 @@ class GaMMA():
         pbar = tqdm(1)
         meta = station_df.merge(picks_df["id"], how="right", on="id")
 
-        # picks_df[["id","timestamp","prob","type"]].to_csv("/home/emmanuel/G-Ecopetrol/ecastillo/Avances/2022/Procesamiento_CSE/CSE_202209_analisis/picks.csv",index=False)
-        # station_df.to_csv("/home/emmanuel/G-Ecopetrol/ecastillo/Avances/2022/Procesamiento_CSE/CSE_202209_analisis/stations.csv",index=False)
+        # print(picks_df, station_df)
         catalogs, assignments = association(picks_df, station_df, config, 
                                 method=self.gamma_obj.method,pbar=pbar)
+        # print(catalogs, assignments,config)
         if not catalogs:
             return Catalog(),pd.DataFrame(),pd.DataFrame()
         
