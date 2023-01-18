@@ -48,7 +48,7 @@ class EQTransformerObj(object):
         self.name = "EQTransformer"
 
 class PhaseNetObj(object):
-    def __init__(self, phasenet_path,
+    def __init__(self, pnet_path,
                  mode='pred', P_threshold=0.3, S_threshold=0.3,
                 batch_size=2, plot = False, save_result=False,
                 epochs = 100,learning_rate= 0.01,decay_step = -1,
@@ -70,8 +70,8 @@ class PhaseNetObj(object):
         PhaseNet parameters
         """
 
-        self.phasenet_path = phasenet_path
-        self.model_dir = os.path.join(phasenet_path,"model","190703-214543")
+        self.phasenet_path = pnet_path
+        self.model_dir = os.path.join(pnet_path,"model","190703-214543")
         self.mode = mode
         self.tp_prob = P_threshold
         self.ts_prob = S_threshold

@@ -1,0 +1,5 @@
+EQTransformer==0.1.58
+pyproj==3.2.1
+protobuf==3.20.*
+GitPython==3.1.30
+#GMMA @ git+https://github.com/wayneweiqiang/GaMMA.git@1a5a5371c294727d2f814bcfd48f73bde94627b4
