@@ -25,4 +25,5 @@ We will be uploading examples.
 
 | Examples |  |
 |---|---|
-| Download| [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/ecastillot/SeisMonitor/blob/master/examples/1.download.ipynb) |
+| 1.downloader| [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/ecastillot/SeisMonitor/blob/master/examples/1.downloader.ipynb) |
+| 1.picker| [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/ecastillot/SeisMonitor/blob/master/examples/2.picker.ipynb) |
