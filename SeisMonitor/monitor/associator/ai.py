@@ -131,11 +131,11 @@ def get_gamma_picks(event_picks):
     pick_list = []
     for i, row in event_picks.iterrows():
         # print(row.location)
-        if math.isnan(row.location):
-            loc = ""
-        else:
-            loc = "{:02d}".format(int(row.location))
-
+        # if math.isnan(row.location):
+        #     loc = ""
+        # else:
+        #     loc = "{:02d}".format(int(row.location))
+        loc = row.location
         str_id = ".".join((row.network,row.station,
                            loc,row.instrument_type + "Z"))
         
@@ -269,7 +269,10 @@ class GaMMA():
         pbar = tqdm(1)
         meta = station_df.merge(picks_df["id"], how="right", on="id")
 
-        # print(picks_df, station_df)
+        # picks_df = picks_df.iloc[0:200]
+        # print(picks_df.info(), 
+        # station_df.info())
+        # picks_df.to_csv("./test.csv",index=False)
         catalogs, assignments = association(picks_df, station_df, config, 
                                 method=self.gamma_obj.method,pbar=pbar)
         # print(catalogs, assignments,config)

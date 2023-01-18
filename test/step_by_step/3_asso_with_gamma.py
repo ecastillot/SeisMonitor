@@ -12,7 +12,8 @@ from SeisMonitor.monitor.associator.ai import GaMMA,GaMMAObj
 archive = "/home/emmanuel/SeisMonitor/out"
 
 resp = os.path.join(archive,"stations","inv.xml")
-picks = os.path.join(archive,"picks","pnet","results","seismonitor_picks.csv")
+# picks = os.path.join(archive,"picks","eqt","results","seismonitor_picks.csv")
+picks = "/home/emmanuel/SeisMonitor/data/picks/pnet_seismonitor_picks.csv"
 out_dir = os.path.join(archive,"asso","gamma")
 
 # region = [-84.798, -66.546,-1.628, 15.445,0, 150]

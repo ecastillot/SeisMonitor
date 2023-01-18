@@ -1,0 +1,2104 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<FDSNStationXML xmlns="http://www.fdsn.org/xml/station/1" schemaVersion="1.2">
+  <Source>ObsPy 1.3.1,SeisComP3</Source>
+  <Sender>SGC</Sender>
+  <Module>ObsPy 1.3.1</Module>
+  <ModuleURI>https://www.obspy.org</ModuleURI>
+  <Created>2023-01-18T15:11:18.975744Z</Created>
+  <Network code="CM" startDate="1980-01-01T00:00:00.000000Z" restrictedStatus="open">
+    <Description>Servicio Geologico Colombiano-SGC</Description>
+    <Station code="YOT" startDate="2011-12-09T00:00:00.000000Z" restrictedStatus="open">
+      <Latitude unit="DEGREES">3.9835</Latitude>
+      <Longitude unit="DEGREES">-76.345</Longitude>
+      <Elevation>1040.0</Elevation>
+      <Site>
+        <Name>Yotoco, Valle, Colombia</Name>
+        <Country> Colombia</Country>
+      </Site>
+      <CreationDate>2011-12-09T00:00:00.000000Z</CreationDate>
+      <Channel code="BHE" startDate="2018-10-09T15:40:00.000000Z" restrictedStatus="open" locationCode="00">
+        <Latitude unit="DEGREES">3.9835</Latitude>
+        <Longitude unit="DEGREES">-76.345</Longitude>
+        <Elevation>1040.0</Elevation>
+        <Depth>0.0</Depth>
+        <Azimuth unit="DEGREES">90.0</Azimuth>
+        <Dip unit="DEGREES">0.0</Dip>
+        <SampleRate unit="SAMPLES/S">20.0</SampleRate>
+        <SampleRateRatio>
+          <NumberSamples>20</NumberSamples>
+          <NumberSeconds>1</NumberSeconds>
+        </SampleRateRatio>
+        <ClockDrift unit="SECONDS/SAMPLE">0.0</ClockDrift>
+        <Sensor resourceId="Sensor/20190531161051.006396.144">
+          <Type>RT151B, 120</Type>
+          <Description>RT151B, 120 s, 2000 V/m/s-Q330SR, gain 1, 100 sps,</Description>
+          <Manufacturer>RT151B,</Manufacturer>
+          <Model>120</Model>
+        </Sensor>
+        <DataLogger resourceId="Datalogger/20190531161051.006001.142"/>
+        <Response>
+          <InstrumentSensitivity>
+            <Value>842103000.0</Value>
+            <Frequency>0.05</Frequency>
+            <InputUnits>
+              <Name>M/S</Name>
+              <Description>Velocity in Meters Per Second</Description>
+            </InputUnits>
+            <OutputUnits>
+              <Name></Name>
+              <Description>None</Description>
+            </OutputUnits>
+          </InstrumentSensitivity>
+        </Response>
+      </Channel>
+      <Channel code="BHN" startDate="2018-10-09T15:40:00.000000Z" restrictedStatus="open" locationCode="00">
+        <Latitude unit="DEGREES">3.9835</Latitude>
+        <Longitude unit="DEGREES">-76.345</Longitude>
+        <Elevation>1040.0</Elevation>
+        <Depth>0.0</Depth>
+        <Azimuth unit="DEGREES">0.0</Azimuth>
+        <Dip unit="DEGREES">0.0</Dip>
+        <SampleRate unit="SAMPLES/S">20.0</SampleRate>
+        <SampleRateRatio>
+          <NumberSamples>20</NumberSamples>
+          <NumberSeconds>1</NumberSeconds>
+        </SampleRateRatio>
+        <ClockDrift unit="SECONDS/SAMPLE">0.0</ClockDrift>
+        <Sensor resourceId="Sensor/20190531161051.007309.149">
+          <Type>RT151B, 120</Type>
+          <Description>RT151B, 120 s, 2000 V/m/s-Q330SR, gain 1, 100 sps,</Description>
+          <Manufacturer>RT151B,</Manufacturer>
+          <Model>120</Model>
+        </Sensor>
+        <DataLogger resourceId="Datalogger/20190531161051.006866.147"/>
+        <Response>
+          <InstrumentSensitivity>
+            <Value>834273000.0</Value>
+            <Frequency>0.05</Frequency>
+            <InputUnits>
+              <Name>M/S</Name>
+              <Description>Velocity in Meters Per Second</Description>
+            </InputUnits>
+            <OutputUnits>
+              <Name></Name>
+              <Description>None</Description>
+            </OutputUnits>
+          </InstrumentSensitivity>
+        </Response>
+      </Channel>
+      <Channel code="BHZ" startDate="2018-10-09T15:40:00.000000Z" restrictedStatus="open" locationCode="00">
+        <Latitude unit="DEGREES">3.9835</Latitude>
+        <Longitude unit="DEGREES">-76.345</Longitude>
+        <Elevation>1040.0</Elevation>
+        <Depth>0.0</Depth>
+        <Azimuth unit="DEGREES">0.0</Azimuth>
+        <Dip unit="DEGREES">-90.0</Dip>
+        <SampleRate unit="SAMPLES/S">20.0</SampleRate>
+        <SampleRateRatio>
+          <NumberSamples>20</NumberSamples>
+          <NumberSeconds>1</NumberSeconds>
+        </SampleRateRatio>
+        <ClockDrift unit="SECONDS/SAMPLE">0.0</ClockDrift>
+        <Sensor resourceId="Sensor/20190531161051.008155.154">
+          <Type>RT151B, 120</Type>
+          <Description>RT151B, 120 s, 2000 V/m/s-Q330SR, gain 1, 100 sps,</Description>
+          <Manufacturer>RT151B,</Manufacturer>
+          <Model>120</Model>
+        </Sensor>
+        <DataLogger resourceId="Datalogger/20190531161051.00774.152"/>
+        <Response>
+          <InstrumentSensitivity>
+            <Value>846335000.0</Value>
+            <Frequency>0.05</Frequency>
+            <InputUnits>
+              <Name>M/S</Name>
+              <Description>Velocity in Meters Per Second</Description>
+            </InputUnits>
+            <OutputUnits>
+              <Name></Name>
+              <Description>None</Description>
+            </OutputUnits>
+          </InstrumentSensitivity>
+        </Response>
+      </Channel>
+      <Channel code="HHE" startDate="2018-10-09T15:40:00.000000Z" restrictedStatus="open" locationCode="00">
+        <Latitude unit="DEGREES">3.9835</Latitude>
+        <Longitude unit="DEGREES">-76.345</Longitude>
+        <Elevation>1040.0</Elevation>
+        <Depth>0.0</Depth>
+        <Azimuth unit="DEGREES">90.0</Azimuth>
+        <Dip unit="DEGREES">0.0</Dip>
+        <SampleRate unit="SAMPLES/S">100.0</SampleRate>
+        <SampleRateRatio>
+          <NumberSamples>100</NumberSamples>
+          <NumberSeconds>1</NumberSeconds>
+        </SampleRateRatio>
+        <ClockDrift unit="SECONDS/SAMPLE">0.0</ClockDrift>
+        <Sensor resourceId="Sensor/20190531161051.009631.159">
+          <Type>RT151B, 120</Type>
+          <Description>RT151B, 120 s, 2000 V/m/s-Q330SR, gain 1, 100 sps,</Description>
+          <Manufacturer>RT151B,</Manufacturer>
+          <Model>120</Model>
+        </Sensor>
+        <DataLogger resourceId="Datalogger/20190531161051.008677.157"/>
+        <Response>
+          <InstrumentSensitivity>
+            <Value>842096000.0</Value>
+            <Frequency>0.05</Frequency>
+            <InputUnits>
+              <Name>M/S</Name>
+              <Description>Velocity in Meters Per Second</Description>
+            </InputUnits>
+            <OutputUnits>
+              <Name></Name>
+              <Description>None</Description>
+            </OutputUnits>
+          </InstrumentSensitivity>
+        </Response>
+      </Channel>
+      <Channel code="HHN" startDate="2018-10-09T15:40:00.000000Z" restrictedStatus="open" locationCode="00">
+        <Latitude unit="DEGREES">3.9835</Latitude>
+        <Longitude unit="DEGREES">-76.345</Longitude>
+        <Elevation>1040.0</Elevation>
+        <Depth>0.0</Depth>
+        <Azimuth unit="DEGREES">0.0</Azimuth>
+        <Dip unit="DEGREES">0.0</Dip>
+        <SampleRate unit="SAMPLES/S">100.0</SampleRate>
+        <SampleRateRatio>
+          <NumberSamples>100</NumberSamples>
+          <NumberSeconds>1</NumberSeconds>
+        </SampleRateRatio>
+        <ClockDrift unit="SECONDS/SAMPLE">0.0</ClockDrift>
+        <Sensor resourceId="Sensor/20190531161051.010535.164">
+          <Type>RT151B, 120</Type>
+          <Description>RT151B, 120 s, 2000 V/m/s-Q330SR, gain 1, 100 sps,</Description>
+          <Manufacturer>RT151B,</Manufacturer>
+          <Model>120</Model>
+        </Sensor>
+        <DataLogger resourceId="Datalogger/20190531161051.010102.162"/>
+        <Response>
+          <InstrumentSensitivity>
+            <Value>834273000.0</Value>
+            <Frequency>0.05</Frequency>
+            <InputUnits>
+              <Name>M/S</Name>
+              <Description>Velocity in Meters Per Second</Description>
+            </InputUnits>
+            <OutputUnits>
+              <Name></Name>
+              <Description>None</Description>
+            </OutputUnits>
+          </InstrumentSensitivity>
+        </Response>
+      </Channel>
+      <Channel code="HHZ" startDate="2018-10-09T15:40:00.000000Z" restrictedStatus="open" locationCode="00">
+        <Latitude unit="DEGREES">3.9835</Latitude>
+        <Longitude unit="DEGREES">-76.345</Longitude>
+        <Elevation>1040.0</Elevation>
+        <Depth>0.0</Depth>
+        <Azimuth unit="DEGREES">0.0</Azimuth>
+        <Dip unit="DEGREES">-90.0</Dip>
+        <SampleRate unit="SAMPLES/S">100.0</SampleRate>
+        <SampleRateRatio>
+          <NumberSamples>100</NumberSamples>
+          <NumberSeconds>1</NumberSeconds>
+        </SampleRateRatio>
+        <ClockDrift unit="SECONDS/SAMPLE">0.0</ClockDrift>
+        <Sensor resourceId="Sensor/20190531161051.011369.169">
+          <Type>RT151B, 120</Type>
+          <Description>RT151B, 120 s, 2000 V/m/s-Q330SR, gain 1, 100 sps,</Description>
+          <Manufacturer>RT151B,</Manufacturer>
+          <Model>120</Model>
+        </Sensor>
+        <DataLogger resourceId="Datalogger/20190531161051.010958.167"/>
+        <Response>
+          <InstrumentSensitivity>
+            <Value>846335000.0</Value>
+            <Frequency>0.05</Frequency>
+            <InputUnits>
+              <Name>M/S</Name>
+              <Description>Velocity in Meters Per Second</Description>
+            </InputUnits>
+            <OutputUnits>
+              <Name></Name>
+              <Description>None</Description>
+            </OutputUnits>
+          </InstrumentSensitivity>
+        </Response>
+      </Channel>
+      <Channel code="HNE" startDate="2018-10-09T15:38:00.000000Z" restrictedStatus="open" locationCode="10">
+        <Latitude unit="DEGREES">3.9835</Latitude>
+        <Longitude unit="DEGREES">-76.345</Longitude>
+        <Elevation>1040.0</Elevation>
+        <Depth>0.0</Depth>
+        <Azimuth unit="DEGREES">90.0</Azimuth>
+        <Dip unit="DEGREES">0.0</Dip>
+        <SampleRate unit="SAMPLES/S">200.0</SampleRate>
+        <SampleRateRatio>
+          <NumberSamples>200</NumberSamples>
+          <NumberSeconds>1</NumberSeconds>
+        </SampleRateRatio>
+        <ClockDrift unit="SECONDS/SAMPLE">0.0</ClockDrift>
+        <Sensor resourceId="Sensor/20190531161051.00307.129">
+          <Type>CMG-5T, DC_100</Type>
+          <Description>CMG-5T, DC_100 s,  0.255 V/m/s**2, 4g clip level,</Description>
+          <Manufacturer>CMG-5T,</Manufacturer>
+          <Model>DC_100</Model>
+        </Sensor>
+        <DataLogger resourceId="Datalogger/20190531161051.002742.127"/>
+        <Response>
+          <InstrumentSensitivity>
+            <Value>430748.0</Value>
+            <Frequency>0.05</Frequency>
+            <InputUnits>
+              <Name>M/S**2</Name>
+              <Description>Acceleration in Meters Per Second Per Second</Description>
+            </InputUnits>
+            <OutputUnits>
+              <Name></Name>
+              <Description>None</Description>
+            </OutputUnits>
+          </InstrumentSensitivity>
+        </Response>
+      </Channel>
+      <Channel code="HNN" startDate="2018-10-09T15:38:00.000000Z" restrictedStatus="open" locationCode="10">
+        <Latitude unit="DEGREES">3.9835</Latitude>
+        <Longitude unit="DEGREES">-76.345</Longitude>
+        <Elevation>1040.0</Elevation>
+        <Depth>0.0</Depth>
+        <Azimuth unit="DEGREES">0.0</Azimuth>
+        <Dip unit="DEGREES">0.0</Dip>
+        <SampleRate unit="SAMPLES/S">200.0</SampleRate>
+        <SampleRateRatio>
+          <NumberSamples>200</NumberSamples>
+          <NumberSeconds>1</NumberSeconds>
+        </SampleRateRatio>
+        <ClockDrift unit="SECONDS/SAMPLE">0.0</ClockDrift>
+        <Sensor resourceId="Sensor/20190531161051.004095.134">
+          <Type>CMG-5T, DC_100</Type>
+          <Description>CMG-5T, DC_100 s,  0.255 V/m/s**2, 4g clip level,</Description>
+          <Manufacturer>CMG-5T,</Manufacturer>
+          <Model>DC_100</Model>
+        </Sensor>
+        <DataLogger resourceId="Datalogger/20190531161051.003582.132"/>
+        <Response>
+          <InstrumentSensitivity>
+            <Value>434942.0</Value>
+            <Frequency>0.05</Frequency>
+            <InputUnits>
+              <Name>M/S**2</Name>
+              <Description>Acceleration in Meters Per Second Per Second</Description>
+            </InputUnits>
+            <OutputUnits>
+              <Name></Name>
+              <Description>None</Description>
+            </OutputUnits>
+          </InstrumentSensitivity>
+        </Response>
+      </Channel>
+      <Channel code="HNZ" startDate="2018-10-09T15:38:00.000000Z" restrictedStatus="open" locationCode="10">
+        <Latitude unit="DEGREES">3.9835</Latitude>
+        <Longitude unit="DEGREES">-76.345</Longitude>
+        <Elevation>1040.0</Elevation>
+        <Depth>0.0</Depth>
+        <Azimuth unit="DEGREES">0.0</Azimuth>
+        <Dip unit="DEGREES">-90.0</Dip>
+        <SampleRate unit="SAMPLES/S">200.0</SampleRate>
+        <SampleRateRatio>
+          <NumberSamples>200</NumberSamples>
+          <NumberSeconds>1</NumberSeconds>
+        </SampleRateRatio>
+        <ClockDrift unit="SECONDS/SAMPLE">0.0</ClockDrift>
+        <Sensor resourceId="Sensor/20190531161051.005608.139">
+          <Type>CMG-5T, DC_100</Type>
+          <Description>CMG-5T, DC_100 s,  0.255 V/m/s**2, 4g clip level,</Description>
+          <Manufacturer>CMG-5T,</Manufacturer>
+          <Model>DC_100</Model>
+        </Sensor>
+        <DataLogger resourceId="Datalogger/20190531161051.005142.137"/>
+        <Response>
+          <InstrumentSensitivity>
+            <Value>425715.0</Value>
+            <Frequency>0.05</Frequency>
+            <InputUnits>
+              <Name>M/S**2</Name>
+              <Description>Acceleration in Meters Per Second Per Second</Description>
+            </InputUnits>
+            <OutputUnits>
+              <Name></Name>
+              <Description>None</Description>
+            </OutputUnits>
+          </InstrumentSensitivity>
+        </Response>
+      </Channel>
+    </Station>
+    <Station code="FLO2" startDate="1993-06-01T00:00:00.000000Z" restrictedStatus="open">
+      <Latitude unit="DEGREES">1.582667</Latitude>
+      <Longitude unit="DEGREES">-75.652667</Longitude>
+      <Elevation>365.0</Elevation>
+      <Site>
+        <Name>Florencia, Caqueta, Colombia</Name>
+        <Country> Colombia</Country>
+      </Site>
+      <CreationDate>1993-06-01T00:00:00.000000Z</CreationDate>
+      <Channel code="BHE" startDate="2016-08-04T16:37:00.000000Z" restrictedStatus="open" locationCode="00">
+        <Latitude unit="DEGREES">1.582667</Latitude>
+        <Longitude unit="DEGREES">-75.652667</Longitude>
+        <Elevation>365.0</Elevation>
+        <Depth>0.0</Depth>
+        <Azimuth unit="DEGREES">90.0</Azimuth>
+        <Dip unit="DEGREES">0.0</Dip>
+        <SampleRate unit="SAMPLES/S">20.0</SampleRate>
+        <SampleRateRatio>
+          <NumberSamples>20</NumberSamples>
+          <NumberSeconds>1</NumberSeconds>
+        </SampleRateRatio>
+        <ClockDrift unit="SECONDS/SAMPLE">0.0</ClockDrift>
+        <Sensor resourceId="Sensor/20190703222421.891545.138">
+          <Type>STS-2.5, 120s,</Type>
+          <Description>STS-2.5, 120s, 1500 V/m/s-Q330SR, gain 1, 100 sps,</Description>
+          <Manufacturer>STS-2.5,</Manufacturer>
+          <Model>120s,</Model>
+        </Sensor>
+        <DataLogger resourceId="Datalogger/20190703222421.890926.136"/>
+        <Response>
+          <InstrumentSensitivity>
+            <Value>626628000.0</Value>
+            <Frequency>0.05</Frequency>
+            <InputUnits>
+              <Name>M/S</Name>
+              <Description>Velocity in Meters Per Second</Description>
+            </InputUnits>
+            <OutputUnits>
+              <Name></Name>
+              <Description>None</Description>
+            </OutputUnits>
+          </InstrumentSensitivity>
+        </Response>
+      </Channel>
+      <Channel code="BHN" startDate="2016-08-04T16:37:00.000000Z" restrictedStatus="open" locationCode="00">
+        <Latitude unit="DEGREES">1.582667</Latitude>
+        <Longitude unit="DEGREES">-75.652667</Longitude>
+        <Elevation>365.0</Elevation>
+        <Depth>0.0</Depth>
+        <Azimuth unit="DEGREES">0.0</Azimuth>
+        <Dip unit="DEGREES">0.0</Dip>
+        <SampleRate unit="SAMPLES/S">20.0</SampleRate>
+        <SampleRateRatio>
+          <NumberSamples>20</NumberSamples>
+          <NumberSeconds>1</NumberSeconds>
+        </SampleRateRatio>
+        <ClockDrift unit="SECONDS/SAMPLE">0.0</ClockDrift>
+        <Sensor resourceId="Sensor/20190703222421.892849.143">
+          <Type>STS-2.5, 120s,</Type>
+          <Description>STS-2.5, 120s, 1500 V/m/s-Q330SR, gain 1, 100 sps,</Description>
+          <Manufacturer>STS-2.5,</Manufacturer>
+          <Model>120s,</Model>
+        </Sensor>
+        <DataLogger resourceId="Datalogger/20190703222421.892245.141"/>
+        <Response>
+          <InstrumentSensitivity>
+            <Value>618659000.0</Value>
+            <Frequency>0.05</Frequency>
+            <InputUnits>
+              <Name>M/S</Name>
+              <Description>Velocity in Meters Per Second</Description>
+            </InputUnits>
+            <OutputUnits>
+              <Name></Name>
+              <Description>None</Description>
+            </OutputUnits>
+          </InstrumentSensitivity>
+        </Response>
+      </Channel>
+      <Channel code="BHZ" startDate="2016-08-04T16:37:00.000000Z" restrictedStatus="open" locationCode="00">
+        <Latitude unit="DEGREES">1.582667</Latitude>
+        <Longitude unit="DEGREES">-75.652667</Longitude>
+        <Elevation>365.0</Elevation>
+        <Depth>0.0</Depth>
+        <Azimuth unit="DEGREES">0.0</Azimuth>
+        <Dip unit="DEGREES">-90.0</Dip>
+        <SampleRate unit="SAMPLES/S">20.0</SampleRate>
+        <SampleRateRatio>
+          <NumberSamples>20</NumberSamples>
+          <NumberSeconds>1</NumberSeconds>
+        </SampleRateRatio>
+        <ClockDrift unit="SECONDS/SAMPLE">0.0</ClockDrift>
+        <Sensor resourceId="Sensor/20190703222421.894092.148">
+          <Type>STS-2.5, 120s,</Type>
+          <Description>STS-2.5, 120s, 1500 V/m/s-Q330SR, gain 1, 100 sps,</Description>
+          <Manufacturer>STS-2.5,</Manufacturer>
+          <Model>120s,</Model>
+        </Sensor>
+        <DataLogger resourceId="Datalogger/20190703222421.893507.146"/>
+        <Response>
+          <InstrumentSensitivity>
+            <Value>626628000.0</Value>
+            <Frequency>0.05</Frequency>
+            <InputUnits>
+              <Name>M/S</Name>
+              <Description>Velocity in Meters Per Second</Description>
+            </InputUnits>
+            <OutputUnits>
+              <Name></Name>
+              <Description>None</Description>
+            </OutputUnits>
+          </InstrumentSensitivity>
+        </Response>
+      </Channel>
+      <Channel code="HHE" startDate="2016-08-04T16:37:00.000000Z" restrictedStatus="open" locationCode="00">
+        <Latitude unit="DEGREES">1.582667</Latitude>
+        <Longitude unit="DEGREES">-75.652667</Longitude>
+        <Elevation>365.0</Elevation>
+        <Depth>0.0</Depth>
+        <Azimuth unit="DEGREES">90.0</Azimuth>
+        <Dip unit="DEGREES">0.0</Dip>
+        <SampleRate unit="SAMPLES/S">100.0</SampleRate>
+        <SampleRateRatio>
+          <NumberSamples>100</NumberSamples>
+          <NumberSeconds>1</NumberSeconds>
+        </SampleRateRatio>
+        <ClockDrift unit="SECONDS/SAMPLE">0.0</ClockDrift>
+        <Sensor resourceId="Sensor/20190703222421.895323.153">
+          <Type>STS-2.5, 120s,</Type>
+          <Description>STS-2.5, 120s, 1500 V/m/s-Q330SR, gain 1, 100 sps,</Description>
+          <Manufacturer>STS-2.5,</Manufacturer>
+          <Model>120s,</Model>
+        </Sensor>
+        <DataLogger resourceId="Datalogger/20190703222421.894746.151"/>
+        <Response>
+          <InstrumentSensitivity>
+            <Value>626628000.0</Value>
+            <Frequency>0.05</Frequency>
+            <InputUnits>
+              <Name>M/S</Name>
+              <Description>Velocity in Meters Per Second</Description>
+            </InputUnits>
+            <OutputUnits>
+              <Name></Name>
+              <Description>None</Description>
+            </OutputUnits>
+          </InstrumentSensitivity>
+        </Response>
+      </Channel>
+      <Channel code="HHN" startDate="2016-08-04T16:37:00.000000Z" restrictedStatus="open" locationCode="00">
+        <Latitude unit="DEGREES">1.582667</Latitude>
+        <Longitude unit="DEGREES">-75.652667</Longitude>
+        <Elevation>365.0</Elevation>
+        <Depth>0.0</Depth>
+        <Azimuth unit="DEGREES">0.0</Azimuth>
+        <Dip unit="DEGREES">0.0</Dip>
+        <SampleRate unit="SAMPLES/S">100.0</SampleRate>
+        <SampleRateRatio>
+          <NumberSamples>100</NumberSamples>
+          <NumberSeconds>1</NumberSeconds>
+        </SampleRateRatio>
+        <ClockDrift unit="SECONDS/SAMPLE">0.0</ClockDrift>
+        <Sensor resourceId="Sensor/20190703222421.897179.158">
+          <Type>STS-2.5, 120s,</Type>
+          <Description>STS-2.5, 120s, 1500 V/m/s-Q330SR, gain 1, 100 sps,</Description>
+          <Manufacturer>STS-2.5,</Manufacturer>
+          <Model>120s,</Model>
+        </Sensor>
+        <DataLogger resourceId="Datalogger/20190703222421.896285.156"/>
+        <Response>
+          <InstrumentSensitivity>
+            <Value>618659000.0</Value>
+            <Frequency>0.05</Frequency>
+            <InputUnits>
+              <Name>M/S</Name>
+              <Description>Velocity in Meters Per Second</Description>
+            </InputUnits>
+            <OutputUnits>
+              <Name></Name>
+              <Description>None</Description>
+            </OutputUnits>
+          </InstrumentSensitivity>
+        </Response>
+      </Channel>
+      <Channel code="HHZ" startDate="2016-08-04T16:37:00.000000Z" restrictedStatus="open" locationCode="00">
+        <Latitude unit="DEGREES">1.582667</Latitude>
+        <Longitude unit="DEGREES">-75.652667</Longitude>
+        <Elevation>365.0</Elevation>
+        <Depth>0.0</Depth>
+        <Azimuth unit="DEGREES">0.0</Azimuth>
+        <Dip unit="DEGREES">-90.0</Dip>
+        <SampleRate unit="SAMPLES/S">100.0</SampleRate>
+        <SampleRateRatio>
+          <NumberSamples>100</NumberSamples>
+          <NumberSeconds>1</NumberSeconds>
+        </SampleRateRatio>
+        <ClockDrift unit="SECONDS/SAMPLE">0.0</ClockDrift>
+        <Sensor resourceId="Sensor/20190703222421.898513.163">
+          <Type>STS-2.5, 120s,</Type>
+          <Description>STS-2.5, 120s, 1500 V/m/s-Q330SR, gain 1, 100 sps,</Description>
+          <Manufacturer>STS-2.5,</Manufacturer>
+          <Model>120s,</Model>
+        </Sensor>
+        <DataLogger resourceId="Datalogger/20190703222421.897923.161"/>
+        <Response>
+          <InstrumentSensitivity>
+            <Value>626628000.0</Value>
+            <Frequency>0.05</Frequency>
+            <InputUnits>
+              <Name>M/S</Name>
+              <Description>Velocity in Meters Per Second</Description>
+            </InputUnits>
+            <OutputUnits>
+              <Name></Name>
+              <Description>None</Description>
+            </OutputUnits>
+          </InstrumentSensitivity>
+        </Response>
+      </Channel>
+      <Channel code="HNE" startDate="2018-02-15T15:00:00.000000Z" restrictedStatus="open" locationCode="10">
+        <Latitude unit="DEGREES">1.582667</Latitude>
+        <Longitude unit="DEGREES">-75.652667</Longitude>
+        <Elevation>365.0</Elevation>
+        <Depth>0.0</Depth>
+        <Azimuth unit="DEGREES">90.0</Azimuth>
+        <Dip unit="DEGREES">0.0</Dip>
+        <SampleRate unit="SAMPLES/S">200.0</SampleRate>
+        <SampleRateRatio>
+          <NumberSamples>200</NumberSamples>
+          <NumberSeconds>1</NumberSeconds>
+        </SampleRateRatio>
+        <ClockDrift unit="SECONDS/SAMPLE">0.0</ClockDrift>
+        <Sensor resourceId="Sensor/20190703222421.899612.168">
+          <Type>Episensor, DC</Type>
+          <Description>Episensor, DC to &gt;200 Hz,  20V differential full s</Description>
+          <Manufacturer>Episensor,</Manufacturer>
+          <Model>DC</Model>
+        </Sensor>
+        <DataLogger resourceId="Datalogger/20190703222421.899167.166"/>
+        <Response>
+          <InstrumentSensitivity>
+            <Value>427694.0</Value>
+            <Frequency>0.05</Frequency>
+            <InputUnits>
+              <Name>M/S**2</Name>
+              <Description>Acceleration in Meters Per Second Per Second</Description>
+            </InputUnits>
+            <OutputUnits>
+              <Name></Name>
+              <Description>None</Description>
+            </OutputUnits>
+          </InstrumentSensitivity>
+        </Response>
+      </Channel>
+      <Channel code="HNN" startDate="2018-02-15T15:00:00.000000Z" restrictedStatus="open" locationCode="10">
+        <Latitude unit="DEGREES">1.582667</Latitude>
+        <Longitude unit="DEGREES">-75.652667</Longitude>
+        <Elevation>365.0</Elevation>
+        <Depth>0.0</Depth>
+        <Azimuth unit="DEGREES">0.0</Azimuth>
+        <Dip unit="DEGREES">0.0</Dip>
+        <SampleRate unit="SAMPLES/S">200.0</SampleRate>
+        <SampleRateRatio>
+          <NumberSamples>200</NumberSamples>
+          <NumberSeconds>1</NumberSeconds>
+        </SampleRateRatio>
+        <ClockDrift unit="SECONDS/SAMPLE">0.0</ClockDrift>
+        <Sensor resourceId="Sensor/20190703222421.900592.173">
+          <Type>Episensor, DC</Type>
+          <Description>Episensor, DC to &gt;200 Hz,  20V differential full s</Description>
+          <Manufacturer>Episensor,</Manufacturer>
+          <Model>DC</Model>
+        </Sensor>
+        <DataLogger resourceId="Datalogger/20190703222421.900155.171"/>
+        <Response>
+          <InstrumentSensitivity>
+            <Value>427694.0</Value>
+            <Frequency>0.05</Frequency>
+            <InputUnits>
+              <Name>M/S**2</Name>
+              <Description>Acceleration in Meters Per Second Per Second</Description>
+            </InputUnits>
+            <OutputUnits>
+              <Name></Name>
+              <Description>None</Description>
+            </OutputUnits>
+          </InstrumentSensitivity>
+        </Response>
+      </Channel>
+      <Channel code="HNZ" startDate="2018-02-15T15:00:00.000000Z" restrictedStatus="open" locationCode="10">
+        <Latitude unit="DEGREES">1.582667</Latitude>
+        <Longitude unit="DEGREES">-75.652667</Longitude>
+        <Elevation>365.0</Elevation>
+        <Depth>0.0</Depth>
+        <Azimuth unit="DEGREES">0.0</Azimuth>
+        <Dip unit="DEGREES">-90.0</Dip>
+        <SampleRate unit="SAMPLES/S">200.0</SampleRate>
+        <SampleRateRatio>
+          <NumberSamples>200</NumberSamples>
+          <NumberSeconds>1</NumberSeconds>
+        </SampleRateRatio>
+        <ClockDrift unit="SECONDS/SAMPLE">0.0</ClockDrift>
+        <Sensor resourceId="Sensor/20190703222421.90153.178">
+          <Type>Episensor, DC</Type>
+          <Description>Episensor, DC to &gt;200 Hz,  20V differential full s</Description>
+          <Manufacturer>Episensor,</Manufacturer>
+          <Model>DC</Model>
+        </Sensor>
+        <DataLogger resourceId="Datalogger/20190703222421.901109.176"/>
+        <Response>
+          <InstrumentSensitivity>
+            <Value>427694.0</Value>
+            <Frequency>0.05</Frequency>
+            <InputUnits>
+              <Name>M/S**2</Name>
+              <Description>Acceleration in Meters Per Second Per Second</Description>
+            </InputUnits>
+            <OutputUnits>
+              <Name></Name>
+              <Description>None</Description>
+            </OutputUnits>
+          </InstrumentSensitivity>
+        </Response>
+      </Channel>
+    </Station>
+    <Station code="ORTC" startDate="2013-06-19T00:00:00.000000Z" restrictedStatus="open">
+      <Latitude unit="DEGREES">3.909</Latitude>
+      <Longitude unit="DEGREES">-75.246</Longitude>
+      <Elevation>446.0</Elevation>
+      <Site>
+        <Name>Ortega, Tolima, Colombia</Name>
+        <Country> Colombia</Country>
+      </Site>
+      <CreationDate>2013-06-19T00:00:00.000000Z</CreationDate>
+      <Channel code="HHE" startDate="2017-04-04T00:00:00.000000Z" restrictedStatus="open" locationCode="00">
+        <Latitude unit="DEGREES">3.909</Latitude>
+        <Longitude unit="DEGREES">-75.246</Longitude>
+        <Elevation>446.0</Elevation>
+        <Depth>0.0</Depth>
+        <Azimuth unit="DEGREES">90.0</Azimuth>
+        <Dip unit="DEGREES">0.0</Dip>
+        <SampleRate unit="SAMPLES/S">100.0</SampleRate>
+        <SampleRateRatio>
+          <NumberSamples>100</NumberSamples>
+          <NumberSeconds>1</NumberSeconds>
+        </SampleRateRatio>
+        <ClockDrift unit="SECONDS/SAMPLE">0.0</ClockDrift>
+        <Sensor resourceId="Sensor/20190704162341.084614.84">
+          <Type>Trillium 240,</Type>
+          <Description>Trillium 240, generation 2, 240 s, 1189 V/m/s-Q330</Description>
+          <Manufacturer>Trillium</Manufacturer>
+          <Model>240,</Model>
+        </Sensor>
+        <DataLogger resourceId="Datalogger/20190704162341.083921.82"/>
+        <Response>
+          <InstrumentSensitivity>
+            <Value>497561000.0</Value>
+            <Frequency>0.05</Frequency>
+            <InputUnits>
+              <Name>M/S</Name>
+              <Description>Velocity in Meters Per Second</Description>
+            </InputUnits>
+            <OutputUnits>
+              <Name></Name>
+              <Description>None</Description>
+            </OutputUnits>
+          </InstrumentSensitivity>
+        </Response>
+      </Channel>
+      <Channel code="HHN" startDate="2017-04-04T00:00:00.000000Z" restrictedStatus="open" locationCode="00">
+        <Latitude unit="DEGREES">3.909</Latitude>
+        <Longitude unit="DEGREES">-75.246</Longitude>
+        <Elevation>446.0</Elevation>
+        <Depth>0.0</Depth>
+        <Azimuth unit="DEGREES">0.0</Azimuth>
+        <Dip unit="DEGREES">0.0</Dip>
+        <SampleRate unit="SAMPLES/S">100.0</SampleRate>
+        <SampleRateRatio>
+          <NumberSamples>100</NumberSamples>
+          <NumberSeconds>1</NumberSeconds>
+        </SampleRateRatio>
+        <ClockDrift unit="SECONDS/SAMPLE">0.0</ClockDrift>
+        <Sensor resourceId="Sensor/20190704162341.086242.89">
+          <Type>Trillium 240,</Type>
+          <Description>Trillium 240, generation 2, 240 s, 1189 V/m/s-Q330</Description>
+          <Manufacturer>Trillium</Manufacturer>
+          <Model>240,</Model>
+        </Sensor>
+        <DataLogger resourceId="Datalogger/20190704162341.085625.87"/>
+        <Response>
+          <InstrumentSensitivity>
+            <Value>497561000.0</Value>
+            <Frequency>0.05</Frequency>
+            <InputUnits>
+              <Name>M/S</Name>
+              <Description>Velocity in Meters Per Second</Description>
+            </InputUnits>
+            <OutputUnits>
+              <Name></Name>
+              <Description>None</Description>
+            </OutputUnits>
+          </InstrumentSensitivity>
+        </Response>
+      </Channel>
+      <Channel code="HHZ" startDate="2017-04-04T00:00:00.000000Z" restrictedStatus="open" locationCode="00">
+        <Latitude unit="DEGREES">3.909</Latitude>
+        <Longitude unit="DEGREES">-75.246</Longitude>
+        <Elevation>446.0</Elevation>
+        <Depth>0.0</Depth>
+        <Azimuth unit="DEGREES">0.0</Azimuth>
+        <Dip unit="DEGREES">-90.0</Dip>
+        <SampleRate unit="SAMPLES/S">100.0</SampleRate>
+        <SampleRateRatio>
+          <NumberSamples>100</NumberSamples>
+          <NumberSeconds>1</NumberSeconds>
+        </SampleRateRatio>
+        <ClockDrift unit="SECONDS/SAMPLE">0.0</ClockDrift>
+        <Sensor resourceId="Sensor/20190704162341.087871.94">
+          <Type>Trillium 240,</Type>
+          <Description>Trillium 240, generation 2, 240 s, 1189 V/m/s-Q330</Description>
+          <Manufacturer>Trillium</Manufacturer>
+          <Model>240,</Model>
+        </Sensor>
+        <DataLogger resourceId="Datalogger/20190704162341.087013.92"/>
+        <Response>
+          <InstrumentSensitivity>
+            <Value>497561000.0</Value>
+            <Frequency>0.05</Frequency>
+            <InputUnits>
+              <Name>M/S</Name>
+              <Description>Velocity in Meters Per Second</Description>
+            </InputUnits>
+            <OutputUnits>
+              <Name></Name>
+              <Description>None</Description>
+            </OutputUnits>
+          </InstrumentSensitivity>
+        </Response>
+      </Channel>
+      <Channel code="HNE" startDate="2017-04-04T00:00:00.000000Z" restrictedStatus="open" locationCode="10">
+        <Latitude unit="DEGREES">3.909</Latitude>
+        <Longitude unit="DEGREES">-75.246</Longitude>
+        <Elevation>446.0</Elevation>
+        <Depth>0.0</Depth>
+        <Azimuth unit="DEGREES">90.0</Azimuth>
+        <Dip unit="DEGREES">0.0</Dip>
+        <SampleRate unit="SAMPLES/S">200.0</SampleRate>
+        <SampleRateRatio>
+          <NumberSamples>200</NumberSamples>
+          <NumberSeconds>1</NumberSeconds>
+        </SampleRateRatio>
+        <ClockDrift unit="SECONDS/SAMPLE">0.0</ClockDrift>
+        <Sensor resourceId="Sensor/20190704162341.089032.99">
+          <Type>CMG-5T, DC_100</Type>
+          <Description>CMG-5T, DC_100 s,  0.255 V/m/s**2, 4g clip level,</Description>
+          <Manufacturer>CMG-5T,</Manufacturer>
+          <Model>DC_100</Model>
+        </Sensor>
+        <DataLogger resourceId="Datalogger/20190704162341.088601.97"/>
+        <Response>
+          <InstrumentSensitivity>
+            <Value>427812.0</Value>
+            <Frequency>0.05</Frequency>
+            <InputUnits>
+              <Name>M/S**2</Name>
+              <Description>Acceleration in Meters Per Second Per Second</Description>
+            </InputUnits>
+            <OutputUnits>
+              <Name></Name>
+              <Description>None</Description>
+            </OutputUnits>
+          </InstrumentSensitivity>
+        </Response>
+      </Channel>
+      <Channel code="HNN" startDate="2017-04-04T00:00:00.000000Z" restrictedStatus="open" locationCode="10">
+        <Latitude unit="DEGREES">3.909</Latitude>
+        <Longitude unit="DEGREES">-75.246</Longitude>
+        <Elevation>446.0</Elevation>
+        <Depth>0.0</Depth>
+        <Azimuth unit="DEGREES">0.0</Azimuth>
+        <Dip unit="DEGREES">0.0</Dip>
+        <SampleRate unit="SAMPLES/S">200.0</SampleRate>
+        <SampleRateRatio>
+          <NumberSamples>200</NumberSamples>
+          <NumberSeconds>1</NumberSeconds>
+        </SampleRateRatio>
+        <ClockDrift unit="SECONDS/SAMPLE">0.0</ClockDrift>
+        <Sensor resourceId="Sensor/20190704162341.09004.104">
+          <Type>CMG-5T, DC_100</Type>
+          <Description>CMG-5T, DC_100 s,  0.255 V/m/s**2, 4g clip level,</Description>
+          <Manufacturer>CMG-5T,</Manufacturer>
+          <Model>DC_100</Model>
+        </Sensor>
+        <DataLogger resourceId="Datalogger/20190704162341.089605.102"/>
+        <Response>
+          <InstrumentSensitivity>
+            <Value>426973.0</Value>
+            <Frequency>0.05</Frequency>
+            <InputUnits>
+              <Name>M/S**2</Name>
+              <Description>Acceleration in Meters Per Second Per Second</Description>
+            </InputUnits>
+            <OutputUnits>
+              <Name></Name>
+              <Description>None</Description>
+            </OutputUnits>
+          </InstrumentSensitivity>
+        </Response>
+      </Channel>
+      <Channel code="HNZ" startDate="2017-04-04T00:00:00.000000Z" restrictedStatus="open" locationCode="10">
+        <Latitude unit="DEGREES">3.909</Latitude>
+        <Longitude unit="DEGREES">-75.246</Longitude>
+        <Elevation>446.0</Elevation>
+        <Depth>0.0</Depth>
+        <Azimuth unit="DEGREES">0.0</Azimuth>
+        <Dip unit="DEGREES">-90.0</Dip>
+        <SampleRate unit="SAMPLES/S">200.0</SampleRate>
+        <SampleRateRatio>
+          <NumberSamples>200</NumberSamples>
+          <NumberSeconds>1</NumberSeconds>
+        </SampleRateRatio>
+        <ClockDrift unit="SECONDS/SAMPLE">0.0</ClockDrift>
+        <Sensor resourceId="Sensor/20190704162341.09107.109">
+          <Type>CMG-5T, DC_100</Type>
+          <Description>CMG-5T, DC_100 s,  0.255 V/m/s**2, 4g clip level,</Description>
+          <Manufacturer>CMG-5T,</Manufacturer>
+          <Model>DC_100</Model>
+        </Sensor>
+        <DataLogger resourceId="Datalogger/20190704162341.0906.107"/>
+        <Response>
+          <InstrumentSensitivity>
+            <Value>427812.0</Value>
+            <Frequency>0.05</Frequency>
+            <InputUnits>
+              <Name>M/S**2</Name>
+              <Description>Acceleration in Meters Per Second Per Second</Description>
+            </InputUnits>
+            <OutputUnits>
+              <Name></Name>
+              <Description>None</Description>
+            </OutputUnits>
+          </InstrumentSensitivity>
+        </Response>
+      </Channel>
+    </Station>
+    <Station code="URMC" startDate="2018-04-04T15:00:00.000000Z" restrictedStatus="open">
+      <Latitude unit="DEGREES">3.24719</Latitude>
+      <Longitude unit="DEGREES">-74.37879</Longitude>
+      <Elevation>725.0</Elevation>
+      <Site>
+        <Name>Uribe, Meta, Colombia</Name>
+        <Country> Colombia</Country>
+      </Site>
+      <CreationDate>2018-04-04T15:00:00.000000Z</CreationDate>
+      <Channel code="HHE" startDate="2018-04-04T15:00:00.000000Z" restrictedStatus="open" locationCode="00">
+        <Latitude unit="DEGREES">3.24719</Latitude>
+        <Longitude unit="DEGREES">-74.37879</Longitude>
+        <Elevation>725.0</Elevation>
+        <Depth>0.0</Depth>
+        <Azimuth unit="DEGREES">90.0</Azimuth>
+        <Dip unit="DEGREES">0.0</Dip>
+        <SampleRate unit="SAMPLES/S">100.0</SampleRate>
+        <SampleRateRatio>
+          <NumberSamples>100</NumberSamples>
+          <NumberSeconds>1</NumberSeconds>
+        </SampleRateRatio>
+        <ClockDrift unit="SECONDS/SAMPLE">0.0</ClockDrift>
+        <Sensor resourceId="Sensor/20190704163759.609759.8">
+          <Type>RT151B, 120</Type>
+          <Description>RT151B, 120 s, 2000 V/m/s-Q330SR, gain 1, 100 sps,</Description>
+          <Manufacturer>RT151B,</Manufacturer>
+          <Model>120</Model>
+        </Sensor>
+        <DataLogger resourceId="Datalogger/20190704163759.607858.6"/>
+        <Response>
+          <InstrumentSensitivity>
+            <Value>835027000.0</Value>
+            <Frequency>0.05</Frequency>
+            <InputUnits>
+              <Name>M/S</Name>
+              <Description>Velocity in Meters Per Second</Description>
+            </InputUnits>
+            <OutputUnits>
+              <Name></Name>
+              <Description>None</Description>
+            </OutputUnits>
+          </InstrumentSensitivity>
+        </Response>
+      </Channel>
+      <Channel code="HHN" startDate="2018-04-04T15:00:00.000000Z" restrictedStatus="open" locationCode="00">
+        <Latitude unit="DEGREES">3.24719</Latitude>
+        <Longitude unit="DEGREES">-74.37879</Longitude>
+        <Elevation>725.0</Elevation>
+        <Depth>0.0</Depth>
+        <Azimuth unit="DEGREES">0.0</Azimuth>
+        <Dip unit="DEGREES">0.0</Dip>
+        <SampleRate unit="SAMPLES/S">100.0</SampleRate>
+        <SampleRateRatio>
+          <NumberSamples>100</NumberSamples>
+          <NumberSeconds>1</NumberSeconds>
+        </SampleRateRatio>
+        <ClockDrift unit="SECONDS/SAMPLE">0.0</ClockDrift>
+        <Sensor resourceId="Sensor/20190704163759.611842.13">
+          <Type>RT151B, 120</Type>
+          <Description>RT151B, 120 s, 2000 V/m/s-Q330SR, gain 1, 100 sps,</Description>
+          <Manufacturer>RT151B,</Manufacturer>
+          <Model>120</Model>
+        </Sensor>
+        <DataLogger resourceId="Datalogger/20190704163759.611214.11"/>
+        <Response>
+          <InstrumentSensitivity>
+            <Value>844591000.0</Value>
+            <Frequency>0.05</Frequency>
+            <InputUnits>
+              <Name>M/S</Name>
+              <Description>Velocity in Meters Per Second</Description>
+            </InputUnits>
+            <OutputUnits>
+              <Name></Name>
+              <Description>None</Description>
+            </OutputUnits>
+          </InstrumentSensitivity>
+        </Response>
+      </Channel>
+      <Channel code="HHZ" startDate="2018-04-04T15:00:00.000000Z" restrictedStatus="open" locationCode="00">
+        <Latitude unit="DEGREES">3.24719</Latitude>
+        <Longitude unit="DEGREES">-74.37879</Longitude>
+        <Elevation>725.0</Elevation>
+        <Depth>0.0</Depth>
+        <Azimuth unit="DEGREES">0.0</Azimuth>
+        <Dip unit="DEGREES">-90.0</Dip>
+        <SampleRate unit="SAMPLES/S">100.0</SampleRate>
+        <SampleRateRatio>
+          <NumberSamples>100</NumberSamples>
+          <NumberSeconds>1</NumberSeconds>
+        </SampleRateRatio>
+        <ClockDrift unit="SECONDS/SAMPLE">0.0</ClockDrift>
+        <Sensor resourceId="Sensor/20190704163759.613007.18">
+          <Type>RT151B, 120</Type>
+          <Description>RT151B, 120 s, 2000 V/m/s-Q330SR, gain 1, 100 sps,</Description>
+          <Manufacturer>RT151B,</Manufacturer>
+          <Model>120</Model>
+        </Sensor>
+        <DataLogger resourceId="Datalogger/20190704163759.612433.16"/>
+        <Response>
+          <InstrumentSensitivity>
+            <Value>835027000.0</Value>
+            <Frequency>0.05</Frequency>
+            <InputUnits>
+              <Name>M/S</Name>
+              <Description>Velocity in Meters Per Second</Description>
+            </InputUnits>
+            <OutputUnits>
+              <Name></Name>
+              <Description>None</Description>
+            </OutputUnits>
+          </InstrumentSensitivity>
+        </Response>
+      </Channel>
+      <Channel code="HNE" startDate="2018-04-04T15:00:00.000000Z" restrictedStatus="open" locationCode="10">
+        <Latitude unit="DEGREES">3.24719</Latitude>
+        <Longitude unit="DEGREES">-74.37879</Longitude>
+        <Elevation>725.0</Elevation>
+        <Depth>0.0</Depth>
+        <Azimuth unit="DEGREES">90.0</Azimuth>
+        <Dip unit="DEGREES">0.0</Dip>
+        <SampleRate unit="SAMPLES/S">200.0</SampleRate>
+        <SampleRateRatio>
+          <NumberSamples>200</NumberSamples>
+          <NumberSeconds>1</NumberSeconds>
+        </SampleRateRatio>
+        <ClockDrift unit="SECONDS/SAMPLE">0.0</ClockDrift>
+        <Sensor resourceId="Sensor/20190704163759.614111.24">
+          <Type>Episensor, DC</Type>
+          <Description>Episensor, DC to &gt;200 Hz,  20V differential full s</Description>
+          <Manufacturer>Episensor,</Manufacturer>
+          <Model>DC</Model>
+        </Sensor>
+        <DataLogger resourceId="Datalogger/20190704163759.613688.22"/>
+        <Response>
+          <InstrumentSensitivity>
+            <Value>427694.0</Value>
+            <Frequency>0.05</Frequency>
+            <InputUnits>
+              <Name>M/S**2</Name>
+              <Description>Acceleration in Meters Per Second Per Second</Description>
+            </InputUnits>
+            <OutputUnits>
+              <Name></Name>
+              <Description>None</Description>
+            </OutputUnits>
+          </InstrumentSensitivity>
+        </Response>
+      </Channel>
+      <Channel code="HNN" startDate="2018-04-04T15:00:00.000000Z" restrictedStatus="open" locationCode="10">
+        <Latitude unit="DEGREES">3.24719</Latitude>
+        <Longitude unit="DEGREES">-74.37879</Longitude>
+        <Elevation>725.0</Elevation>
+        <Depth>0.0</Depth>
+        <Azimuth unit="DEGREES">0.0</Azimuth>
+        <Dip unit="DEGREES">0.0</Dip>
+        <SampleRate unit="SAMPLES/S">200.0</SampleRate>
+        <SampleRateRatio>
+          <NumberSamples>200</NumberSamples>
+          <NumberSeconds>1</NumberSeconds>
+        </SampleRateRatio>
+        <ClockDrift unit="SECONDS/SAMPLE">0.0</ClockDrift>
+        <Sensor resourceId="Sensor/20190704163759.615152.29">
+          <Type>Episensor, DC</Type>
+          <Description>Episensor, DC to &gt;200 Hz,  20V differential full s</Description>
+          <Manufacturer>Episensor,</Manufacturer>
+          <Model>DC</Model>
+        </Sensor>
+        <DataLogger resourceId="Datalogger/20190704163759.614673.27"/>
+        <Response>
+          <InstrumentSensitivity>
+            <Value>427694.0</Value>
+            <Frequency>0.05</Frequency>
+            <InputUnits>
+              <Name>M/S**2</Name>
+              <Description>Acceleration in Meters Per Second Per Second</Description>
+            </InputUnits>
+            <OutputUnits>
+              <Name></Name>
+              <Description>None</Description>
+            </OutputUnits>
+          </InstrumentSensitivity>
+        </Response>
+      </Channel>
+      <Channel code="HNZ" startDate="2018-04-04T15:00:00.000000Z" restrictedStatus="open" locationCode="10">
+        <Latitude unit="DEGREES">3.24719</Latitude>
+        <Longitude unit="DEGREES">-74.37879</Longitude>
+        <Elevation>725.0</Elevation>
+        <Depth>0.0</Depth>
+        <Azimuth unit="DEGREES">0.0</Azimuth>
+        <Dip unit="DEGREES">-90.0</Dip>
+        <SampleRate unit="SAMPLES/S">200.0</SampleRate>
+        <SampleRateRatio>
+          <NumberSamples>200</NumberSamples>
+          <NumberSeconds>1</NumberSeconds>
+        </SampleRateRatio>
+        <ClockDrift unit="SECONDS/SAMPLE">0.0</ClockDrift>
+        <Sensor resourceId="Sensor/20190704163759.616079.34">
+          <Type>Episensor, DC</Type>
+          <Description>Episensor, DC to &gt;200 Hz,  20V differential full s</Description>
+          <Manufacturer>Episensor,</Manufacturer>
+          <Model>DC</Model>
+        </Sensor>
+        <DataLogger resourceId="Datalogger/20190704163759.615678.32"/>
+        <Response>
+          <InstrumentSensitivity>
+            <Value>427694.0</Value>
+            <Frequency>0.05</Frequency>
+            <InputUnits>
+              <Name>M/S**2</Name>
+              <Description>Acceleration in Meters Per Second Per Second</Description>
+            </InputUnits>
+            <OutputUnits>
+              <Name></Name>
+              <Description>None</Description>
+            </OutputUnits>
+          </InstrumentSensitivity>
+        </Response>
+      </Channel>
+    </Station>
+    <Station code="CHI" startDate="1992-09-09T00:00:00.000000Z" restrictedStatus="open">
+      <Latitude unit="DEGREES">4.6295</Latitude>
+      <Longitude unit="DEGREES">-73.7371</Longitude>
+      <Elevation>3140.0</Elevation>
+      <Site>
+        <Name>Chingaza, Cundinamarca</Name>
+        <Country> Cundinamarca</Country>
+      </Site>
+      <CreationDate>1992-09-09T00:00:00.000000Z</CreationDate>
+      <Channel code="HHE" startDate="2007-06-30T00:00:00.000000Z" restrictedStatus="open" locationCode="00">
+        <Latitude unit="DEGREES">4.6295</Latitude>
+        <Longitude unit="DEGREES">-73.7371</Longitude>
+        <Elevation>3140.0</Elevation>
+        <Depth>0.0</Depth>
+        <Azimuth unit="DEGREES">90.0</Azimuth>
+        <Dip unit="DEGREES">0.0</Dip>
+        <SampleRate unit="SAMPLES/S">100.0</SampleRate>
+        <SampleRateRatio>
+          <NumberSamples>100</NumberSamples>
+          <NumberSeconds>1</NumberSeconds>
+        </SampleRateRatio>
+        <ClockDrift unit="SECONDS/SAMPLE">0.0</ClockDrift>
+        <Sensor resourceId="Sensor/20190703220841.169239.29">
+          <Type>STS-2, 120</Type>
+          <Description>STS-2, 120 s, 1500 V/m/s, generation 3 electronics</Description>
+          <Manufacturer>STS-2,</Manufacturer>
+          <Model>120</Model>
+        </Sensor>
+        <DataLogger resourceId="Datalogger/20190703220841.168686.27"/>
+        <Response>
+          <InstrumentSensitivity>
+            <Value>634615000.0</Value>
+            <Frequency>0.05</Frequency>
+            <InputUnits>
+              <Name>M/S</Name>
+              <Description>Velocity in Meters Per Second</Description>
+            </InputUnits>
+            <OutputUnits>
+              <Name></Name>
+              <Description>None</Description>
+            </OutputUnits>
+          </InstrumentSensitivity>
+        </Response>
+      </Channel>
+      <Channel code="HHN" startDate="2007-06-30T00:00:00.000000Z" restrictedStatus="open" locationCode="00">
+        <Latitude unit="DEGREES">4.6295</Latitude>
+        <Longitude unit="DEGREES">-73.7371</Longitude>
+        <Elevation>3140.0</Elevation>
+        <Depth>0.0</Depth>
+        <Azimuth unit="DEGREES">0.0</Azimuth>
+        <Dip unit="DEGREES">0.0</Dip>
+        <SampleRate unit="SAMPLES/S">100.0</SampleRate>
+        <SampleRateRatio>
+          <NumberSamples>100</NumberSamples>
+          <NumberSeconds>1</NumberSeconds>
+        </SampleRateRatio>
+        <ClockDrift unit="SECONDS/SAMPLE">0.0</ClockDrift>
+        <Sensor resourceId="Sensor/20190703220841.170433.34">
+          <Type>STS-2, 120</Type>
+          <Description>STS-2, 120 s, 1500 V/m/s, generation 3 electronics</Description>
+          <Manufacturer>STS-2,</Manufacturer>
+          <Model>120</Model>
+        </Sensor>
+        <DataLogger resourceId="Datalogger/20190703220841.169868.32"/>
+        <Response>
+          <InstrumentSensitivity>
+            <Value>645880000.0</Value>
+            <Frequency>0.05</Frequency>
+            <InputUnits>
+              <Name>M/S</Name>
+              <Description>Velocity in Meters Per Second</Description>
+            </InputUnits>
+            <OutputUnits>
+              <Name></Name>
+              <Description>None</Description>
+            </OutputUnits>
+          </InstrumentSensitivity>
+        </Response>
+      </Channel>
+      <Channel code="HHZ" startDate="2007-06-30T00:00:00.000000Z" restrictedStatus="open" locationCode="00">
+        <Latitude unit="DEGREES">4.6295</Latitude>
+        <Longitude unit="DEGREES">-73.7371</Longitude>
+        <Elevation>3140.0</Elevation>
+        <Depth>0.0</Depth>
+        <Azimuth unit="DEGREES">0.0</Azimuth>
+        <Dip unit="DEGREES">-90.0</Dip>
+        <SampleRate unit="SAMPLES/S">100.0</SampleRate>
+        <SampleRateRatio>
+          <NumberSamples>100</NumberSamples>
+          <NumberSeconds>1</NumberSeconds>
+        </SampleRateRatio>
+        <ClockDrift unit="SECONDS/SAMPLE">0.0</ClockDrift>
+        <Sensor resourceId="Sensor/20190703220841.171613.39">
+          <Type>STS-2, 120</Type>
+          <Description>STS-2, 120 s, 1500 V/m/s, generation 3 electronics</Description>
+          <Manufacturer>STS-2,</Manufacturer>
+          <Model>120</Model>
+        </Sensor>
+        <DataLogger resourceId="Datalogger/20190703220841.171044.37"/>
+        <Response>
+          <InstrumentSensitivity>
+            <Value>639622000.0</Value>
+            <Frequency>0.05</Frequency>
+            <InputUnits>
+              <Name>M/S</Name>
+              <Description>Velocity in Meters Per Second</Description>
+            </InputUnits>
+            <OutputUnits>
+              <Name></Name>
+              <Description>None</Description>
+            </OutputUnits>
+          </InstrumentSensitivity>
+        </Response>
+      </Channel>
+    </Station>
+    <Station code="GARC" startDate="2014-02-27T00:00:00.000000Z" restrictedStatus="open">
+      <Latitude unit="DEGREES">2.186667</Latitude>
+      <Longitude unit="DEGREES">-75.493167</Longitude>
+      <Elevation>1999.0</Elevation>
+      <Site>
+        <Name>Garzon, Huila, Colombia</Name>
+        <Country> Colombia</Country>
+      </Site>
+      <CreationDate>2014-02-27T00:00:00.000000Z</CreationDate>
+      <Channel code="BHE" startDate="2016-04-18T00:00:00.000000Z" restrictedStatus="open" locationCode="00">
+        <Latitude unit="DEGREES">2.186667</Latitude>
+        <Longitude unit="DEGREES">-75.493167</Longitude>
+        <Elevation>1999.0</Elevation>
+        <Depth>0.0</Depth>
+        <Azimuth unit="DEGREES">90.0</Azimuth>
+        <Dip unit="DEGREES">0.0</Dip>
+        <SampleRate unit="SAMPLES/S">20.0</SampleRate>
+        <SampleRateRatio>
+          <NumberSamples>20</NumberSamples>
+          <NumberSeconds>1</NumberSeconds>
+        </SampleRateRatio>
+        <ClockDrift unit="SECONDS/SAMPLE">0.0</ClockDrift>
+        <Sensor resourceId="Sensor/20190530210151.490089.54">
+          <Type>RT151B, 120</Type>
+          <Description>RT151B, 120 s, 2000 V/m/s-Q330SR, gain 1, 100 sps,</Description>
+          <Manufacturer>RT151B,</Manufacturer>
+          <Model>120</Model>
+        </Sensor>
+        <DataLogger resourceId="Datalogger/20190530210151.489567.52"/>
+        <Response>
+          <InstrumentSensitivity>
+            <Value>840390000.0</Value>
+            <Frequency>0.05</Frequency>
+            <InputUnits>
+              <Name>M/S</Name>
+              <Description>Velocity in Meters Per Second</Description>
+            </InputUnits>
+            <OutputUnits>
+              <Name></Name>
+              <Description>None</Description>
+            </OutputUnits>
+          </InstrumentSensitivity>
+        </Response>
+      </Channel>
+      <Channel code="BHN" startDate="2016-04-18T00:00:00.000000Z" restrictedStatus="open" locationCode="00">
+        <Latitude unit="DEGREES">2.186667</Latitude>
+        <Longitude unit="DEGREES">-75.493167</Longitude>
+        <Elevation>1999.0</Elevation>
+        <Depth>0.0</Depth>
+        <Azimuth unit="DEGREES">0.0</Azimuth>
+        <Dip unit="DEGREES">0.0</Dip>
+        <SampleRate unit="SAMPLES/S">20.0</SampleRate>
+        <SampleRateRatio>
+          <NumberSamples>20</NumberSamples>
+          <NumberSeconds>1</NumberSeconds>
+        </SampleRateRatio>
+        <ClockDrift unit="SECONDS/SAMPLE">0.0</ClockDrift>
+        <Sensor resourceId="Sensor/20190530210151.490963.59">
+          <Type>RT151B, 120</Type>
+          <Description>RT151B, 120 s, 2000 V/m/s-Q330SR, gain 1, 100 sps,</Description>
+          <Manufacturer>RT151B,</Manufacturer>
+          <Model>120</Model>
+        </Sensor>
+        <DataLogger resourceId="Datalogger/20190530210151.490516.57"/>
+        <Response>
+          <InstrumentSensitivity>
+            <Value>833644000.0</Value>
+            <Frequency>0.05</Frequency>
+            <InputUnits>
+              <Name>M/S</Name>
+              <Description>Velocity in Meters Per Second</Description>
+            </InputUnits>
+            <OutputUnits>
+              <Name></Name>
+              <Description>None</Description>
+            </OutputUnits>
+          </InstrumentSensitivity>
+        </Response>
+      </Channel>
+      <Channel code="BHZ" startDate="2016-04-18T00:00:00.000000Z" restrictedStatus="open" locationCode="00">
+        <Latitude unit="DEGREES">2.186667</Latitude>
+        <Longitude unit="DEGREES">-75.493167</Longitude>
+        <Elevation>1999.0</Elevation>
+        <Depth>0.0</Depth>
+        <Azimuth unit="DEGREES">0.0</Azimuth>
+        <Dip unit="DEGREES">-90.0</Dip>
+        <SampleRate unit="SAMPLES/S">20.0</SampleRate>
+        <SampleRateRatio>
+          <NumberSamples>20</NumberSamples>
+          <NumberSeconds>1</NumberSeconds>
+        </SampleRateRatio>
+        <ClockDrift unit="SECONDS/SAMPLE">0.0</ClockDrift>
+        <Sensor resourceId="Sensor/20190530210151.491924.64">
+          <Type>RT151B, 120</Type>
+          <Description>RT151B, 120 s, 2000 V/m/s-Q330SR, gain 1, 100 sps,</Description>
+          <Manufacturer>RT151B,</Manufacturer>
+          <Model>120</Model>
+        </Sensor>
+        <DataLogger resourceId="Datalogger/20190530210151.491448.62"/>
+        <Response>
+          <InstrumentSensitivity>
+            <Value>840352000.0</Value>
+            <Frequency>0.05</Frequency>
+            <InputUnits>
+              <Name>M/S</Name>
+              <Description>Velocity in Meters Per Second</Description>
+            </InputUnits>
+            <OutputUnits>
+              <Name></Name>
+              <Description>None</Description>
+            </OutputUnits>
+          </InstrumentSensitivity>
+        </Response>
+      </Channel>
+      <Channel code="HHE" startDate="2016-04-18T00:00:00.000000Z" restrictedStatus="open" locationCode="00">
+        <Latitude unit="DEGREES">2.186667</Latitude>
+        <Longitude unit="DEGREES">-75.493167</Longitude>
+        <Elevation>1999.0</Elevation>
+        <Depth>0.0</Depth>
+        <Azimuth unit="DEGREES">90.0</Azimuth>
+        <Dip unit="DEGREES">0.0</Dip>
+        <SampleRate unit="SAMPLES/S">100.0</SampleRate>
+        <SampleRateRatio>
+          <NumberSamples>100</NumberSamples>
+          <NumberSeconds>1</NumberSeconds>
+        </SampleRateRatio>
+        <ClockDrift unit="SECONDS/SAMPLE">0.0</ClockDrift>
+        <Sensor resourceId="Sensor/20190530210151.493014.69">
+          <Type>RT151B, 120</Type>
+          <Description>RT151B, 120 s, 2000 V/m/s-Q330SR, gain 1, 100 sps,</Description>
+          <Manufacturer>RT151B,</Manufacturer>
+          <Model>120</Model>
+        </Sensor>
+        <DataLogger resourceId="Datalogger/20190530210151.492427.67"/>
+        <Response>
+          <InstrumentSensitivity>
+            <Value>840390000.0</Value>
+            <Frequency>0.05</Frequency>
+            <InputUnits>
+              <Name>M/S</Name>
+              <Description>Velocity in Meters Per Second</Description>
+            </InputUnits>
+            <OutputUnits>
+              <Name></Name>
+              <Description>None</Description>
+            </OutputUnits>
+          </InstrumentSensitivity>
+        </Response>
+      </Channel>
+      <Channel code="HHN" startDate="2016-04-18T00:00:00.000000Z" restrictedStatus="open" locationCode="00">
+        <Latitude unit="DEGREES">2.186667</Latitude>
+        <Longitude unit="DEGREES">-75.493167</Longitude>
+        <Elevation>1999.0</Elevation>
+        <Depth>0.0</Depth>
+        <Azimuth unit="DEGREES">0.0</Azimuth>
+        <Dip unit="DEGREES">0.0</Dip>
+        <SampleRate unit="SAMPLES/S">100.0</SampleRate>
+        <SampleRateRatio>
+          <NumberSamples>100</NumberSamples>
+          <NumberSeconds>1</NumberSeconds>
+        </SampleRateRatio>
+        <ClockDrift unit="SECONDS/SAMPLE">0.0</ClockDrift>
+        <Sensor resourceId="Sensor/20190530210151.494523.74">
+          <Type>RT151B, 120</Type>
+          <Description>RT151B, 120 s, 2000 V/m/s-Q330SR, gain 1, 100 sps,</Description>
+          <Manufacturer>RT151B,</Manufacturer>
+          <Model>120</Model>
+        </Sensor>
+        <DataLogger resourceId="Datalogger/20190530210151.493793.72"/>
+        <Response>
+          <InstrumentSensitivity>
+            <Value>833644000.0</Value>
+            <Frequency>0.05</Frequency>
+            <InputUnits>
+              <Name>M/S</Name>
+              <Description>Velocity in Meters Per Second</Description>
+            </InputUnits>
+            <OutputUnits>
+              <Name></Name>
+              <Description>None</Description>
+            </OutputUnits>
+          </InstrumentSensitivity>
+        </Response>
+      </Channel>
+      <Channel code="HHZ" startDate="2016-04-18T00:00:00.000000Z" restrictedStatus="open" locationCode="00">
+        <Latitude unit="DEGREES">2.186667</Latitude>
+        <Longitude unit="DEGREES">-75.493167</Longitude>
+        <Elevation>1999.0</Elevation>
+        <Depth>0.0</Depth>
+        <Azimuth unit="DEGREES">0.0</Azimuth>
+        <Dip unit="DEGREES">-90.0</Dip>
+        <SampleRate unit="SAMPLES/S">100.0</SampleRate>
+        <SampleRateRatio>
+          <NumberSamples>100</NumberSamples>
+          <NumberSeconds>1</NumberSeconds>
+        </SampleRateRatio>
+        <ClockDrift unit="SECONDS/SAMPLE">0.0</ClockDrift>
+        <Sensor resourceId="Sensor/20190530210151.496192.79">
+          <Type>RT151B, 120</Type>
+          <Description>RT151B, 120 s, 2000 V/m/s-Q330SR, gain 1, 100 sps,</Description>
+          <Manufacturer>RT151B,</Manufacturer>
+          <Model>120</Model>
+        </Sensor>
+        <DataLogger resourceId="Datalogger/20190530210151.495373.77"/>
+        <Response>
+          <InstrumentSensitivity>
+            <Value>840352000.0</Value>
+            <Frequency>0.05</Frequency>
+            <InputUnits>
+              <Name>M/S</Name>
+              <Description>Velocity in Meters Per Second</Description>
+            </InputUnits>
+            <OutputUnits>
+              <Name></Name>
+              <Description>None</Description>
+            </OutputUnits>
+          </InstrumentSensitivity>
+        </Response>
+      </Channel>
+      <Channel code="HNE" startDate="2015-05-03T00:00:00.000000Z" restrictedStatus="open" locationCode="10">
+        <Latitude unit="DEGREES">2.186667</Latitude>
+        <Longitude unit="DEGREES">-75.493167</Longitude>
+        <Elevation>1999.0</Elevation>
+        <Depth>0.0</Depth>
+        <Azimuth unit="DEGREES">90.0</Azimuth>
+        <Dip unit="DEGREES">0.0</Dip>
+        <SampleRate unit="SAMPLES/S">200.0</SampleRate>
+        <SampleRateRatio>
+          <NumberSamples>200</NumberSamples>
+          <NumberSeconds>1</NumberSeconds>
+        </SampleRateRatio>
+        <ClockDrift unit="SECONDS/SAMPLE">0.0</ClockDrift>
+        <Sensor resourceId="Sensor/20190530210151.487296.39">
+          <Type>Episensor, DC</Type>
+          <Description>Episensor, DC to &gt;200 Hz,  20V differential full s</Description>
+          <Manufacturer>Episensor,</Manufacturer>
+          <Model>DC</Model>
+        </Sensor>
+        <DataLogger resourceId="Datalogger/20190530210151.486776.37"/>
+        <Response>
+          <InstrumentSensitivity>
+            <Value>427694.0</Value>
+            <Frequency>0.05</Frequency>
+            <InputUnits>
+              <Name>M/S**2</Name>
+              <Description>Acceleration in Meters Per Second Per Second</Description>
+            </InputUnits>
+            <OutputUnits>
+              <Name></Name>
+              <Description>None</Description>
+            </OutputUnits>
+          </InstrumentSensitivity>
+        </Response>
+      </Channel>
+      <Channel code="HNN" startDate="2015-05-03T00:00:00.000000Z" restrictedStatus="open" locationCode="10">
+        <Latitude unit="DEGREES">2.186667</Latitude>
+        <Longitude unit="DEGREES">-75.493167</Longitude>
+        <Elevation>1999.0</Elevation>
+        <Depth>0.0</Depth>
+        <Azimuth unit="DEGREES">0.0</Azimuth>
+        <Dip unit="DEGREES">0.0</Dip>
+        <SampleRate unit="SAMPLES/S">200.0</SampleRate>
+        <SampleRateRatio>
+          <NumberSamples>200</NumberSamples>
+          <NumberSeconds>1</NumberSeconds>
+        </SampleRateRatio>
+        <ClockDrift unit="SECONDS/SAMPLE">0.0</ClockDrift>
+        <Sensor resourceId="Sensor/20190530210151.488306.44">
+          <Type>Episensor, DC</Type>
+          <Description>Episensor, DC to &gt;200 Hz,  20V differential full s</Description>
+          <Manufacturer>Episensor,</Manufacturer>
+          <Model>DC</Model>
+        </Sensor>
+        <DataLogger resourceId="Datalogger/20190530210151.487933.42"/>
+        <Response>
+          <InstrumentSensitivity>
+            <Value>427694.0</Value>
+            <Frequency>0.05</Frequency>
+            <InputUnits>
+              <Name>M/S**2</Name>
+              <Description>Acceleration in Meters Per Second Per Second</Description>
+            </InputUnits>
+            <OutputUnits>
+              <Name></Name>
+              <Description>None</Description>
+            </OutputUnits>
+          </InstrumentSensitivity>
+        </Response>
+      </Channel>
+      <Channel code="HNZ" startDate="2015-05-03T00:00:00.000000Z" restrictedStatus="open" locationCode="10">
+        <Latitude unit="DEGREES">2.186667</Latitude>
+        <Longitude unit="DEGREES">-75.493167</Longitude>
+        <Elevation>1999.0</Elevation>
+        <Depth>0.0</Depth>
+        <Azimuth unit="DEGREES">0.0</Azimuth>
+        <Dip unit="DEGREES">-90.0</Dip>
+        <SampleRate unit="SAMPLES/S">200.0</SampleRate>
+        <SampleRateRatio>
+          <NumberSamples>200</NumberSamples>
+          <NumberSeconds>1</NumberSeconds>
+        </SampleRateRatio>
+        <ClockDrift unit="SECONDS/SAMPLE">0.0</ClockDrift>
+        <Sensor resourceId="Sensor/20190530210151.48911.49">
+          <Type>Episensor, DC</Type>
+          <Description>Episensor, DC to &gt;200 Hz,  20V differential full s</Description>
+          <Manufacturer>Episensor,</Manufacturer>
+          <Model>DC</Model>
+        </Sensor>
+        <DataLogger resourceId="Datalogger/20190530210151.488748.47"/>
+        <Response>
+          <InstrumentSensitivity>
+            <Value>427694.0</Value>
+            <Frequency>0.05</Frequency>
+            <InputUnits>
+              <Name>M/S**2</Name>
+              <Description>Acceleration in Meters Per Second Per Second</Description>
+            </InputUnits>
+            <OutputUnits>
+              <Name></Name>
+              <Description>None</Description>
+            </OutputUnits>
+          </InstrumentSensitivity>
+        </Response>
+      </Channel>
+    </Station>
+    <Station code="PRA" startDate="1992-02-28T00:00:00.000000Z" restrictedStatus="open">
+      <Latitude unit="DEGREES">3.713833</Latitude>
+      <Longitude unit="DEGREES">-74.886167</Longitude>
+      <Elevation>457.0</Elevation>
+      <Site>
+        <Name>Prado, Tolima, Colombia</Name>
+        <Country> Colombia</Country>
+      </Site>
+      <CreationDate>1992-02-28T00:00:00.000000Z</CreationDate>
+      <Channel code="BHE" startDate="2008-07-11T00:00:00.000000Z" restrictedStatus="open" locationCode="00">
+        <Latitude unit="DEGREES">3.713833</Latitude>
+        <Longitude unit="DEGREES">-74.886167</Longitude>
+        <Elevation>457.0</Elevation>
+        <Depth>0.0</Depth>
+        <Azimuth unit="DEGREES">90.0</Azimuth>
+        <Dip unit="DEGREES">0.0</Dip>
+        <SampleRate unit="SAMPLES/S">20.0</SampleRate>
+        <SampleRateRatio>
+          <NumberSamples>20</NumberSamples>
+          <NumberSeconds>1</NumberSeconds>
+        </SampleRateRatio>
+        <ClockDrift unit="SECONDS/SAMPLE">0.0</ClockDrift>
+        <Sensor resourceId="Sensor/20190704162444.138142.14">
+          <Type>STS-2, 120</Type>
+          <Description>STS-2, 120 s, 1500 V/m/s, generation 3 electronics</Description>
+          <Manufacturer>STS-2,</Manufacturer>
+          <Model>120</Model>
+        </Sensor>
+        <DataLogger resourceId="Datalogger/20190704162444.13728.12"/>
+        <Response>
+          <InstrumentSensitivity>
+            <Value>625853000.0</Value>
+            <Frequency>0.05</Frequency>
+            <InputUnits>
+              <Name>M/S</Name>
+              <Description>Velocity in Meters Per Second</Description>
+            </InputUnits>
+            <OutputUnits>
+              <Name></Name>
+              <Description>None</Description>
+            </OutputUnits>
+          </InstrumentSensitivity>
+        </Response>
+      </Channel>
+      <Channel code="BHN" startDate="2008-07-11T00:00:00.000000Z" restrictedStatus="open" locationCode="00">
+        <Latitude unit="DEGREES">3.713833</Latitude>
+        <Longitude unit="DEGREES">-74.886167</Longitude>
+        <Elevation>457.0</Elevation>
+        <Depth>0.0</Depth>
+        <Azimuth unit="DEGREES">0.0</Azimuth>
+        <Dip unit="DEGREES">0.0</Dip>
+        <SampleRate unit="SAMPLES/S">20.0</SampleRate>
+        <SampleRateRatio>
+          <NumberSamples>20</NumberSamples>
+          <NumberSeconds>1</NumberSeconds>
+        </SampleRateRatio>
+        <ClockDrift unit="SECONDS/SAMPLE">0.0</ClockDrift>
+        <Sensor resourceId="Sensor/20190704162444.139497.19">
+          <Type>STS-2, 120</Type>
+          <Description>STS-2, 120 s, 1500 V/m/s, generation 3 electronics</Description>
+          <Manufacturer>STS-2,</Manufacturer>
+          <Model>120</Model>
+        </Sensor>
+        <DataLogger resourceId="Datalogger/20190704162444.138898.17"/>
+        <Response>
+          <InstrumentSensitivity>
+            <Value>625853000.0</Value>
+            <Frequency>0.05</Frequency>
+            <InputUnits>
+              <Name>M/S</Name>
+              <Description>Velocity in Meters Per Second</Description>
+            </InputUnits>
+            <OutputUnits>
+              <Name></Name>
+              <Description>None</Description>
+            </OutputUnits>
+          </InstrumentSensitivity>
+        </Response>
+      </Channel>
+      <Channel code="BHZ" startDate="2008-07-11T00:00:00.000000Z" restrictedStatus="open" locationCode="00">
+        <Latitude unit="DEGREES">3.713833</Latitude>
+        <Longitude unit="DEGREES">-74.886167</Longitude>
+        <Elevation>457.0</Elevation>
+        <Depth>0.0</Depth>
+        <Azimuth unit="DEGREES">0.0</Azimuth>
+        <Dip unit="DEGREES">-90.0</Dip>
+        <SampleRate unit="SAMPLES/S">20.0</SampleRate>
+        <SampleRateRatio>
+          <NumberSamples>20</NumberSamples>
+          <NumberSeconds>1</NumberSeconds>
+        </SampleRateRatio>
+        <ClockDrift unit="SECONDS/SAMPLE">0.0</ClockDrift>
+        <Sensor resourceId="Sensor/20190704162444.140716.24">
+          <Type>STS-2, 120</Type>
+          <Description>STS-2, 120 s, 1500 V/m/s, generation 3 electronics</Description>
+          <Manufacturer>STS-2,</Manufacturer>
+          <Model>120</Model>
+        </Sensor>
+        <DataLogger resourceId="Datalogger/20190704162444.140155.22"/>
+        <Response>
+          <InstrumentSensitivity>
+            <Value>625853000.0</Value>
+            <Frequency>0.05</Frequency>
+            <InputUnits>
+              <Name>M/S</Name>
+              <Description>Velocity in Meters Per Second</Description>
+            </InputUnits>
+            <OutputUnits>
+              <Name></Name>
+              <Description>None</Description>
+            </OutputUnits>
+          </InstrumentSensitivity>
+        </Response>
+      </Channel>
+      <Channel code="HHE" startDate="2008-07-11T00:00:00.000000Z" restrictedStatus="open" locationCode="00">
+        <Latitude unit="DEGREES">3.713833</Latitude>
+        <Longitude unit="DEGREES">-74.886167</Longitude>
+        <Elevation>457.0</Elevation>
+        <Depth>0.0</Depth>
+        <Azimuth unit="DEGREES">90.0</Azimuth>
+        <Dip unit="DEGREES">0.0</Dip>
+        <SampleRate unit="SAMPLES/S">100.0</SampleRate>
+        <SampleRateRatio>
+          <NumberSamples>100</NumberSamples>
+          <NumberSeconds>1</NumberSeconds>
+        </SampleRateRatio>
+        <ClockDrift unit="SECONDS/SAMPLE">0.0</ClockDrift>
+        <Sensor resourceId="Sensor/20190704162444.14217.29">
+          <Type>STS-2, 120</Type>
+          <Description>STS-2, 120 s, 1500 V/m/s, generation 3 electronics</Description>
+          <Manufacturer>STS-2,</Manufacturer>
+          <Model>120</Model>
+        </Sensor>
+        <DataLogger resourceId="Datalogger/20190704162444.141342.27"/>
+        <Response>
+          <InstrumentSensitivity>
+            <Value>625853000.0</Value>
+            <Frequency>0.05</Frequency>
+            <InputUnits>
+              <Name>M/S</Name>
+              <Description>Velocity in Meters Per Second</Description>
+            </InputUnits>
+            <OutputUnits>
+              <Name></Name>
+              <Description>None</Description>
+            </OutputUnits>
+          </InstrumentSensitivity>
+        </Response>
+      </Channel>
+      <Channel code="HHN" startDate="2008-07-11T00:00:00.000000Z" restrictedStatus="open" locationCode="00">
+        <Latitude unit="DEGREES">3.713833</Latitude>
+        <Longitude unit="DEGREES">-74.886167</Longitude>
+        <Elevation>457.0</Elevation>
+        <Depth>0.0</Depth>
+        <Azimuth unit="DEGREES">0.0</Azimuth>
+        <Dip unit="DEGREES">0.0</Dip>
+        <SampleRate unit="SAMPLES/S">100.0</SampleRate>
+        <SampleRateRatio>
+          <NumberSamples>100</NumberSamples>
+          <NumberSeconds>1</NumberSeconds>
+        </SampleRateRatio>
+        <ClockDrift unit="SECONDS/SAMPLE">0.0</ClockDrift>
+        <Sensor resourceId="Sensor/20190704162444.143438.34">
+          <Type>STS-2, 120</Type>
+          <Description>STS-2, 120 s, 1500 V/m/s, generation 3 electronics</Description>
+          <Manufacturer>STS-2,</Manufacturer>
+          <Model>120</Model>
+        </Sensor>
+        <DataLogger resourceId="Datalogger/20190704162444.142862.32"/>
+        <Response>
+          <InstrumentSensitivity>
+            <Value>625853000.0</Value>
+            <Frequency>0.05</Frequency>
+            <InputUnits>
+              <Name>M/S</Name>
+              <Description>Velocity in Meters Per Second</Description>
+            </InputUnits>
+            <OutputUnits>
+              <Name></Name>
+              <Description>None</Description>
+            </OutputUnits>
+          </InstrumentSensitivity>
+        </Response>
+      </Channel>
+      <Channel code="HHZ" startDate="2008-07-11T00:00:00.000000Z" restrictedStatus="open" locationCode="00">
+        <Latitude unit="DEGREES">3.713833</Latitude>
+        <Longitude unit="DEGREES">-74.886167</Longitude>
+        <Elevation>457.0</Elevation>
+        <Depth>0.0</Depth>
+        <Azimuth unit="DEGREES">0.0</Azimuth>
+        <Dip unit="DEGREES">-90.0</Dip>
+        <SampleRate unit="SAMPLES/S">100.0</SampleRate>
+        <SampleRateRatio>
+          <NumberSamples>100</NumberSamples>
+          <NumberSeconds>1</NumberSeconds>
+        </SampleRateRatio>
+        <ClockDrift unit="SECONDS/SAMPLE">0.0</ClockDrift>
+        <Sensor resourceId="Sensor/20190704162444.144618.39">
+          <Type>STS-2, 120</Type>
+          <Description>STS-2, 120 s, 1500 V/m/s, generation 3 electronics</Description>
+          <Manufacturer>STS-2,</Manufacturer>
+          <Model>120</Model>
+        </Sensor>
+        <DataLogger resourceId="Datalogger/20190704162444.144061.37"/>
+        <Response>
+          <InstrumentSensitivity>
+            <Value>625853000.0</Value>
+            <Frequency>0.05</Frequency>
+            <InputUnits>
+              <Name>M/S</Name>
+              <Description>Velocity in Meters Per Second</Description>
+            </InputUnits>
+            <OutputUnits>
+              <Name></Name>
+              <Description>None</Description>
+            </OutputUnits>
+          </InstrumentSensitivity>
+        </Response>
+      </Channel>
+    </Station>
+    <Station code="FLO2" startDate="2011-10-04T00:00:00.000000Z" restrictedStatus="open">
+      <Latitude unit="DEGREES">1.582667</Latitude>
+      <Longitude unit="DEGREES">-75.652667</Longitude>
+      <Elevation>365.0</Elevation>
+      <Site>
+        <Name>Florencia, Caqueta, Colombia</Name>
+        <Country> Colombia</Country>
+      </Site>
+      <CreationDate>2011-10-04T00:00:00.000000Z</CreationDate>
+      <Channel code="BHE" startDate="2016-08-04T16:37:00.000000Z" restrictedStatus="open" locationCode="00">
+        <Latitude unit="DEGREES">1.582667</Latitude>
+        <Longitude unit="DEGREES">-75.652667</Longitude>
+        <Elevation>365.0</Elevation>
+        <Depth>0.0</Depth>
+        <Azimuth unit="DEGREES">90.0</Azimuth>
+        <Dip unit="DEGREES">0.0</Dip>
+        <SampleRate unit="SAMPLES/S">20.0</SampleRate>
+        <SampleRateRatio>
+          <NumberSamples>20</NumberSamples>
+          <NumberSeconds>1</NumberSeconds>
+        </SampleRateRatio>
+        <ClockDrift unit="SECONDS/SAMPLE">0.0</ClockDrift>
+        <Sensor resourceId="Sensor#20180220152708.219202.63">
+          <Type>STS-2.5, 120s,</Type>
+          <Description>120s,</Description>
+          <Manufacturer>STS-2.5,</Manufacturer>
+          <Model>120s,</Model>
+        </Sensor>
+        <DataLogger resourceId="Datalogger#20180220152708.218828.60">
+          <Description>FLO2.2016.217.BHE00</Description>
+        </DataLogger>
+        <Response>
+          <InstrumentSensitivity>
+            <Value>626628000.0</Value>
+            <Frequency>0.05</Frequency>
+            <InputUnits>
+              <Name>M/S</Name>
+              <Description>None</Description>
+            </InputUnits>
+            <OutputUnits>
+              <Name></Name>
+              <Description>None</Description>
+            </OutputUnits>
+          </InstrumentSensitivity>
+        </Response>
+      </Channel>
+      <Channel code="BHN" startDate="2016-08-04T16:37:00.000000Z" restrictedStatus="open" locationCode="00">
+        <Latitude unit="DEGREES">1.582667</Latitude>
+        <Longitude unit="DEGREES">-75.652667</Longitude>
+        <Elevation>365.0</Elevation>
+        <Depth>0.0</Depth>
+        <Azimuth unit="DEGREES">0.0</Azimuth>
+        <Dip unit="DEGREES">0.0</Dip>
+        <SampleRate unit="SAMPLES/S">20.0</SampleRate>
+        <SampleRateRatio>
+          <NumberSamples>20</NumberSamples>
+          <NumberSeconds>1</NumberSeconds>
+        </SampleRateRatio>
+        <ClockDrift unit="SECONDS/SAMPLE">0.0</ClockDrift>
+        <Sensor resourceId="Sensor#20180220152708.219836.68">
+          <Type>STS-2.5, 120s,</Type>
+          <Description>120s,</Description>
+          <Manufacturer>STS-2.5,</Manufacturer>
+          <Model>120s,</Model>
+        </Sensor>
+        <DataLogger resourceId="Datalogger#20180220152708.219507.65">
+          <Description>FLO2.2016.217.BHN00</Description>
+        </DataLogger>
+        <Response>
+          <InstrumentSensitivity>
+            <Value>618659000.0</Value>
+            <Frequency>0.05</Frequency>
+            <InputUnits>
+              <Name>M/S</Name>
+              <Description>None</Description>
+            </InputUnits>
+            <OutputUnits>
+              <Name></Name>
+              <Description>None</Description>
+            </OutputUnits>
+          </InstrumentSensitivity>
+        </Response>
+      </Channel>
+      <Channel code="BHZ" startDate="2016-08-04T16:37:00.000000Z" restrictedStatus="open" locationCode="00">
+        <Latitude unit="DEGREES">1.582667</Latitude>
+        <Longitude unit="DEGREES">-75.652667</Longitude>
+        <Elevation>365.0</Elevation>
+        <Depth>0.0</Depth>
+        <Azimuth unit="DEGREES">0.0</Azimuth>
+        <Dip unit="DEGREES">-90.0</Dip>
+        <SampleRate unit="SAMPLES/S">20.0</SampleRate>
+        <SampleRateRatio>
+          <NumberSamples>20</NumberSamples>
+          <NumberSeconds>1</NumberSeconds>
+        </SampleRateRatio>
+        <ClockDrift unit="SECONDS/SAMPLE">0.0</ClockDrift>
+        <Sensor resourceId="Sensor#20180220152708.220469.73">
+          <Type>STS-2.5, 120s,</Type>
+          <Description>120s,</Description>
+          <Manufacturer>STS-2.5,</Manufacturer>
+          <Model>120s,</Model>
+        </Sensor>
+        <DataLogger resourceId="Datalogger#20180220152708.220137.70">
+          <Description>FLO2.2016.217.BHZ00</Description>
+        </DataLogger>
+        <Response>
+          <InstrumentSensitivity>
+            <Value>617820000.0</Value>
+            <Frequency>0.05</Frequency>
+            <InputUnits>
+              <Name>M/S</Name>
+              <Description>None</Description>
+            </InputUnits>
+            <OutputUnits>
+              <Name></Name>
+              <Description>None</Description>
+            </OutputUnits>
+          </InstrumentSensitivity>
+        </Response>
+      </Channel>
+      <Channel code="HHE" startDate="2016-08-04T16:37:00.000000Z" restrictedStatus="open" locationCode="00">
+        <Latitude unit="DEGREES">1.582667</Latitude>
+        <Longitude unit="DEGREES">-75.652667</Longitude>
+        <Elevation>365.0</Elevation>
+        <Depth>0.0</Depth>
+        <Azimuth unit="DEGREES">90.0</Azimuth>
+        <Dip unit="DEGREES">0.0</Dip>
+        <SampleRate unit="SAMPLES/S">100.0</SampleRate>
+        <SampleRateRatio>
+          <NumberSamples>100</NumberSamples>
+          <NumberSeconds>1</NumberSeconds>
+        </SampleRateRatio>
+        <ClockDrift unit="SECONDS/SAMPLE">0.0</ClockDrift>
+        <Sensor resourceId="Sensor#20180220152708.219202.63">
+          <Type>STS-2.5, 120s,</Type>
+          <Description>120s,</Description>
+          <Manufacturer>STS-2.5,</Manufacturer>
+          <Model>120s,</Model>
+        </Sensor>
+        <DataLogger resourceId="Datalogger#20180220152708.220769.75">
+          <Description>FLO2.2016.217.HHE00</Description>
+        </DataLogger>
+        <Response>
+          <InstrumentSensitivity>
+            <Value>626628000.0</Value>
+            <Frequency>0.05</Frequency>
+            <InputUnits>
+              <Name>M/S</Name>
+              <Description>None</Description>
+            </InputUnits>
+            <OutputUnits>
+              <Name></Name>
+              <Description>None</Description>
+            </OutputUnits>
+          </InstrumentSensitivity>
+        </Response>
+      </Channel>
+      <Channel code="HHN" startDate="2016-08-04T16:37:00.000000Z" restrictedStatus="open" locationCode="00">
+        <Latitude unit="DEGREES">1.582667</Latitude>
+        <Longitude unit="DEGREES">-75.652667</Longitude>
+        <Elevation>365.0</Elevation>
+        <Depth>0.0</Depth>
+        <Azimuth unit="DEGREES">0.0</Azimuth>
+        <Dip unit="DEGREES">0.0</Dip>
+        <SampleRate unit="SAMPLES/S">100.0</SampleRate>
+        <SampleRateRatio>
+          <NumberSamples>100</NumberSamples>
+          <NumberSeconds>1</NumberSeconds>
+        </SampleRateRatio>
+        <ClockDrift unit="SECONDS/SAMPLE">0.0</ClockDrift>
+        <Sensor resourceId="Sensor#20180220152708.219836.68">
+          <Type>STS-2.5, 120s,</Type>
+          <Description>120s,</Description>
+          <Manufacturer>STS-2.5,</Manufacturer>
+          <Model>120s,</Model>
+        </Sensor>
+        <DataLogger resourceId="Datalogger#20180220152708.221413.78">
+          <Description>FLO2.2016.217.HHN00</Description>
+        </DataLogger>
+        <Response>
+          <InstrumentSensitivity>
+            <Value>618659000.0</Value>
+            <Frequency>0.05</Frequency>
+            <InputUnits>
+              <Name>M/S</Name>
+              <Description>None</Description>
+            </InputUnits>
+            <OutputUnits>
+              <Name></Name>
+              <Description>None</Description>
+            </OutputUnits>
+          </InstrumentSensitivity>
+        </Response>
+      </Channel>
+      <Channel code="HHZ" startDate="2016-08-04T16:37:00.000000Z" restrictedStatus="open" locationCode="00">
+        <Latitude unit="DEGREES">1.582667</Latitude>
+        <Longitude unit="DEGREES">-75.652667</Longitude>
+        <Elevation>365.0</Elevation>
+        <Depth>0.0</Depth>
+        <Azimuth unit="DEGREES">0.0</Azimuth>
+        <Dip unit="DEGREES">-90.0</Dip>
+        <SampleRate unit="SAMPLES/S">100.0</SampleRate>
+        <SampleRateRatio>
+          <NumberSamples>100</NumberSamples>
+          <NumberSeconds>1</NumberSeconds>
+        </SampleRateRatio>
+        <ClockDrift unit="SECONDS/SAMPLE">0.0</ClockDrift>
+        <Sensor resourceId="Sensor#20180220152708.220469.73">
+          <Type>STS-2.5, 120s,</Type>
+          <Description>120s,</Description>
+          <Manufacturer>STS-2.5,</Manufacturer>
+          <Model>120s,</Model>
+        </Sensor>
+        <DataLogger resourceId="Datalogger#20180220152708.222024.81">
+          <Description>FLO2.2016.217.HHZ00</Description>
+        </DataLogger>
+        <Response>
+          <InstrumentSensitivity>
+            <Value>617820000.0</Value>
+            <Frequency>0.05</Frequency>
+            <InputUnits>
+              <Name>M/S</Name>
+              <Description>None</Description>
+            </InputUnits>
+            <OutputUnits>
+              <Name></Name>
+              <Description>None</Description>
+            </OutputUnits>
+          </InstrumentSensitivity>
+        </Response>
+      </Channel>
+      <Channel code="HNE" startDate="2018-02-15T15:00:00.000000Z" restrictedStatus="open" locationCode="10">
+        <Latitude unit="DEGREES">1.583</Latitude>
+        <Longitude unit="DEGREES">-75.653</Longitude>
+        <Elevation>365.0</Elevation>
+        <Depth>0.0</Depth>
+        <Azimuth unit="DEGREES">90.0</Azimuth>
+        <Dip unit="DEGREES">0.0</Dip>
+        <SampleRate unit="SAMPLES/S">200.0</SampleRate>
+        <SampleRateRatio>
+          <NumberSamples>200</NumberSamples>
+          <NumberSeconds>1</NumberSeconds>
+        </SampleRateRatio>
+        <ClockDrift unit="SECONDS/SAMPLE">0.0</ClockDrift>
+        <Sensor resourceId="Sensor#20180220152708.222864.87">
+          <Type>Episensor, DC</Type>
+          <Description>DC</Description>
+          <Manufacturer>Episensor,</Manufacturer>
+          <Model>DC</Model>
+        </Sensor>
+        <DataLogger resourceId="Datalogger#20180220152708.222604.84">
+          <Description>FLO2.2018.046.HNE10</Description>
+        </DataLogger>
+        <Response>
+          <InstrumentSensitivity>
+            <Value>427694.0</Value>
+            <Frequency>0.05</Frequency>
+            <InputUnits>
+              <Name>M/S**2</Name>
+              <Description>None</Description>
+            </InputUnits>
+            <OutputUnits>
+              <Name></Name>
+              <Description>None</Description>
+            </OutputUnits>
+          </InstrumentSensitivity>
+        </Response>
+      </Channel>
+      <Channel code="HNN" startDate="2018-02-15T15:00:00.000000Z" restrictedStatus="open" locationCode="10">
+        <Latitude unit="DEGREES">1.583</Latitude>
+        <Longitude unit="DEGREES">-75.653</Longitude>
+        <Elevation>365.0</Elevation>
+        <Depth>0.0</Depth>
+        <Azimuth unit="DEGREES">0.0</Azimuth>
+        <Dip unit="DEGREES">0.0</Dip>
+        <SampleRate unit="SAMPLES/S">200.0</SampleRate>
+        <SampleRateRatio>
+          <NumberSamples>200</NumberSamples>
+          <NumberSeconds>1</NumberSeconds>
+        </SampleRateRatio>
+        <ClockDrift unit="SECONDS/SAMPLE">0.0</ClockDrift>
+        <Sensor resourceId="Sensor#20180220152708.223398.92">
+          <Type>Episensor, DC</Type>
+          <Description>DC</Description>
+          <Manufacturer>Episensor,</Manufacturer>
+          <Model>DC</Model>
+        </Sensor>
+        <DataLogger resourceId="Datalogger#20180220152708.223132.89">
+          <Description>FLO2.2018.046.HNN10</Description>
+        </DataLogger>
+        <Response>
+          <InstrumentSensitivity>
+            <Value>427694.0</Value>
+            <Frequency>0.05</Frequency>
+            <InputUnits>
+              <Name>M/S**2</Name>
+              <Description>None</Description>
+            </InputUnits>
+            <OutputUnits>
+              <Name></Name>
+              <Description>None</Description>
+            </OutputUnits>
+          </InstrumentSensitivity>
+        </Response>
+      </Channel>
+      <Channel code="HNZ" startDate="2018-02-15T15:00:00.000000Z" restrictedStatus="open" locationCode="10">
+        <Latitude unit="DEGREES">1.583</Latitude>
+        <Longitude unit="DEGREES">-75.653</Longitude>
+        <Elevation>365.0</Elevation>
+        <Depth>0.0</Depth>
+        <Azimuth unit="DEGREES">0.0</Azimuth>
+        <Dip unit="DEGREES">-90.0</Dip>
+        <SampleRate unit="SAMPLES/S">200.0</SampleRate>
+        <SampleRateRatio>
+          <NumberSamples>200</NumberSamples>
+          <NumberSeconds>1</NumberSeconds>
+        </SampleRateRatio>
+        <ClockDrift unit="SECONDS/SAMPLE">0.0</ClockDrift>
+        <Sensor resourceId="Sensor#20180220152708.223906.97">
+          <Type>Episensor, DC</Type>
+          <Description>DC</Description>
+          <Manufacturer>Episensor,</Manufacturer>
+          <Model>DC</Model>
+        </Sensor>
+        <DataLogger resourceId="Datalogger#20180220152708.223643.94">
+          <Description>FLO2.2018.046.HNZ10</Description>
+        </DataLogger>
+        <Response>
+          <InstrumentSensitivity>
+            <Value>427694.0</Value>
+            <Frequency>0.05</Frequency>
+            <InputUnits>
+              <Name>M/S**2</Name>
+              <Description>None</Description>
+            </InputUnits>
+            <OutputUnits>
+              <Name></Name>
+              <Description>None</Description>
+            </OutputUnits>
+          </InstrumentSensitivity>
+        </Response>
+      </Channel>
+    </Station>
+  </Network>
+</FDSNStationXML>

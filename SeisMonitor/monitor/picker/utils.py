@@ -25,6 +25,7 @@ import os
 import csv
 import sys
 import json
+import math
 import time
 import obspy
 import shutil
@@ -434,7 +435,7 @@ def rm_phasenet_duplicate_picks(path,output_path):
                 logger.debug(f'Overlap:{overlap_prob_avg} > Single:{single_prob_avg} | Overlap selected')
                 return df_overlap
     
-    df = pd.read_csv(path)
+    df = pd.read_csv(path,dtype={"location":str})
     if df.empty == True:
         return df
 
@@ -495,16 +496,25 @@ def picks2df(picks):
         seismonitor["phasehint"] = pick.phase_hint 
         seismonitor["network"] = pick.waveform_id.network_code
         seismonitor["station"] = pick.waveform_id.station_code
-        seismonitor["location"] = pick.waveform_id.location_code
         seismonitor["instrument_type"] = pick.waveform_id.channel_code[0:2]
         seismonitor["author"] = pick.method_id.id
         seismonitor["creation_time"] = pick.creation_info.creation_time.strftime("%Y-%m-%d %H:%M:%S.%f")
+        
+        if isinstance(pick.waveform_id.location_code,int):
+            if math.isnan(pick.waveform_id.location_code):
+                seismonitor["location"] = ""
+        elif pick.waveform_id.location_code == None:
+            seismonitor["location"] = ""
+        else:
+            seismonitor["location"] = "{:02d}".format(int(pick.waveform_id.location_code))
 
         for key,val in pick.comments[0].items():
             seismonitor[key] = val
 
         df.append(seismonitor)
     df = pd.DataFrame(df)
+    df["location"] = df["location"].astype(str)
+    # print(df["location"])
     date_cols = ["arrival_time","creation_time",
                 "event_start_time","event_end_time",
                 "mseed_start_time","mseed_end_time"]

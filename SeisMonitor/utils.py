@@ -19,7 +19,7 @@ import sys
 #                    datefmt='%m-%d %H:%M') 
 
 logger = logging.getLogger("SeisMonitor")
-logger.setLevel(logging.DEBUG)
+logger.setLevel(logging.INFO)
 # Prevent propagating to higher loggers.
 logger.propagate = 0
 # Console log handler.

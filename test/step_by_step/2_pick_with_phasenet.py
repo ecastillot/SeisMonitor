@@ -17,7 +17,10 @@ mseed_storage = os.path.join(archive,"downloads","{station}/{network}.{station}.
 
 dataset = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))),"data")
 pnet_path = "/home/emmanuel/PhaseNet"
-pnetobj = PhaseNetObj(phasenet_path = pnet_path) 
+pnetobj = PhaseNetObj(pnet_path,
+            P_threshold=0.7, S_threshold=0.6,
+            batch_size=100
+            ) 
 
 mseed_storage = os.path.join(archive,"downloads")
 json_dir = os.path.join(archive,"stations")
