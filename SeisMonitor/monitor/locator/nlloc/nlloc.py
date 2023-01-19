@@ -315,14 +315,15 @@ class NLLoc():
                 out_format:str = "SC3ML"
                 ):
         if self.exhaustively:
-            self._iterlocate(catalog=catalog,
+            cat = self._iterlocate(catalog=catalog,
                             nlloc_out_folder=nlloc_out_folder,
                             out_filename=out_filename,
                             out_format=out_format,
                             degrees=self.search_in_degrees,
                             rm_attempts=self.rm_attempts)
         else:
-            self._locate(catalog=catalog,
+            cat = self._locate(catalog=catalog,
                             nlloc_out_folder=nlloc_out_folder,
                             out_filename=out_filename,
                             out_format=out_format)
+        return cat

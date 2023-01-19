@@ -5,14 +5,13 @@ from SeisMonitor.monitor.locator.nlloc import utils as nlloc_utils
 from obspy import read_events
 from obspy.core.event.catalog import Catalog
 
-dataset = os.path.join(os.path.dirname(os.path.dirname(__file__)),"data")
+dataset = os.path.join("/home/emmanuel/SeisMonitor","data")
 
-
-archive = "./out/download/fdsn"
+archive = "/home/emmanuel/SeisMonitor/out"
 out_dir = os.path.join(archive,"loc","nlloc")
 asso_dir = os.path.join(archive,"asso","gamma")
-vel_path = os.path.join(dataset,"metadata","vel1d_col.csv")
-inv = os.path.join(archive,"stations","inv.xml")
+vel_path = os.path.join(dataset,"velmodel","vel1d_col.csv")
+inv = os.path.join(dataset,"stations","inv.xml")
 
 vel_model = lut.VelModel(vel_path,model_name="Ojeda&Havskov(2004)")
 stations = lut.Stations(inv)
@@ -27,7 +26,7 @@ nlloc = NLLoc(
         )
 nlloc.download()
 # nlloc.compute_travel_times()
-nlloc.locate(catalog=os.path.join(asso_dir,"associations.xml"),
-             nlloc_out_folder= out_dir,
-              out_filename = "LOC.xml",
-              out_format="SC3ML" )
+# nlloc.locate(catalog=os.path.join(asso_dir,"associations.xml"),
+#              nlloc_out_folder= out_dir,
+#               out_filename = "LOC.xml",
+#               out_format="SC3ML" )

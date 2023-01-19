@@ -28,3 +28,4 @@ We will be uploading examples.
 | 1.downloader| [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/ecastillot/SeisMonitor/blob/master/examples/1.downloader.ipynb) |
 | 2.picker| [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/ecastillot/SeisMonitor/blob/master/examples/2.picker.ipynb) |
 | 3.associator| [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/ecastillot/SeisMonitor/blob/master/examples/3.associator.ipynb) |
+| 4.locator| [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/ecastillot/SeisMonitor/blob/master/examples/4.locator.ipynb) |
