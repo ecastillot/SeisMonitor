@@ -658,7 +658,7 @@ def pick_constructor(datalist,picks, prob, wf_name, ph_type, min_prob,
                 net = row["network"]
                 sta = row["station"]
                 loc = row["location"]
-                print(loc,type(loc))
+                # print(loc,type(loc))
                 ch = row["instrument_type"]
                 
                 if one_single_sampling_rate == -1:
