@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <seiscomp xmlns="http://geofon.gfz-potsdam.de/ns/seiscomp3-schema/0.12" version="0.12">
-  <EventParameters publicID="smi:local/catalog/f8d7c956-e13f-42d2-bc7b-b625c4ca027f">
+  <EventParameters publicID="smi:local/catalog/fbd9b79f-30a4-41ff-936c-4002683c6f89">
     <pick publicID="smi:local/20191224.195640.49-P-CM.URMC.00.HH">
       <time>
         <value>2019-12-24T19:56:40.498393Z</value>
@@ -15,11 +15,11 @@
       <evaluationMode>automatic</evaluationMode>
       <creationInfo>
         <author>EQTransformer</author>
-        <creationTime>2023-01-18T21:15:33.085370Z</creationTime>
+        <creationTime>2023-01-19T13:14:19.892574Z</creationTime>
       </creationInfo>
       <comment>
         <text>{"probability": 0.79, "GaMMA_probability": 1.965125602997957e-06, "snr": 27.0, "detection_probability": 0.87, "event_start_time": "2019-12-24 19:56:40.338393", "event_end_time": "2019-12-24 19:56:46.028393"}</text>
-        <id>smi:local/7ccef71f-af62-43ba-84a6-8a5cb027e13d</id>
+        <id>smi:local/c4eb7239-ddc6-455e-b18c-13781f3be39e</id>
       </comment>
     </pick>
     <pick publicID="smi:local/20191224.195644.42-S-CM.URMC.00.HH">
@@ -36,11 +36,11 @@
       <evaluationMode>automatic</evaluationMode>
       <creationInfo>
         <author>EQTransformer</author>
-        <creationTime>2023-01-18T21:15:33.086039Z</creationTime>
+        <creationTime>2023-01-19T13:14:19.893296Z</creationTime>
       </creationInfo>
       <comment>
         <text>{"probability": 0.62, "GaMMA_probability": 2.4283749093416853e-06, "snr": 11.8, "detection_probability": 0.87, "event_start_time": "2019-12-24 19:56:40.338393", "event_end_time": "2019-12-24 19:56:46.028393"}</text>
-        <id>smi:local/6959b3dc-d21e-4d85-ab0b-2e9f65374ad9</id>
+        <id>smi:local/4fad3af1-a93d-42f9-9c7a-e0ab2af853a9</id>
       </comment>
     </pick>
     <pick publicID="smi:local/20191224.195655.86-P-CM.ORTC.00.HH">
@@ -57,11 +57,11 @@
       <evaluationMode>automatic</evaluationMode>
       <creationInfo>
         <author>EQTransformer</author>
-        <creationTime>2023-01-18T21:15:33.086606Z</creationTime>
+        <creationTime>2023-01-19T13:14:19.893875Z</creationTime>
       </creationInfo>
       <comment>
         <text>{"probability": 0.65, "GaMMA_probability": 8.232169860340049e-06, "snr": 11.9, "detection_probability": 0.96, "event_start_time": "2019-12-24 19:56:55.498393", "event_end_time": "2019-12-24 19:57:22.998393"}</text>
-        <id>smi:local/4d73fc04-ad51-48cf-a085-f64fcc7986ce</id>
+        <id>smi:local/5846fa45-08c6-47df-9557-177a6f1c1e3b</id>
       </comment>
     </pick>
     <pick publicID="smi:local/20191224.195657.64-P-CM.CHI.00.HH">
@@ -78,11 +78,11 @@
       <evaluationMode>automatic</evaluationMode>
       <creationInfo>
         <author>EQTransformer</author>
-        <creationTime>2023-01-18T21:15:33.087244Z</creationTime>
+        <creationTime>2023-01-19T13:14:19.894431Z</creationTime>
       </creationInfo>
       <comment>
         <text>{"probability": 0.54, "GaMMA_probability": 1.083986087858577e-05, "snr": 18.1, "detection_probability": 0.88, "event_start_time": "2019-12-24 19:56:57.348394", "event_end_time": "2019-12-24 19:57:22.168394"}</text>
-        <id>smi:local/6d6d7edc-7f60-4528-97b4-6339de141a34</id>
+        <id>smi:local/4428d516-e2c9-49d4-8665-1dc4c5b971b4</id>
       </comment>
     </pick>
     <pick publicID="smi:local/20191224.195710.48-S-CM.CHI.00.HH">
@@ -99,11 +99,11 @@
       <evaluationMode>automatic</evaluationMode>
       <creationInfo>
         <author>EQTransformer</author>
-        <creationTime>2023-01-18T21:15:33.087788Z</creationTime>
+        <creationTime>2023-01-19T13:14:19.895057Z</creationTime>
       </creationInfo>
       <comment>
         <text>{"probability": 0.04, "GaMMA_probability": 7.70645104884309e-06, "snr": 2.7, "detection_probability": 0.88, "event_start_time": "2019-12-24 19:56:57.348394", "event_end_time": "2019-12-24 19:57:22.168394"}</text>
-        <id>smi:local/2330f96b-c67b-4a27-89e0-6bec6f2a5084</id>
+        <id>smi:local/902a6bd6-1fd7-4463-a46d-79142fa5c4cc</id>
       </comment>
     </pick>
     <pick publicID="smi:local/20191224.191035.99-P-CM.ORTC.00.HH">
@@ -120,11 +120,11 @@
       <evaluationMode>automatic</evaluationMode>
       <creationInfo>
         <author>EQTransformer</author>
-        <creationTime>2023-01-18T21:15:33.104744Z</creationTime>
+        <creationTime>2023-01-19T13:14:19.911642Z</creationTime>
       </creationInfo>
       <comment>
         <text>{"probability": 0.92, "GaMMA_probability": 1.965125602997957e-06, "snr": 2.5, "detection_probability": 0.99, "event_start_time": "2019-12-24 19:10:35.948393", "event_end_time": "2019-12-24 19:11:04.798393"}</text>
-        <id>smi:local/76f9e80c-5474-47ce-8849-126a63f89d58</id>
+        <id>smi:local/5895e124-1cc8-4917-91de-b49f28814b9b</id>
       </comment>
     </pick>
     <pick publicID="smi:local/20191224.191038.10-P-CM.CHI.00.HH">
@@ -141,11 +141,11 @@
       <evaluationMode>automatic</evaluationMode>
       <creationInfo>
         <author>EQTransformer</author>
-        <creationTime>2023-01-18T21:15:33.105360Z</creationTime>
+        <creationTime>2023-01-19T13:14:19.912339Z</creationTime>
       </creationInfo>
       <comment>
         <text>{"probability": 0.46, "GaMMA_probability": 2.4283749093416853e-06, "snr": 2.6, "detection_probability": 0.93, "event_start_time": "2019-12-24 19:10:37.918394", "event_end_time": "2019-12-24 19:11:03.618394"}</text>
-        <id>smi:local/cb8ef732-e4a4-499e-9576-9888dbf589d8</id>
+        <id>smi:local/a1c1ce7c-f427-466e-be0a-e4e1ea33fc67</id>
       </comment>
     </pick>
     <pick publicID="smi:local/20191224.191055.92-S-CM.CHI.00.HH">
@@ -162,11 +162,11 @@
       <evaluationMode>automatic</evaluationMode>
       <creationInfo>
         <author>EQTransformer</author>
-        <creationTime>2023-01-18T21:15:33.105915Z</creationTime>
+        <creationTime>2023-01-19T13:14:19.913098Z</creationTime>
       </creationInfo>
       <comment>
         <text>{"probability": 0.18, "GaMMA_probability": 8.232169860340049e-06, "snr": 1.6, "detection_probability": 0.93, "event_start_time": "2019-12-24 19:10:37.918394", "event_end_time": "2019-12-24 19:11:03.618394"}</text>
-        <id>smi:local/e8196789-87a2-4861-8895-71a05fc84ca2</id>
+        <id>smi:local/2222ceaf-f094-4480-a0b4-eefdddc95785</id>
       </comment>
     </pick>
     <pick publicID="smi:local/20191224.191056.33-S-CM.ORTC.00.HH">
@@ -183,11 +183,11 @@
       <evaluationMode>automatic</evaluationMode>
       <creationInfo>
         <author>EQTransformer</author>
-        <creationTime>2023-01-18T21:15:33.106486Z</creationTime>
+        <creationTime>2023-01-19T13:14:19.913602Z</creationTime>
       </creationInfo>
       <comment>
         <text>{"probability": 0.54, "GaMMA_probability": 1.083986087858577e-05, "snr": 13.2, "detection_probability": 0.99, "event_start_time": "2019-12-24 19:10:35.948393", "event_end_time": "2019-12-24 19:11:04.798393"}</text>
-        <id>smi:local/335feda7-e1c5-4859-9c8d-f5cc00def3f7</id>
+        <id>smi:local/5c56e5d3-77a3-4bc5-b24e-1cbdada76552</id>
       </comment>
     </pick>
     <pick publicID="smi:local/20191224.191111.34-S-CM.URMC.00.HH">
@@ -204,11 +204,11 @@
       <evaluationMode>automatic</evaluationMode>
       <creationInfo>
         <author>EQTransformer</author>
-        <creationTime>2023-01-18T21:15:33.107086Z</creationTime>
+        <creationTime>2023-01-19T13:14:19.914360Z</creationTime>
       </creationInfo>
       <comment>
         <text>{"probability": 0.46, "GaMMA_probability": 7.70645104884309e-06, "snr": 18.0, "detection_probability": 0.89, "event_start_time": "2019-12-24 19:11:06.968393", "event_end_time": "2019-12-24 19:11:13.388393"}</text>
-        <id>smi:local/9c12a31e-fa0b-4085-bac2-26ed149f9c43</id>
+        <id>smi:local/8073026b-1392-44ea-92eb-148ee7c8bdfc</id>
       </comment>
     </pick>
     <pick publicID="smi:local/20191224.193210.98-P-CM.ORTC.00.HH">
@@ -225,11 +225,11 @@
       <evaluationMode>automatic</evaluationMode>
       <creationInfo>
         <author>EQTransformer</author>
-        <creationTime>2023-01-18T21:15:33.123475Z</creationTime>
+        <creationTime>2023-01-19T13:14:19.930368Z</creationTime>
       </creationInfo>
       <comment>
         <text>{"probability": 0.72, "GaMMA_probability": 1.965125602997957e-06, "snr": 12.1, "detection_probability": 0.3, "event_start_time": "2019-12-24 19:32:10.958393", "event_end_time": "2019-12-24 19:32:29.988393"}</text>
-        <id>smi:local/09894caa-f001-4f0a-8bb2-a22db2676622</id>
+        <id>smi:local/f1664f85-c6e0-4b0a-b4ed-82d5aebdc421</id>
       </comment>
     </pick>
     <pick publicID="smi:local/20191224.193216.08-P-CM.CHI.00.HH">
@@ -246,11 +246,11 @@
       <evaluationMode>automatic</evaluationMode>
       <creationInfo>
         <author>EQTransformer</author>
-        <creationTime>2023-01-18T21:15:33.124120Z</creationTime>
+        <creationTime>2023-01-19T13:14:19.930969Z</creationTime>
       </creationInfo>
       <comment>
         <text>{"probability": 0.1, "GaMMA_probability": 2.4283749093416853e-06, "snr": 2.9, "detection_probability": 0.61, "event_start_time": "2019-12-24 19:32:11.998394", "event_end_time": "2019-12-24 19:32:37.278394"}</text>
-        <id>smi:local/cdbfe792-e157-4f08-aea7-ba09521a8450</id>
+        <id>smi:local/04ad35dc-f062-4f76-a4b5-71bd295ee024</id>
       </comment>
     </pick>
     <pick publicID="smi:local/20191224.193222.13-P-CM.URMC.00.HH">
@@ -267,11 +267,11 @@
       <evaluationMode>automatic</evaluationMode>
       <creationInfo>
         <author>EQTransformer</author>
-        <creationTime>2023-01-18T21:15:33.124689Z</creationTime>
+        <creationTime>2023-01-19T13:14:19.931528Z</creationTime>
       </creationInfo>
       <comment>
         <text>{"probability": 0.49, "GaMMA_probability": 8.232169860340049e-06, "snr": 13.9, "detection_probability": 0.94, "event_start_time": "2019-12-24 19:32:21.958393", "event_end_time": "2019-12-24 19:32:28.438393"}</text>
-        <id>smi:local/d5d59e0d-eca9-479a-8dfe-062045dd56e6</id>
+        <id>smi:local/5ee5e598-e85f-4e23-bcea-f99f9890a960</id>
       </comment>
     </pick>
     <pick publicID="smi:local/20191224.193226.24-S-CM.ORTC.00.HH">
@@ -288,11 +288,11 @@
       <evaluationMode>automatic</evaluationMode>
       <creationInfo>
         <author>EQTransformer</author>
-        <creationTime>2023-01-18T21:15:33.125247Z</creationTime>
+        <creationTime>2023-01-19T13:14:19.932322Z</creationTime>
       </creationInfo>
       <comment>
         <text>{"probability": 0.06, "GaMMA_probability": 1.083986087858577e-05, "snr": 5.0, "detection_probability": 0.3, "event_start_time": "2019-12-24 19:32:10.958393", "event_end_time": "2019-12-24 19:32:29.988393"}</text>
-        <id>smi:local/79161550-8c8c-4a94-8011-185129dcdd99</id>
+        <id>smi:local/94181345-7cbe-4174-a904-838fc537f27a</id>
       </comment>
     </pick>
     <pick publicID="smi:local/20191224.193230.59-S-CM.CHI.00.HH">
@@ -309,11 +309,11 @@
       <evaluationMode>automatic</evaluationMode>
       <creationInfo>
         <author>EQTransformer</author>
-        <creationTime>2023-01-18T21:15:33.125791Z</creationTime>
+        <creationTime>2023-01-19T13:14:19.932829Z</creationTime>
       </creationInfo>
       <comment>
         <text>{"probability": 0.35, "GaMMA_probability": 7.70645104884309e-06, "snr": 2.9, "detection_probability": 0.61, "event_start_time": "2019-12-24 19:32:11.998394", "event_end_time": "2019-12-24 19:32:37.278394"}</text>
-        <id>smi:local/ba0ed52a-908e-4281-94f3-978e51a1a305</id>
+        <id>smi:local/7cb2c996-895f-4bae-8940-faff394d9364</id>
       </comment>
     </pick>
     <pick publicID="smi:local/20191224.192527.94-P-CM.URMC.00.HH">
@@ -330,11 +330,11 @@
       <evaluationMode>automatic</evaluationMode>
       <creationInfo>
         <author>EQTransformer</author>
-        <creationTime>2023-01-18T21:15:33.143415Z</creationTime>
+        <creationTime>2023-01-19T13:14:19.950264Z</creationTime>
       </creationInfo>
       <comment>
         <text>{"probability": 0.78, "GaMMA_probability": 1.965125602997957e-06, "snr": 17.2, "detection_probability": 0.9, "event_start_time": "2019-12-24 19:25:27.828393", "event_end_time": "2019-12-24 19:25:33.848393"}</text>
-        <id>smi:local/e0933df2-e6a6-4201-9bcb-b784ff4388c9</id>
+        <id>smi:local/9325fc1b-bca6-49ef-b969-94f14c77da84</id>
       </comment>
     </pick>
     <pick publicID="smi:local/20191224.192531.73-S-CM.URMC.00.HH">
@@ -351,11 +351,11 @@
       <evaluationMode>automatic</evaluationMode>
       <creationInfo>
         <author>EQTransformer</author>
-        <creationTime>2023-01-18T21:15:33.143963Z</creationTime>
+        <creationTime>2023-01-19T13:14:19.950839Z</creationTime>
       </creationInfo>
       <comment>
         <text>{"probability": 0.29, "GaMMA_probability": 2.4283749093416853e-06, "snr": 17.1, "detection_probability": 0.9, "event_start_time": "2019-12-24 19:25:27.828393", "event_end_time": "2019-12-24 19:25:33.848393"}</text>
-        <id>smi:local/7ee955a8-cf72-4a36-94aa-50cf7bf91448</id>
+        <id>smi:local/4c92f5c7-0d71-4ce2-924b-17200157f11d</id>
       </comment>
     </pick>
     <pick publicID="smi:local/20191224.192542.83-P-CM.ORTC.00.HH">
@@ -372,11 +372,11 @@
       <evaluationMode>automatic</evaluationMode>
       <creationInfo>
         <author>EQTransformer</author>
-        <creationTime>2023-01-18T21:15:33.144508Z</creationTime>
+        <creationTime>2023-01-19T13:14:19.951717Z</creationTime>
       </creationInfo>
       <comment>
         <text>{"probability": 0.72, "GaMMA_probability": 8.232169860340049e-06, "snr": 14.7, "detection_probability": 0.86, "event_start_time": "2019-12-24 19:25:42.748393", "event_end_time": "2019-12-24 19:26:04.598393"}</text>
-        <id>smi:local/30773712-4163-47ee-b283-3d5278da25be</id>
+        <id>smi:local/eb20aec4-1147-4d7a-9ac3-71b97a5763b4</id>
       </comment>
     </pick>
     <pick publicID="smi:local/20191224.192545.43-P-CM.CHI.00.HH">
@@ -393,11 +393,11 @@
       <evaluationMode>automatic</evaluationMode>
       <creationInfo>
         <author>EQTransformer</author>
-        <creationTime>2023-01-18T21:15:33.145017Z</creationTime>
+        <creationTime>2023-01-19T13:14:19.952353Z</creationTime>
       </creationInfo>
       <comment>
         <text>{"probability": 0.07, "GaMMA_probability": 1.083986087858577e-05, "snr": 6.7, "detection_probability": 0.11, "event_start_time": "2019-12-24 19:25:45.518394", "event_end_time": "2019-12-24 19:25:49.348394"}</text>
-        <id>smi:local/11255255-ecb6-4c46-bb61-f6ab41378bcf</id>
+        <id>smi:local/a088492b-3900-4491-aaaa-d7234692c575</id>
       </comment>
     </pick>
     <pick publicID="smi:local/20191224.192558.24-S-CM.ORTC.00.HH">
@@ -414,11 +414,11 @@
       <evaluationMode>automatic</evaluationMode>
       <creationInfo>
         <author>EQTransformer</author>
-        <creationTime>2023-01-18T21:15:33.145549Z</creationTime>
+        <creationTime>2023-01-19T13:14:19.952814Z</creationTime>
       </creationInfo>
       <comment>
         <text>{"probability": 0.45, "GaMMA_probability": 7.70645104884309e-06, "snr": 6.8, "detection_probability": 0.86, "event_start_time": "2019-12-24 19:25:42.748393", "event_end_time": "2019-12-24 19:26:04.598393"}</text>
-        <id>smi:local/0f8bfc21-0d58-4ee3-b70f-fb1b2e9f07c0</id>
+        <id>smi:local/73e96061-3b82-49a6-8e53-1f7cb39d99ee</id>
       </comment>
     </pick>
     <pick publicID="smi:local/20191224.194322.63-P-CM.URMC.00.HH">
@@ -435,11 +435,11 @@
       <evaluationMode>automatic</evaluationMode>
       <creationInfo>
         <author>EQTransformer</author>
-        <creationTime>2023-01-18T21:15:33.162117Z</creationTime>
+        <creationTime>2023-01-19T13:14:19.970153Z</creationTime>
       </creationInfo>
       <comment>
         <text>{"probability": 0.7, "GaMMA_probability": 1.965125602997957e-06, "snr": 16.4, "detection_probability": 0.71, "event_start_time": "2019-12-24 19:43:22.508393", "event_end_time": "2019-12-24 19:43:28.308393"}</text>
-        <id>smi:local/1fb92565-b21a-4afa-9c8c-b0db32365bdf</id>
+        <id>smi:local/aa249f6a-f855-40dd-b763-2802f67e14e8</id>
       </comment>
     </pick>
     <pick publicID="smi:local/20191224.194338.83-P-CM.ORTC.00.HH">
@@ -456,11 +456,11 @@
       <evaluationMode>automatic</evaluationMode>
       <creationInfo>
         <author>EQTransformer</author>
-        <creationTime>2023-01-18T21:15:33.162859Z</creationTime>
+        <creationTime>2023-01-19T13:14:19.970709Z</creationTime>
       </creationInfo>
       <comment>
         <text>{"probability": 0.23, "GaMMA_probability": 2.4283749093416853e-06, "snr": 4.9, "detection_probability": 0.9, "event_start_time": "2019-12-24 19:43:38.108393", "event_end_time": "2019-12-24 19:44:06.718393"}</text>
-        <id>smi:local/3882a5d0-c832-4a2f-ae18-6532c16f310d</id>
+        <id>smi:local/7ab330a5-5106-4a04-9b80-eff8a1f5d0d8</id>
       </comment>
     </pick>
     <pick publicID="smi:local/20191224.194340.75-P-CM.CHI.00.HH">
@@ -477,11 +477,11 @@
       <evaluationMode>automatic</evaluationMode>
       <creationInfo>
         <author>EQTransformer</author>
-        <creationTime>2023-01-18T21:15:33.163423Z</creationTime>
+        <creationTime>2023-01-19T13:14:19.971166Z</creationTime>
       </creationInfo>
       <comment>
         <text>{"probability": 0.36, "GaMMA_probability": 8.232169860340049e-06, "snr": 5.1, "detection_probability": 0.78, "event_start_time": "2019-12-24 19:43:39.978394", "event_end_time": "2019-12-24 19:44:06.828394"}</text>
-        <id>smi:local/48b5e2c7-eba8-46ee-8ded-1ac2bf61c85c</id>
+        <id>smi:local/c46b02af-6a7f-4b64-864c-169c445aeb56</id>
       </comment>
     </pick>
     <pick publicID="smi:local/20191224.194358.15-S-CM.ORTC.00.HH">
@@ -498,11 +498,11 @@
       <evaluationMode>automatic</evaluationMode>
       <creationInfo>
         <author>EQTransformer</author>
-        <creationTime>2023-01-18T21:15:33.164002Z</creationTime>
+        <creationTime>2023-01-19T13:14:19.971688Z</creationTime>
       </creationInfo>
       <comment>
         <text>{"probability": 0.28, "GaMMA_probability": 1.083986087858577e-05, "snr": 5.2, "detection_probability": 0.9, "event_start_time": "2019-12-24 19:43:38.108393", "event_end_time": "2019-12-24 19:44:06.718393"}</text>
-        <id>smi:local/aedc4eb8-0ff4-4de4-971a-341b364605d7</id>
+        <id>smi:local/49e145a7-90fe-4bb0-8006-d7e1cda3523d</id>
       </comment>
     </pick>
     <pick publicID="smi:local/20191224.194358.95-S-CM.CHI.00.HH">
@@ -519,11 +519,11 @@
       <evaluationMode>automatic</evaluationMode>
       <creationInfo>
         <author>EQTransformer</author>
-        <creationTime>2023-01-18T21:15:33.164621Z</creationTime>
+        <creationTime>2023-01-19T13:14:19.972195Z</creationTime>
       </creationInfo>
       <comment>
         <text>{"probability": 0.19, "GaMMA_probability": 7.70645104884309e-06, "snr": 3.5, "detection_probability": 0.78, "event_start_time": "2019-12-24 19:43:39.978394", "event_end_time": "2019-12-24 19:44:06.828394"}</text>
-        <id>smi:local/8d1fe315-bc01-4c2c-af50-96f60814baf8</id>
+        <id>smi:local/0621bd45-aa33-4caf-ad12-01d8ce166ed7</id>
       </comment>
     </pick>
     <pick publicID="smi:local/20191224.200952.91-P-CM.URMC.00.HH">
@@ -540,11 +540,11 @@
       <evaluationMode>automatic</evaluationMode>
       <creationInfo>
         <author>EQTransformer</author>
-        <creationTime>2023-01-18T21:15:33.181493Z</creationTime>
+        <creationTime>2023-01-19T13:14:19.987275Z</creationTime>
       </creationInfo>
       <comment>
         <text>{"probability": 0.52, "GaMMA_probability": 1.965125602997957e-06, "snr": 21.2, "detection_probability": 0.35, "event_start_time": "2019-12-24 20:09:52.768393", "event_end_time": "2019-12-24 20:09:58.778393"}</text>
-        <id>smi:local/ecdeaf91-0a46-48d4-ac93-410f40b8e282</id>
+        <id>smi:local/a85df4c6-088f-41fe-954d-9e10e6b76f2b</id>
       </comment>
     </pick>
     <pick publicID="smi:local/20191224.200957.20-S-CM.URMC.00.HH">
@@ -561,11 +561,11 @@
       <evaluationMode>automatic</evaluationMode>
       <creationInfo>
         <author>EQTransformer</author>
-        <creationTime>2023-01-18T21:15:33.182041Z</creationTime>
+        <creationTime>2023-01-19T13:14:19.987783Z</creationTime>
       </creationInfo>
       <comment>
         <text>{"probability": 0.3, "GaMMA_probability": 2.4283749093416853e-06, "snr": 8.3, "detection_probability": 0.35, "event_start_time": "2019-12-24 20:09:52.768393", "event_end_time": "2019-12-24 20:09:58.778393"}</text>
-        <id>smi:local/8692a588-3547-44db-ab8c-872376abb46b</id>
+        <id>smi:local/72db6dd0-8e8b-4cfa-ab83-1c769a801297</id>
       </comment>
     </pick>
     <pick publicID="smi:local/20191224.201008.17-P-CM.ORTC.00.HH">
@@ -582,11 +582,11 @@
       <evaluationMode>automatic</evaluationMode>
       <creationInfo>
         <author>EQTransformer</author>
-        <creationTime>2023-01-18T21:15:33.182627Z</creationTime>
+        <creationTime>2023-01-19T13:14:19.988347Z</creationTime>
       </creationInfo>
       <comment>
         <text>{"probability": 0.52, "GaMMA_probability": 8.232169860340049e-06, "snr": 5.8, "detection_probability": 0.96, "event_start_time": "2019-12-24 20:10:07.938393", "event_end_time": "2019-12-24 20:10:30.318393"}</text>
-        <id>smi:local/db911328-6cf4-43df-93b2-c026d9820a26</id>
+        <id>smi:local/6597a70c-7c59-4cc0-8929-25ad5117af71</id>
       </comment>
     </pick>
     <pick publicID="smi:local/20191224.201010.01-P-CM.CHI.00.HH">
@@ -603,11 +603,11 @@
       <evaluationMode>automatic</evaluationMode>
       <creationInfo>
         <author>EQTransformer</author>
-        <creationTime>2023-01-18T21:15:33.183185Z</creationTime>
+        <creationTime>2023-01-19T13:14:19.989247Z</creationTime>
       </creationInfo>
       <comment>
         <text>{"probability": 0.74, "GaMMA_probability": 1.083986087858577e-05, "snr": 6.5, "detection_probability": 0.93, "event_start_time": "2019-12-24 20:10:09.738394", "event_end_time": "2019-12-24 20:10:34.828394"}</text>
-        <id>smi:local/b891eb09-7454-4e1f-a702-f3434c4ba19f</id>
+        <id>smi:local/f47dd220-932f-46f8-b0d9-1049a9bd6e9d</id>
       </comment>
     </pick>
     <pick publicID="smi:local/20191224.201023.77-S-CM.ORTC.00.HH">
@@ -624,11 +624,11 @@
       <evaluationMode>automatic</evaluationMode>
       <creationInfo>
         <author>EQTransformer</author>
-        <creationTime>2023-01-18T21:15:33.183732Z</creationTime>
+        <creationTime>2023-01-19T13:14:19.989799Z</creationTime>
       </creationInfo>
       <comment>
         <text>{"probability": 0.55, "GaMMA_probability": 7.70645104884309e-06, "snr": 5.3, "detection_probability": 0.96, "event_start_time": "2019-12-24 20:10:07.938393", "event_end_time": "2019-12-24 20:10:30.318393"}</text>
-        <id>smi:local/d36d0bed-9c61-43e7-985f-558ebcfb3bd9</id>
+        <id>smi:local/c1225b4c-2408-481d-897b-7618d33308d0</id>
       </comment>
     </pick>
     <pick publicID="smi:local/20191224.201027.24-S-CM.CHI.00.HH">
@@ -645,11 +645,11 @@
       <evaluationMode>automatic</evaluationMode>
       <creationInfo>
         <author>EQTransformer</author>
-        <creationTime>2023-01-18T21:15:33.184282Z</creationTime>
+        <creationTime>2023-01-19T13:14:19.990335Z</creationTime>
       </creationInfo>
       <comment>
         <text>{"probability": 0.17, "GaMMA_probability": 3.2489015124753175e-06, "snr": 3.3, "detection_probability": 0.93, "event_start_time": "2019-12-24 20:10:09.738394", "event_end_time": "2019-12-24 20:10:34.828394"}</text>
-        <id>smi:local/7e100cdf-2f3c-4a5e-a49b-bdef35969890</id>
+        <id>smi:local/75987657-1fae-46b2-85b5-3170b300a17e</id>
       </comment>
     </pick>
     <pick publicID="smi:local/20191224.195851.63-P-CM.URMC.00.HH">
@@ -666,11 +666,11 @@
       <evaluationMode>automatic</evaluationMode>
       <creationInfo>
         <author>EQTransformer</author>
-        <creationTime>2023-01-18T21:15:33.201025Z</creationTime>
+        <creationTime>2023-01-19T13:14:20.006569Z</creationTime>
       </creationInfo>
       <comment>
         <text>{"probability": 0.84, "GaMMA_probability": 1.965125602997957e-06, "snr": 26.6, "detection_probability": 0.91, "event_start_time": "2019-12-24 19:58:51.558393", "event_end_time": "2019-12-24 19:58:57.538393"}</text>
-        <id>smi:local/931e886b-1479-4c0b-bcd2-e7d7bc1de7eb</id>
+        <id>smi:local/943dd47e-2b5d-4bc3-b42a-532401cadf83</id>
       </comment>
     </pick>
     <pick publicID="smi:local/20191224.195855.72-S-CM.URMC.00.HH">
@@ -687,11 +687,11 @@
       <evaluationMode>automatic</evaluationMode>
       <creationInfo>
         <author>EQTransformer</author>
-        <creationTime>2023-01-18T21:15:33.201572Z</creationTime>
+        <creationTime>2023-01-19T13:14:20.007187Z</creationTime>
       </creationInfo>
       <comment>
         <text>{"probability": 0.47, "GaMMA_probability": 2.4283749093416853e-06, "snr": 15.6, "detection_probability": 0.91, "event_start_time": "2019-12-24 19:58:51.558393", "event_end_time": "2019-12-24 19:58:57.538393"}</text>
-        <id>smi:local/c819aba4-74fd-4938-af51-4b0fec697747</id>
+        <id>smi:local/2a30a940-0ff5-482c-9ebe-674a5b9716e7</id>
       </comment>
     </pick>
     <pick publicID="smi:local/20191224.195906.53-P-CM.ORTC.00.HH">
@@ -708,11 +708,11 @@
       <evaluationMode>automatic</evaluationMode>
       <creationInfo>
         <author>EQTransformer</author>
-        <creationTime>2023-01-18T21:15:33.202162Z</creationTime>
+        <creationTime>2023-01-19T13:14:20.007672Z</creationTime>
       </creationInfo>
       <comment>
         <text>{"probability": 0.73, "GaMMA_probability": 8.232169860340049e-06, "snr": 20.3, "detection_probability": 0.98, "event_start_time": "2019-12-24 19:59:06.398393", "event_end_time": "2019-12-24 19:59:28.248393"}</text>
-        <id>smi:local/89738341-3e09-4245-978c-a3c79611b7e6</id>
+        <id>smi:local/4714f2f6-c97e-46e4-aa2f-58a255c70e0d</id>
       </comment>
     </pick>
     <pick publicID="smi:local/20191224.195908.63-P-CM.CHI.00.HH">
@@ -729,11 +729,11 @@
       <evaluationMode>automatic</evaluationMode>
       <creationInfo>
         <author>EQTransformer</author>
-        <creationTime>2023-01-18T21:15:33.202914Z</creationTime>
+        <creationTime>2023-01-19T13:14:20.008206Z</creationTime>
       </creationInfo>
       <comment>
         <text>{"probability": 0.52, "GaMMA_probability": 1.083986087858577e-05, "snr": 19.3, "detection_probability": 0.94, "event_start_time": "2019-12-24 19:59:08.498394", "event_end_time": "2019-12-24 19:59:33.358394"}</text>
-        <id>smi:local/59513d39-1dff-43e9-b809-7bf6d8184e54</id>
+        <id>smi:local/4b3024e4-8de8-48d9-8ce6-6862b785d8e0</id>
       </comment>
     </pick>
     <pick publicID="smi:local/20191224.195921.83-S-CM.ORTC.00.HH">
@@ -750,11 +750,11 @@
       <evaluationMode>automatic</evaluationMode>
       <creationInfo>
         <author>EQTransformer</author>
-        <creationTime>2023-01-18T21:15:33.203482Z</creationTime>
+        <creationTime>2023-01-19T13:14:20.008766Z</creationTime>
       </creationInfo>
       <comment>
         <text>{"probability": 0.51, "GaMMA_probability": 7.70645104884309e-06, "snr": 8.7, "detection_probability": 0.98, "event_start_time": "2019-12-24 19:59:06.398393", "event_end_time": "2019-12-24 19:59:28.248393"}</text>
-        <id>smi:local/bf5a05f4-0012-46a1-8614-15c337ad9825</id>
+        <id>smi:local/3f6876f5-b94e-4915-915f-50c9671ff978</id>
       </comment>
     </pick>
     <pick publicID="smi:local/20191224.195926.26-S-CM.CHI.00.HH">
@@ -771,11 +771,11 @@
       <evaluationMode>automatic</evaluationMode>
       <creationInfo>
         <author>EQTransformer</author>
-        <creationTime>2023-01-18T21:15:33.204034Z</creationTime>
+        <creationTime>2023-01-19T13:14:20.009243Z</creationTime>
       </creationInfo>
       <comment>
         <text>{"probability": 0.18, "GaMMA_probability": 3.2489015124753175e-06, "snr": 7.5, "detection_probability": 0.94, "event_start_time": "2019-12-24 19:59:08.498394", "event_end_time": "2019-12-24 19:59:33.358394"}</text>
-        <id>smi:local/e5e6ff6f-d805-461b-a8ba-2738513a0412</id>
+        <id>smi:local/884c824c-4cb9-47a6-bcef-4a9a4ada8cb6</id>
       </comment>
     </pick>
     <pick publicID="smi:local/20191224.194956.20-P-CM.ORTC.00.HH">
@@ -792,11 +792,11 @@
       <evaluationMode>automatic</evaluationMode>
       <creationInfo>
         <author>EQTransformer</author>
-        <creationTime>2023-01-18T21:15:33.221395Z</creationTime>
+        <creationTime>2023-01-19T13:14:20.025815Z</creationTime>
       </creationInfo>
       <comment>
         <text>{"probability": 0.65, "GaMMA_probability": 1.965125602997957e-06, "snr": 7.5, "detection_probability": 0.74, "event_start_time": "2019-12-24 19:49:56.038393", "event_end_time": "2019-12-24 19:50:19.838393"}</text>
-        <id>smi:local/72f3cf63-ed4c-4b7a-9eb8-de1a7690e694</id>
+        <id>smi:local/076170c4-f593-41c7-b5da-56b0dca7d1c6</id>
       </comment>
     </pick>
     <pick publicID="smi:local/20191224.194958.39-P-CM.CHI.00.HH">
@@ -813,11 +813,11 @@
       <evaluationMode>automatic</evaluationMode>
       <creationInfo>
         <author>EQTransformer</author>
-        <creationTime>2023-01-18T21:15:33.221980Z</creationTime>
+        <creationTime>2023-01-19T13:14:20.026364Z</creationTime>
       </creationInfo>
       <comment>
         <text>{"probability": 0.61, "GaMMA_probability": 2.4283749093416853e-06, "snr": 12.7, "detection_probability": 0.89, "event_start_time": "2019-12-24 19:49:58.158394", "event_end_time": "2019-12-24 19:50:23.708394"}</text>
-        <id>smi:local/7f8308f7-9b28-4530-8a23-297bf15a96fa</id>
+        <id>smi:local/3ca5f492-7c46-48e9-9276-255965131d15</id>
       </comment>
     </pick>
     <pick publicID="smi:local/20191224.195010.68-S-CM.URMC.00.HH">
@@ -834,11 +834,11 @@
       <evaluationMode>automatic</evaluationMode>
       <creationInfo>
         <author>EQTransformer</author>
-        <creationTime>2023-01-18T21:15:33.222695Z</creationTime>
+        <creationTime>2023-01-19T13:14:20.026841Z</creationTime>
       </creationInfo>
       <comment>
         <text>{"probability": 0.67, "GaMMA_probability": 8.232169860340049e-06, "snr": 12.2, "detection_probability": 0.93, "event_start_time": "2019-12-24 19:50:07.058393", "event_end_time": "2019-12-24 19:50:12.308393"}</text>
-        <id>smi:local/3b81009d-0340-4c17-8117-963a779a320d</id>
+        <id>smi:local/a304f42e-aafb-4bed-a5e7-308916df17c0</id>
       </comment>
     </pick>
     <pick publicID="smi:local/20191224.195012.33-S-CM.ORTC.00.HH">
@@ -855,11 +855,11 @@
       <evaluationMode>automatic</evaluationMode>
       <creationInfo>
         <author>EQTransformer</author>
-        <creationTime>2023-01-18T21:15:33.223207Z</creationTime>
+        <creationTime>2023-01-19T13:14:20.027416Z</creationTime>
       </creationInfo>
       <comment>
         <text>{"probability": 0.19, "GaMMA_probability": 1.083986087858577e-05, "snr": 0.9, "detection_probability": 0.74, "event_start_time": "2019-12-24 19:49:56.038393", "event_end_time": "2019-12-24 19:50:19.838393"}</text>
-        <id>smi:local/43577bf6-9a0b-46d6-b61e-8071226b81a5</id>
+        <id>smi:local/1fcd7ff9-851e-44c9-8ba3-f1d558fcd8bc</id>
       </comment>
     </pick>
     <pick publicID="smi:local/20191224.195016.21-S-CM.CHI.00.HH">
@@ -876,11 +876,11 @@
       <evaluationMode>automatic</evaluationMode>
       <creationInfo>
         <author>EQTransformer</author>
-        <creationTime>2023-01-18T21:15:33.223854Z</creationTime>
+        <creationTime>2023-01-19T13:14:20.028003Z</creationTime>
       </creationInfo>
       <comment>
         <text>{"probability": 0.4, "GaMMA_probability": 7.70645104884309e-06, "snr": 5.1, "detection_probability": 0.89, "event_start_time": "2019-12-24 19:49:58.158394", "event_end_time": "2019-12-24 19:50:23.708394"}</text>
-        <id>smi:local/e97cb8d0-26ca-476f-958f-e5cb85e21261</id>
+        <id>smi:local/122795b2-4b6f-4b58-b62a-e010e40d3822</id>
       </comment>
     </pick>
     <pick publicID="smi:local/20191224.194815.19-P-CM.URMC.00.HH">
@@ -897,11 +897,11 @@
       <evaluationMode>automatic</evaluationMode>
       <creationInfo>
         <author>EQTransformer</author>
-        <creationTime>2023-01-18T21:15:33.240810Z</creationTime>
+        <creationTime>2023-01-19T13:14:20.045457Z</creationTime>
       </creationInfo>
       <comment>
         <text>{"probability": 0.34, "GaMMA_probability": 1.965125602997957e-06, "snr": 3.3, "detection_probability": 0.77, "event_start_time": "2019-12-24 19:48:13.378393", "event_end_time": "2019-12-24 19:48:20.828393"}</text>
-        <id>smi:local/cf23833c-9570-436d-81a8-dfcc2a0b5129</id>
+        <id>smi:local/7cc079cf-cda0-4235-88bf-dd82f06c74f5</id>
       </comment>
     </pick>
     <pick publicID="smi:local/20191224.194818.93-S-CM.URMC.00.HH">
@@ -918,11 +918,11 @@
       <evaluationMode>automatic</evaluationMode>
       <creationInfo>
         <author>EQTransformer</author>
-        <creationTime>2023-01-18T21:15:33.241404Z</creationTime>
+        <creationTime>2023-01-19T13:14:20.046067Z</creationTime>
       </creationInfo>
       <comment>
         <text>{"probability": 0.64, "GaMMA_probability": 2.4283749093416853e-06, "snr": 14.9, "detection_probability": 0.77, "event_start_time": "2019-12-24 19:48:13.378393", "event_end_time": "2019-12-24 19:48:20.828393"}</text>
-        <id>smi:local/e049dace-6408-4929-b8e8-6015417eafb5</id>
+        <id>smi:local/309d8f51-1338-4c79-b88d-0b93eed3f94d</id>
       </comment>
     </pick>
     <pick publicID="smi:local/20191224.194830.48-P-CM.ORTC.00.HH">
@@ -939,11 +939,11 @@
       <evaluationMode>automatic</evaluationMode>
       <creationInfo>
         <author>EQTransformer</author>
-        <creationTime>2023-01-18T21:15:33.241971Z</creationTime>
+        <creationTime>2023-01-19T13:14:20.046580Z</creationTime>
       </creationInfo>
       <comment>
         <text>{"probability": 0.68, "GaMMA_probability": 8.232169860340049e-06, "snr": 12.3, "detection_probability": 0.97, "event_start_time": "2019-12-24 19:48:30.298393", "event_end_time": "2019-12-24 19:48:52.308393"}</text>
-        <id>smi:local/6afa02db-59ea-401d-9925-7d36c80d2213</id>
+        <id>smi:local/3ee56868-ea88-4d36-b0bc-dcd3b2e6db9e</id>
       </comment>
     </pick>
     <pick publicID="smi:local/20191224.194832.81-P-CM.CHI.00.HH">
@@ -960,11 +960,11 @@
       <evaluationMode>automatic</evaluationMode>
       <creationInfo>
         <author>EQTransformer</author>
-        <creationTime>2023-01-18T21:15:33.242544Z</creationTime>
+        <creationTime>2023-01-19T13:14:20.047094Z</creationTime>
       </creationInfo>
       <comment>
         <text>{"probability": 0.46, "GaMMA_probability": 1.083986087858577e-05, "snr": 10.1, "detection_probability": 0.92, "event_start_time": "2019-12-24 19:48:32.448394", "event_end_time": "2019-12-24 19:48:58.208394"}</text>
-        <id>smi:local/4bd6414f-97d6-4400-a498-0c25f65ea6ce</id>
+        <id>smi:local/9975d56f-33f4-47be-bc6c-f5865ba8d843</id>
       </comment>
     </pick>
     <pick publicID="smi:local/20191224.194845.86-S-CM.ORTC.00.HH">
@@ -981,11 +981,11 @@
       <evaluationMode>automatic</evaluationMode>
       <creationInfo>
         <author>EQTransformer</author>
-        <creationTime>2023-01-18T21:15:33.243143Z</creationTime>
+        <creationTime>2023-01-19T13:14:20.047653Z</creationTime>
       </creationInfo>
       <comment>
         <text>{"probability": 0.6, "GaMMA_probability": 7.70645104884309e-06, "snr": 6.1, "detection_probability": 0.97, "event_start_time": "2019-12-24 19:48:30.298393", "event_end_time": "2019-12-24 19:48:52.308393"}</text>
-        <id>smi:local/53596b78-28f2-4428-a805-3e19103a52ca</id>
+        <id>smi:local/0d19c31b-b8b4-45c6-9d35-1cf54d465562</id>
       </comment>
     </pick>
     <pick publicID="smi:local/20191224.194850.79-S-CM.CHI.00.HH">
@@ -1002,11 +1002,11 @@
       <evaluationMode>automatic</evaluationMode>
       <creationInfo>
         <author>EQTransformer</author>
-        <creationTime>2023-01-18T21:15:33.243657Z</creationTime>
+        <creationTime>2023-01-19T13:14:20.048147Z</creationTime>
       </creationInfo>
       <comment>
         <text>{"probability": 0.24, "GaMMA_probability": 3.2489015124753175e-06, "snr": 5.2, "detection_probability": 0.92, "event_start_time": "2019-12-24 19:48:32.448394", "event_end_time": "2019-12-24 19:48:58.208394"}</text>
-        <id>smi:local/3b8b04b7-f257-465b-bea8-6d5864d31fc6</id>
+        <id>smi:local/8b48588f-d717-4eff-955a-6929ea8332dc</id>
       </comment>
     </pick>
     <pick publicID="smi:local/20191224.200311.11-P-CM.URMC.00.HH">
@@ -1023,11 +1023,11 @@
       <evaluationMode>automatic</evaluationMode>
       <creationInfo>
         <author>EQTransformer</author>
-        <creationTime>2023-01-18T21:15:33.260959Z</creationTime>
+        <creationTime>2023-01-19T13:14:20.063557Z</creationTime>
       </creationInfo>
       <comment>
         <text>{"probability": 0.76, "GaMMA_probability": 1.965125602997957e-06, "snr": 23.6, "detection_probability": 0.6, "event_start_time": "2019-12-24 20:03:10.968393", "event_end_time": "2019-12-24 20:03:16.588393"}</text>
-        <id>smi:local/bb724087-7459-40d5-a08c-b756175f283a</id>
+        <id>smi:local/6d3550d4-8369-4794-b846-5a2ae22d397f</id>
       </comment>
     </pick>
     <pick publicID="smi:local/20191224.200315.02-S-CM.URMC.00.HH">
@@ -1044,11 +1044,11 @@
       <evaluationMode>automatic</evaluationMode>
       <creationInfo>
         <author>EQTransformer</author>
-        <creationTime>2023-01-18T21:15:33.261575Z</creationTime>
+        <creationTime>2023-01-19T13:14:20.064075Z</creationTime>
       </creationInfo>
       <comment>
         <text>{"probability": 0.49, "GaMMA_probability": 2.4283749093416853e-06, "snr": 13.8, "detection_probability": 0.6, "event_start_time": "2019-12-24 20:03:10.968393", "event_end_time": "2019-12-24 20:03:16.588393"}</text>
-        <id>smi:local/a18f0a64-b87e-4161-b955-b71b50b8e6a2</id>
+        <id>smi:local/cdbdcea5-2988-4623-9d4e-134a07e96b6f</id>
       </comment>
     </pick>
     <pick publicID="smi:local/20191224.200326.36-P-CM.ORTC.00.HH">
@@ -1065,11 +1065,11 @@
       <evaluationMode>automatic</evaluationMode>
       <creationInfo>
         <author>EQTransformer</author>
-        <creationTime>2023-01-18T21:15:33.262106Z</creationTime>
+        <creationTime>2023-01-19T13:14:20.064638Z</creationTime>
       </creationInfo>
       <comment>
         <text>{"probability": 0.16, "GaMMA_probability": 8.232169860340049e-06, "snr": 0.9, "detection_probability": 0.75, "event_start_time": "2019-12-24 20:03:25.908393", "event_end_time": "2019-12-24 20:03:51.248393"}</text>
-        <id>smi:local/5d89e07c-5a39-45c7-86fb-be27e9a286b7</id>
+        <id>smi:local/8c2c4355-3244-4048-aa46-6f1f05204aad</id>
       </comment>
     </pick>
     <pick publicID="smi:local/20191224.200328.18-P-CM.CHI.00.HH">
@@ -1086,11 +1086,11 @@
       <evaluationMode>automatic</evaluationMode>
       <creationInfo>
         <author>EQTransformer</author>
-        <creationTime>2023-01-18T21:15:33.262698Z</creationTime>
+        <creationTime>2023-01-19T13:14:20.065281Z</creationTime>
       </creationInfo>
       <comment>
         <text>{"probability": 0.34, "GaMMA_probability": 1.083986087858577e-05, "snr": 5.2, "detection_probability": 0.85, "event_start_time": "2019-12-24 20:03:27.898394", "event_end_time": "2019-12-24 20:03:53.638394"}</text>
-        <id>smi:local/588ca4be-2469-498d-bec5-9aa0c97b1c22</id>
+        <id>smi:local/825623ef-618a-4b0c-aa10-a32b741c4e2c</id>
       </comment>
     </pick>
     <pick publicID="smi:local/20191224.200341.89-S-CM.ORTC.00.HH">
@@ -1107,11 +1107,11 @@
       <evaluationMode>automatic</evaluationMode>
       <creationInfo>
         <author>EQTransformer</author>
-        <creationTime>2023-01-18T21:15:33.263262Z</creationTime>
+        <creationTime>2023-01-19T13:14:20.065741Z</creationTime>
       </creationInfo>
       <comment>
         <text>{"probability": 0.26, "GaMMA_probability": 7.70645104884309e-06, "snr": 3.5, "detection_probability": 0.75, "event_start_time": "2019-12-24 20:03:25.908393", "event_end_time": "2019-12-24 20:03:51.248393"}</text>
-        <id>smi:local/63f0dfd6-b89e-40f7-8218-ed2643ba18d5</id>
+        <id>smi:local/1a597011-49d1-42d7-ad76-da4c0560ad2c</id>
       </comment>
     </pick>
     <pick publicID="smi:local/20191224.200345.89-S-CM.CHI.00.HH">
@@ -1128,11 +1128,11 @@
       <evaluationMode>automatic</evaluationMode>
       <creationInfo>
         <author>EQTransformer</author>
-        <creationTime>2023-01-18T21:15:33.263847Z</creationTime>
+        <creationTime>2023-01-19T13:14:20.066222Z</creationTime>
       </creationInfo>
       <comment>
         <text>{"probability": 0.38, "GaMMA_probability": 3.2489015124753175e-06, "snr": 1.9, "detection_probability": 0.85, "event_start_time": "2019-12-24 20:03:27.898394", "event_end_time": "2019-12-24 20:03:53.638394"}</text>
-        <id>smi:local/77945c77-d1ea-4cf2-97ec-10d5daad56a1</id>
+        <id>smi:local/5dbd609d-2983-4ced-a3eb-fc5c489dc734</id>
       </comment>
     </pick>
     <pick publicID="smi:local/20191224.201119.38-P-CM.URMC.00.HH">
@@ -1149,11 +1149,11 @@
       <evaluationMode>automatic</evaluationMode>
       <creationInfo>
         <author>EQTransformer</author>
-        <creationTime>2023-01-18T21:15:33.280991Z</creationTime>
+        <creationTime>2023-01-19T13:14:20.081754Z</creationTime>
       </creationInfo>
       <comment>
         <text>{"probability": 0.1, "GaMMA_probability": 1.965125602997957e-06, "snr": 43.6, "detection_probability": 0.16, "event_start_time": "2019-12-24 20:11:19.308393", "event_end_time": "2019-12-24 20:11:20.888393"}</text>
-        <id>smi:local/064e0c4e-6326-48da-99c8-5af127027c8a</id>
+        <id>smi:local/2344d2fe-5643-497d-9ec8-2a77f4bfe418</id>
       </comment>
     </pick>
     <pick publicID="smi:local/20191224.201124.02-S-CM.URMC.00.HH">
@@ -1170,11 +1170,11 @@
       <evaluationMode>automatic</evaluationMode>
       <creationInfo>
         <author>EQTransformer</author>
-        <creationTime>2023-01-18T21:15:33.281595Z</creationTime>
+        <creationTime>2023-01-19T13:14:20.082497Z</creationTime>
       </creationInfo>
       <comment>
         <text>{"probability": 0.06, "GaMMA_probability": 2.4283749093416853e-06, "snr": NaN, "detection_probability": 0.29, "event_start_time": "2019-12-24 20:11:21.478393", "event_end_time": "2019-12-24 20:11:25.688393"}</text>
-        <id>smi:local/cf9427f6-56ff-4d81-9cc2-fc7b83b68b27</id>
+        <id>smi:local/661d4174-8572-4e34-8479-3a3746feb2aa</id>
       </comment>
     </pick>
     <pick publicID="smi:local/20191224.201134.93-P-CM.ORTC.00.HH">
@@ -1191,11 +1191,11 @@
       <evaluationMode>automatic</evaluationMode>
       <creationInfo>
         <author>EQTransformer</author>
-        <creationTime>2023-01-18T21:15:33.282159Z</creationTime>
+        <creationTime>2023-01-19T13:14:20.083066Z</creationTime>
       </creationInfo>
       <comment>
         <text>{"probability": 0.84, "GaMMA_probability": 8.232169860340049e-06, "snr": 34.2, "detection_probability": 0.93, "event_start_time": "2019-12-24 20:11:34.748393", "event_end_time": "2019-12-24 20:12:03.548393"}</text>
-        <id>smi:local/cf69e9e2-2816-41a9-84a7-f40ce8c92dbc</id>
+        <id>smi:local/b670015f-f315-4eed-84b7-73b2b144e6bb</id>
       </comment>
     </pick>
     <pick publicID="smi:local/20191224.201136.99-P-CM.CHI.00.HH">
@@ -1212,11 +1212,11 @@
       <evaluationMode>automatic</evaluationMode>
       <creationInfo>
         <author>EQTransformer</author>
-        <creationTime>2023-01-18T21:15:33.282746Z</creationTime>
+        <creationTime>2023-01-19T13:14:20.083524Z</creationTime>
       </creationInfo>
       <comment>
         <text>{"probability": 0.75, "GaMMA_probability": 1.083986087858577e-05, "snr": 37.4, "detection_probability": 0.95, "event_start_time": "2019-12-24 20:11:36.678394", "event_end_time": "2019-12-24 20:12:03.668394"}</text>
-        <id>smi:local/ebd2a31d-758a-4b49-824d-df7e452830ca</id>
+        <id>smi:local/da59c287-98b5-42c8-af6b-cd282caf23e0</id>
       </comment>
     </pick>
     <pick publicID="smi:local/20191224.201150.02-S-CM.ORTC.00.HH">
@@ -1233,11 +1233,11 @@
       <evaluationMode>automatic</evaluationMode>
       <creationInfo>
         <author>EQTransformer</author>
-        <creationTime>2023-01-18T21:15:33.283388Z</creationTime>
+        <creationTime>2023-01-19T13:14:20.084021Z</creationTime>
       </creationInfo>
       <comment>
         <text>{"probability": 0.03, "GaMMA_probability": 7.70645104884309e-06, "snr": 3.0, "detection_probability": 0.93, "event_start_time": "2019-12-24 20:11:34.748393", "event_end_time": "2019-12-24 20:12:03.548393"}</text>
-        <id>smi:local/cd80d651-64dc-4677-92ba-c302d08ed74f</id>
+        <id>smi:local/5fb50d6f-b32f-416c-99e0-d67ab0887cbf</id>
       </comment>
     </pick>
     <pick publicID="smi:local/20191224.201155.37-S-CM.CHI.00.HH">
@@ -1254,11 +1254,11 @@
       <evaluationMode>automatic</evaluationMode>
       <creationInfo>
         <author>EQTransformer</author>
-        <creationTime>2023-01-18T21:15:33.283939Z</creationTime>
+        <creationTime>2023-01-19T13:14:20.084523Z</creationTime>
       </creationInfo>
       <comment>
         <text>{"probability": 0.28, "GaMMA_probability": 3.2489015124753175e-06, "snr": 5.5, "detection_probability": 0.95, "event_start_time": "2019-12-24 20:11:36.678394", "event_end_time": "2019-12-24 20:12:03.668394"}</text>
-        <id>smi:local/c6ef323f-d7ff-4353-9ddc-763f92936c52</id>
+        <id>smi:local/e50e4cf9-be9d-4f96-a597-3e74134c9653</id>
       </comment>
     </pick>
     <pick publicID="smi:local/20191224.201327.49-P-CM.URMC.00.HH">
@@ -1275,11 +1275,11 @@
       <evaluationMode>automatic</evaluationMode>
       <creationInfo>
         <author>EQTransformer</author>
-        <creationTime>2023-01-18T21:15:33.300873Z</creationTime>
+        <creationTime>2023-01-19T13:14:20.099842Z</creationTime>
       </creationInfo>
       <comment>
         <text>{"probability": 0.8, "GaMMA_probability": 1.965125602997957e-06, "snr": 22.1, "detection_probability": 0.91, "event_start_time": "2019-12-24 20:13:27.438393", "event_end_time": "2019-12-24 20:13:32.958393"}</text>
-        <id>smi:local/ffd5a77e-8145-499b-9395-73b3da9c82e6</id>
+        <id>smi:local/a1a5814d-cdeb-418a-b026-c893fce34cfd</id>
       </comment>
     </pick>
     <pick publicID="smi:local/20191224.201331.23-S-CM.URMC.00.HH">
@@ -1296,11 +1296,11 @@
       <evaluationMode>automatic</evaluationMode>
       <creationInfo>
         <author>EQTransformer</author>
-        <creationTime>2023-01-18T21:15:33.301465Z</creationTime>
+        <creationTime>2023-01-19T13:14:20.100418Z</creationTime>
       </creationInfo>
       <comment>
         <text>{"probability": 0.45, "GaMMA_probability": 2.4283749093416853e-06, "snr": 13.5, "detection_probability": 0.91, "event_start_time": "2019-12-24 20:13:27.438393", "event_end_time": "2019-12-24 20:13:32.958393"}</text>
-        <id>smi:local/8b8733a4-1fbb-41bb-9639-fc063686d223</id>
+        <id>smi:local/c3094f57-875b-4ddd-8e97-4e1e78630fa1</id>
       </comment>
     </pick>
     <pick publicID="smi:local/20191224.201343.28-P-CM.ORTC.00.HH">
@@ -1317,11 +1317,11 @@
       <evaluationMode>automatic</evaluationMode>
       <creationInfo>
         <author>EQTransformer</author>
-        <creationTime>2023-01-18T21:15:33.302033Z</creationTime>
+        <creationTime>2023-01-19T13:14:20.100877Z</creationTime>
       </creationInfo>
       <comment>
         <text>{"probability": 0.6, "GaMMA_probability": 8.232169860340049e-06, "snr": 5.9, "detection_probability": 0.97, "event_start_time": "2019-12-24 20:13:43.018393", "event_end_time": "2019-12-24 20:14:11.218393"}</text>
-        <id>smi:local/594a1625-e260-4035-b706-f3c8620ee294</id>
+        <id>smi:local/e9b94ff1-8755-4ceb-825c-c4e58fc4c819</id>
       </comment>
     </pick>
     <pick publicID="smi:local/20191224.201345.60-P-CM.CHI.00.HH">
@@ -1338,11 +1338,11 @@
       <evaluationMode>automatic</evaluationMode>
       <creationInfo>
         <author>EQTransformer</author>
-        <creationTime>2023-01-18T21:15:33.302713Z</creationTime>
+        <creationTime>2023-01-19T13:14:20.101371Z</creationTime>
       </creationInfo>
       <comment>
         <text>{"probability": 0.52, "GaMMA_probability": 1.083986087858577e-05, "snr": 3.3, "detection_probability": 0.92, "event_start_time": "2019-12-24 20:13:45.298394", "event_end_time": "2019-12-24 20:14:11.478394"}</text>
-        <id>smi:local/17797a75-3cb2-4d6f-9cb0-e0b24c0182c8</id>
+        <id>smi:local/8db4074e-6166-4ddc-a955-1c0a26133563</id>
       </comment>
     </pick>
     <pick publicID="smi:local/20191224.201403.12-S-CM.ORTC.00.HH">
@@ -1359,11 +1359,11 @@
       <evaluationMode>automatic</evaluationMode>
       <creationInfo>
         <author>EQTransformer</author>
-        <creationTime>2023-01-18T21:15:33.303316Z</creationTime>
+        <creationTime>2023-01-19T13:14:20.101846Z</creationTime>
       </creationInfo>
       <comment>
         <text>{"probability": 0.42, "GaMMA_probability": 7.70645104884309e-06, "snr": 9.8, "detection_probability": 0.97, "event_start_time": "2019-12-24 20:13:43.018393", "event_end_time": "2019-12-24 20:14:11.218393"}</text>
-        <id>smi:local/ee72fa99-0868-4b89-86c2-9f201144a216</id>
+        <id>smi:local/5cdbd923-60ad-4569-960d-04f4956a67d7</id>
       </comment>
     </pick>
     <pick publicID="smi:local/20191224.201403.76-S-CM.CHI.00.HH">
@@ -1380,11 +1380,11 @@
       <evaluationMode>automatic</evaluationMode>
       <creationInfo>
         <author>EQTransformer</author>
-        <creationTime>2023-01-18T21:15:33.303837Z</creationTime>
+        <creationTime>2023-01-19T13:14:20.102326Z</creationTime>
       </creationInfo>
       <comment>
         <text>{"probability": 0.49, "GaMMA_probability": 3.2489015124753175e-06, "snr": 5.0, "detection_probability": 0.92, "event_start_time": "2019-12-24 20:13:45.298394", "event_end_time": "2019-12-24 20:14:11.478394"}</text>
-        <id>smi:local/a55fea42-fcf1-43fe-9df8-ee1ef5edf3d9</id>
+        <id>smi:local/b9748233-d5cd-4629-96d5-b1aaf7f4ed5e</id>
       </comment>
     </pick>
     <pick publicID="smi:local/20191224.202331.40-P-CM.URMC.00.HH">
@@ -1401,11 +1401,11 @@
       <evaluationMode>automatic</evaluationMode>
       <creationInfo>
         <author>EQTransformer</author>
-        <creationTime>2023-01-18T21:15:33.321795Z</creationTime>
+        <creationTime>2023-01-19T13:14:20.119284Z</creationTime>
       </creationInfo>
       <comment>
         <text>{"probability": 0.27, "GaMMA_probability": 1.965125602997957e-06, "snr": 22.3, "detection_probability": 0.9, "event_start_time": "2019-12-24 20:23:31.198393", "event_end_time": "2019-12-24 20:23:36.968393"}</text>
-        <id>smi:local/ea15df17-a18d-4a63-99a0-645150312f06</id>
+        <id>smi:local/e262ff51-57e5-4f17-94dc-2459f30c5755</id>
       </comment>
     </pick>
     <pick publicID="smi:local/20191224.202335.14-S-CM.URMC.00.HH">
@@ -1422,11 +1422,11 @@
       <evaluationMode>automatic</evaluationMode>
       <creationInfo>
         <author>EQTransformer</author>
-        <creationTime>2023-01-18T21:15:33.322424Z</creationTime>
+        <creationTime>2023-01-19T13:14:20.119821Z</creationTime>
       </creationInfo>
       <comment>
         <text>{"probability": 0.62, "GaMMA_probability": 2.4283749093416853e-06, "snr": 13.1, "detection_probability": 0.9, "event_start_time": "2019-12-24 20:23:31.198393", "event_end_time": "2019-12-24 20:23:36.968393"}</text>
-        <id>smi:local/21772a8b-7837-4439-8c4e-096cc894185c</id>
+        <id>smi:local/f0346961-efd0-46b4-b1e7-76fc1e4e8a75</id>
       </comment>
     </pick>
     <pick publicID="smi:local/20191224.202347.32-P-CM.ORTC.00.HH">
@@ -1443,11 +1443,11 @@
       <evaluationMode>automatic</evaluationMode>
       <creationInfo>
         <author>EQTransformer</author>
-        <creationTime>2023-01-18T21:15:33.323063Z</creationTime>
+        <creationTime>2023-01-19T13:14:20.120441Z</creationTime>
       </creationInfo>
       <comment>
         <text>{"probability": 0.55, "GaMMA_probability": 8.232169860340049e-06, "snr": 23.0, "detection_probability": 0.67, "event_start_time": "2019-12-24 20:23:47.048393", "event_end_time": "2019-12-24 20:24:10.168393"}</text>
-        <id>smi:local/1bc8fb53-569a-481c-90fd-0d5e162522b8</id>
+        <id>smi:local/08f5b61f-d01e-4746-b268-320d56424fc2</id>
       </comment>
     </pick>
     <pick publicID="smi:local/20191224.202349.05-P-CM.CHI.00.HH">
@@ -1464,11 +1464,11 @@
       <evaluationMode>automatic</evaluationMode>
       <creationInfo>
         <author>EQTransformer</author>
-        <creationTime>2023-01-18T21:15:33.323572Z</creationTime>
+        <creationTime>2023-01-19T13:14:20.120961Z</creationTime>
       </creationInfo>
       <comment>
         <text>{"probability": 0.11, "GaMMA_probability": 1.083986087858577e-05, "snr": 23.8, "detection_probability": 0.17, "event_start_time": "2019-12-24 20:23:48.618394", "event_end_time": "2019-12-24 20:23:59.608394"}</text>
-        <id>smi:local/6198f173-c199-4abb-9566-ffe8fd0d2927</id>
+        <id>smi:local/75363f1b-3b07-493a-bd1d-da953607f6c5</id>
       </comment>
     </pick>
     <pick publicID="smi:local/20191224.202403.11-S-CM.ORTC.00.HH">
@@ -1485,11 +1485,11 @@
       <evaluationMode>automatic</evaluationMode>
       <creationInfo>
         <author>EQTransformer</author>
-        <creationTime>2023-01-18T21:15:33.324131Z</creationTime>
+        <creationTime>2023-01-19T13:14:20.121411Z</creationTime>
       </creationInfo>
       <comment>
         <text>{"probability": 0.17, "GaMMA_probability": 7.70645104884309e-06, "snr": 2.7, "detection_probability": 0.67, "event_start_time": "2019-12-24 20:23:47.048393", "event_end_time": "2019-12-24 20:24:10.168393"}</text>
-        <id>smi:local/79a51345-e01c-4b40-be9c-e442d2bd71cd</id>
+        <id>smi:local/85f3629e-9cc4-44b8-8dc8-2e04c9e01ea6</id>
       </comment>
     </pick>
     <pick publicID="smi:local/20191224.203216.25-P-CM.URMC.00.HH">
@@ -1506,11 +1506,11 @@
       <evaluationMode>automatic</evaluationMode>
       <creationInfo>
         <author>EQTransformer</author>
-        <creationTime>2023-01-18T21:15:33.341177Z</creationTime>
+        <creationTime>2023-01-19T13:14:20.136819Z</creationTime>
       </creationInfo>
       <comment>
         <text>{"probability": 0.72, "GaMMA_probability": 1.965125602997957e-06, "snr": 18.9, "detection_probability": 0.54, "event_start_time": "2019-12-24 20:32:16.098393", "event_end_time": "2019-12-24 20:32:22.578393"}</text>
-        <id>smi:local/d510707a-2828-4ac6-94f6-3c866b57cc26</id>
+        <id>smi:local/8eb87736-ebaa-4b6b-b1b9-7bd3c9b79de8</id>
       </comment>
     </pick>
     <pick publicID="smi:local/20191224.203220.39-S-CM.URMC.00.HH">
@@ -1527,11 +1527,11 @@
       <evaluationMode>automatic</evaluationMode>
       <creationInfo>
         <author>EQTransformer</author>
-        <creationTime>2023-01-18T21:15:33.341807Z</creationTime>
+        <creationTime>2023-01-19T13:14:20.137301Z</creationTime>
       </creationInfo>
       <comment>
         <text>{"probability": 0.15, "GaMMA_probability": 2.4283749093416853e-06, "snr": 11.9, "detection_probability": 0.54, "event_start_time": "2019-12-24 20:32:16.098393", "event_end_time": "2019-12-24 20:32:22.578393"}</text>
-        <id>smi:local/e489b2c7-3725-4b4c-b21b-5c92c3d5b634</id>
+        <id>smi:local/0c94a185-7a00-423e-84cd-f83c9fd7b98e</id>
       </comment>
     </pick>
     <pick publicID="smi:local/20191224.203230.99-P-CM.ORTC.00.HH">
@@ -1548,11 +1548,11 @@
       <evaluationMode>automatic</evaluationMode>
       <creationInfo>
         <author>EQTransformer</author>
-        <creationTime>2023-01-18T21:15:33.342402Z</creationTime>
+        <creationTime>2023-01-19T13:14:20.137903Z</creationTime>
       </creationInfo>
       <comment>
         <text>{"probability": 0.86, "GaMMA_probability": 8.232169860340049e-06, "snr": 5.4, "detection_probability": 0.97, "event_start_time": "2019-12-24 20:32:30.888393", "event_end_time": "2019-12-24 20:32:53.298393"}</text>
-        <id>smi:local/84e00807-dcf6-43de-afe8-d7fb01d365e9</id>
+        <id>smi:local/a487ca07-c0fb-42a6-a36d-ce2cd380e34a</id>
       </comment>
     </pick>
     <pick publicID="smi:local/20191224.203232.98-P-CM.CHI.00.HH">
@@ -1569,11 +1569,11 @@
       <evaluationMode>automatic</evaluationMode>
       <creationInfo>
         <author>EQTransformer</author>
-        <creationTime>2023-01-18T21:15:33.342987Z</creationTime>
+        <creationTime>2023-01-19T13:14:20.138354Z</creationTime>
       </creationInfo>
       <comment>
         <text>{"probability": 0.9, "GaMMA_probability": 1.083986087858577e-05, "snr": 7.5, "detection_probability": 0.95, "event_start_time": "2019-12-24 20:32:32.918394", "event_end_time": "2019-12-24 20:32:57.748394"}</text>
-        <id>smi:local/39b1fb31-21ee-4fd7-a3b5-5a2659fc5be5</id>
+        <id>smi:local/3120cb93-8b8e-4e50-9b61-a5fc87483aa3</id>
       </comment>
     </pick>
     <pick publicID="smi:local/20191224.203246.69-S-CM.ORTC.00.HH">
@@ -1590,11 +1590,11 @@
       <evaluationMode>automatic</evaluationMode>
       <creationInfo>
         <author>EQTransformer</author>
-        <creationTime>2023-01-18T21:15:33.343532Z</creationTime>
+        <creationTime>2023-01-19T13:14:20.138996Z</creationTime>
       </creationInfo>
       <comment>
         <text>{"probability": 0.47, "GaMMA_probability": 7.70645104884309e-06, "snr": 2.3, "detection_probability": 0.97, "event_start_time": "2019-12-24 20:32:30.888393", "event_end_time": "2019-12-24 20:32:53.298393"}</text>
-        <id>smi:local/507ca4ce-c8a3-4943-92e2-987568b70952</id>
+        <id>smi:local/d3810c95-a250-4149-9a2e-4b040eaeff0a</id>
       </comment>
     </pick>
     <pick publicID="smi:local/20191224.203248.60-S-CM.CHI.00.HH">
@@ -1611,11 +1611,11 @@
       <evaluationMode>automatic</evaluationMode>
       <creationInfo>
         <author>EQTransformer</author>
-        <creationTime>2023-01-18T21:15:33.344061Z</creationTime>
+        <creationTime>2023-01-19T13:14:20.139566Z</creationTime>
       </creationInfo>
       <comment>
         <text>{"probability": 0.02, "GaMMA_probability": 3.2489015124753175e-06, "snr": -0.2, "detection_probability": 0.95, "event_start_time": "2019-12-24 20:32:32.918394", "event_end_time": "2019-12-24 20:32:57.748394"}</text>
-        <id>smi:local/e5cbaae7-dced-4196-9cd1-6aef9a6db830</id>
+        <id>smi:local/d583d557-b6c6-4379-840d-4e4564703c89</id>
       </comment>
     </pick>
     <pick publicID="smi:local/20191224.203917.61-P-CM.URMC.00.HH">
@@ -1632,11 +1632,11 @@
       <evaluationMode>automatic</evaluationMode>
       <creationInfo>
         <author>EQTransformer</author>
-        <creationTime>2023-01-18T21:15:33.360908Z</creationTime>
+        <creationTime>2023-01-19T13:14:20.155003Z</creationTime>
       </creationInfo>
       <comment>
         <text>{"probability": 0.07, "GaMMA_probability": 1.965125602997957e-06, "snr": 9.7, "detection_probability": 0.2, "event_start_time": "2019-12-24 20:39:17.958393", "event_end_time": "2019-12-24 20:39:29.228393"}</text>
-        <id>smi:local/f7d6afd7-7a17-499e-b9ed-8a0cf564c56b</id>
+        <id>smi:local/6599874e-2412-4e49-8679-e55363994979</id>
       </comment>
     </pick>
     <pick publicID="smi:local/20191224.203921.50-S-CM.URMC.00.HH">
@@ -1653,11 +1653,11 @@
       <evaluationMode>automatic</evaluationMode>
       <creationInfo>
         <author>EQTransformer</author>
-        <creationTime>2023-01-18T21:15:33.361451Z</creationTime>
+        <creationTime>2023-01-19T13:14:20.155877Z</creationTime>
       </creationInfo>
       <comment>
         <text>{"probability": 0.06, "GaMMA_probability": 2.4283749093416853e-06, "snr": 11.4, "detection_probability": 0.2, "event_start_time": "2019-12-24 20:39:17.958393", "event_end_time": "2019-12-24 20:39:29.228393"}</text>
-        <id>smi:local/6f42b387-2f29-48a0-936b-2afaf031d95a</id>
+        <id>smi:local/0ef6a220-76dd-499c-9846-08bf467d1c2b</id>
       </comment>
     </pick>
     <pick publicID="smi:local/20191224.203933.92-P-CM.ORTC.00.HH">
@@ -1674,11 +1674,11 @@
       <evaluationMode>automatic</evaluationMode>
       <creationInfo>
         <author>EQTransformer</author>
-        <creationTime>2023-01-18T21:15:33.362000Z</creationTime>
+        <creationTime>2023-01-19T13:14:20.156854Z</creationTime>
       </creationInfo>
       <comment>
         <text>{"probability": 0.16, "GaMMA_probability": 8.232169860340049e-06, "snr": 3.5, "detection_probability": 0.54, "event_start_time": "2019-12-24 20:39:27.678393", "event_end_time": "2019-12-24 20:40:02.518393"}</text>
-        <id>smi:local/e896233c-370d-44d8-9e0e-5915d8559c08</id>
+        <id>smi:local/5593028d-f5c7-466b-b659-15ecd1a9cfa5</id>
       </comment>
     </pick>
     <pick publicID="smi:local/20191224.203935.89-P-CM.CHI.00.HH">
@@ -1695,11 +1695,11 @@
       <evaluationMode>automatic</evaluationMode>
       <creationInfo>
         <author>EQTransformer</author>
-        <creationTime>2023-01-18T21:15:33.362581Z</creationTime>
+        <creationTime>2023-01-19T13:14:20.157765Z</creationTime>
       </creationInfo>
       <comment>
         <text>{"probability": 0.02, "GaMMA_probability": 1.083986087858577e-05, "snr": 5.2, "detection_probability": 0.13, "event_start_time": "2019-12-24 20:39:35.458394", "event_end_time": "2019-12-24 20:39:40.968394"}</text>
-        <id>smi:local/2b6a3777-ff9a-4d08-9def-dc86d46506de</id>
+        <id>smi:local/24f26e0e-626e-4d69-a283-0db6dc3ae61b</id>
       </comment>
     </pick>
     <pick publicID="smi:local/20191224.203953.10-S-CM.ORTC.00.HH">
@@ -1716,11 +1716,11 @@
       <evaluationMode>automatic</evaluationMode>
       <creationInfo>
         <author>EQTransformer</author>
-        <creationTime>2023-01-18T21:15:33.363127Z</creationTime>
+        <creationTime>2023-01-19T13:14:20.158524Z</creationTime>
       </creationInfo>
       <comment>
         <text>{"probability": 0.46, "GaMMA_probability": 7.70645104884309e-06, "snr": 6.4, "detection_probability": 0.54, "event_start_time": "2019-12-24 20:39:27.678393", "event_end_time": "2019-12-24 20:40:02.518393"}</text>
-        <id>smi:local/b0a48c40-3df9-447a-834f-bd096cf88996</id>
+        <id>smi:local/5e20272f-9781-4354-9f31-8480db8ef6ef</id>
       </comment>
     </pick>
     <pick publicID="smi:local/20191224.203953.66-S-CM.CHI.00.HH">
@@ -1737,11 +1737,11 @@
       <evaluationMode>automatic</evaluationMode>
       <creationInfo>
         <author>EQTransformer</author>
-        <creationTime>2023-01-18T21:15:33.363666Z</creationTime>
+        <creationTime>2023-01-19T13:14:20.159196Z</creationTime>
       </creationInfo>
       <comment>
         <text>{"probability": 0.02, "GaMMA_probability": 3.2489015124753175e-06, "snr": NaN, "detection_probability": 0.15, "event_start_time": "2019-12-24 20:39:42.698394", "event_end_time": "2019-12-24 20:40:03.638394"}</text>
-        <id>smi:local/1c42003b-0887-4b1b-a622-cff03ca10d96</id>
+        <id>smi:local/7b24a900-1aae-443d-bca6-170dbb121416</id>
       </comment>
     </pick>
     <pick publicID="smi:local/20191224.205041.80-P-CM.URMC.00.HH">
@@ -1758,11 +1758,11 @@
       <evaluationMode>automatic</evaluationMode>
       <creationInfo>
         <author>EQTransformer</author>
-        <creationTime>2023-01-18T21:15:33.380713Z</creationTime>
+        <creationTime>2023-01-19T13:14:20.174644Z</creationTime>
       </creationInfo>
       <comment>
         <text>{"probability": 0.22, "GaMMA_probability": 1.965125602997957e-06, "snr": 25.3, "detection_probability": 0.15, "event_start_time": "2019-12-24 20:50:41.758393", "event_end_time": "2019-12-24 20:50:47.128393"}</text>
-        <id>smi:local/aac7ebd3-226f-4346-90da-751795f59e85</id>
+        <id>smi:local/2f84f4ca-8027-42a9-88b5-6b19036cca84</id>
       </comment>
     </pick>
     <pick publicID="smi:local/20191224.205045.77-S-CM.URMC.00.HH">
@@ -1779,11 +1779,11 @@
       <evaluationMode>automatic</evaluationMode>
       <creationInfo>
         <author>EQTransformer</author>
-        <creationTime>2023-01-18T21:15:33.381328Z</creationTime>
+        <creationTime>2023-01-19T13:14:20.175728Z</creationTime>
       </creationInfo>
       <comment>
         <text>{"probability": 0.13, "GaMMA_probability": 2.4283749093416853e-06, "snr": 13.5, "detection_probability": 0.15, "event_start_time": "2019-12-24 20:50:41.758393", "event_end_time": "2019-12-24 20:50:47.128393"}</text>
-        <id>smi:local/eaddeffa-b180-4054-8f77-180761fa7d0b</id>
+        <id>smi:local/8f30e66c-adf8-463b-a584-693de9c317c8</id>
       </comment>
     </pick>
     <pick publicID="smi:local/20191224.205059.93-P-CM.CHI.00.HH">
@@ -1800,11 +1800,11 @@
       <evaluationMode>automatic</evaluationMode>
       <creationInfo>
         <author>EQTransformer</author>
-        <creationTime>2023-01-18T21:15:33.381955Z</creationTime>
+        <creationTime>2023-01-19T13:14:20.176257Z</creationTime>
       </creationInfo>
       <comment>
         <text>{"probability": 0.36, "GaMMA_probability": 8.232169860340049e-06, "snr": 8.1, "detection_probability": 0.64, "event_start_time": "2019-12-24 20:50:59.238394", "event_end_time": "2019-12-24 20:51:25.508394"}</text>
-        <id>smi:local/67d88d93-2ed3-430f-b897-adb05030ef46</id>
+        <id>smi:local/ab9ad727-c01a-4f6a-b8ab-86adfd72f8fd</id>
       </comment>
     </pick>
     <pick publicID="smi:local/20191224.205107.52-S-CM.ORTC.00.HH">
@@ -1821,11 +1821,11 @@
       <evaluationMode>automatic</evaluationMode>
       <creationInfo>
         <author>EQTransformer</author>
-        <creationTime>2023-01-18T21:15:33.382537Z</creationTime>
+        <creationTime>2023-01-19T13:14:20.176758Z</creationTime>
       </creationInfo>
       <comment>
         <text>{"probability": 0.02, "GaMMA_probability": 1.083986087858577e-05, "snr": 0.9, "detection_probability": 0.9, "event_start_time": "2019-12-24 20:50:56.948393", "event_end_time": "2019-12-24 20:51:19.388393"}</text>
-        <id>smi:local/28a729e0-eaa1-448b-a9ef-a850e94fb349</id>
+        <id>smi:local/a1d878c5-5b76-4727-8a0b-e545146869cd</id>
       </comment>
     </pick>
     <pick publicID="smi:local/20191224.205117.99-S-CM.CHI.00.HH">
@@ -1842,11 +1842,11 @@
       <evaluationMode>automatic</evaluationMode>
       <creationInfo>
         <author>EQTransformer</author>
-        <creationTime>2023-01-18T21:15:33.383169Z</creationTime>
+        <creationTime>2023-01-19T13:14:20.177230Z</creationTime>
       </creationInfo>
       <comment>
         <text>{"probability": 0.22, "GaMMA_probability": 7.70645104884309e-06, "snr": 3.4, "detection_probability": 0.64, "event_start_time": "2019-12-24 20:50:59.238394", "event_end_time": "2019-12-24 20:51:25.508394"}</text>
-        <id>smi:local/62e0b510-8ac6-4951-8efb-8bedab67fd5c</id>
+        <id>smi:local/89393768-1f16-4a38-a032-9467f873cd37</id>
       </comment>
     </pick>
     <pick publicID="smi:local/20191224.211039.91-P-CM.URMC.00.HH">
@@ -1863,11 +1863,11 @@
       <evaluationMode>automatic</evaluationMode>
       <creationInfo>
         <author>EQTransformer</author>
-        <creationTime>2023-01-18T21:15:33.399859Z</creationTime>
+        <creationTime>2023-01-19T13:14:20.192221Z</creationTime>
       </creationInfo>
       <comment>
         <text>{"probability": 0.84, "GaMMA_probability": 1.965125602997957e-06, "snr": 30.3, "detection_probability": 0.94, "event_start_time": "2019-12-24 21:10:39.778393", "event_end_time": "2019-12-24 21:10:46.088393"}</text>
-        <id>smi:local/857976cf-f8df-44cd-a25e-780b4fac8616</id>
+        <id>smi:local/9b28a02d-cf18-4c7f-bc99-04e7ce71becf</id>
       </comment>
     </pick>
     <pick publicID="smi:local/20191224.211044.16-S-CM.URMC.00.HH">
@@ -1884,11 +1884,11 @@
       <evaluationMode>automatic</evaluationMode>
       <creationInfo>
         <author>EQTransformer</author>
-        <creationTime>2023-01-18T21:15:33.400447Z</creationTime>
+        <creationTime>2023-01-19T13:14:20.192741Z</creationTime>
       </creationInfo>
       <comment>
         <text>{"probability": 0.49, "GaMMA_probability": 2.4283749093416853e-06, "snr": 10.5, "detection_probability": 0.94, "event_start_time": "2019-12-24 21:10:39.778393", "event_end_time": "2019-12-24 21:10:46.088393"}</text>
-        <id>smi:local/cf5643d0-0643-42e0-821f-33b2fcb5ec84</id>
+        <id>smi:local/9695f6bc-d546-422d-a616-56cb2d2c10ba</id>
       </comment>
     </pick>
     <pick publicID="smi:local/20191224.211055.14-P-CM.ORTC.00.HH">
@@ -1905,11 +1905,11 @@
       <evaluationMode>automatic</evaluationMode>
       <creationInfo>
         <author>EQTransformer</author>
-        <creationTime>2023-01-18T21:15:33.401038Z</creationTime>
+        <creationTime>2023-01-19T13:14:20.193302Z</creationTime>
       </creationInfo>
       <comment>
         <text>{"probability": 0.85, "GaMMA_probability": 8.232169860340049e-06, "snr": 24.6, "detection_probability": 0.84, "event_start_time": "2019-12-24 21:10:54.988393", "event_end_time": "2019-12-24 21:11:18.168393"}</text>
-        <id>smi:local/ec110eb2-cc07-49eb-8582-c2cf3de2b7db</id>
+        <id>smi:local/6b4d1e3c-2458-454c-9fd0-0f71d919822d</id>
       </comment>
     </pick>
     <pick publicID="smi:local/20191224.211056.80-P-CM.CHI.00.HH">
@@ -1926,11 +1926,11 @@
       <evaluationMode>automatic</evaluationMode>
       <creationInfo>
         <author>EQTransformer</author>
-        <creationTime>2023-01-18T21:15:33.401584Z</creationTime>
+        <creationTime>2023-01-19T13:14:20.193787Z</creationTime>
       </creationInfo>
       <comment>
         <text>{"probability": 0.69, "GaMMA_probability": 1.083986087858577e-05, "snr": 19.0, "detection_probability": 0.58, "event_start_time": "2019-12-24 21:10:56.658393", "event_end_time": "2019-12-24 21:11:20.918393"}</text>
-        <id>smi:local/acd85eda-281a-4834-aa0f-d50ab25d8c38</id>
+        <id>smi:local/42dd2aa2-f37b-46a5-b3b7-178d17ce0381</id>
       </comment>
     </pick>
     <pick publicID="smi:local/20191224.211110.89-S-CM.ORTC.00.HH">
@@ -1947,11 +1947,11 @@
       <evaluationMode>automatic</evaluationMode>
       <creationInfo>
         <author>EQTransformer</author>
-        <creationTime>2023-01-18T21:15:33.402312Z</creationTime>
+        <creationTime>2023-01-19T13:14:20.194414Z</creationTime>
       </creationInfo>
       <comment>
         <text>{"probability": 0.37, "GaMMA_probability": 7.70645104884309e-06, "snr": 5.9, "detection_probability": 0.84, "event_start_time": "2019-12-24 21:10:54.988393", "event_end_time": "2019-12-24 21:11:18.168393"}</text>
-        <id>smi:local/986ef299-e434-4f71-93a5-297384f21208</id>
+        <id>smi:local/8770d658-34c7-4a87-a1aa-02bd13b4d72a</id>
       </comment>
     </pick>
     <pick publicID="smi:local/20191224.211113.40-S-CM.CHI.00.HH">
@@ -1968,11 +1968,11 @@
       <evaluationMode>automatic</evaluationMode>
       <creationInfo>
         <author>EQTransformer</author>
-        <creationTime>2023-01-18T21:15:33.403185Z</creationTime>
+        <creationTime>2023-01-19T13:14:20.194909Z</creationTime>
       </creationInfo>
       <comment>
         <text>{"probability": 0.11, "GaMMA_probability": 3.2489015124753175e-06, "snr": 1.2, "detection_probability": 0.58, "event_start_time": "2019-12-24 21:10:56.658393", "event_end_time": "2019-12-24 21:11:20.918393"}</text>
-        <id>smi:local/a0019bc1-27cb-4ff8-8be6-b53d95f6d80a</id>
+        <id>smi:local/24bf5ce2-24a3-46a4-ba6a-ec6b01205b52</id>
       </comment>
     </pick>
     <pick publicID="smi:local/20191224.211729.38-P-CM.URMC.00.HH">
@@ -1989,11 +1989,11 @@
       <evaluationMode>automatic</evaluationMode>
       <creationInfo>
         <author>EQTransformer</author>
-        <creationTime>2023-01-18T21:15:33.420889Z</creationTime>
+        <creationTime>2023-01-19T13:14:20.211487Z</creationTime>
       </creationInfo>
       <comment>
         <text>{"probability": 0.69, "GaMMA_probability": 1.965125602997957e-06, "snr": 32.2, "detection_probability": 0.65, "event_start_time": "2019-12-24 21:17:29.218393", "event_end_time": "2019-12-24 21:17:34.558393"}</text>
-        <id>smi:local/a5c569a5-cbb4-49a6-ba9c-97c33501cddf</id>
+        <id>smi:local/496d366f-dfa2-40d7-84c0-b9d1c11857d8</id>
       </comment>
     </pick>
     <pick publicID="smi:local/20191224.211732.82-S-CM.URMC.00.HH">
@@ -2010,11 +2010,11 @@
       <evaluationMode>automatic</evaluationMode>
       <creationInfo>
         <author>EQTransformer</author>
-        <creationTime>2023-01-18T21:15:33.421517Z</creationTime>
+        <creationTime>2023-01-19T13:14:20.212124Z</creationTime>
       </creationInfo>
       <comment>
         <text>{"probability": 0.36, "GaMMA_probability": 2.4283749093416853e-06, "snr": 7.2, "detection_probability": 0.65, "event_start_time": "2019-12-24 21:17:29.218393", "event_end_time": "2019-12-24 21:17:34.558393"}</text>
-        <id>smi:local/4b15d37e-17a2-407b-9077-c5f322bfdd52</id>
+        <id>smi:local/b0e604a0-c4a4-4cea-a900-9f89747aacad</id>
       </comment>
     </pick>
     <pick publicID="smi:local/20191224.211745.40-P-CM.ORTC.00.HH">
@@ -2031,11 +2031,11 @@
       <evaluationMode>automatic</evaluationMode>
       <creationInfo>
         <author>EQTransformer</author>
-        <creationTime>2023-01-18T21:15:33.422087Z</creationTime>
+        <creationTime>2023-01-19T13:14:20.212820Z</creationTime>
       </creationInfo>
       <comment>
         <text>{"probability": 0.77, "GaMMA_probability": 8.232169860340049e-06, "snr": 19.7, "detection_probability": 0.96, "event_start_time": "2019-12-24 21:17:45.258393", "event_end_time": "2019-12-24 21:18:13.678393"}</text>
-        <id>smi:local/3b13bc9d-ea22-4ecb-a235-1eafbe30a4c1</id>
+        <id>smi:local/da0155b4-f605-4f60-998b-067402a93d77</id>
       </comment>
     </pick>
     <pick publicID="smi:local/20191224.211747.35-P-CM.CHI.00.HH">
@@ -2052,11 +2052,11 @@
       <evaluationMode>automatic</evaluationMode>
       <creationInfo>
         <author>EQTransformer</author>
-        <creationTime>2023-01-18T21:15:33.422796Z</creationTime>
+        <creationTime>2023-01-19T13:14:20.213360Z</creationTime>
       </creationInfo>
       <comment>
         <text>{"probability": 0.67, "GaMMA_probability": 1.083986087858577e-05, "snr": 22.4, "detection_probability": 0.91, "event_start_time": "2019-12-24 21:17:47.068393", "event_end_time": "2019-12-24 21:18:13.518393"}</text>
-        <id>smi:local/d53a21ea-c5b3-47b7-9bb7-762dac11f8ff</id>
+        <id>smi:local/974c037b-7efc-4f4c-8884-2fafccc5666b</id>
       </comment>
     </pick>
     <pick publicID="smi:local/20191224.211805.69-S-CM.CHI.00.HH">
@@ -2073,11 +2073,11 @@
       <evaluationMode>automatic</evaluationMode>
       <creationInfo>
         <author>EQTransformer</author>
-        <creationTime>2023-01-18T21:15:33.423414Z</creationTime>
+        <creationTime>2023-01-19T13:14:20.213936Z</creationTime>
       </creationInfo>
       <comment>
         <text>{"probability": 0.3, "GaMMA_probability": 7.70645104884309e-06, "snr": 2.7, "detection_probability": 0.91, "event_start_time": "2019-12-24 21:17:47.068393", "event_end_time": "2019-12-24 21:18:13.518393"}</text>
-        <id>smi:local/842dc210-4ae6-4f92-8bb5-3f62cae81f83</id>
+        <id>smi:local/900922aa-4422-45bc-953f-fdb4af1b97c5</id>
       </comment>
     </pick>
     <pick publicID="smi:local/20191224.212230.05-P-CM.URMC.00.HH">
@@ -2094,11 +2094,11 @@
       <evaluationMode>automatic</evaluationMode>
       <creationInfo>
         <author>EQTransformer</author>
-        <creationTime>2023-01-18T21:15:33.441313Z</creationTime>
+        <creationTime>2023-01-19T13:14:20.229576Z</creationTime>
       </creationInfo>
       <comment>
         <text>{"probability": 0.83, "GaMMA_probability": 1.965125602997957e-06, "snr": 23.1, "detection_probability": 0.77, "event_start_time": "2019-12-24 21:22:29.928393", "event_end_time": "2019-12-24 21:22:35.028393"}</text>
-        <id>smi:local/5afae395-1900-44cc-9bdb-abfe32b8c1e4</id>
+        <id>smi:local/26cf56ff-09f9-48f4-b0b2-3a648b5e4469</id>
       </comment>
     </pick>
     <pick publicID="smi:local/20191224.212233.51-S-CM.URMC.00.HH">
@@ -2115,11 +2115,11 @@
       <evaluationMode>automatic</evaluationMode>
       <creationInfo>
         <author>EQTransformer</author>
-        <creationTime>2023-01-18T21:15:33.442017Z</creationTime>
+        <creationTime>2023-01-19T13:14:20.230066Z</creationTime>
       </creationInfo>
       <comment>
         <text>{"probability": 0.58, "GaMMA_probability": 2.4283749093416853e-06, "snr": 10.9, "detection_probability": 0.77, "event_start_time": "2019-12-24 21:22:29.928393", "event_end_time": "2019-12-24 21:22:35.028393"}</text>
-        <id>smi:local/4314fda1-78fa-4b0f-9c99-afd10332ab4b</id>
+        <id>smi:local/28aa71ef-5c06-4727-bb1b-084b4022f07c</id>
       </comment>
     </pick>
     <pick publicID="smi:local/20191224.212245.88-P-CM.ORTC.00.HH">
@@ -2136,11 +2136,11 @@
       <evaluationMode>automatic</evaluationMode>
       <creationInfo>
         <author>EQTransformer</author>
-        <creationTime>2023-01-18T21:15:33.442810Z</creationTime>
+        <creationTime>2023-01-19T13:14:20.230600Z</creationTime>
       </creationInfo>
       <comment>
         <text>{"probability": 0.03, "GaMMA_probability": 8.232169860340049e-06, "snr": 3.8, "detection_probability": 0.22, "event_start_time": "2019-12-24 21:22:45.458393", "event_end_time": "2019-12-24 21:23:10.878393"}</text>
-        <id>smi:local/c87971b5-56eb-445a-a2da-f11bee2ea753</id>
+        <id>smi:local/ea9a2273-43bf-4e8d-9c24-cdb08dab316e</id>
       </comment>
     </pick>
     <pick publicID="smi:local/20191224.212248.66-P-CM.CHI.00.HH">
@@ -2157,11 +2157,11 @@
       <evaluationMode>automatic</evaluationMode>
       <creationInfo>
         <author>EQTransformer</author>
-        <creationTime>2023-01-18T21:15:33.443579Z</creationTime>
+        <creationTime>2023-01-19T13:14:20.231064Z</creationTime>
       </creationInfo>
       <comment>
         <text>{"probability": 0.09, "GaMMA_probability": 1.083986087858577e-05, "snr": 6.2, "detection_probability": 0.64, "event_start_time": "2019-12-24 21:22:47.168393", "event_end_time": "2019-12-24 21:23:14.848393"}</text>
-        <id>smi:local/2fc019d4-369a-4e52-91d0-b3def5f7e204</id>
+        <id>smi:local/1a33b640-8276-43f4-a42d-e64cfbfe3630</id>
       </comment>
     </pick>
     <pick publicID="smi:local/20191224.212301.80-S-CM.ORTC.00.HH">
@@ -2178,11 +2178,11 @@
       <evaluationMode>automatic</evaluationMode>
       <creationInfo>
         <author>EQTransformer</author>
-        <creationTime>2023-01-18T21:15:33.444185Z</creationTime>
+        <creationTime>2023-01-19T13:14:20.231740Z</creationTime>
       </creationInfo>
       <comment>
         <text>{"probability": 0.06, "GaMMA_probability": 7.70645104884309e-06, "snr": 2.4, "detection_probability": 0.22, "event_start_time": "2019-12-24 21:22:45.458393", "event_end_time": "2019-12-24 21:23:10.878393"}</text>
-        <id>smi:local/5fb26cc9-ff2e-4829-8ed0-021352cceb9d</id>
+        <id>smi:local/f3ed437d-f43d-4db1-b00f-c6fc1b339fa9</id>
       </comment>
     </pick>
     <pick publicID="smi:local/20191224.212306.95-S-CM.CHI.00.HH">
@@ -2199,11 +2199,11 @@
       <evaluationMode>automatic</evaluationMode>
       <creationInfo>
         <author>EQTransformer</author>
-        <creationTime>2023-01-18T21:15:33.444724Z</creationTime>
+        <creationTime>2023-01-19T13:14:20.232304Z</creationTime>
       </creationInfo>
       <comment>
         <text>{"probability": 0.27, "GaMMA_probability": 3.2489015124753175e-06, "snr": 5.7, "detection_probability": 0.64, "event_start_time": "2019-12-24 21:22:47.168393", "event_end_time": "2019-12-24 21:23:14.848393"}</text>
-        <id>smi:local/48d0558c-9029-4f2a-8391-ca88d630de5a</id>
+        <id>smi:local/99105be7-565d-4f78-b6fc-b4e9884cbbb2</id>
       </comment>
     </pick>
     <pick publicID="smi:local/20191224.212554.25-P-CM.URMC.00.HH">
@@ -2220,11 +2220,11 @@
       <evaluationMode>automatic</evaluationMode>
       <creationInfo>
         <author>EQTransformer</author>
-        <creationTime>2023-01-18T21:15:33.461059Z</creationTime>
+        <creationTime>2023-01-19T13:14:20.248998Z</creationTime>
       </creationInfo>
       <comment>
         <text>{"probability": 0.63, "GaMMA_probability": 1.965125602997957e-06, "snr": 25.6, "detection_probability": 0.34, "event_start_time": "2019-12-24 21:25:54.048393", "event_end_time": "2019-12-24 21:25:59.618393"}</text>
-        <id>smi:local/4318b78c-3124-429c-9d31-a1ee9f4e5fa1</id>
+        <id>smi:local/196166d0-d4ce-468b-82ed-ccc67498aab2</id>
       </comment>
     </pick>
     <pick publicID="smi:local/20191224.212558.20-S-CM.URMC.00.HH">
@@ -2241,11 +2241,11 @@
       <evaluationMode>automatic</evaluationMode>
       <creationInfo>
         <author>EQTransformer</author>
-        <creationTime>2023-01-18T21:15:33.461789Z</creationTime>
+        <creationTime>2023-01-19T13:14:20.249480Z</creationTime>
       </creationInfo>
       <comment>
         <text>{"probability": 0.32, "GaMMA_probability": 2.4283749093416853e-06, "snr": 14.0, "detection_probability": 0.34, "event_start_time": "2019-12-24 21:25:54.048393", "event_end_time": "2019-12-24 21:25:59.618393"}</text>
-        <id>smi:local/00bc4108-9a61-4f7e-8b41-a89b31f119e3</id>
+        <id>smi:local/1b71d350-05ef-4a22-b281-d156bd1959f4</id>
       </comment>
     </pick>
     <pick publicID="smi:local/20191224.212609.34-P-CM.ORTC.00.HH">
@@ -2262,11 +2262,11 @@
       <evaluationMode>automatic</evaluationMode>
       <creationInfo>
         <author>EQTransformer</author>
-        <creationTime>2023-01-18T21:15:33.462363Z</creationTime>
+        <creationTime>2023-01-19T13:14:20.249961Z</creationTime>
       </creationInfo>
       <comment>
         <text>{"probability": 0.74, "GaMMA_probability": 8.232169860340049e-06, "snr": 17.4, "detection_probability": 0.94, "event_start_time": "2019-12-24 21:26:09.198393", "event_end_time": "2019-12-24 21:26:30.928393"}</text>
-        <id>smi:local/7c5cc3f4-b4d6-437a-b554-18fe54a9cd3d</id>
+        <id>smi:local/4c21eea5-b77e-4362-af9e-67fb30214cd2</id>
       </comment>
     </pick>
     <pick publicID="smi:local/20191224.212611.39-P-CM.CHI.00.HH">
@@ -2283,11 +2283,11 @@
       <evaluationMode>automatic</evaluationMode>
       <creationInfo>
         <author>EQTransformer</author>
-        <creationTime>2023-01-18T21:15:33.462947Z</creationTime>
+        <creationTime>2023-01-19T13:14:20.250410Z</creationTime>
       </creationInfo>
       <comment>
         <text>{"probability": 0.39, "GaMMA_probability": 1.083986087858577e-05, "snr": 18.1, "detection_probability": 0.75, "event_start_time": "2019-12-24 21:26:10.898393", "event_end_time": "2019-12-24 21:26:39.038393"}</text>
-        <id>smi:local/d9333763-65ef-4c95-853a-6ced292a9588</id>
+        <id>smi:local/75ea50c6-5866-40a6-a070-4aebbf253a16</id>
       </comment>
     </pick>
     <pick publicID="smi:local/20191224.212624.64-S-CM.ORTC.00.HH">
@@ -2304,11 +2304,11 @@
       <evaluationMode>automatic</evaluationMode>
       <creationInfo>
         <author>EQTransformer</author>
-        <creationTime>2023-01-18T21:15:33.463506Z</creationTime>
+        <creationTime>2023-01-19T13:14:20.251048Z</creationTime>
       </creationInfo>
       <comment>
         <text>{"probability": 0.3, "GaMMA_probability": 7.70645104884309e-06, "snr": 3.0, "detection_probability": 0.94, "event_start_time": "2019-12-24 21:26:09.198393", "event_end_time": "2019-12-24 21:26:30.928393"}</text>
-        <id>smi:local/90a1d083-0810-475c-8d04-da46d564578d</id>
+        <id>smi:local/57506e73-af47-43bc-93ce-149ddcbd811f</id>
       </comment>
     </pick>
     <pick publicID="smi:local/20191224.213850.46-P-CM.ORTC.00.HH">
@@ -2325,11 +2325,11 @@
       <evaluationMode>automatic</evaluationMode>
       <creationInfo>
         <author>EQTransformer</author>
-        <creationTime>2023-01-18T21:15:33.480360Z</creationTime>
+        <creationTime>2023-01-19T13:14:20.265916Z</creationTime>
       </creationInfo>
       <comment>
         <text>{"probability": 0.59, "GaMMA_probability": 1.965125602997957e-06, "snr": 13.4, "detection_probability": 0.92, "event_start_time": "2019-12-24 21:38:50.278393", "event_end_time": "2019-12-24 21:39:18.718393"}</text>
-        <id>smi:local/18876fda-2125-41bf-ac82-baf66c5941c2</id>
+        <id>smi:local/84f760a5-6fff-4271-b88c-f0d71b9774e9</id>
       </comment>
     </pick>
     <pick publicID="smi:local/20191224.213850.80-P-CM.URMC.00.HH">
@@ -2346,11 +2346,11 @@
       <evaluationMode>automatic</evaluationMode>
       <creationInfo>
         <author>EQTransformer</author>
-        <creationTime>2023-01-18T21:15:33.480972Z</creationTime>
+        <creationTime>2023-01-19T13:14:20.266441Z</creationTime>
       </creationInfo>
       <comment>
         <text>{"probability": 0.03, "GaMMA_probability": 2.4283749093416853e-06, "snr": 23.3, "detection_probability": 0.1, "event_start_time": "2019-12-24 21:38:51.678393", "event_end_time": "2019-12-24 21:38:52.158393"}</text>
-        <id>smi:local/b6fe51cf-41c2-4142-ac33-2c49c91924e2</id>
+        <id>smi:local/a716bc21-5774-41c2-bd30-9239b7c03098</id>
       </comment>
     </pick>
     <pick publicID="smi:local/20191224.213852.52-P-CM.CHI.00.HH">
@@ -2367,11 +2367,11 @@
       <evaluationMode>automatic</evaluationMode>
       <creationInfo>
         <author>EQTransformer</author>
-        <creationTime>2023-01-18T21:15:33.481521Z</creationTime>
+        <creationTime>2023-01-19T13:14:20.266911Z</creationTime>
       </creationInfo>
       <comment>
         <text>{"probability": 0.51, "GaMMA_probability": 8.232169860340049e-06, "snr": 14.5, "detection_probability": 0.82, "event_start_time": "2019-12-24 21:38:52.118393", "event_end_time": "2019-12-24 21:39:18.538393"}</text>
-        <id>smi:local/2a58b132-c4ed-4975-96b4-9e556d050a48</id>
+        <id>smi:local/056d0fca-73e9-46b1-9a68-b349fae7c87f</id>
       </comment>
     </pick>
     <pick publicID="smi:local/20191224.213910.34-S-CM.ORTC.00.HH">
@@ -2388,11 +2388,11 @@
       <evaluationMode>automatic</evaluationMode>
       <creationInfo>
         <author>EQTransformer</author>
-        <creationTime>2023-01-18T21:15:33.482049Z</creationTime>
+        <creationTime>2023-01-19T13:14:20.267438Z</creationTime>
       </creationInfo>
       <comment>
         <text>{"probability": 0.53, "GaMMA_probability": 1.083986087858577e-05, "snr": 10.8, "detection_probability": 0.92, "event_start_time": "2019-12-24 21:38:50.278393", "event_end_time": "2019-12-24 21:39:18.718393"}</text>
-        <id>smi:local/72b4bcb4-7824-44b9-957b-0802ea4c43a2</id>
+        <id>smi:local/47b0c36d-d50d-47d0-861f-945f1f9ca924</id>
       </comment>
     </pick>
     <pick publicID="smi:local/20191224.213910.81-S-CM.CHI.00.HH">
@@ -2409,11 +2409,11 @@
       <evaluationMode>automatic</evaluationMode>
       <creationInfo>
         <author>EQTransformer</author>
-        <creationTime>2023-01-18T21:15:33.483024Z</creationTime>
+        <creationTime>2023-01-19T13:14:20.267921Z</creationTime>
       </creationInfo>
       <comment>
         <text>{"probability": 0.29, "GaMMA_probability": 7.70645104884309e-06, "snr": 4.5, "detection_probability": 0.82, "event_start_time": "2019-12-24 21:38:52.118393", "event_end_time": "2019-12-24 21:39:18.538393"}</text>
-        <id>smi:local/a791edfd-c153-4717-9fdc-367940f06b89</id>
+        <id>smi:local/a642b180-6675-4023-b2ca-57241b08d5a3</id>
       </comment>
     </pick>
     <pick publicID="smi:local/20191224.214436.40-P-CM.URMC.00.HH">
@@ -2430,11 +2430,11 @@
       <evaluationMode>automatic</evaluationMode>
       <creationInfo>
         <author>EQTransformer</author>
-        <creationTime>2023-01-18T21:15:33.500302Z</creationTime>
+        <creationTime>2023-01-19T13:14:20.283060Z</creationTime>
       </creationInfo>
       <comment>
         <text>{"probability": 0.86, "GaMMA_probability": 1.965125602997957e-06, "snr": 16.8, "detection_probability": 0.89, "event_start_time": "2019-12-24 21:44:36.348393", "event_end_time": "2019-12-24 21:44:42.008393"}</text>
-        <id>smi:local/a3301758-8c03-4f6a-b734-d7afc2c4af51</id>
+        <id>smi:local/205d77e4-f1e5-482f-adb4-78f11f359046</id>
       </comment>
     </pick>
     <pick publicID="smi:local/20191224.214440.02-S-CM.URMC.00.HH">
@@ -2451,11 +2451,11 @@
       <evaluationMode>automatic</evaluationMode>
       <creationInfo>
         <author>EQTransformer</author>
-        <creationTime>2023-01-18T21:15:33.500905Z</creationTime>
+        <creationTime>2023-01-19T13:14:20.283606Z</creationTime>
       </creationInfo>
       <comment>
         <text>{"probability": 0.45, "GaMMA_probability": 2.4283749093416853e-06, "snr": 9.0, "detection_probability": 0.89, "event_start_time": "2019-12-24 21:44:36.348393", "event_end_time": "2019-12-24 21:44:42.008393"}</text>
-        <id>smi:local/5869d88d-23aa-4917-b336-3eb59fd78acf</id>
+        <id>smi:local/8c6d08c8-977c-4bbf-80f0-7246d2273af5</id>
       </comment>
     </pick>
     <pick publicID="smi:local/20191224.214453.96-P-CM.ORTC.00.HH">
@@ -2472,11 +2472,11 @@
       <evaluationMode>automatic</evaluationMode>
       <creationInfo>
         <author>EQTransformer</author>
-        <creationTime>2023-01-18T21:15:33.501460Z</creationTime>
+        <creationTime>2023-01-19T13:14:20.284177Z</creationTime>
       </creationInfo>
       <comment>
         <text>{"probability": 0.17, "GaMMA_probability": 8.232169860340049e-06, "snr": 2.0, "detection_probability": 0.44, "event_start_time": "2019-12-24 21:44:52.798393", "event_end_time": "2019-12-24 21:45:21.038393"}</text>
-        <id>smi:local/9c2c4c10-a94e-4ee6-8f4f-8f8ca5cf4f70</id>
+        <id>smi:local/7d9b5f63-9726-4c19-a531-50d2fe38dd74</id>
       </comment>
     </pick>
     <pick publicID="smi:local/20191224.214454.01-P-CM.CHI.00.HH">
@@ -2493,11 +2493,11 @@
       <evaluationMode>automatic</evaluationMode>
       <creationInfo>
         <author>EQTransformer</author>
-        <creationTime>2023-01-18T21:15:33.502041Z</creationTime>
+        <creationTime>2023-01-19T13:14:20.284639Z</creationTime>
       </creationInfo>
       <comment>
         <text>{"probability": 0.27, "GaMMA_probability": 1.083986087858577e-05, "snr": 2.9, "detection_probability": 0.64, "event_start_time": "2019-12-24 21:44:54.068393", "event_end_time": "2019-12-24 21:45:21.938393"}</text>
-        <id>smi:local/533c2669-d39a-4ad5-9b47-2e239ccc0ab2</id>
+        <id>smi:local/61fafdcb-83fa-4e8b-8bfd-d64417b750db</id>
       </comment>
     </pick>
     <pick publicID="smi:local/20191224.214512.55-S-CM.ORTC.00.HH">
@@ -2514,11 +2514,11 @@
       <evaluationMode>automatic</evaluationMode>
       <creationInfo>
         <author>EQTransformer</author>
-        <creationTime>2023-01-18T21:15:33.502667Z</creationTime>
+        <creationTime>2023-01-19T13:14:20.285094Z</creationTime>
       </creationInfo>
       <comment>
         <text>{"probability": 0.24, "GaMMA_probability": 7.70645104884309e-06, "snr": 6.5, "detection_probability": 0.44, "event_start_time": "2019-12-24 21:44:52.798393", "event_end_time": "2019-12-24 21:45:21.038393"}</text>
-        <id>smi:local/e19fa288-57a1-403a-a92c-2649230450bd</id>
+        <id>smi:local/ea16c107-40ee-435a-b253-a3c63dae6616</id>
       </comment>
     </pick>
     <pick publicID="smi:local/20191224.214513.46-S-CM.CHI.00.HH">
@@ -2535,11 +2535,11 @@
       <evaluationMode>automatic</evaluationMode>
       <creationInfo>
         <author>EQTransformer</author>
-        <creationTime>2023-01-18T21:15:33.503240Z</creationTime>
+        <creationTime>2023-01-19T13:14:20.285703Z</creationTime>
       </creationInfo>
       <comment>
         <text>{"probability": 0.29, "GaMMA_probability": 3.2489015124753175e-06, "snr": 3.6, "detection_probability": 0.64, "event_start_time": "2019-12-24 21:44:54.068393", "event_end_time": "2019-12-24 21:45:21.938393"}</text>
-        <id>smi:local/e82be3a6-9b71-4417-8cbd-f89a0025fcfe</id>
+        <id>smi:local/23f60c71-e0da-4f00-87ac-1b563fac3328</id>
       </comment>
     </pick>
     <pick publicID="smi:local/20191224.214907.11-P-CM.URMC.00.HH">
@@ -2556,11 +2556,11 @@
       <evaluationMode>automatic</evaluationMode>
       <creationInfo>
         <author>EQTransformer</author>
-        <creationTime>2023-01-18T21:15:33.520968Z</creationTime>
+        <creationTime>2023-01-19T13:14:20.300700Z</creationTime>
       </creationInfo>
       <comment>
         <text>{"probability": 0.25, "GaMMA_probability": 1.965125602997957e-06, "snr": 8.8, "detection_probability": 0.91, "event_start_time": "2019-12-24 21:49:06.908393", "event_end_time": "2019-12-24 21:49:15.148393"}</text>
-        <id>smi:local/3eee9625-f84f-4708-a858-d9c273641fd4</id>
+        <id>smi:local/e24a13c8-aed2-4d74-bab2-28e57ccd1e5f</id>
       </comment>
     </pick>
     <pick publicID="smi:local/20191224.214912.69-S-CM.URMC.00.HH">
@@ -2577,11 +2577,11 @@
       <evaluationMode>automatic</evaluationMode>
       <creationInfo>
         <author>EQTransformer</author>
-        <creationTime>2023-01-18T21:15:33.521581Z</creationTime>
+        <creationTime>2023-01-19T13:14:20.301190Z</creationTime>
       </creationInfo>
       <comment>
         <text>{"probability": 0.65, "GaMMA_probability": 2.4283749093416853e-06, "snr": 11.1, "detection_probability": 0.91, "event_start_time": "2019-12-24 21:49:06.908393", "event_end_time": "2019-12-24 21:49:15.148393"}</text>
-        <id>smi:local/5442d975-c54b-4128-8f7c-03b513f061e0</id>
+        <id>smi:local/d5cb69b0-8c1f-450e-bb06-0d1f06698429</id>
       </comment>
     </pick>
     <pick publicID="smi:local/20191224.214923.87-P-CM.ORTC.00.HH">
@@ -2598,11 +2598,11 @@
       <evaluationMode>automatic</evaluationMode>
       <creationInfo>
         <author>EQTransformer</author>
-        <creationTime>2023-01-18T21:15:33.522118Z</creationTime>
+        <creationTime>2023-01-19T13:14:20.301673Z</creationTime>
       </creationInfo>
       <comment>
         <text>{"probability": 0.77, "GaMMA_probability": 8.232169860340049e-06, "snr": 12.2, "detection_probability": 0.98, "event_start_time": "2019-12-24 21:49:23.788393", "event_end_time": "2019-12-24 21:49:45.538393"}</text>
-        <id>smi:local/1084c3b4-ad34-42aa-ba60-4b9430ef6bd7</id>
+        <id>smi:local/9876160b-e3ab-47a1-8fc9-545605c24186</id>
       </comment>
     </pick>
     <pick publicID="smi:local/20191224.214926.30-P-CM.CHI.00.HH">
@@ -2619,11 +2619,11 @@
       <evaluationMode>automatic</evaluationMode>
       <creationInfo>
         <author>EQTransformer</author>
-        <creationTime>2023-01-18T21:15:33.522765Z</creationTime>
+        <creationTime>2023-01-19T13:14:20.302118Z</creationTime>
       </creationInfo>
       <comment>
         <text>{"probability": 0.04, "GaMMA_probability": 1.083986087858577e-05, "snr": 2.5, "detection_probability": 0.17, "event_start_time": "2019-12-24 21:49:25.718393", "event_end_time": "2019-12-24 21:49:53.828393"}</text>
-        <id>smi:local/19a45e06-9022-4e52-a082-616d271f39bf</id>
+        <id>smi:local/cb326077-b035-42e2-a1b4-f09af512b287</id>
       </comment>
     </pick>
     <pick publicID="smi:local/20191224.214939.13-S-CM.ORTC.00.HH">
@@ -2640,11 +2640,11 @@
       <evaluationMode>automatic</evaluationMode>
       <creationInfo>
         <author>EQTransformer</author>
-        <creationTime>2023-01-18T21:15:33.523331Z</creationTime>
+        <creationTime>2023-01-19T13:14:20.302664Z</creationTime>
       </creationInfo>
       <comment>
         <text>{"probability": 0.58, "GaMMA_probability": 7.70645104884309e-06, "snr": 8.5, "detection_probability": 0.98, "event_start_time": "2019-12-24 21:49:23.788393", "event_end_time": "2019-12-24 21:49:45.538393"}</text>
-        <id>smi:local/61ed4c33-635d-4d72-b688-c9d2e28c02a8</id>
+        <id>smi:local/6b6d868b-2c25-4791-a013-53a69fa401f4</id>
       </comment>
     </pick>
     <pick publicID="smi:local/20191224.214946.20-S-CM.CHI.00.HH">
@@ -2661,11 +2661,11 @@
       <evaluationMode>automatic</evaluationMode>
       <creationInfo>
         <author>EQTransformer</author>
-        <creationTime>2023-01-18T21:15:33.523890Z</creationTime>
+        <creationTime>2023-01-19T13:14:20.303113Z</creationTime>
       </creationInfo>
       <comment>
         <text>{"probability": 0.02, "GaMMA_probability": 3.2489015124753175e-06, "snr": 0.8, "detection_probability": 0.17, "event_start_time": "2019-12-24 21:49:25.718393", "event_end_time": "2019-12-24 21:49:53.828393"}</text>
-        <id>smi:local/5bdc3ba2-921e-4823-bece-5207507dd2de</id>
+        <id>smi:local/f7dc6dd7-34e7-4c16-84a8-48e6dade2a8a</id>
       </comment>
     </pick>
     <pick publicID="smi:local/20191224.220540.40-P-CM.URMC.00.HH">
@@ -2682,11 +2682,11 @@
       <evaluationMode>automatic</evaluationMode>
       <creationInfo>
         <author>EQTransformer</author>
-        <creationTime>2023-01-18T21:15:33.541356Z</creationTime>
+        <creationTime>2023-01-19T13:14:20.318485Z</creationTime>
       </creationInfo>
       <comment>
         <text>{"probability": 0.77, "GaMMA_probability": 1.965125602997957e-06, "snr": 36.1, "detection_probability": 0.47, "event_start_time": "2019-12-24 22:05:40.218393", "event_end_time": "2019-12-24 22:05:46.328393"}</text>
-        <id>smi:local/11939ae5-95e8-490d-985e-a113f1cebd34</id>
+        <id>smi:local/32bb993a-785c-4cc6-97cb-cde52279d05a</id>
       </comment>
     </pick>
     <pick publicID="smi:local/20191224.220544.57-S-CM.URMC.00.HH">
@@ -2703,11 +2703,11 @@
       <evaluationMode>automatic</evaluationMode>
       <creationInfo>
         <author>EQTransformer</author>
-        <creationTime>2023-01-18T21:15:33.542117Z</creationTime>
+        <creationTime>2023-01-19T13:14:20.319026Z</creationTime>
       </creationInfo>
       <comment>
         <text>{"probability": 0.22, "GaMMA_probability": 2.4283749093416853e-06, "snr": 7.1, "detection_probability": 0.47, "event_start_time": "2019-12-24 22:05:40.218393", "event_end_time": "2019-12-24 22:05:46.328393"}</text>
-        <id>smi:local/f5b64ada-2403-4cb2-8b6b-1bf97e04c4b2</id>
+        <id>smi:local/38309787-742c-42dd-8f7a-f8b5219776be</id>
       </comment>
     </pick>
     <pick publicID="smi:local/20191224.220555.89-P-CM.ORTC.00.HH">
@@ -2724,11 +2724,11 @@
       <evaluationMode>automatic</evaluationMode>
       <creationInfo>
         <author>EQTransformer</author>
-        <creationTime>2023-01-18T21:15:33.542746Z</creationTime>
+        <creationTime>2023-01-19T13:14:20.319525Z</creationTime>
       </creationInfo>
       <comment>
         <text>{"probability": 0.85, "GaMMA_probability": 8.232169860340049e-06, "snr": 20.6, "detection_probability": 0.98, "event_start_time": "2019-12-24 22:05:55.738393", "event_end_time": "2019-12-24 22:06:17.728393"}</text>
-        <id>smi:local/3c6f50e2-408b-4feb-b963-d58c45dc5b33</id>
+        <id>smi:local/ef4af580-27ff-4031-8349-e9744d33a6a5</id>
       </comment>
     </pick>
     <pick publicID="smi:local/20191224.220557.98-P-CM.CHI.00.HH">
@@ -2745,11 +2745,11 @@
       <evaluationMode>automatic</evaluationMode>
       <creationInfo>
         <author>EQTransformer</author>
-        <creationTime>2023-01-18T21:15:33.543440Z</creationTime>
+        <creationTime>2023-01-19T13:14:20.320042Z</creationTime>
       </creationInfo>
       <comment>
         <text>{"probability": 0.89, "GaMMA_probability": 1.083986087858577e-05, "snr": 23.8, "detection_probability": 0.95, "event_start_time": "2019-12-24 22:05:57.878393", "event_end_time": "2019-12-24 22:06:22.468393"}</text>
-        <id>smi:local/e5db0cd7-537f-4c6b-8e9f-b158348b2cab</id>
+        <id>smi:local/ab07346c-0a9d-4ae2-8e1e-ddb71ea1661d</id>
       </comment>
     </pick>
     <pick publicID="smi:local/20191224.220611.29-S-CM.ORTC.00.HH">
@@ -2766,11 +2766,11 @@
       <evaluationMode>automatic</evaluationMode>
       <creationInfo>
         <author>EQTransformer</author>
-        <creationTime>2023-01-18T21:15:33.543995Z</creationTime>
+        <creationTime>2023-01-19T13:14:20.320487Z</creationTime>
       </creationInfo>
       <comment>
         <text>{"probability": 0.51, "GaMMA_probability": 7.70645104884309e-06, "snr": 5.4, "detection_probability": 0.98, "event_start_time": "2019-12-24 22:05:55.738393", "event_end_time": "2019-12-24 22:06:17.728393"}</text>
-        <id>smi:local/4d67d29c-47b2-4aa0-9f21-9283e5da4178</id>
+        <id>smi:local/143fd6ee-76d5-49ea-9c3b-50d184dfee25</id>
       </comment>
     </pick>
     <pick publicID="smi:local/20191224.220614.37-S-CM.CHI.00.HH">
@@ -2787,11 +2787,11 @@
       <evaluationMode>automatic</evaluationMode>
       <creationInfo>
         <author>EQTransformer</author>
-        <creationTime>2023-01-18T21:15:33.544525Z</creationTime>
+        <creationTime>2023-01-19T13:14:20.320985Z</creationTime>
       </creationInfo>
       <comment>
         <text>{"probability": 0.29, "GaMMA_probability": 3.2489015124753175e-06, "snr": 2.8, "detection_probability": 0.95, "event_start_time": "2019-12-24 22:05:57.878393", "event_end_time": "2019-12-24 22:06:22.468393"}</text>
-        <id>smi:local/9d52fd98-17d2-4a87-a647-b03f4849c00a</id>
+        <id>smi:local/1754f27f-656d-4039-bc4d-c8fdda3c9570</id>
       </comment>
     </pick>
     <pick publicID="smi:local/20191224.222429.85-P-CM.URMC.00.HH">
@@ -2808,11 +2808,11 @@
       <evaluationMode>automatic</evaluationMode>
       <creationInfo>
         <author>EQTransformer</author>
-        <creationTime>2023-01-18T21:15:33.561223Z</creationTime>
+        <creationTime>2023-01-19T13:14:20.339353Z</creationTime>
       </creationInfo>
       <comment>
         <text>{"probability": 0.74, "GaMMA_probability": 1.965125602997957e-06, "snr": 21.2, "detection_probability": 0.9, "event_start_time": "2019-12-24 22:24:29.738393", "event_end_time": "2019-12-24 22:24:35.788393"}</text>
-        <id>smi:local/7112778c-220a-45f7-b50e-2e2ce2eed283</id>
+        <id>smi:local/e2408f12-4639-4aea-b2c3-c3c04485b7d9</id>
       </comment>
     </pick>
     <pick publicID="smi:local/20191224.222433.89-S-CM.URMC.00.HH">
@@ -2829,11 +2829,11 @@
       <evaluationMode>automatic</evaluationMode>
       <creationInfo>
         <author>EQTransformer</author>
-        <creationTime>2023-01-18T21:15:33.561847Z</creationTime>
+        <creationTime>2023-01-19T13:14:20.339953Z</creationTime>
       </creationInfo>
       <comment>
         <text>{"probability": 0.45, "GaMMA_probability": 2.4283749093416853e-06, "snr": 11.0, "detection_probability": 0.9, "event_start_time": "2019-12-24 22:24:29.738393", "event_end_time": "2019-12-24 22:24:35.788393"}</text>
-        <id>smi:local/45b6afca-8290-4a3b-9183-98f38eacc2a2</id>
+        <id>smi:local/f5795eae-90e6-4ebe-87cd-ae9b5d6ca3a6</id>
       </comment>
     </pick>
     <pick publicID="smi:local/20191224.222445.99-P-CM.ORTC.00.HH">
@@ -2850,11 +2850,11 @@
       <evaluationMode>automatic</evaluationMode>
       <creationInfo>
         <author>EQTransformer</author>
-        <creationTime>2023-01-18T21:15:33.562401Z</creationTime>
+        <creationTime>2023-01-19T13:14:20.340705Z</creationTime>
       </creationInfo>
       <comment>
         <text>{"probability": 0.88, "GaMMA_probability": 8.232169860340049e-06, "snr": 5.3, "detection_probability": 0.97, "event_start_time": "2019-12-24 22:24:45.898393", "event_end_time": "2019-12-24 22:25:14.788393"}</text>
-        <id>smi:local/fcd3fbca-c444-4440-bcaa-0b744ad23468</id>
+        <id>smi:local/0400e72a-fb8d-4613-8d65-2af6baa8f4e1</id>
       </comment>
     </pick>
     <pick publicID="smi:local/20191224.222448.98-P-CM.CHI.00.HH">
@@ -2871,11 +2871,11 @@
       <evaluationMode>automatic</evaluationMode>
       <creationInfo>
         <author>EQTransformer</author>
-        <creationTime>2023-01-18T21:15:33.562980Z</creationTime>
+        <creationTime>2023-01-19T13:14:20.341273Z</creationTime>
       </creationInfo>
       <comment>
         <text>{"probability": 0.4, "GaMMA_probability": 1.083986087858577e-05, "snr": 3.5, "detection_probability": 0.88, "event_start_time": "2019-12-24 22:24:47.908393", "event_end_time": "2019-12-24 22:25:13.018393"}</text>
-        <id>smi:local/9607127f-dadf-4864-8b3a-83bc36e6d6ba</id>
+        <id>smi:local/72e2209e-9473-4c0c-a07e-87296ebf6d33</id>
       </comment>
     </pick>
     <pick publicID="smi:local/20191224.222504.30-S-CM.CHI.00.HH">
@@ -2892,11 +2892,11 @@
       <evaluationMode>automatic</evaluationMode>
       <creationInfo>
         <author>EQTransformer</author>
-        <creationTime>2023-01-18T21:15:33.563581Z</creationTime>
+        <creationTime>2023-01-19T13:14:20.341812Z</creationTime>
       </creationInfo>
       <comment>
         <text>{"probability": 0.13, "GaMMA_probability": 7.70645104884309e-06, "snr": -0.9, "detection_probability": 0.88, "event_start_time": "2019-12-24 22:24:47.908393", "event_end_time": "2019-12-24 22:25:13.018393"}</text>
-        <id>smi:local/633f9d2a-29ea-4a19-b3fe-3a0fc74a8ff8</id>
+        <id>smi:local/f2363267-deef-4438-a099-2485ccae65b4</id>
       </comment>
     </pick>
     <pick publicID="smi:local/20191224.223336.63-P-CM.URMC.00.HH">
@@ -2913,11 +2913,11 @@
       <evaluationMode>automatic</evaluationMode>
       <creationInfo>
         <author>EQTransformer</author>
-        <creationTime>2023-01-18T21:15:33.581093Z</creationTime>
+        <creationTime>2023-01-19T13:14:20.359514Z</creationTime>
       </creationInfo>
       <comment>
         <text>{"probability": 0.8, "GaMMA_probability": 1.965125602997957e-06, "snr": 19.8, "detection_probability": 0.89, "event_start_time": "2019-12-24 22:33:36.528393", "event_end_time": "2019-12-24 22:33:42.188393"}</text>
-        <id>smi:local/9054556e-17b9-45a3-ba97-895b94dc0f4e</id>
+        <id>smi:local/9ea4948e-2810-4364-91b7-3df05d25c753</id>
       </comment>
     </pick>
     <pick publicID="smi:local/20191224.223340.44-S-CM.URMC.00.HH">
@@ -2934,11 +2934,11 @@
       <evaluationMode>automatic</evaluationMode>
       <creationInfo>
         <author>EQTransformer</author>
-        <creationTime>2023-01-18T21:15:33.581662Z</creationTime>
+        <creationTime>2023-01-19T13:14:20.360161Z</creationTime>
       </creationInfo>
       <comment>
         <text>{"probability": 0.54, "GaMMA_probability": 2.4283749093416853e-06, "snr": 15.2, "detection_probability": 0.89, "event_start_time": "2019-12-24 22:33:36.528393", "event_end_time": "2019-12-24 22:33:42.188393"}</text>
-        <id>smi:local/15a25be4-b58d-4b36-84c9-b48a49235368</id>
+        <id>smi:local/1bc89349-ff0e-4691-ac43-092d5ab48759</id>
       </comment>
     </pick>
     <pick publicID="smi:local/20191224.223352.02-P-CM.ORTC.00.HH">
@@ -2955,11 +2955,11 @@
       <evaluationMode>automatic</evaluationMode>
       <creationInfo>
         <author>EQTransformer</author>
-        <creationTime>2023-01-18T21:15:33.582225Z</creationTime>
+        <creationTime>2023-01-19T13:14:20.360728Z</creationTime>
       </creationInfo>
       <comment>
         <text>{"probability": 0.23, "GaMMA_probability": 8.232169860340049e-06, "snr": -7.8, "detection_probability": 0.79, "event_start_time": "2019-12-24 22:33:51.868393", "event_end_time": "2019-12-24 22:34:19.648393"}</text>
-        <id>smi:local/af42a17a-d829-4e8a-b6c1-f5267fabac78</id>
+        <id>smi:local/663de6af-4b7b-4d7f-af38-fccb30d6418a</id>
       </comment>
     </pick>
     <pick publicID="smi:local/20191224.223354.98-P-CM.CHI.00.HH">
@@ -2976,11 +2976,11 @@
       <evaluationMode>automatic</evaluationMode>
       <creationInfo>
         <author>EQTransformer</author>
-        <creationTime>2023-01-18T21:15:33.582824Z</creationTime>
+        <creationTime>2023-01-19T13:14:20.361278Z</creationTime>
       </creationInfo>
       <comment>
         <text>{"probability": 0.39, "GaMMA_probability": 1.083986087858577e-05, "snr": 4.7, "detection_probability": 0.85, "event_start_time": "2019-12-24 22:33:54.118393", "event_end_time": "2019-12-24 22:34:23.378393"}</text>
-        <id>smi:local/74987a22-74d8-48cf-aa07-1e83fb6389d4</id>
+        <id>smi:local/90c7e59e-2ea1-4e93-8e21-464d11dc6737</id>
       </comment>
     </pick>
     <pick publicID="smi:local/20191224.223407.74-S-CM.ORTC.00.HH">
@@ -2997,11 +2997,11 @@
       <evaluationMode>automatic</evaluationMode>
       <creationInfo>
         <author>EQTransformer</author>
-        <creationTime>2023-01-18T21:15:33.583385Z</creationTime>
+        <creationTime>2023-01-19T13:14:20.361758Z</creationTime>
       </creationInfo>
       <comment>
         <text>{"probability": 0.05, "GaMMA_probability": 7.70645104884309e-06, "snr": 12.2, "detection_probability": 0.79, "event_start_time": "2019-12-24 22:33:51.868393", "event_end_time": "2019-12-24 22:34:19.648393"}</text>
-        <id>smi:local/80353caa-5f65-44ca-9968-c4a6dabbb929</id>
+        <id>smi:local/84c1b5ef-97c2-4717-ab1e-52a9209c0b17</id>
       </comment>
     </pick>
     <pick publicID="smi:local/20191224.223412.58-S-CM.CHI.00.HH">
@@ -3018,11 +3018,11 @@
       <evaluationMode>automatic</evaluationMode>
       <creationInfo>
         <author>EQTransformer</author>
-        <creationTime>2023-01-18T21:15:33.583994Z</creationTime>
+        <creationTime>2023-01-19T13:14:20.362294Z</creationTime>
       </creationInfo>
       <comment>
         <text>{"probability": 0.02, "GaMMA_probability": 3.2489015124753175e-06, "snr": 1.8, "detection_probability": 0.85, "event_start_time": "2019-12-24 22:33:54.118393", "event_end_time": "2019-12-24 22:34:23.378393"}</text>
-        <id>smi:local/b9195cb2-0ddf-47eb-97bb-ad1fb9416297</id>
+        <id>smi:local/b8c86bc9-8fab-42f7-9f45-e35efc9a705f</id>
       </comment>
     </pick>
     <pick publicID="smi:local/20191224.224634.19-P-CM.URMC.00.HH">
@@ -3039,11 +3039,11 @@
       <evaluationMode>automatic</evaluationMode>
       <creationInfo>
         <author>EQTransformer</author>
-        <creationTime>2023-01-18T21:15:33.601078Z</creationTime>
+        <creationTime>2023-01-19T13:14:20.377971Z</creationTime>
       </creationInfo>
       <comment>
         <text>{"probability": 0.83, "GaMMA_probability": 1.965125602997957e-06, "snr": 15.5, "detection_probability": 0.91, "event_start_time": "2019-12-24 22:46:34.178393", "event_end_time": "2019-12-24 22:46:40.238393"}</text>
-        <id>smi:local/84b10be3-17ad-4f9f-a980-8769b9ad6a37</id>
+        <id>smi:local/78c07d46-f92c-4027-8e08-f2c49e41a6cd</id>
       </comment>
     </pick>
     <pick publicID="smi:local/20191224.224638.11-S-CM.URMC.00.HH">
@@ -3060,11 +3060,11 @@
       <evaluationMode>automatic</evaluationMode>
       <creationInfo>
         <author>EQTransformer</author>
-        <creationTime>2023-01-18T21:15:33.601805Z</creationTime>
+        <creationTime>2023-01-19T13:14:20.378710Z</creationTime>
       </creationInfo>
       <comment>
         <text>{"probability": 0.61, "GaMMA_probability": 2.4283749093416853e-06, "snr": 9.5, "detection_probability": 0.91, "event_start_time": "2019-12-24 22:46:34.178393", "event_end_time": "2019-12-24 22:46:40.238393"}</text>
-        <id>smi:local/82d7240d-dc30-4ac1-99ed-e92d5c6bdbe4</id>
+        <id>smi:local/a71e9d5b-da62-4fbd-a3b7-f25ca2513995</id>
       </comment>
     </pick>
     <pick publicID="smi:local/20191224.224649.34-P-CM.ORTC.00.HH">
@@ -3081,11 +3081,11 @@
       <evaluationMode>automatic</evaluationMode>
       <creationInfo>
         <author>EQTransformer</author>
-        <creationTime>2023-01-18T21:15:33.602659Z</creationTime>
+        <creationTime>2023-01-19T13:14:20.379357Z</creationTime>
       </creationInfo>
       <comment>
         <text>{"probability": 0.48, "GaMMA_probability": 8.232169860340049e-06, "snr": 7.9, "detection_probability": 0.87, "event_start_time": "2019-12-24 22:46:49.188393", "event_end_time": "2019-12-24 22:47:10.978393"}</text>
-        <id>smi:local/4e06eb20-fc89-4e04-a921-77a446d43d4e</id>
+        <id>smi:local/7dd3cb78-7d12-4aab-b282-5d9b1953dd53</id>
       </comment>
     </pick>
     <pick publicID="smi:local/20191224.224652.54-P-CM.CHI.00.HH">
@@ -3102,11 +3102,11 @@
       <evaluationMode>automatic</evaluationMode>
       <creationInfo>
         <author>EQTransformer</author>
-        <creationTime>2023-01-18T21:15:33.603361Z</creationTime>
+        <creationTime>2023-01-19T13:14:20.380058Z</creationTime>
       </creationInfo>
       <comment>
         <text>{"probability": 0.13, "GaMMA_probability": 1.083986087858577e-05, "snr": 3.9, "detection_probability": 0.12, "event_start_time": "2019-12-24 22:46:52.758393", "event_end_time": "2019-12-24 22:47:07.288393"}</text>
-        <id>smi:local/c0eef03c-af5d-4f7e-b477-d09614a6624e</id>
+        <id>smi:local/5bd311ab-ff6a-4b66-be72-f83b0be0bc1d</id>
       </comment>
     </pick>
     <pick publicID="smi:local/20191224.224704.63-S-CM.ORTC.00.HH">
@@ -3123,11 +3123,11 @@
       <evaluationMode>automatic</evaluationMode>
       <creationInfo>
         <author>EQTransformer</author>
-        <creationTime>2023-01-18T21:15:33.603997Z</creationTime>
+        <creationTime>2023-01-19T13:14:20.380723Z</creationTime>
       </creationInfo>
       <comment>
         <text>{"probability": 0.53, "GaMMA_probability": 7.70645104884309e-06, "snr": 3.6, "detection_probability": 0.87, "event_start_time": "2019-12-24 22:46:49.188393", "event_end_time": "2019-12-24 22:47:10.978393"}</text>
-        <id>smi:local/3b2145bb-c8ef-46bc-bc35-9b651793244b</id>
+        <id>smi:local/1c774123-25d2-401b-85b5-cff1178595c5</id>
       </comment>
     </pick>
     <pick publicID="smi:local/20191224.224743.69-P-CM.URMC.00.HH">
@@ -3144,11 +3144,11 @@
       <evaluationMode>automatic</evaluationMode>
       <creationInfo>
         <author>EQTransformer</author>
-        <creationTime>2023-01-18T21:15:33.620919Z</creationTime>
+        <creationTime>2023-01-19T13:14:20.396374Z</creationTime>
       </creationInfo>
       <comment>
         <text>{"probability": 0.69, "GaMMA_probability": 1.965125602997957e-06, "snr": 32.3, "detection_probability": 0.45, "event_start_time": "2019-12-24 22:47:43.548393", "event_end_time": "2019-12-24 22:47:49.288393"}</text>
-        <id>smi:local/17ec4165-541f-4bce-aae9-7ac3515725f5</id>
+        <id>smi:local/1f6c913c-e8b4-459b-969a-9536ad0e112c</id>
       </comment>
     </pick>
     <pick publicID="smi:local/20191224.224747.51-S-CM.URMC.00.HH">
@@ -3165,11 +3165,11 @@
       <evaluationMode>automatic</evaluationMode>
       <creationInfo>
         <author>EQTransformer</author>
-        <creationTime>2023-01-18T21:15:33.621514Z</creationTime>
+        <creationTime>2023-01-19T13:14:20.396988Z</creationTime>
       </creationInfo>
       <comment>
         <text>{"probability": 0.25, "GaMMA_probability": 2.4283749093416853e-06, "snr": 11.4, "detection_probability": 0.45, "event_start_time": "2019-12-24 22:47:43.548393", "event_end_time": "2019-12-24 22:47:49.288393"}</text>
-        <id>smi:local/c70dd46f-359e-4481-828a-865e5a3a0a35</id>
+        <id>smi:local/c8cec0c4-cb63-4de1-b534-06b48bae0a1c</id>
       </comment>
     </pick>
     <pick publicID="smi:local/20191224.224759.44-P-CM.ORTC.00.HH">
@@ -3186,11 +3186,11 @@
       <evaluationMode>automatic</evaluationMode>
       <creationInfo>
         <author>EQTransformer</author>
-        <creationTime>2023-01-18T21:15:33.622082Z</creationTime>
+        <creationTime>2023-01-19T13:14:20.397738Z</creationTime>
       </creationInfo>
       <comment>
         <text>{"probability": 0.27, "GaMMA_probability": 8.232169860340049e-06, "snr": 15.7, "detection_probability": 0.98, "event_start_time": "2019-12-24 22:47:59.338393", "event_end_time": "2019-12-24 22:48:27.438393"}</text>
-        <id>smi:local/a5ddf433-59ca-4af3-bef9-e7fb09bc0fa1</id>
+        <id>smi:local/7b967720-5de9-47a1-8000-e88b104b3d8f</id>
       </comment>
     </pick>
     <pick publicID="smi:local/20191224.224801.78-P-CM.CHI.00.HH">
@@ -3207,11 +3207,11 @@
       <evaluationMode>automatic</evaluationMode>
       <creationInfo>
         <author>EQTransformer</author>
-        <creationTime>2023-01-18T21:15:33.622687Z</creationTime>
+        <creationTime>2023-01-19T13:14:20.398301Z</creationTime>
       </creationInfo>
       <comment>
         <text>{"probability": 0.75, "GaMMA_probability": 1.083986087858577e-05, "snr": 19.2, "detection_probability": 0.97, "event_start_time": "2019-12-24 22:48:01.588393", "event_end_time": "2019-12-24 22:48:27.818393"}</text>
-        <id>smi:local/49062182-5a51-430e-be7a-d46d808d0dda</id>
+        <id>smi:local/a869e57a-3078-421a-9486-cf11413a8291</id>
       </comment>
     </pick>
     <pick publicID="smi:local/20191224.224818.92-S-CM.ORTC.00.HH">
@@ -3228,11 +3228,11 @@
       <evaluationMode>automatic</evaluationMode>
       <creationInfo>
         <author>EQTransformer</author>
-        <creationTime>2023-01-18T21:15:33.623314Z</creationTime>
+        <creationTime>2023-01-19T13:14:20.398823Z</creationTime>
       </creationInfo>
       <comment>
         <text>{"probability": 0.18, "GaMMA_probability": 7.70645104884309e-06, "snr": 9.7, "detection_probability": 0.98, "event_start_time": "2019-12-24 22:47:59.338393", "event_end_time": "2019-12-24 22:48:27.438393"}</text>
-        <id>smi:local/fae5c4b3-d4d2-43d0-aa53-cab1f8f7c5aa</id>
+        <id>smi:local/8eaea602-9c77-4383-b48c-4f7e5c6c0f4e</id>
       </comment>
     </pick>
     <pick publicID="smi:local/20191224.224820.06-S-CM.CHI.00.HH">
@@ -3249,11 +3249,11 @@
       <evaluationMode>automatic</evaluationMode>
       <creationInfo>
         <author>EQTransformer</author>
-        <creationTime>2023-01-18T21:15:33.623855Z</creationTime>
+        <creationTime>2023-01-19T13:14:20.399496Z</creationTime>
       </creationInfo>
       <comment>
         <text>{"probability": 0.31, "GaMMA_probability": 3.2489015124753175e-06, "snr": 5.5, "detection_probability": 0.97, "event_start_time": "2019-12-24 22:48:01.588393", "event_end_time": "2019-12-24 22:48:27.818393"}</text>
-        <id>smi:local/f3695fe5-f670-434b-a5ea-8fd61cde5cff</id>
+        <id>smi:local/4f05602f-9ff2-45dc-b12c-28b2a95a05b8</id>
       </comment>
     </pick>
     <origin publicID="smi:local/20191224.195635.090000">
@@ -3278,7 +3278,7 @@
       <evaluationStatus>preliminary</evaluationStatus>
       <creationInfo>
         <author>SeisMonitor</author>
-        <creationTime>2023-01-18T21:15:33.101641Z</creationTime>
+        <creationTime>2023-01-19T13:14:19.909054Z</creationTime>
       </creationInfo>
       <arrival>
         <pickID>smi:local/20191224.195640.49-P-CM.URMC.00.HH</pickID>
@@ -3287,7 +3287,7 @@
         <weight>0.79</weight>
         <creationInfo>
           <author>EQTransformer</author>
-          <creationTime>2023-01-18T21:15:33.085370Z</creationTime>
+          <creationTime>2023-01-19T13:14:19.892574Z</creationTime>
         </creationInfo>
       </arrival>
       <arrival>
@@ -3297,7 +3297,7 @@
         <weight>0.62</weight>
         <creationInfo>
           <author>EQTransformer</author>
-          <creationTime>2023-01-18T21:15:33.086039Z</creationTime>
+          <creationTime>2023-01-19T13:14:19.893296Z</creationTime>
         </creationInfo>
       </arrival>
       <arrival>
@@ -3307,7 +3307,7 @@
         <weight>0.65</weight>
         <creationInfo>
           <author>EQTransformer</author>
-          <creationTime>2023-01-18T21:15:33.086606Z</creationTime>
+          <creationTime>2023-01-19T13:14:19.893875Z</creationTime>
         </creationInfo>
       </arrival>
       <arrival>
@@ -3317,7 +3317,7 @@
         <weight>0.54</weight>
         <creationInfo>
           <author>EQTransformer</author>
-          <creationTime>2023-01-18T21:15:33.087244Z</creationTime>
+          <creationTime>2023-01-19T13:14:19.894431Z</creationTime>
         </creationInfo>
       </arrival>
       <arrival>
@@ -3327,7 +3327,7 @@
         <weight>0.04</weight>
         <creationInfo>
           <author>EQTransformer</author>
-          <creationTime>2023-01-18T21:15:33.087788Z</creationTime>
+          <creationTime>2023-01-19T13:14:19.895057Z</creationTime>
         </creationInfo>
       </arrival>
     </origin>
@@ -3353,7 +3353,7 @@
       <evaluationStatus>preliminary</evaluationStatus>
       <creationInfo>
         <author>SeisMonitor</author>
-        <creationTime>2023-01-18T21:15:33.120696Z</creationTime>
+        <creationTime>2023-01-19T13:14:19.927123Z</creationTime>
       </creationInfo>
       <arrival>
         <pickID>smi:local/20191224.191035.99-P-CM.ORTC.00.HH</pickID>
@@ -3362,7 +3362,7 @@
         <weight>0.92</weight>
         <creationInfo>
           <author>EQTransformer</author>
-          <creationTime>2023-01-18T21:15:33.104744Z</creationTime>
+          <creationTime>2023-01-19T13:14:19.911642Z</creationTime>
         </creationInfo>
       </arrival>
       <arrival>
@@ -3372,7 +3372,7 @@
         <weight>0.46</weight>
         <creationInfo>
           <author>EQTransformer</author>
-          <creationTime>2023-01-18T21:15:33.105360Z</creationTime>
+          <creationTime>2023-01-19T13:14:19.912339Z</creationTime>
         </creationInfo>
       </arrival>
       <arrival>
@@ -3382,7 +3382,7 @@
         <weight>0.18</weight>
         <creationInfo>
           <author>EQTransformer</author>
-          <creationTime>2023-01-18T21:15:33.105915Z</creationTime>
+          <creationTime>2023-01-19T13:14:19.913098Z</creationTime>
         </creationInfo>
       </arrival>
       <arrival>
@@ -3392,7 +3392,7 @@
         <weight>0.54</weight>
         <creationInfo>
           <author>EQTransformer</author>
-          <creationTime>2023-01-18T21:15:33.106486Z</creationTime>
+          <creationTime>2023-01-19T13:14:19.913602Z</creationTime>
         </creationInfo>
       </arrival>
       <arrival>
@@ -3402,7 +3402,7 @@
         <weight>0.46</weight>
         <creationInfo>
           <author>EQTransformer</author>
-          <creationTime>2023-01-18T21:15:33.107086Z</creationTime>
+          <creationTime>2023-01-19T13:14:19.914360Z</creationTime>
         </creationInfo>
       </arrival>
     </origin>
@@ -3428,7 +3428,7 @@
       <evaluationStatus>preliminary</evaluationStatus>
       <creationInfo>
         <author>SeisMonitor</author>
-        <creationTime>2023-01-18T21:15:33.140519Z</creationTime>
+        <creationTime>2023-01-19T13:14:19.947486Z</creationTime>
       </creationInfo>
       <arrival>
         <pickID>smi:local/20191224.193210.98-P-CM.ORTC.00.HH</pickID>
@@ -3437,7 +3437,7 @@
         <weight>0.72</weight>
         <creationInfo>
           <author>EQTransformer</author>
-          <creationTime>2023-01-18T21:15:33.123475Z</creationTime>
+          <creationTime>2023-01-19T13:14:19.930368Z</creationTime>
         </creationInfo>
       </arrival>
       <arrival>
@@ -3447,7 +3447,7 @@
         <weight>0.1</weight>
         <creationInfo>
           <author>EQTransformer</author>
-          <creationTime>2023-01-18T21:15:33.124120Z</creationTime>
+          <creationTime>2023-01-19T13:14:19.930969Z</creationTime>
         </creationInfo>
       </arrival>
       <arrival>
@@ -3457,7 +3457,7 @@
         <weight>0.49</weight>
         <creationInfo>
           <author>EQTransformer</author>
-          <creationTime>2023-01-18T21:15:33.124689Z</creationTime>
+          <creationTime>2023-01-19T13:14:19.931528Z</creationTime>
         </creationInfo>
       </arrival>
       <arrival>
@@ -3467,7 +3467,7 @@
         <weight>0.06</weight>
         <creationInfo>
           <author>EQTransformer</author>
-          <creationTime>2023-01-18T21:15:33.125247Z</creationTime>
+          <creationTime>2023-01-19T13:14:19.932322Z</creationTime>
         </creationInfo>
       </arrival>
       <arrival>
@@ -3477,7 +3477,7 @@
         <weight>0.35</weight>
         <creationInfo>
           <author>EQTransformer</author>
-          <creationTime>2023-01-18T21:15:33.125791Z</creationTime>
+          <creationTime>2023-01-19T13:14:19.932829Z</creationTime>
         </creationInfo>
       </arrival>
     </origin>
@@ -3503,7 +3503,7 @@
       <evaluationStatus>preliminary</evaluationStatus>
       <creationInfo>
         <author>SeisMonitor</author>
-        <creationTime>2023-01-18T21:15:33.159530Z</creationTime>
+        <creationTime>2023-01-19T13:14:19.967562Z</creationTime>
       </creationInfo>
       <arrival>
         <pickID>smi:local/20191224.192527.94-P-CM.URMC.00.HH</pickID>
@@ -3512,7 +3512,7 @@
         <weight>0.78</weight>
         <creationInfo>
           <author>EQTransformer</author>
-          <creationTime>2023-01-18T21:15:33.143415Z</creationTime>
+          <creationTime>2023-01-19T13:14:19.950264Z</creationTime>
         </creationInfo>
       </arrival>
       <arrival>
@@ -3522,7 +3522,7 @@
         <weight>0.29</weight>
         <creationInfo>
           <author>EQTransformer</author>
-          <creationTime>2023-01-18T21:15:33.143963Z</creationTime>
+          <creationTime>2023-01-19T13:14:19.950839Z</creationTime>
         </creationInfo>
       </arrival>
       <arrival>
@@ -3532,7 +3532,7 @@
         <weight>0.72</weight>
         <creationInfo>
           <author>EQTransformer</author>
-          <creationTime>2023-01-18T21:15:33.144508Z</creationTime>
+          <creationTime>2023-01-19T13:14:19.951717Z</creationTime>
         </creationInfo>
       </arrival>
       <arrival>
@@ -3542,7 +3542,7 @@
         <weight>0.07</weight>
         <creationInfo>
           <author>EQTransformer</author>
-          <creationTime>2023-01-18T21:15:33.145017Z</creationTime>
+          <creationTime>2023-01-19T13:14:19.952353Z</creationTime>
         </creationInfo>
       </arrival>
       <arrival>
@@ -3552,7 +3552,7 @@
         <weight>0.45</weight>
         <creationInfo>
           <author>EQTransformer</author>
-          <creationTime>2023-01-18T21:15:33.145549Z</creationTime>
+          <creationTime>2023-01-19T13:14:19.952814Z</creationTime>
         </creationInfo>
       </arrival>
     </origin>
@@ -3578,7 +3578,7 @@
       <evaluationStatus>preliminary</evaluationStatus>
       <creationInfo>
         <author>SeisMonitor</author>
-        <creationTime>2023-01-18T21:15:33.178960Z</creationTime>
+        <creationTime>2023-01-19T13:14:19.985159Z</creationTime>
       </creationInfo>
       <arrival>
         <pickID>smi:local/20191224.194322.63-P-CM.URMC.00.HH</pickID>
@@ -3587,7 +3587,7 @@
         <weight>0.7</weight>
         <creationInfo>
           <author>EQTransformer</author>
-          <creationTime>2023-01-18T21:15:33.162117Z</creationTime>
+          <creationTime>2023-01-19T13:14:19.970153Z</creationTime>
         </creationInfo>
       </arrival>
       <arrival>
@@ -3597,7 +3597,7 @@
         <weight>0.23</weight>
         <creationInfo>
           <author>EQTransformer</author>
-          <creationTime>2023-01-18T21:15:33.162859Z</creationTime>
+          <creationTime>2023-01-19T13:14:19.970709Z</creationTime>
         </creationInfo>
       </arrival>
       <arrival>
@@ -3607,7 +3607,7 @@
         <weight>0.36</weight>
         <creationInfo>
           <author>EQTransformer</author>
-          <creationTime>2023-01-18T21:15:33.163423Z</creationTime>
+          <creationTime>2023-01-19T13:14:19.971166Z</creationTime>
         </creationInfo>
       </arrival>
       <arrival>
@@ -3617,7 +3617,7 @@
         <weight>0.28</weight>
         <creationInfo>
           <author>EQTransformer</author>
-          <creationTime>2023-01-18T21:15:33.164002Z</creationTime>
+          <creationTime>2023-01-19T13:14:19.971688Z</creationTime>
         </creationInfo>
       </arrival>
       <arrival>
@@ -3627,7 +3627,7 @@
         <weight>0.19</weight>
         <creationInfo>
           <author>EQTransformer</author>
-          <creationTime>2023-01-18T21:15:33.164621Z</creationTime>
+          <creationTime>2023-01-19T13:14:19.972195Z</creationTime>
         </creationInfo>
       </arrival>
     </origin>
@@ -3653,7 +3653,7 @@
       <evaluationStatus>preliminary</evaluationStatus>
       <creationInfo>
         <author>SeisMonitor</author>
-        <creationTime>2023-01-18T21:15:33.198211Z</creationTime>
+        <creationTime>2023-01-19T13:14:20.004226Z</creationTime>
       </creationInfo>
       <arrival>
         <pickID>smi:local/20191224.200952.91-P-CM.URMC.00.HH</pickID>
@@ -3662,7 +3662,7 @@
         <weight>0.52</weight>
         <creationInfo>
           <author>EQTransformer</author>
-          <creationTime>2023-01-18T21:15:33.181493Z</creationTime>
+          <creationTime>2023-01-19T13:14:19.987275Z</creationTime>
         </creationInfo>
       </arrival>
       <arrival>
@@ -3672,7 +3672,7 @@
         <weight>0.3</weight>
         <creationInfo>
           <author>EQTransformer</author>
-          <creationTime>2023-01-18T21:15:33.182041Z</creationTime>
+          <creationTime>2023-01-19T13:14:19.987783Z</creationTime>
         </creationInfo>
       </arrival>
       <arrival>
@@ -3682,7 +3682,7 @@
         <weight>0.52</weight>
         <creationInfo>
           <author>EQTransformer</author>
-          <creationTime>2023-01-18T21:15:33.182627Z</creationTime>
+          <creationTime>2023-01-19T13:14:19.988347Z</creationTime>
         </creationInfo>
       </arrival>
       <arrival>
@@ -3692,7 +3692,7 @@
         <weight>0.74</weight>
         <creationInfo>
           <author>EQTransformer</author>
-          <creationTime>2023-01-18T21:15:33.183185Z</creationTime>
+          <creationTime>2023-01-19T13:14:19.989247Z</creationTime>
         </creationInfo>
       </arrival>
       <arrival>
@@ -3702,7 +3702,7 @@
         <weight>0.55</weight>
         <creationInfo>
           <author>EQTransformer</author>
-          <creationTime>2023-01-18T21:15:33.183732Z</creationTime>
+          <creationTime>2023-01-19T13:14:19.989799Z</creationTime>
         </creationInfo>
       </arrival>
       <arrival>
@@ -3712,7 +3712,7 @@
         <weight>0.17</weight>
         <creationInfo>
           <author>EQTransformer</author>
-          <creationTime>2023-01-18T21:15:33.184282Z</creationTime>
+          <creationTime>2023-01-19T13:14:19.990335Z</creationTime>
         </creationInfo>
       </arrival>
     </origin>
@@ -3738,7 +3738,7 @@
       <evaluationStatus>preliminary</evaluationStatus>
       <creationInfo>
         <author>SeisMonitor</author>
-        <creationTime>2023-01-18T21:15:33.218613Z</creationTime>
+        <creationTime>2023-01-19T13:14:20.023441Z</creationTime>
       </creationInfo>
       <arrival>
         <pickID>smi:local/20191224.195851.63-P-CM.URMC.00.HH</pickID>
@@ -3747,7 +3747,7 @@
         <weight>0.84</weight>
         <creationInfo>
           <author>EQTransformer</author>
-          <creationTime>2023-01-18T21:15:33.201025Z</creationTime>
+          <creationTime>2023-01-19T13:14:20.006569Z</creationTime>
         </creationInfo>
       </arrival>
       <arrival>
@@ -3757,7 +3757,7 @@
         <weight>0.47</weight>
         <creationInfo>
           <author>EQTransformer</author>
-          <creationTime>2023-01-18T21:15:33.201572Z</creationTime>
+          <creationTime>2023-01-19T13:14:20.007187Z</creationTime>
         </creationInfo>
       </arrival>
       <arrival>
@@ -3767,7 +3767,7 @@
         <weight>0.73</weight>
         <creationInfo>
           <author>EQTransformer</author>
-          <creationTime>2023-01-18T21:15:33.202162Z</creationTime>
+          <creationTime>2023-01-19T13:14:20.007672Z</creationTime>
         </creationInfo>
       </arrival>
       <arrival>
@@ -3777,7 +3777,7 @@
         <weight>0.52</weight>
         <creationInfo>
           <author>EQTransformer</author>
-          <creationTime>2023-01-18T21:15:33.202914Z</creationTime>
+          <creationTime>2023-01-19T13:14:20.008206Z</creationTime>
         </creationInfo>
       </arrival>
       <arrival>
@@ -3787,7 +3787,7 @@
         <weight>0.51</weight>
         <creationInfo>
           <author>EQTransformer</author>
-          <creationTime>2023-01-18T21:15:33.203482Z</creationTime>
+          <creationTime>2023-01-19T13:14:20.008766Z</creationTime>
         </creationInfo>
       </arrival>
       <arrival>
@@ -3797,7 +3797,7 @@
         <weight>0.18</weight>
         <creationInfo>
           <author>EQTransformer</author>
-          <creationTime>2023-01-18T21:15:33.204034Z</creationTime>
+          <creationTime>2023-01-19T13:14:20.009243Z</creationTime>
         </creationInfo>
       </arrival>
     </origin>
@@ -3823,7 +3823,7 @@
       <evaluationStatus>preliminary</evaluationStatus>
       <creationInfo>
         <author>SeisMonitor</author>
-        <creationTime>2023-01-18T21:15:33.238038Z</creationTime>
+        <creationTime>2023-01-19T13:14:20.042768Z</creationTime>
       </creationInfo>
       <arrival>
         <pickID>smi:local/20191224.194956.20-P-CM.ORTC.00.HH</pickID>
@@ -3832,7 +3832,7 @@
         <weight>0.65</weight>
         <creationInfo>
           <author>EQTransformer</author>
-          <creationTime>2023-01-18T21:15:33.221395Z</creationTime>
+          <creationTime>2023-01-19T13:14:20.025815Z</creationTime>
         </creationInfo>
       </arrival>
       <arrival>
@@ -3842,7 +3842,7 @@
         <weight>0.61</weight>
         <creationInfo>
           <author>EQTransformer</author>
-          <creationTime>2023-01-18T21:15:33.221980Z</creationTime>
+          <creationTime>2023-01-19T13:14:20.026364Z</creationTime>
         </creationInfo>
       </arrival>
       <arrival>
@@ -3852,7 +3852,7 @@
         <weight>0.67</weight>
         <creationInfo>
           <author>EQTransformer</author>
-          <creationTime>2023-01-18T21:15:33.222695Z</creationTime>
+          <creationTime>2023-01-19T13:14:20.026841Z</creationTime>
         </creationInfo>
       </arrival>
       <arrival>
@@ -3862,7 +3862,7 @@
         <weight>0.19</weight>
         <creationInfo>
           <author>EQTransformer</author>
-          <creationTime>2023-01-18T21:15:33.223207Z</creationTime>
+          <creationTime>2023-01-19T13:14:20.027416Z</creationTime>
         </creationInfo>
       </arrival>
       <arrival>
@@ -3872,7 +3872,7 @@
         <weight>0.4</weight>
         <creationInfo>
           <author>EQTransformer</author>
-          <creationTime>2023-01-18T21:15:33.223854Z</creationTime>
+          <creationTime>2023-01-19T13:14:20.028003Z</creationTime>
         </creationInfo>
       </arrival>
     </origin>
@@ -3898,7 +3898,7 @@
       <evaluationStatus>preliminary</evaluationStatus>
       <creationInfo>
         <author>SeisMonitor</author>
-        <creationTime>2023-01-18T21:15:33.258023Z</creationTime>
+        <creationTime>2023-01-19T13:14:20.061234Z</creationTime>
       </creationInfo>
       <arrival>
         <pickID>smi:local/20191224.194815.19-P-CM.URMC.00.HH</pickID>
@@ -3907,7 +3907,7 @@
         <weight>0.34</weight>
         <creationInfo>
           <author>EQTransformer</author>
-          <creationTime>2023-01-18T21:15:33.240810Z</creationTime>
+          <creationTime>2023-01-19T13:14:20.045457Z</creationTime>
         </creationInfo>
       </arrival>
       <arrival>
@@ -3917,7 +3917,7 @@
         <weight>0.64</weight>
         <creationInfo>
           <author>EQTransformer</author>
-          <creationTime>2023-01-18T21:15:33.241404Z</creationTime>
+          <creationTime>2023-01-19T13:14:20.046067Z</creationTime>
         </creationInfo>
       </arrival>
       <arrival>
@@ -3927,7 +3927,7 @@
         <weight>0.68</weight>
         <creationInfo>
           <author>EQTransformer</author>
-          <creationTime>2023-01-18T21:15:33.241971Z</creationTime>
+          <creationTime>2023-01-19T13:14:20.046580Z</creationTime>
         </creationInfo>
       </arrival>
       <arrival>
@@ -3937,7 +3937,7 @@
         <weight>0.46</weight>
         <creationInfo>
           <author>EQTransformer</author>
-          <creationTime>2023-01-18T21:15:33.242544Z</creationTime>
+          <creationTime>2023-01-19T13:14:20.047094Z</creationTime>
         </creationInfo>
       </arrival>
       <arrival>
@@ -3947,7 +3947,7 @@
         <weight>0.6</weight>
         <creationInfo>
           <author>EQTransformer</author>
-          <creationTime>2023-01-18T21:15:33.243143Z</creationTime>
+          <creationTime>2023-01-19T13:14:20.047653Z</creationTime>
         </creationInfo>
       </arrival>
       <arrival>
@@ -3957,7 +3957,7 @@
         <weight>0.24</weight>
         <creationInfo>
           <author>EQTransformer</author>
-          <creationTime>2023-01-18T21:15:33.243657Z</creationTime>
+          <creationTime>2023-01-19T13:14:20.048147Z</creationTime>
         </creationInfo>
       </arrival>
     </origin>
@@ -3983,7 +3983,7 @@
       <evaluationStatus>preliminary</evaluationStatus>
       <creationInfo>
         <author>SeisMonitor</author>
-        <creationTime>2023-01-18T21:15:33.278301Z</creationTime>
+        <creationTime>2023-01-19T13:14:20.079215Z</creationTime>
       </creationInfo>
       <arrival>
         <pickID>smi:local/20191224.200311.11-P-CM.URMC.00.HH</pickID>
@@ -3992,7 +3992,7 @@
         <weight>0.76</weight>
         <creationInfo>
           <author>EQTransformer</author>
-          <creationTime>2023-01-18T21:15:33.260959Z</creationTime>
+          <creationTime>2023-01-19T13:14:20.063557Z</creationTime>
         </creationInfo>
       </arrival>
       <arrival>
@@ -4002,7 +4002,7 @@
         <weight>0.49</weight>
         <creationInfo>
           <author>EQTransformer</author>
-          <creationTime>2023-01-18T21:15:33.261575Z</creationTime>
+          <creationTime>2023-01-19T13:14:20.064075Z</creationTime>
         </creationInfo>
       </arrival>
       <arrival>
@@ -4012,7 +4012,7 @@
         <weight>0.16</weight>
         <creationInfo>
           <author>EQTransformer</author>
-          <creationTime>2023-01-18T21:15:33.262106Z</creationTime>
+          <creationTime>2023-01-19T13:14:20.064638Z</creationTime>
         </creationInfo>
       </arrival>
       <arrival>
@@ -4022,7 +4022,7 @@
         <weight>0.34</weight>
         <creationInfo>
           <author>EQTransformer</author>
-          <creationTime>2023-01-18T21:15:33.262698Z</creationTime>
+          <creationTime>2023-01-19T13:14:20.065281Z</creationTime>
         </creationInfo>
       </arrival>
       <arrival>
@@ -4032,7 +4032,7 @@
         <weight>0.26</weight>
         <creationInfo>
           <author>EQTransformer</author>
-          <creationTime>2023-01-18T21:15:33.263262Z</creationTime>
+          <creationTime>2023-01-19T13:14:20.065741Z</creationTime>
         </creationInfo>
       </arrival>
       <arrival>
@@ -4042,7 +4042,7 @@
         <weight>0.38</weight>
         <creationInfo>
           <author>EQTransformer</author>
-          <creationTime>2023-01-18T21:15:33.263847Z</creationTime>
+          <creationTime>2023-01-19T13:14:20.066222Z</creationTime>
         </creationInfo>
       </arrival>
     </origin>
@@ -4068,7 +4068,7 @@
       <evaluationStatus>preliminary</evaluationStatus>
       <creationInfo>
         <author>SeisMonitor</author>
-        <creationTime>2023-01-18T21:15:33.298208Z</creationTime>
+        <creationTime>2023-01-19T13:14:20.097185Z</creationTime>
       </creationInfo>
       <arrival>
         <pickID>smi:local/20191224.201119.38-P-CM.URMC.00.HH</pickID>
@@ -4077,7 +4077,7 @@
         <weight>0.1</weight>
         <creationInfo>
           <author>EQTransformer</author>
-          <creationTime>2023-01-18T21:15:33.280991Z</creationTime>
+          <creationTime>2023-01-19T13:14:20.081754Z</creationTime>
         </creationInfo>
       </arrival>
       <arrival>
@@ -4087,7 +4087,7 @@
         <weight>0.06</weight>
         <creationInfo>
           <author>EQTransformer</author>
-          <creationTime>2023-01-18T21:15:33.281595Z</creationTime>
+          <creationTime>2023-01-19T13:14:20.082497Z</creationTime>
         </creationInfo>
       </arrival>
       <arrival>
@@ -4097,7 +4097,7 @@
         <weight>0.84</weight>
         <creationInfo>
           <author>EQTransformer</author>
-          <creationTime>2023-01-18T21:15:33.282159Z</creationTime>
+          <creationTime>2023-01-19T13:14:20.083066Z</creationTime>
         </creationInfo>
       </arrival>
       <arrival>
@@ -4107,7 +4107,7 @@
         <weight>0.75</weight>
         <creationInfo>
           <author>EQTransformer</author>
-          <creationTime>2023-01-18T21:15:33.282746Z</creationTime>
+          <creationTime>2023-01-19T13:14:20.083524Z</creationTime>
         </creationInfo>
       </arrival>
       <arrival>
@@ -4117,7 +4117,7 @@
         <weight>0.03</weight>
         <creationInfo>
           <author>EQTransformer</author>
-          <creationTime>2023-01-18T21:15:33.283388Z</creationTime>
+          <creationTime>2023-01-19T13:14:20.084021Z</creationTime>
         </creationInfo>
       </arrival>
       <arrival>
@@ -4127,7 +4127,7 @@
         <weight>0.28</weight>
         <creationInfo>
           <author>EQTransformer</author>
-          <creationTime>2023-01-18T21:15:33.283939Z</creationTime>
+          <creationTime>2023-01-19T13:14:20.084523Z</creationTime>
         </creationInfo>
       </arrival>
     </origin>
@@ -4153,7 +4153,7 @@
       <evaluationStatus>preliminary</evaluationStatus>
       <creationInfo>
         <author>SeisMonitor</author>
-        <creationTime>2023-01-18T21:15:33.318690Z</creationTime>
+        <creationTime>2023-01-19T13:14:20.116889Z</creationTime>
       </creationInfo>
       <arrival>
         <pickID>smi:local/20191224.201327.49-P-CM.URMC.00.HH</pickID>
@@ -4162,7 +4162,7 @@
         <weight>0.8</weight>
         <creationInfo>
           <author>EQTransformer</author>
-          <creationTime>2023-01-18T21:15:33.300873Z</creationTime>
+          <creationTime>2023-01-19T13:14:20.099842Z</creationTime>
         </creationInfo>
       </arrival>
       <arrival>
@@ -4172,7 +4172,7 @@
         <weight>0.45</weight>
         <creationInfo>
           <author>EQTransformer</author>
-          <creationTime>2023-01-18T21:15:33.301465Z</creationTime>
+          <creationTime>2023-01-19T13:14:20.100418Z</creationTime>
         </creationInfo>
       </arrival>
       <arrival>
@@ -4182,7 +4182,7 @@
         <weight>0.6</weight>
         <creationInfo>
           <author>EQTransformer</author>
-          <creationTime>2023-01-18T21:15:33.302033Z</creationTime>
+          <creationTime>2023-01-19T13:14:20.100877Z</creationTime>
         </creationInfo>
       </arrival>
       <arrival>
@@ -4192,7 +4192,7 @@
         <weight>0.52</weight>
         <creationInfo>
           <author>EQTransformer</author>
-          <creationTime>2023-01-18T21:15:33.302713Z</creationTime>
+          <creationTime>2023-01-19T13:14:20.101371Z</creationTime>
         </creationInfo>
       </arrival>
       <arrival>
@@ -4202,7 +4202,7 @@
         <weight>0.42</weight>
         <creationInfo>
           <author>EQTransformer</author>
-          <creationTime>2023-01-18T21:15:33.303316Z</creationTime>
+          <creationTime>2023-01-19T13:14:20.101846Z</creationTime>
         </creationInfo>
       </arrival>
       <arrival>
@@ -4212,7 +4212,7 @@
         <weight>0.49</weight>
         <creationInfo>
           <author>EQTransformer</author>
-          <creationTime>2023-01-18T21:15:33.303837Z</creationTime>
+          <creationTime>2023-01-19T13:14:20.102326Z</creationTime>
         </creationInfo>
       </arrival>
     </origin>
@@ -4238,7 +4238,7 @@
       <evaluationStatus>preliminary</evaluationStatus>
       <creationInfo>
         <author>SeisMonitor</author>
-        <creationTime>2023-01-18T21:15:33.338125Z</creationTime>
+        <creationTime>2023-01-19T13:14:20.134577Z</creationTime>
       </creationInfo>
       <arrival>
         <pickID>smi:local/20191224.202331.40-P-CM.URMC.00.HH</pickID>
@@ -4247,7 +4247,7 @@
         <weight>0.27</weight>
         <creationInfo>
           <author>EQTransformer</author>
-          <creationTime>2023-01-18T21:15:33.321795Z</creationTime>
+          <creationTime>2023-01-19T13:14:20.119284Z</creationTime>
         </creationInfo>
       </arrival>
       <arrival>
@@ -4257,7 +4257,7 @@
         <weight>0.62</weight>
         <creationInfo>
           <author>EQTransformer</author>
-          <creationTime>2023-01-18T21:15:33.322424Z</creationTime>
+          <creationTime>2023-01-19T13:14:20.119821Z</creationTime>
         </creationInfo>
       </arrival>
       <arrival>
@@ -4267,7 +4267,7 @@
         <weight>0.55</weight>
         <creationInfo>
           <author>EQTransformer</author>
-          <creationTime>2023-01-18T21:15:33.323063Z</creationTime>
+          <creationTime>2023-01-19T13:14:20.120441Z</creationTime>
         </creationInfo>
       </arrival>
       <arrival>
@@ -4277,7 +4277,7 @@
         <weight>0.11</weight>
         <creationInfo>
           <author>EQTransformer</author>
-          <creationTime>2023-01-18T21:15:33.323572Z</creationTime>
+          <creationTime>2023-01-19T13:14:20.120961Z</creationTime>
         </creationInfo>
       </arrival>
       <arrival>
@@ -4287,7 +4287,7 @@
         <weight>0.17</weight>
         <creationInfo>
           <author>EQTransformer</author>
-          <creationTime>2023-01-18T21:15:33.324131Z</creationTime>
+          <creationTime>2023-01-19T13:14:20.121411Z</creationTime>
         </creationInfo>
       </arrival>
     </origin>
@@ -4313,7 +4313,7 @@
       <evaluationStatus>preliminary</evaluationStatus>
       <creationInfo>
         <author>SeisMonitor</author>
-        <creationTime>2023-01-18T21:15:33.357966Z</creationTime>
+        <creationTime>2023-01-19T13:14:20.152598Z</creationTime>
       </creationInfo>
       <arrival>
         <pickID>smi:local/20191224.203216.25-P-CM.URMC.00.HH</pickID>
@@ -4322,7 +4322,7 @@
         <weight>0.72</weight>
         <creationInfo>
           <author>EQTransformer</author>
-          <creationTime>2023-01-18T21:15:33.341177Z</creationTime>
+          <creationTime>2023-01-19T13:14:20.136819Z</creationTime>
         </creationInfo>
       </arrival>
       <arrival>
@@ -4332,7 +4332,7 @@
         <weight>0.15</weight>
         <creationInfo>
           <author>EQTransformer</author>
-          <creationTime>2023-01-18T21:15:33.341807Z</creationTime>
+          <creationTime>2023-01-19T13:14:20.137301Z</creationTime>
         </creationInfo>
       </arrival>
       <arrival>
@@ -4342,7 +4342,7 @@
         <weight>0.86</weight>
         <creationInfo>
           <author>EQTransformer</author>
-          <creationTime>2023-01-18T21:15:33.342402Z</creationTime>
+          <creationTime>2023-01-19T13:14:20.137903Z</creationTime>
         </creationInfo>
       </arrival>
       <arrival>
@@ -4352,7 +4352,7 @@
         <weight>0.9</weight>
         <creationInfo>
           <author>EQTransformer</author>
-          <creationTime>2023-01-18T21:15:33.342987Z</creationTime>
+          <creationTime>2023-01-19T13:14:20.138354Z</creationTime>
         </creationInfo>
       </arrival>
       <arrival>
@@ -4362,7 +4362,7 @@
         <weight>0.47</weight>
         <creationInfo>
           <author>EQTransformer</author>
-          <creationTime>2023-01-18T21:15:33.343532Z</creationTime>
+          <creationTime>2023-01-19T13:14:20.138996Z</creationTime>
         </creationInfo>
       </arrival>
       <arrival>
@@ -4372,7 +4372,7 @@
         <weight>0.02</weight>
         <creationInfo>
           <author>EQTransformer</author>
-          <creationTime>2023-01-18T21:15:33.344061Z</creationTime>
+          <creationTime>2023-01-19T13:14:20.139566Z</creationTime>
         </creationInfo>
       </arrival>
     </origin>
@@ -4398,7 +4398,7 @@
       <evaluationStatus>preliminary</evaluationStatus>
       <creationInfo>
         <author>SeisMonitor</author>
-        <creationTime>2023-01-18T21:15:33.378149Z</creationTime>
+        <creationTime>2023-01-19T13:14:20.172456Z</creationTime>
       </creationInfo>
       <arrival>
         <pickID>smi:local/20191224.203917.61-P-CM.URMC.00.HH</pickID>
@@ -4407,7 +4407,7 @@
         <weight>0.07</weight>
         <creationInfo>
           <author>EQTransformer</author>
-          <creationTime>2023-01-18T21:15:33.360908Z</creationTime>
+          <creationTime>2023-01-19T13:14:20.155003Z</creationTime>
         </creationInfo>
       </arrival>
       <arrival>
@@ -4417,7 +4417,7 @@
         <weight>0.06</weight>
         <creationInfo>
           <author>EQTransformer</author>
-          <creationTime>2023-01-18T21:15:33.361451Z</creationTime>
+          <creationTime>2023-01-19T13:14:20.155877Z</creationTime>
         </creationInfo>
       </arrival>
       <arrival>
@@ -4427,7 +4427,7 @@
         <weight>0.16</weight>
         <creationInfo>
           <author>EQTransformer</author>
-          <creationTime>2023-01-18T21:15:33.362000Z</creationTime>
+          <creationTime>2023-01-19T13:14:20.156854Z</creationTime>
         </creationInfo>
       </arrival>
       <arrival>
@@ -4437,7 +4437,7 @@
         <weight>0.02</weight>
         <creationInfo>
           <author>EQTransformer</author>
-          <creationTime>2023-01-18T21:15:33.362581Z</creationTime>
+          <creationTime>2023-01-19T13:14:20.157765Z</creationTime>
         </creationInfo>
       </arrival>
       <arrival>
@@ -4447,7 +4447,7 @@
         <weight>0.46</weight>
         <creationInfo>
           <author>EQTransformer</author>
-          <creationTime>2023-01-18T21:15:33.363127Z</creationTime>
+          <creationTime>2023-01-19T13:14:20.158524Z</creationTime>
         </creationInfo>
       </arrival>
       <arrival>
@@ -4457,7 +4457,7 @@
         <weight>0.02</weight>
         <creationInfo>
           <author>EQTransformer</author>
-          <creationTime>2023-01-18T21:15:33.363666Z</creationTime>
+          <creationTime>2023-01-19T13:14:20.159196Z</creationTime>
         </creationInfo>
       </arrival>
     </origin>
@@ -4483,7 +4483,7 @@
       <evaluationStatus>preliminary</evaluationStatus>
       <creationInfo>
         <author>SeisMonitor</author>
-        <creationTime>2023-01-18T21:15:33.397245Z</creationTime>
+        <creationTime>2023-01-19T13:14:20.189921Z</creationTime>
       </creationInfo>
       <arrival>
         <pickID>smi:local/20191224.205041.80-P-CM.URMC.00.HH</pickID>
@@ -4492,7 +4492,7 @@
         <weight>0.22</weight>
         <creationInfo>
           <author>EQTransformer</author>
-          <creationTime>2023-01-18T21:15:33.380713Z</creationTime>
+          <creationTime>2023-01-19T13:14:20.174644Z</creationTime>
         </creationInfo>
       </arrival>
       <arrival>
@@ -4502,7 +4502,7 @@
         <weight>0.13</weight>
         <creationInfo>
           <author>EQTransformer</author>
-          <creationTime>2023-01-18T21:15:33.381328Z</creationTime>
+          <creationTime>2023-01-19T13:14:20.175728Z</creationTime>
         </creationInfo>
       </arrival>
       <arrival>
@@ -4512,7 +4512,7 @@
         <weight>0.36</weight>
         <creationInfo>
           <author>EQTransformer</author>
-          <creationTime>2023-01-18T21:15:33.381955Z</creationTime>
+          <creationTime>2023-01-19T13:14:20.176257Z</creationTime>
         </creationInfo>
       </arrival>
       <arrival>
@@ -4522,7 +4522,7 @@
         <weight>0.02</weight>
         <creationInfo>
           <author>EQTransformer</author>
-          <creationTime>2023-01-18T21:15:33.382537Z</creationTime>
+          <creationTime>2023-01-19T13:14:20.176758Z</creationTime>
         </creationInfo>
       </arrival>
       <arrival>
@@ -4532,7 +4532,7 @@
         <weight>0.22</weight>
         <creationInfo>
           <author>EQTransformer</author>
-          <creationTime>2023-01-18T21:15:33.383169Z</creationTime>
+          <creationTime>2023-01-19T13:14:20.177230Z</creationTime>
         </creationInfo>
       </arrival>
     </origin>
@@ -4558,7 +4558,7 @@
       <evaluationStatus>preliminary</evaluationStatus>
       <creationInfo>
         <author>SeisMonitor</author>
-        <creationTime>2023-01-18T21:15:33.417946Z</creationTime>
+        <creationTime>2023-01-19T13:14:20.209091Z</creationTime>
       </creationInfo>
       <arrival>
         <pickID>smi:local/20191224.211039.91-P-CM.URMC.00.HH</pickID>
@@ -4567,7 +4567,7 @@
         <weight>0.84</weight>
         <creationInfo>
           <author>EQTransformer</author>
-          <creationTime>2023-01-18T21:15:33.399859Z</creationTime>
+          <creationTime>2023-01-19T13:14:20.192221Z</creationTime>
         </creationInfo>
       </arrival>
       <arrival>
@@ -4577,7 +4577,7 @@
         <weight>0.49</weight>
         <creationInfo>
           <author>EQTransformer</author>
-          <creationTime>2023-01-18T21:15:33.400447Z</creationTime>
+          <creationTime>2023-01-19T13:14:20.192741Z</creationTime>
         </creationInfo>
       </arrival>
       <arrival>
@@ -4587,7 +4587,7 @@
         <weight>0.85</weight>
         <creationInfo>
           <author>EQTransformer</author>
-          <creationTime>2023-01-18T21:15:33.401038Z</creationTime>
+          <creationTime>2023-01-19T13:14:20.193302Z</creationTime>
         </creationInfo>
       </arrival>
       <arrival>
@@ -4597,7 +4597,7 @@
         <weight>0.69</weight>
         <creationInfo>
           <author>EQTransformer</author>
-          <creationTime>2023-01-18T21:15:33.401584Z</creationTime>
+          <creationTime>2023-01-19T13:14:20.193787Z</creationTime>
         </creationInfo>
       </arrival>
       <arrival>
@@ -4607,7 +4607,7 @@
         <weight>0.37</weight>
         <creationInfo>
           <author>EQTransformer</author>
-          <creationTime>2023-01-18T21:15:33.402312Z</creationTime>
+          <creationTime>2023-01-19T13:14:20.194414Z</creationTime>
         </creationInfo>
       </arrival>
       <arrival>
@@ -4617,7 +4617,7 @@
         <weight>0.11</weight>
         <creationInfo>
           <author>EQTransformer</author>
-          <creationTime>2023-01-18T21:15:33.403185Z</creationTime>
+          <creationTime>2023-01-19T13:14:20.194909Z</creationTime>
         </creationInfo>
       </arrival>
     </origin>
@@ -4643,7 +4643,7 @@
       <evaluationStatus>preliminary</evaluationStatus>
       <creationInfo>
         <author>SeisMonitor</author>
-        <creationTime>2023-01-18T21:15:33.438420Z</creationTime>
+        <creationTime>2023-01-19T13:14:20.226965Z</creationTime>
       </creationInfo>
       <arrival>
         <pickID>smi:local/20191224.211729.38-P-CM.URMC.00.HH</pickID>
@@ -4652,7 +4652,7 @@
         <weight>0.69</weight>
         <creationInfo>
           <author>EQTransformer</author>
-          <creationTime>2023-01-18T21:15:33.420889Z</creationTime>
+          <creationTime>2023-01-19T13:14:20.211487Z</creationTime>
         </creationInfo>
       </arrival>
       <arrival>
@@ -4662,7 +4662,7 @@
         <weight>0.36</weight>
         <creationInfo>
           <author>EQTransformer</author>
-          <creationTime>2023-01-18T21:15:33.421517Z</creationTime>
+          <creationTime>2023-01-19T13:14:20.212124Z</creationTime>
         </creationInfo>
       </arrival>
       <arrival>
@@ -4672,7 +4672,7 @@
         <weight>0.77</weight>
         <creationInfo>
           <author>EQTransformer</author>
-          <creationTime>2023-01-18T21:15:33.422087Z</creationTime>
+          <creationTime>2023-01-19T13:14:20.212820Z</creationTime>
         </creationInfo>
       </arrival>
       <arrival>
@@ -4682,7 +4682,7 @@
         <weight>0.67</weight>
         <creationInfo>
           <author>EQTransformer</author>
-          <creationTime>2023-01-18T21:15:33.422796Z</creationTime>
+          <creationTime>2023-01-19T13:14:20.213360Z</creationTime>
         </creationInfo>
       </arrival>
       <arrival>
@@ -4692,7 +4692,7 @@
         <weight>0.3</weight>
         <creationInfo>
           <author>EQTransformer</author>
-          <creationTime>2023-01-18T21:15:33.423414Z</creationTime>
+          <creationTime>2023-01-19T13:14:20.213936Z</creationTime>
         </creationInfo>
       </arrival>
     </origin>
@@ -4718,7 +4718,7 @@
       <evaluationStatus>preliminary</evaluationStatus>
       <creationInfo>
         <author>SeisMonitor</author>
-        <creationTime>2023-01-18T21:15:33.458489Z</creationTime>
+        <creationTime>2023-01-19T13:14:20.246206Z</creationTime>
       </creationInfo>
       <arrival>
         <pickID>smi:local/20191224.212230.05-P-CM.URMC.00.HH</pickID>
@@ -4727,7 +4727,7 @@
         <weight>0.83</weight>
         <creationInfo>
           <author>EQTransformer</author>
-          <creationTime>2023-01-18T21:15:33.441313Z</creationTime>
+          <creationTime>2023-01-19T13:14:20.229576Z</creationTime>
         </creationInfo>
       </arrival>
       <arrival>
@@ -4737,7 +4737,7 @@
         <weight>0.58</weight>
         <creationInfo>
           <author>EQTransformer</author>
-          <creationTime>2023-01-18T21:15:33.442017Z</creationTime>
+          <creationTime>2023-01-19T13:14:20.230066Z</creationTime>
         </creationInfo>
       </arrival>
       <arrival>
@@ -4747,7 +4747,7 @@
         <weight>0.03</weight>
         <creationInfo>
           <author>EQTransformer</author>
-          <creationTime>2023-01-18T21:15:33.442810Z</creationTime>
+          <creationTime>2023-01-19T13:14:20.230600Z</creationTime>
         </creationInfo>
       </arrival>
       <arrival>
@@ -4757,7 +4757,7 @@
         <weight>0.09</weight>
         <creationInfo>
           <author>EQTransformer</author>
-          <creationTime>2023-01-18T21:15:33.443579Z</creationTime>
+          <creationTime>2023-01-19T13:14:20.231064Z</creationTime>
         </creationInfo>
       </arrival>
       <arrival>
@@ -4767,7 +4767,7 @@
         <weight>0.06</weight>
         <creationInfo>
           <author>EQTransformer</author>
-          <creationTime>2023-01-18T21:15:33.444185Z</creationTime>
+          <creationTime>2023-01-19T13:14:20.231740Z</creationTime>
         </creationInfo>
       </arrival>
       <arrival>
@@ -4777,7 +4777,7 @@
         <weight>0.27</weight>
         <creationInfo>
           <author>EQTransformer</author>
-          <creationTime>2023-01-18T21:15:33.444724Z</creationTime>
+          <creationTime>2023-01-19T13:14:20.232304Z</creationTime>
         </creationInfo>
       </arrival>
     </origin>
@@ -4803,7 +4803,7 @@
       <evaluationStatus>preliminary</evaluationStatus>
       <creationInfo>
         <author>SeisMonitor</author>
-        <creationTime>2023-01-18T21:15:33.477808Z</creationTime>
+        <creationTime>2023-01-19T13:14:20.263275Z</creationTime>
       </creationInfo>
       <arrival>
         <pickID>smi:local/20191224.212554.25-P-CM.URMC.00.HH</pickID>
@@ -4812,7 +4812,7 @@
         <weight>0.63</weight>
         <creationInfo>
           <author>EQTransformer</author>
-          <creationTime>2023-01-18T21:15:33.461059Z</creationTime>
+          <creationTime>2023-01-19T13:14:20.248998Z</creationTime>
         </creationInfo>
       </arrival>
       <arrival>
@@ -4822,7 +4822,7 @@
         <weight>0.32</weight>
         <creationInfo>
           <author>EQTransformer</author>
-          <creationTime>2023-01-18T21:15:33.461789Z</creationTime>
+          <creationTime>2023-01-19T13:14:20.249480Z</creationTime>
         </creationInfo>
       </arrival>
       <arrival>
@@ -4832,7 +4832,7 @@
         <weight>0.74</weight>
         <creationInfo>
           <author>EQTransformer</author>
-          <creationTime>2023-01-18T21:15:33.462363Z</creationTime>
+          <creationTime>2023-01-19T13:14:20.249961Z</creationTime>
         </creationInfo>
       </arrival>
       <arrival>
@@ -4842,7 +4842,7 @@
         <weight>0.39</weight>
         <creationInfo>
           <author>EQTransformer</author>
-          <creationTime>2023-01-18T21:15:33.462947Z</creationTime>
+          <creationTime>2023-01-19T13:14:20.250410Z</creationTime>
         </creationInfo>
       </arrival>
       <arrival>
@@ -4852,7 +4852,7 @@
         <weight>0.3</weight>
         <creationInfo>
           <author>EQTransformer</author>
-          <creationTime>2023-01-18T21:15:33.463506Z</creationTime>
+          <creationTime>2023-01-19T13:14:20.251048Z</creationTime>
         </creationInfo>
       </arrival>
     </origin>
@@ -4878,7 +4878,7 @@
       <evaluationStatus>preliminary</evaluationStatus>
       <creationInfo>
         <author>SeisMonitor</author>
-        <creationTime>2023-01-18T21:15:33.497724Z</creationTime>
+        <creationTime>2023-01-19T13:14:20.280415Z</creationTime>
       </creationInfo>
       <arrival>
         <pickID>smi:local/20191224.213850.46-P-CM.ORTC.00.HH</pickID>
@@ -4887,7 +4887,7 @@
         <weight>0.59</weight>
         <creationInfo>
           <author>EQTransformer</author>
-          <creationTime>2023-01-18T21:15:33.480360Z</creationTime>
+          <creationTime>2023-01-19T13:14:20.265916Z</creationTime>
         </creationInfo>
       </arrival>
       <arrival>
@@ -4897,7 +4897,7 @@
         <weight>0.03</weight>
         <creationInfo>
           <author>EQTransformer</author>
-          <creationTime>2023-01-18T21:15:33.480972Z</creationTime>
+          <creationTime>2023-01-19T13:14:20.266441Z</creationTime>
         </creationInfo>
       </arrival>
       <arrival>
@@ -4907,7 +4907,7 @@
         <weight>0.51</weight>
         <creationInfo>
           <author>EQTransformer</author>
-          <creationTime>2023-01-18T21:15:33.481521Z</creationTime>
+          <creationTime>2023-01-19T13:14:20.266911Z</creationTime>
         </creationInfo>
       </arrival>
       <arrival>
@@ -4917,7 +4917,7 @@
         <weight>0.53</weight>
         <creationInfo>
           <author>EQTransformer</author>
-          <creationTime>2023-01-18T21:15:33.482049Z</creationTime>
+          <creationTime>2023-01-19T13:14:20.267438Z</creationTime>
         </creationInfo>
       </arrival>
       <arrival>
@@ -4927,7 +4927,7 @@
         <weight>0.29</weight>
         <creationInfo>
           <author>EQTransformer</author>
-          <creationTime>2023-01-18T21:15:33.483024Z</creationTime>
+          <creationTime>2023-01-19T13:14:20.267921Z</creationTime>
         </creationInfo>
       </arrival>
     </origin>
@@ -4953,7 +4953,7 @@
       <evaluationStatus>preliminary</evaluationStatus>
       <creationInfo>
         <author>SeisMonitor</author>
-        <creationTime>2023-01-18T21:15:33.518137Z</creationTime>
+        <creationTime>2023-01-19T13:14:20.297942Z</creationTime>
       </creationInfo>
       <arrival>
         <pickID>smi:local/20191224.214436.40-P-CM.URMC.00.HH</pickID>
@@ -4962,7 +4962,7 @@
         <weight>0.86</weight>
         <creationInfo>
           <author>EQTransformer</author>
-          <creationTime>2023-01-18T21:15:33.500302Z</creationTime>
+          <creationTime>2023-01-19T13:14:20.283060Z</creationTime>
         </creationInfo>
       </arrival>
       <arrival>
@@ -4972,7 +4972,7 @@
         <weight>0.45</weight>
         <creationInfo>
           <author>EQTransformer</author>
-          <creationTime>2023-01-18T21:15:33.500905Z</creationTime>
+          <creationTime>2023-01-19T13:14:20.283606Z</creationTime>
         </creationInfo>
       </arrival>
       <arrival>
@@ -4982,7 +4982,7 @@
         <weight>0.17</weight>
         <creationInfo>
           <author>EQTransformer</author>
-          <creationTime>2023-01-18T21:15:33.501460Z</creationTime>
+          <creationTime>2023-01-19T13:14:20.284177Z</creationTime>
         </creationInfo>
       </arrival>
       <arrival>
@@ -4992,7 +4992,7 @@
         <weight>0.27</weight>
         <creationInfo>
           <author>EQTransformer</author>
-          <creationTime>2023-01-18T21:15:33.502041Z</creationTime>
+          <creationTime>2023-01-19T13:14:20.284639Z</creationTime>
         </creationInfo>
       </arrival>
       <arrival>
@@ -5002,7 +5002,7 @@
         <weight>0.24</weight>
         <creationInfo>
           <author>EQTransformer</author>
-          <creationTime>2023-01-18T21:15:33.502667Z</creationTime>
+          <creationTime>2023-01-19T13:14:20.285094Z</creationTime>
         </creationInfo>
       </arrival>
       <arrival>
@@ -5012,7 +5012,7 @@
         <weight>0.29</weight>
         <creationInfo>
           <author>EQTransformer</author>
-          <creationTime>2023-01-18T21:15:33.503240Z</creationTime>
+          <creationTime>2023-01-19T13:14:20.285703Z</creationTime>
         </creationInfo>
       </arrival>
     </origin>
@@ -5038,7 +5038,7 @@
       <evaluationStatus>preliminary</evaluationStatus>
       <creationInfo>
         <author>SeisMonitor</author>
-        <creationTime>2023-01-18T21:15:33.538237Z</creationTime>
+        <creationTime>2023-01-19T13:14:20.316161Z</creationTime>
       </creationInfo>
       <arrival>
         <pickID>smi:local/20191224.214907.11-P-CM.URMC.00.HH</pickID>
@@ -5047,7 +5047,7 @@
         <weight>0.25</weight>
         <creationInfo>
           <author>EQTransformer</author>
-          <creationTime>2023-01-18T21:15:33.520968Z</creationTime>
+          <creationTime>2023-01-19T13:14:20.300700Z</creationTime>
         </creationInfo>
       </arrival>
       <arrival>
@@ -5057,7 +5057,7 @@
         <weight>0.65</weight>
         <creationInfo>
           <author>EQTransformer</author>
-          <creationTime>2023-01-18T21:15:33.521581Z</creationTime>
+          <creationTime>2023-01-19T13:14:20.301190Z</creationTime>
         </creationInfo>
       </arrival>
       <arrival>
@@ -5067,7 +5067,7 @@
         <weight>0.77</weight>
         <creationInfo>
           <author>EQTransformer</author>
-          <creationTime>2023-01-18T21:15:33.522118Z</creationTime>
+          <creationTime>2023-01-19T13:14:20.301673Z</creationTime>
         </creationInfo>
       </arrival>
       <arrival>
@@ -5077,7 +5077,7 @@
         <weight>0.04</weight>
         <creationInfo>
           <author>EQTransformer</author>
-          <creationTime>2023-01-18T21:15:33.522765Z</creationTime>
+          <creationTime>2023-01-19T13:14:20.302118Z</creationTime>
         </creationInfo>
       </arrival>
       <arrival>
@@ -5087,7 +5087,7 @@
         <weight>0.58</weight>
         <creationInfo>
           <author>EQTransformer</author>
-          <creationTime>2023-01-18T21:15:33.523331Z</creationTime>
+          <creationTime>2023-01-19T13:14:20.302664Z</creationTime>
         </creationInfo>
       </arrival>
       <arrival>
@@ -5097,7 +5097,7 @@
         <weight>0.02</weight>
         <creationInfo>
           <author>EQTransformer</author>
-          <creationTime>2023-01-18T21:15:33.523890Z</creationTime>
+          <creationTime>2023-01-19T13:14:20.303113Z</creationTime>
         </creationInfo>
       </arrival>
     </origin>
@@ -5123,7 +5123,7 @@
       <evaluationStatus>preliminary</evaluationStatus>
       <creationInfo>
         <author>SeisMonitor</author>
-        <creationTime>2023-01-18T21:15:33.558669Z</creationTime>
+        <creationTime>2023-01-19T13:14:20.336466Z</creationTime>
       </creationInfo>
       <arrival>
         <pickID>smi:local/20191224.220540.40-P-CM.URMC.00.HH</pickID>
@@ -5132,7 +5132,7 @@
         <weight>0.77</weight>
         <creationInfo>
           <author>EQTransformer</author>
-          <creationTime>2023-01-18T21:15:33.541356Z</creationTime>
+          <creationTime>2023-01-19T13:14:20.318485Z</creationTime>
         </creationInfo>
       </arrival>
       <arrival>
@@ -5142,7 +5142,7 @@
         <weight>0.22</weight>
         <creationInfo>
           <author>EQTransformer</author>
-          <creationTime>2023-01-18T21:15:33.542117Z</creationTime>
+          <creationTime>2023-01-19T13:14:20.319026Z</creationTime>
         </creationInfo>
       </arrival>
       <arrival>
@@ -5152,7 +5152,7 @@
         <weight>0.85</weight>
         <creationInfo>
           <author>EQTransformer</author>
-          <creationTime>2023-01-18T21:15:33.542746Z</creationTime>
+          <creationTime>2023-01-19T13:14:20.319525Z</creationTime>
         </creationInfo>
       </arrival>
       <arrival>
@@ -5162,7 +5162,7 @@
         <weight>0.89</weight>
         <creationInfo>
           <author>EQTransformer</author>
-          <creationTime>2023-01-18T21:15:33.543440Z</creationTime>
+          <creationTime>2023-01-19T13:14:20.320042Z</creationTime>
         </creationInfo>
       </arrival>
       <arrival>
@@ -5172,7 +5172,7 @@
         <weight>0.51</weight>
         <creationInfo>
           <author>EQTransformer</author>
-          <creationTime>2023-01-18T21:15:33.543995Z</creationTime>
+          <creationTime>2023-01-19T13:14:20.320487Z</creationTime>
         </creationInfo>
       </arrival>
       <arrival>
@@ -5182,7 +5182,7 @@
         <weight>0.29</weight>
         <creationInfo>
           <author>EQTransformer</author>
-          <creationTime>2023-01-18T21:15:33.544525Z</creationTime>
+          <creationTime>2023-01-19T13:14:20.320985Z</creationTime>
         </creationInfo>
       </arrival>
     </origin>
@@ -5208,7 +5208,7 @@
       <evaluationStatus>preliminary</evaluationStatus>
       <creationInfo>
         <author>SeisMonitor</author>
-        <creationTime>2023-01-18T21:15:33.578431Z</creationTime>
+        <creationTime>2023-01-19T13:14:20.356577Z</creationTime>
       </creationInfo>
       <arrival>
         <pickID>smi:local/20191224.222429.85-P-CM.URMC.00.HH</pickID>
@@ -5217,7 +5217,7 @@
         <weight>0.74</weight>
         <creationInfo>
           <author>EQTransformer</author>
-          <creationTime>2023-01-18T21:15:33.561223Z</creationTime>
+          <creationTime>2023-01-19T13:14:20.339353Z</creationTime>
         </creationInfo>
       </arrival>
       <arrival>
@@ -5227,7 +5227,7 @@
         <weight>0.45</weight>
         <creationInfo>
           <author>EQTransformer</author>
-          <creationTime>2023-01-18T21:15:33.561847Z</creationTime>
+          <creationTime>2023-01-19T13:14:20.339953Z</creationTime>
         </creationInfo>
       </arrival>
       <arrival>
@@ -5237,7 +5237,7 @@
         <weight>0.88</weight>
         <creationInfo>
           <author>EQTransformer</author>
-          <creationTime>2023-01-18T21:15:33.562401Z</creationTime>
+          <creationTime>2023-01-19T13:14:20.340705Z</creationTime>
         </creationInfo>
       </arrival>
       <arrival>
@@ -5247,7 +5247,7 @@
         <weight>0.4</weight>
         <creationInfo>
           <author>EQTransformer</author>
-          <creationTime>2023-01-18T21:15:33.562980Z</creationTime>
+          <creationTime>2023-01-19T13:14:20.341273Z</creationTime>
         </creationInfo>
       </arrival>
       <arrival>
@@ -5257,7 +5257,7 @@
         <weight>0.13</weight>
         <creationInfo>
           <author>EQTransformer</author>
-          <creationTime>2023-01-18T21:15:33.563581Z</creationTime>
+          <creationTime>2023-01-19T13:14:20.341812Z</creationTime>
         </creationInfo>
       </arrival>
     </origin>
@@ -5283,7 +5283,7 @@
       <evaluationStatus>preliminary</evaluationStatus>
       <creationInfo>
         <author>SeisMonitor</author>
-        <creationTime>2023-01-18T21:15:33.598350Z</creationTime>
+        <creationTime>2023-01-19T13:14:20.375258Z</creationTime>
       </creationInfo>
       <arrival>
         <pickID>smi:local/20191224.223336.63-P-CM.URMC.00.HH</pickID>
@@ -5292,7 +5292,7 @@
         <weight>0.8</weight>
         <creationInfo>
           <author>EQTransformer</author>
-          <creationTime>2023-01-18T21:15:33.581093Z</creationTime>
+          <creationTime>2023-01-19T13:14:20.359514Z</creationTime>
         </creationInfo>
       </arrival>
       <arrival>
@@ -5302,7 +5302,7 @@
         <weight>0.54</weight>
         <creationInfo>
           <author>EQTransformer</author>
-          <creationTime>2023-01-18T21:15:33.581662Z</creationTime>
+          <creationTime>2023-01-19T13:14:20.360161Z</creationTime>
         </creationInfo>
       </arrival>
       <arrival>
@@ -5312,7 +5312,7 @@
         <weight>0.23</weight>
         <creationInfo>
           <author>EQTransformer</author>
-          <creationTime>2023-01-18T21:15:33.582225Z</creationTime>
+          <creationTime>2023-01-19T13:14:20.360728Z</creationTime>
         </creationInfo>
       </arrival>
       <arrival>
@@ -5322,7 +5322,7 @@
         <weight>0.39</weight>
         <creationInfo>
           <author>EQTransformer</author>
-          <creationTime>2023-01-18T21:15:33.582824Z</creationTime>
+          <creationTime>2023-01-19T13:14:20.361278Z</creationTime>
         </creationInfo>
       </arrival>
       <arrival>
@@ -5332,7 +5332,7 @@
         <weight>0.05</weight>
         <creationInfo>
           <author>EQTransformer</author>
-          <creationTime>2023-01-18T21:15:33.583385Z</creationTime>
+          <creationTime>2023-01-19T13:14:20.361758Z</creationTime>
         </creationInfo>
       </arrival>
       <arrival>
@@ -5342,7 +5342,7 @@
         <weight>0.02</weight>
         <creationInfo>
           <author>EQTransformer</author>
-          <creationTime>2023-01-18T21:15:33.583994Z</creationTime>
+          <creationTime>2023-01-19T13:14:20.362294Z</creationTime>
         </creationInfo>
       </arrival>
     </origin>
@@ -5368,7 +5368,7 @@
       <evaluationStatus>preliminary</evaluationStatus>
       <creationInfo>
         <author>SeisMonitor</author>
-        <creationTime>2023-01-18T21:15:33.618383Z</creationTime>
+        <creationTime>2023-01-19T13:14:20.393677Z</creationTime>
       </creationInfo>
       <arrival>
         <pickID>smi:local/20191224.224634.19-P-CM.URMC.00.HH</pickID>
@@ -5377,7 +5377,7 @@
         <weight>0.83</weight>
         <creationInfo>
           <author>EQTransformer</author>
-          <creationTime>2023-01-18T21:15:33.601078Z</creationTime>
+          <creationTime>2023-01-19T13:14:20.377971Z</creationTime>
         </creationInfo>
       </arrival>
       <arrival>
@@ -5387,7 +5387,7 @@
         <weight>0.61</weight>
         <creationInfo>
           <author>EQTransformer</author>
-          <creationTime>2023-01-18T21:15:33.601805Z</creationTime>
+          <creationTime>2023-01-19T13:14:20.378710Z</creationTime>
         </creationInfo>
       </arrival>
       <arrival>
@@ -5397,7 +5397,7 @@
         <weight>0.48</weight>
         <creationInfo>
           <author>EQTransformer</author>
-          <creationTime>2023-01-18T21:15:33.602659Z</creationTime>
+          <creationTime>2023-01-19T13:14:20.379357Z</creationTime>
         </creationInfo>
       </arrival>
       <arrival>
@@ -5407,7 +5407,7 @@
         <weight>0.13</weight>
         <creationInfo>
           <author>EQTransformer</author>
-          <creationTime>2023-01-18T21:15:33.603361Z</creationTime>
+          <creationTime>2023-01-19T13:14:20.380058Z</creationTime>
         </creationInfo>
       </arrival>
       <arrival>
@@ -5417,7 +5417,7 @@
         <weight>0.53</weight>
         <creationInfo>
           <author>EQTransformer</author>
-          <creationTime>2023-01-18T21:15:33.603997Z</creationTime>
+          <creationTime>2023-01-19T13:14:20.380723Z</creationTime>
         </creationInfo>
       </arrival>
     </origin>
@@ -5443,7 +5443,7 @@
       <evaluationStatus>preliminary</evaluationStatus>
       <creationInfo>
         <author>SeisMonitor</author>
-        <creationTime>2023-01-18T21:15:33.639295Z</creationTime>
+        <creationTime>2023-01-19T13:14:20.412816Z</creationTime>
       </creationInfo>
       <arrival>
         <pickID>smi:local/20191224.224743.69-P-CM.URMC.00.HH</pickID>
@@ -5452,7 +5452,7 @@
         <weight>0.69</weight>
         <creationInfo>
           <author>EQTransformer</author>
-          <creationTime>2023-01-18T21:15:33.620919Z</creationTime>
+          <creationTime>2023-01-19T13:14:20.396374Z</creationTime>
         </creationInfo>
       </arrival>
       <arrival>
@@ -5462,7 +5462,7 @@
         <weight>0.25</weight>
         <creationInfo>
           <author>EQTransformer</author>
-          <creationTime>2023-01-18T21:15:33.621514Z</creationTime>
+          <creationTime>2023-01-19T13:14:20.396988Z</creationTime>
         </creationInfo>
       </arrival>
       <arrival>
@@ -5472,7 +5472,7 @@
         <weight>0.27</weight>
         <creationInfo>
           <author>EQTransformer</author>
-          <creationTime>2023-01-18T21:15:33.622082Z</creationTime>
+          <creationTime>2023-01-19T13:14:20.397738Z</creationTime>
         </creationInfo>
       </arrival>
       <arrival>
@@ -5482,7 +5482,7 @@
         <weight>0.75</weight>
         <creationInfo>
           <author>EQTransformer</author>
-          <creationTime>2023-01-18T21:15:33.622687Z</creationTime>
+          <creationTime>2023-01-19T13:14:20.398301Z</creationTime>
         </creationInfo>
       </arrival>
       <arrival>
@@ -5492,7 +5492,7 @@
         <weight>0.18</weight>
         <creationInfo>
           <author>EQTransformer</author>
-          <creationTime>2023-01-18T21:15:33.623314Z</creationTime>
+          <creationTime>2023-01-19T13:14:20.398823Z</creationTime>
         </creationInfo>
       </arrival>
       <arrival>
@@ -5502,7 +5502,7 @@
         <weight>0.31</weight>
         <creationInfo>
           <author>EQTransformer</author>
-          <creationTime>2023-01-18T21:15:33.623855Z</creationTime>
+          <creationTime>2023-01-19T13:14:20.399496Z</creationTime>
         </creationInfo>
       </arrival>
     </origin>
@@ -5512,7 +5512,7 @@
       <typeCertainty>known</typeCertainty>
       <creationInfo>
         <author>SeisMonitor</author>
-        <creationTime>2023-01-18T21:15:33.102271Z</creationTime>
+        <creationTime>2023-01-19T13:14:19.909538Z</creationTime>
       </creationInfo>
       <originReference>smi:local/20191224.195635.090000</originReference>
     </event>
@@ -5522,7 +5522,7 @@
       <typeCertainty>known</typeCertainty>
       <creationInfo>
         <author>SeisMonitor</author>
-        <creationTime>2023-01-18T21:15:33.121189Z</creationTime>
+        <creationTime>2023-01-19T13:14:19.927573Z</creationTime>
       </creationInfo>
       <originReference>smi:local/20191224.191010.891000</originReference>
     </event>
@@ -5532,7 +5532,7 @@
       <typeCertainty>known</typeCertainty>
       <creationInfo>
         <author>SeisMonitor</author>
-        <creationTime>2023-01-18T21:15:33.141099Z</creationTime>
+        <creationTime>2023-01-19T13:14:19.947993Z</creationTime>
       </creationInfo>
       <originReference>smi:local/20191224.193153.704000</originReference>
     </event>
@@ -5542,7 +5542,7 @@
       <typeCertainty>known</typeCertainty>
       <creationInfo>
         <author>SeisMonitor</author>
-        <creationTime>2023-01-18T21:15:33.160071Z</creationTime>
+        <creationTime>2023-01-19T13:14:19.968306Z</creationTime>
       </creationInfo>
       <originReference>smi:local/20191224.192522.600000</originReference>
     </event>
@@ -5552,7 +5552,7 @@
       <typeCertainty>known</typeCertainty>
       <creationInfo>
         <author>SeisMonitor</author>
-        <creationTime>2023-01-18T21:15:33.179476Z</creationTime>
+        <creationTime>2023-01-19T13:14:19.985564Z</creationTime>
       </creationInfo>
       <originReference>smi:local/20191224.194314.821000</originReference>
     </event>
@@ -5562,7 +5562,7 @@
       <typeCertainty>known</typeCertainty>
       <creationInfo>
         <author>SeisMonitor</author>
-        <creationTime>2023-01-18T21:15:33.198814Z</creationTime>
+        <creationTime>2023-01-19T13:14:20.004623Z</creationTime>
       </creationInfo>
       <originReference>smi:local/20191224.200947.381000</originReference>
     </event>
@@ -5572,7 +5572,7 @@
       <typeCertainty>known</typeCertainty>
       <creationInfo>
         <author>SeisMonitor</author>
-        <creationTime>2023-01-18T21:15:33.219238Z</creationTime>
+        <creationTime>2023-01-19T13:14:20.023848Z</creationTime>
       </creationInfo>
       <originReference>smi:local/20191224.195845.810000</originReference>
     </event>
@@ -5582,7 +5582,7 @@
       <typeCertainty>known</typeCertainty>
       <creationInfo>
         <author>SeisMonitor</author>
-        <creationTime>2023-01-18T21:15:33.238613Z</creationTime>
+        <creationTime>2023-01-19T13:14:20.043270Z</creationTime>
       </creationInfo>
       <originReference>smi:local/20191224.194934.686000</originReference>
     </event>
@@ -5592,7 +5592,7 @@
       <typeCertainty>known</typeCertainty>
       <creationInfo>
         <author>SeisMonitor</author>
-        <creationTime>2023-01-18T21:15:33.258726Z</creationTime>
+        <creationTime>2023-01-19T13:14:20.061739Z</creationTime>
       </creationInfo>
       <originReference>smi:local/20191224.194809.679000</originReference>
     </event>
@@ -5602,7 +5602,7 @@
       <typeCertainty>known</typeCertainty>
       <creationInfo>
         <author>SeisMonitor</author>
-        <creationTime>2023-01-18T21:15:33.278883Z</creationTime>
+        <creationTime>2023-01-19T13:14:20.079615Z</creationTime>
       </creationInfo>
       <originReference>smi:local/20191224.200305.390000</originReference>
     </event>
@@ -5612,7 +5612,7 @@
       <typeCertainty>known</typeCertainty>
       <creationInfo>
         <author>SeisMonitor</author>
-        <creationTime>2023-01-18T21:15:33.298776Z</creationTime>
+        <creationTime>2023-01-19T13:14:20.097698Z</creationTime>
       </creationInfo>
       <originReference>smi:local/20191224.201113.508000</originReference>
     </event>
@@ -5622,7 +5622,7 @@
       <typeCertainty>known</typeCertainty>
       <creationInfo>
         <author>SeisMonitor</author>
-        <creationTime>2023-01-18T21:15:33.319240Z</creationTime>
+        <creationTime>2023-01-19T13:14:20.117316Z</creationTime>
       </creationInfo>
       <originReference>smi:local/20191224.201320.871000</originReference>
     </event>
@@ -5632,7 +5632,7 @@
       <typeCertainty>known</typeCertainty>
       <creationInfo>
         <author>SeisMonitor</author>
-        <creationTime>2023-01-18T21:15:33.338788Z</creationTime>
+        <creationTime>2023-01-19T13:14:20.134981Z</creationTime>
       </creationInfo>
       <originReference>smi:local/20191224.202326.372000</originReference>
     </event>
@@ -5642,7 +5642,7 @@
       <typeCertainty>known</typeCertainty>
       <creationInfo>
         <author>SeisMonitor</author>
-        <creationTime>2023-01-18T21:15:33.358632Z</creationTime>
+        <creationTime>2023-01-19T13:14:20.153000Z</creationTime>
       </creationInfo>
       <originReference>smi:local/20191224.203211.005000</originReference>
     </event>
@@ -5652,7 +5652,7 @@
       <typeCertainty>known</typeCertainty>
       <creationInfo>
         <author>SeisMonitor</author>
-        <creationTime>2023-01-18T21:15:33.378695Z</creationTime>
+        <creationTime>2023-01-19T13:14:20.172834Z</creationTime>
       </creationInfo>
       <originReference>smi:local/20191224.203910.755000</originReference>
     </event>
@@ -5662,7 +5662,7 @@
       <typeCertainty>known</typeCertainty>
       <creationInfo>
         <author>SeisMonitor</author>
-        <creationTime>2023-01-18T21:15:33.397716Z</creationTime>
+        <creationTime>2023-01-19T13:14:20.190328Z</creationTime>
       </creationInfo>
       <originReference>smi:local/20191224.205037.719000</originReference>
     </event>
@@ -5672,7 +5672,7 @@
       <typeCertainty>known</typeCertainty>
       <creationInfo>
         <author>SeisMonitor</author>
-        <creationTime>2023-01-18T21:15:33.418563Z</creationTime>
+        <creationTime>2023-01-19T13:14:20.209485Z</creationTime>
       </creationInfo>
       <originReference>smi:local/20191224.211034.051000</originReference>
     </event>
@@ -5682,7 +5682,7 @@
       <typeCertainty>known</typeCertainty>
       <creationInfo>
         <author>SeisMonitor</author>
-        <creationTime>2023-01-18T21:15:33.438968Z</creationTime>
+        <creationTime>2023-01-19T13:14:20.227499Z</creationTime>
       </creationInfo>
       <originReference>smi:local/20191224.211723.111000</originReference>
     </event>
@@ -5692,7 +5692,7 @@
       <typeCertainty>known</typeCertainty>
       <creationInfo>
         <author>SeisMonitor</author>
-        <creationTime>2023-01-18T21:15:33.459012Z</creationTime>
+        <creationTime>2023-01-19T13:14:20.246626Z</creationTime>
       </creationInfo>
       <originReference>smi:local/20191224.212224.802000</originReference>
     </event>
@@ -5702,7 +5702,7 @@
       <typeCertainty>known</typeCertainty>
       <creationInfo>
         <author>SeisMonitor</author>
-        <creationTime>2023-01-18T21:15:33.478305Z</creationTime>
+        <creationTime>2023-01-19T13:14:20.263736Z</creationTime>
       </creationInfo>
       <originReference>smi:local/20191224.212550.871000</originReference>
     </event>
@@ -5712,7 +5712,7 @@
       <typeCertainty>known</typeCertainty>
       <creationInfo>
         <author>SeisMonitor</author>
-        <creationTime>2023-01-18T21:15:33.498291Z</creationTime>
+        <creationTime>2023-01-19T13:14:20.280946Z</creationTime>
       </creationInfo>
       <originReference>smi:local/20191224.213826.044000</originReference>
     </event>
@@ -5722,7 +5722,7 @@
       <typeCertainty>known</typeCertainty>
       <creationInfo>
         <author>SeisMonitor</author>
-        <creationTime>2023-01-18T21:15:33.518727Z</creationTime>
+        <creationTime>2023-01-19T13:14:20.298369Z</creationTime>
       </creationInfo>
       <originReference>smi:local/20191224.214429.020000</originReference>
     </event>
@@ -5732,7 +5732,7 @@
       <typeCertainty>known</typeCertainty>
       <creationInfo>
         <author>SeisMonitor</author>
-        <creationTime>2023-01-18T21:15:33.538813Z</creationTime>
+        <creationTime>2023-01-19T13:14:20.316542Z</creationTime>
       </creationInfo>
       <originReference>smi:local/20191224.214900.988000</originReference>
     </event>
@@ -5742,7 +5742,7 @@
       <typeCertainty>known</typeCertainty>
       <creationInfo>
         <author>SeisMonitor</author>
-        <creationTime>2023-01-18T21:15:33.559163Z</creationTime>
+        <creationTime>2023-01-19T13:14:20.337017Z</creationTime>
       </creationInfo>
       <originReference>smi:local/20191224.220535.463000</originReference>
     </event>
@@ -5752,7 +5752,7 @@
       <typeCertainty>known</typeCertainty>
       <creationInfo>
         <author>SeisMonitor</author>
-        <creationTime>2023-01-18T21:15:33.578983Z</creationTime>
+        <creationTime>2023-01-19T13:14:20.357031Z</creationTime>
       </creationInfo>
       <originReference>smi:local/20191224.222426.526000</originReference>
     </event>
@@ -5762,7 +5762,7 @@
       <typeCertainty>known</typeCertainty>
       <creationInfo>
         <author>SeisMonitor</author>
-        <creationTime>2023-01-18T21:15:33.598892Z</creationTime>
+        <creationTime>2023-01-19T13:14:20.375796Z</creationTime>
       </creationInfo>
       <originReference>smi:local/20191224.223331.387000</originReference>
     </event>
@@ -5772,7 +5772,7 @@
       <typeCertainty>known</typeCertainty>
       <creationInfo>
         <author>SeisMonitor</author>
-        <creationTime>2023-01-18T21:15:33.618926Z</creationTime>
+        <creationTime>2023-01-19T13:14:20.394201Z</creationTime>
       </creationInfo>
       <originReference>smi:local/20191224.224628.965000</originReference>
     </event>
@@ -5782,7 +5782,7 @@
       <typeCertainty>known</typeCertainty>
       <creationInfo>
         <author>SeisMonitor</author>
-        <creationTime>2023-01-18T21:15:33.639941Z</creationTime>
+        <creationTime>2023-01-19T13:14:20.413236Z</creationTime>
       </creationInfo>
       <originReference>smi:local/20191224.224736.422000</originReference>
     </event>

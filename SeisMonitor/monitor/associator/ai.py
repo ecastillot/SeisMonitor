@@ -270,7 +270,7 @@ class GaMMA():
         meta = station_df.merge(picks_df["id"], how="right", on="id")
 
         # picks_df = picks_df.iloc[0:200]
-        # print(picks_df.info(), 
+        # print(picks_df) 
         # station_df.info())
         # picks_df.to_csv("./test.csv",index=False)
         catalogs, assignments = association(picks_df, station_df, config, 

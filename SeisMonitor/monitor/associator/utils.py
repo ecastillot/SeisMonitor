@@ -53,6 +53,7 @@ def get_picks_GaMMa_df(picks,response,compute_amplitudes=True
                         "phasehint":"type",
                         "amplitude":"amp"})
     df = df.drop_duplicates(ignore_index=True)
+    # print(df)
     return df
 
 def get_stations_GaMMA_df(response):
