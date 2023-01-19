@@ -408,7 +408,7 @@ class Magnitude():
             mag = ut.write_magnitude_values(Mw,Mw_std,len(moments),"Mw",
                            evaluation_mode = "automatic",
                            evaluation_status = "preliminary",
-                           method="smi:com.github/krischer/moment_magnitude_calculator/automatic/1",
+                           method_id=ResourceIdentifier("smi:com.github/krischer/moment_magnitude_calculator/automatic/1"),
                            origin_id=event.origins[0].resource_id,
                            agency=self.agency,
                            comments=None)
