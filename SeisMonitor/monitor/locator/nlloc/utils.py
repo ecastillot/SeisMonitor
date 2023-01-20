@@ -101,9 +101,15 @@ def download_nlloc(forced=False):
     if os.path.isdir(cache_path):
         os.rmdir(cache_path)
 
-    apt_install(["cmake"])
+    try:
+        apt_install(["cmake"])
+    except:
+        sut.printlog("warning","Install Cmake","Could not install Cmake")
 
-    os.system(f"cd {src_path} && cmake . && make")
+    try:
+        os.system(f"cd {src_path} && cmake . && make")
+    except:
+        raise Exception("Could not compile NLLoc")
 
 def write_1d_vel_model(vel_path,out,
                         compute_vs=True,

@@ -6,6 +6,8 @@ out/
 **/nlloc/test*
 **/nlloc/TEST*
 **/NLLoc_grid/*
+**/EQTransformer/*
+**/PhaseNet/*
 build/
 dist/
 SeisMonitor.egg-info/
