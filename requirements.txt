@@ -1,4 +1,4 @@
-tensorflow == 2.0.0
+tensorflow == 2.9.3
 keras == 2.3.1
 # EQTransformer==0.1.59
 pyproj==3.2.1
