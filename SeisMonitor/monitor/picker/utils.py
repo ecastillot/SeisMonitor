@@ -39,6 +39,7 @@ from datetime import timedelta
 from SeisMonitor.utils import printlog,isfile
 from SeisMonitor.monitor.downloader.utils import get_chunktimes
 import concurrent.futures as cf
+from git import Repo
 from obspy.core.event.origin import Pick
 from obspy.core.event.base import (QuantityError,
                                 WaveformStreamID,
