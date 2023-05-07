@@ -7,6 +7,6 @@ keras
 pyproj
 #protobuf
 GitPython
-GAMMA @ git+https://github.com/wayneweiqiang/GaMMA.git@1a5a5371c294727d2f814bcfd48f73bde94627b4
+gmma @ git+https://github.com/wayneweiqiang/GaMMA.git@1a5a5371c294727d2f814bcfd48f73bde94627b4
 EQTransformer @ git+https://github.com/ecastillot/EQTransformer.git@master
 
