@@ -19,18 +19,19 @@ from SeisMonitor import utils as sut
 from SeisMonitor.core import utils as scut
 from SeisMonitor.monitor.locator import utils as slut
 
-CORE_NLLOC = os.path.join(os.path.dirname(__file__),"core")
-NLLOC_path = os.path.join(CORE_NLLOC,"NonLinLoc-main")
-src_path = os.path.join(NLLOC_path,"src")
-bin_path = os.path.join(src_path,"bin")
-vel2grid_exe_path = os.path.join(bin_path,"Vel2Grid")
-grid2time_exe_path = os.path.join(bin_path,"Grid2Time")
-nll_exe_path = os.path.join(bin_path,"NLLoc")
+# CORE_NLLOC = os.path.join(os.path.dirname(__file__),"core")
+# NLLOC_path = os.path.join(CORE_NLLOC,"NonLinLoc-main")
+# src_path = os.path.join(NLLOC_path,"src")
+# bin_path = os.path.join(src_path,"bin")
+# vel2grid_exe_path = os.path.join(bin_path,"Vel2Grid")
+# grid2time_exe_path = os.path.join(bin_path,"Grid2Time")
+# nll_exe_path = os.path.join(bin_path,"NLLoc")
 
 
 #https://github.com/SEISAN-EARTHQUAKE-ANALYSIS-SOFTWARE/SEISAN-manual/blob/master/appendix/nordic-format.tex seisan format
 class NLLoc():
     def __init__(self,
+                core_path:str,
                 agency:str,
                 region:list,
                 vel_model:slut.VelModel,
@@ -45,7 +46,10 @@ class NLLoc():
                 search_in_degrees:list = [],
                 rm_attempts:bool = False
                 ):
-
+        
+        paths = ut.testing_nlloc_core_path(core_path)
+        self.core_path = core_path
+        self.nlloc_paths = paths
         self.agency = agency
         self.region = region
         self.vel_model = vel_model
@@ -169,22 +173,22 @@ class NLLoc():
                             }
         return args
 
-    def download(self):
-        if not os.path.isdir(ut.NLLOC_path):
-            ut.download_nlloc()
+    def download(self,forced=False):
+        if not os.path.isdir(self.paths['core_path']):
+            ut.download_nlloc(self.paths,forced)
         else:
-            print(f"NonLinLoc is located in {ut.NLLOC_path}")
+            print(f"NonLinLoc is located in {self.paths['core_path']}")
 
     def compute_travel_times(self):
         self.__initialize()
 
         sut.printlog("info","NLLoc:Vel2Grid", "Running")
         # vel2grid = subprocess.call(f"{vel2grid_exe_path} {self.p_control_file_out} > /dev/null")
-        vel2grid = subprocess.call(f"{vel2grid_exe_path} {self.p_control_file_out}",shell=True)
+        vel2grid = subprocess.call(f"{self.paths['vel2grid_exe_path']} {self.p_control_file_out}",shell=True)
         sut.printlog("info","NLLoc:Grid2Time:P", "Running")
-        grid2time = subprocess.call(f"{grid2time_exe_path} {self.p_control_file_out}",shell=True)
+        grid2time = subprocess.call(f"{self.paths['grid2time_exe_path']} {self.p_control_file_out}",shell=True)
         sut.printlog("info","NLLoc:Grid2Time:S", "Running")
-        grid2time = subprocess.call(f"{grid2time_exe_path} {self.s_control_file_out}",shell=True)
+        grid2time = subprocess.call(f"{self.paths['grid2time_exe_path']} {self.s_control_file_out}",shell=True)
 
     def _locate(self,
                 catalog:Union[Catalog,str],
@@ -219,7 +223,7 @@ class NLLoc():
         nlloc_control_file.write(nlloc_control)
 
         sut.printlog("info","NLLoc:NLLoc", "Running")
-        subprocess.call(f"{nll_exe_path} {nlloc_control}",shell=True)
+        subprocess.call(f"{self.paths['nll_exe_path']} {nlloc_control}",shell=True)
         
         _nll_out = nlloc_folder+"*.hyp"
         all_events = []

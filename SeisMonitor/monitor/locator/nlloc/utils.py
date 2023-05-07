@@ -9,25 +9,53 @@ from tqdm import tqdm
 import glob
 import SeisMonitor.utils as sut
 
-CORE_NLLOC = os.path.join(os.path.dirname(__file__),"core")
-NLLOC_path = os.path.join(CORE_NLLOC,"NonLinLoc-main")
-src_path = os.path.join(NLLOC_path,"src")
-bin_path = os.path.join(src_path,"bin")
-vel2grid_exe_path = os.path.join(bin_path,"Vel2Grid")
-grid2time_exe_path = os.path.join(bin_path,"Grid2Time")
-nll_exe_path = os.path.join(bin_path,"NLLoc")
+# CORE_NLLOC = os.path.join(os.path.dirname(__file__),"core")
+# NLLOC_path = os.path.join(CORE_NLLOC,"NonLinLoc-main")
+# src_path = os.path.join(NLLOC_path,"src")
+# bin_path = os.path.join(src_path,"bin")
+# vel2grid_exe_path = os.path.join(bin_path,"Vel2Grid")
+# grid2time_exe_path = os.path.join(bin_path,"Grid2Time")
+# nll_exe_path = os.path.join(bin_path,"NLLoc")
 
-def run_nlloc(p_control_file_path,
+
+def get_nlloc_folders(core_path):
+    pre_core_path = os.path.dirname(core_path)
+    src_path = os.path.join(core_path,"src")
+    bin_path = os.path.join(src_path,"bin")
+    vel2grid_exe_path = os.path.join(bin_path,"Vel2Grid")
+    grid2time_exe_path = os.path.join(bin_path,"Grid2Time")
+    nll_exe_path = os.path.join(bin_path,"NLLoc")
+
+    paths = {
+            "pre_core_path":pre_core_path,
+            "core_path":core_path,
+            "src_path":src_path,"bin_path":bin_path,
+            "vel2grid_exe_path":vel2grid_exe_path,
+            "grid2time_exe_path":grid2time_exe_path,
+            "nll_exe_path":nll_exe_path}
+    return paths
+
+def testing_nlloc_core_path(nlloc_core_path):
+    paths = get_nlloc_folders(nlloc_core_path)
+
+    for key,path in paths.items():
+        if not os.path.isdir(path):
+            raise Exception("Mandatory path was not found->{path}.\n"+\
+                            "There is not NLLoc core folder, or it could be corrupted. "+\
+                            f"If you are using Ubuntu, feel free to use NLLoc.download() ")
+    return paths
+
+def run_nlloc(nlloc_paths,p_control_file_path,
             s_control_file_path):
 
     sut.printlog("info","NLLoc:Vel2Grid", "Running")
-    vel2grid = os.system(f"{vel2grid_exe_path} {p_control_file_path} > /dev/null")
+    vel2grid = os.system(f"{nlloc_paths['vel2grid_exe_path']} {p_control_file_path} > /dev/null")
     sut.printlog("info","NLLoc:Grid2Time:P", "Running")
-    grid2time = os.system(f"{grid2time_exe_path} {p_control_file_path} > /dev/null")
+    grid2time = os.system(f"{nlloc_paths['grid2time_exe_path']} {p_control_file_path} > /dev/null")
     sut.printlog("info","NLLoc:Grid2Time:S", "Running")
-    grid2time = os.system(f"{grid2time_exe_path} {s_control_file_path} > /dev/null")
+    grid2time = os.system(f"{nlloc_paths['grid2time_exe_path']} {s_control_file_path} > /dev/null")
     sut.printlog("info","NLLoc:NLLoc", "Running")
-    grid2time = os.system(f"{nll_exe_path} {s_control_file_path} > /dev/null")
+    grid2time = os.system(f"{nlloc_paths['nll_exe_path']} {s_control_file_path} > /dev/null")
 
 def apt_install(pkgs):
     cmd = ['pkexec', 'apt-get', 'install', '-y'] + pkgs
@@ -75,14 +103,15 @@ def write_pref_origin_removing_phaselocinfo(catalog):
     catalog.events = events
     return catalog
 
-def download_nlloc(forced=False):
+def download_nlloc(nlloc_paths,forced=False):
+
     name = "nll.zip"
-    zip_path = os.path.join(CORE_NLLOC,name)
-    cache_path = os.path.join(src_path,"CMakeCache.txt")
+    zip_path = os.path.join(nlloc_paths['pre_core_path'],name)
+    cache_path = os.path.join(nlloc_paths['src_path'],"CMakeCache.txt")
     # "https://github.com/alomax/NonLinLoc/archive/refs/heads/main.zip"
 
     if not forced:
-        if os.path.isfile(nll_exe_path):
+        if os.path.isfile(nlloc_paths['nll_exe_path']):
             return True
         else:
             pass
@@ -91,12 +120,12 @@ def download_nlloc(forced=False):
     if not isfile:
         os.system(f"wget https://github.com/alomax/NonLinLoc/archive/refs/heads/main.zip -O {zip_path}")
 
-    if not os.path.isdir(NLLOC_path):
-        os.system(f"unzip {zip_path} -d {CORE_NLLOC}")
+    if not os.path.isdir(nlloc_paths['core_path']):
+        os.system(f"unzip {zip_path} -d {nlloc_paths['pre_core_path']}")
 
-    if os.path.isdir(bin_path):
-        os.rmdir(bin_path)
-        os.makedirs(bin_path)
+    if os.path.isdir(nlloc_paths['bin_path']):
+        os.rmdir(nlloc_paths['bin_path'])
+        os.makedirs(nlloc_paths['bin_path'])
 
     if os.path.isdir(cache_path):
         os.rmdir(cache_path)
@@ -107,7 +136,7 @@ def download_nlloc(forced=False):
         sut.printlog("warning","Install Cmake","Could not install Cmake")
 
     try:
-        os.system(f"cd {src_path} && cmake . && make")
+        os.system(f"cd {nlloc_paths['src_path']} && cmake . && make")
     except:
         raise Exception("Could not compile NLLoc")
 
