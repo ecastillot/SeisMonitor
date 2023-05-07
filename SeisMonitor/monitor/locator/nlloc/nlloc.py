@@ -44,9 +44,11 @@ class NLLoc():
                 tmp_folder:str = os.getcwd(),
                 exhaustively:bool = False,
                 search_in_degrees:list = [],
-                rm_attempts:bool = False
+                rm_attempts:bool = False,
+                download:bool = False
                 ):
-        
+        if download:
+
         paths = ut.testing_nlloc_core_path(core_path)
         self.core_path = core_path
         self.nlloc_paths = paths
@@ -173,11 +175,11 @@ class NLLoc():
                             }
         return args
 
-    def download(self,forced=False):
-        if not os.path.isdir(self.paths['core_path']):
-            ut.download_nlloc(self.paths,forced)
-        else:
-            print(f"NonLinLoc is located in {self.paths['core_path']}")
+    # def download(self,forced=False):
+    #     if not os.path.isdir(self.paths['core_path']):
+    #         ut.download_nlloc(self.paths,forced)
+    #     else:
+    #         print(f"NonLinLoc is located in {self.paths['core_path']}")
 
     def compute_travel_times(self):
         self.__initialize()

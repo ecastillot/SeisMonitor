@@ -103,8 +103,8 @@ def write_pref_origin_removing_phaselocinfo(catalog):
     catalog.events = events
     return catalog
 
-def download_nlloc(nlloc_paths,forced=False):
-
+def download_nlloc(nlloc_path,forced=False):
+    nlloc_paths = get_nlloc_folders(nlloc_path)
     name = "nll.zip"
     zip_path = os.path.join(nlloc_paths['pre_core_path'],name)
     cache_path = os.path.join(nlloc_paths['src_path'],"CMakeCache.txt")
