@@ -44,7 +44,6 @@ from obspy.core.event.base import (QuantityError,
                                 WaveformStreamID,
                                 CreationInfo,
                                 Comment)
-from git import Repo
 from obspy.core.event import ResourceIdentifier
 
 

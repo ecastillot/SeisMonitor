@@ -1,10 +1,12 @@
 # tensorflow == 2.0.0
 # keras == 2.3.1
 # EQTransformer==0.1.59
+obspy==1.4
 tensorflow
 keras
 pyproj==3.2.1
 protobuf==3.20.*
 GitPython
 #GMMA @ git+https://github.com/wayneweiqiang/GaMMA.git@1a5a5371c294727d2f814bcfd48f73bde94627b4
+#eqt pip install git+https://github.com/ecastillot/EQTransformer.git
 

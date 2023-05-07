@@ -20,7 +20,9 @@ tf.compat.v1.logging.set_verbosity(tf.compat.v1.logging.ERROR)
 # PhaseNet_model_path = os.path.join(PhaseNet_core_path,"model","190703-214543")
 
 class EQTransformerObj(object):
-    def __init__(self,eqt_path,
+    def __init__(self,
+                # eqt_path,
+                model_path,
                 n_processor=2,overlap=0.3,
                 detection_threshold=0.1, P_threshold=0.1,
                 S_threshold=0.1,number_of_plots=1,
@@ -33,8 +35,9 @@ class EQTransformerObj(object):
         """
         EQTransformer parameters
         """
-        self.eqt_path = eqt_path
-        self.model_path = os.path.join(eqt_path,"ModelsAndSampleData","EqT_model.h5")
+        # self.eqt_path = eqt_path
+        # self.model_path = os.path.join(eqt_path,"ModelsAndSampleData","EqT_model.h5")
+        self.model_path = model_path
         self.n_processor = n_processor
         self.overlap = overlap
         self.detection_threshold = detection_threshold

@@ -18,7 +18,7 @@ out = "/home/emmanuel/E_ColSeismicity/ColSeismicity/test"
 
 sgc_client = FDSNClient('http://sismo.sgc.gov.co:8080')
 sgc_rest = WaveformRestrictions(network="CM",
-                    station="*",
+                    station="URMC,VILL,PRA,CLEJA",
                     location="*",
                     channel="*",
                     starttime=UTCDateTime("2019-12-24T19:00:00.000000Z"),
@@ -55,49 +55,49 @@ seismo.add_picker(
                                             rm_downloads=True ) 
                             }
                 )
-seismo.add_associator(input=["EQTransformer"],
-                        associators={
-                        "GaMMA":ai_asso.GaMMAObj(
-                                            [-85, -68,-2, 15,0, 180],
-                                            "EPSG:3116",
-                                            use_amplitude = False,
-                                            use_dbscan=False,
-                                            max_sigma11=5.0,
-                                            calculate_amp=False)
-                        }
-                        )
+# seismo.add_associator(input=["EQTransformer"],
+#                         associators={
+#                         "GaMMA":ai_asso.GaMMAObj(
+#                                             [-85, -68,-2, 15,0, 180],
+#                                             "EPSG:3116",
+#                                             use_amplitude = False,
+#                                             use_dbscan=False,
+#                                             max_sigma11=5.0,
+#                                             calculate_amp=False)
+#                         }
+#                         )
 
-dataset = os.path.join(os.path.dirname(os.path.dirname(__file__)),"data")
-vel_path = os.path.join(dataset,"metadata","vel1d_col.csv")
-vel_model = lut.VelModel(vel_path)
-inv,_,_,_ = dut.get_merged_inv_and_json(seismo.providers)
-stations = lut.Stations(inv)
+# dataset = os.path.join(os.path.dirname(os.path.dirname(__file__)),"data")
+# vel_path = os.path.join(dataset,"metadata","vel1d_col.csv")
+# vel_model = lut.VelModel(vel_path)
+# inv,_,_,_ = dut.get_merged_inv_and_json(seismo.providers)
+# stations = lut.Stations(inv)
 
-nlloc = NLLoc(
-        agency="SeisMonitor",
-        region = [-85, -68,0, 15,-5, 205],
-        vel_model = vel_model,
-        stations = stations,
-        delta_in_km = 2.5,
-        tmp_folder="/home/emmanuel/NLLoc_grid/NLLoc_grid" ### CHANGE PATH TO YOUR OWN PATH AND ALSO TAKE IN MIND THAT CONSUME DISK
-        )
+# nlloc = NLLoc(
+#         agency="SeisMonitor",
+#         region = [-85, -68,0, 15,-5, 205],
+#         vel_model = vel_model,
+#         stations = stations,
+#         delta_in_km = 2.5,
+#         tmp_folder="/home/emmanuel/NLLoc_grid/NLLoc_grid" ### CHANGE PATH TO YOUR OWN PATH AND ALSO TAKE IN MIND THAT CONSUME DISK
+#         )
 
-seismo.add_locator(input={"associations":("GaMMA","EQTransformer")},
-                    locators={
-                        "NLLOC":nlloc}
-                        )
+# seismo.add_locator(input={"associations":("GaMMA","EQTransformer")},
+#                     locators={
+#                         "NLLOC":nlloc}
+#                         )
 
 
-ml_params = {"a":1.019,"b":0.0016,"r_ref":140} #ojeda
-k = ml_params["a"]*math.log10(ml_params["r_ref"]/100) +\
-                    ml_params["b"]* (ml_params["r_ref"]-100) +3
-Ml = lambda ampl,epi_dist : math.log10(ampl * 1e3) + ml_params["a"] * math.log10(epi_dist/ml_params["r_ref"]) +\
-                                ml_params["b"] * (epi_dist-ml_params["r_ref"]) + k
+# ml_params = {"a":1.019,"b":0.0016,"r_ref":140} #ojeda
+# k = ml_params["a"]*math.log10(ml_params["r_ref"]/100) +\
+#                     ml_params["b"]* (ml_params["r_ref"]-100) +3
+# Ml = lambda ampl,epi_dist : math.log10(ampl * 1e3) + ml_params["a"] * math.log10(epi_dist/ml_params["r_ref"]) +\
+#                                 ml_params["b"] * (epi_dist-ml_params["r_ref"]) + k
 
-seismo.add_magnitude(input={"locations":("NLLOC","GaMMA/EQTransformer")},
-                    magnitudes={
-                        "Ml":{"mag_type":Ml,
-                                "trimmedtime":5,
-                                "out_format":"SC3ML"}}
-                                )
+# seismo.add_magnitude(input={"locations":("NLLOC","GaMMA/EQTransformer")},
+#                     magnitudes={
+#                         "Ml":{"mag_type":Ml,
+#                                 "trimmedtime":5,
+#                                 "out_format":"SC3ML"}}
+#                                 )
 seismo.run()

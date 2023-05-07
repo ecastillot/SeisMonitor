@@ -13,7 +13,7 @@
 
 # import colorama
 import matplotlib.pylab as plt
-import mtspec
+# import mtspec
 import numpy as np
 # from obspy.core.event import Magnitude as Mag, catalog
 from obspy.core.event import Magnitude as Mag

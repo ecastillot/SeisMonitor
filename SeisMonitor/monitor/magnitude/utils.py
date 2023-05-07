@@ -11,7 +11,7 @@ from obspy.core.event.base import CreationInfo,WaveformStreamID,TimeWindow
 from obspy.core.event.resourceid import ResourceIdentifier
 
 from obspy.core.event.magnitude import Amplitude
-import mtspec
+# import mtspec
 import numpy as np
 import scipy
 import math 
