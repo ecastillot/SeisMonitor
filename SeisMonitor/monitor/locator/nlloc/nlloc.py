@@ -47,7 +47,7 @@ class NLLoc():
                 rm_attempts:bool = False,
                 ):
         paths = ut.testing_nlloc_core_path(core_path)
-        
+
         self.core_path = core_path
         self.nlloc_paths = paths
         self.agency = agency
@@ -174,21 +174,21 @@ class NLLoc():
         return args
 
     # def download(self,forced=False):
-    #     if not os.path.isdir(self.paths['core_path']):
-    #         ut.download_nlloc(self.paths,forced)
+    #     if not os.path.isdir(self.nlloc_paths['core_path']):
+    #         ut.download_nlloc(self.nlloc_paths,forced)
     #     else:
-    #         print(f"NonLinLoc is located in {self.paths['core_path']}")
+    #         print(f"NonLinLoc is located in {self.nlloc_paths['core_path']}")
 
     def compute_travel_times(self):
         self.__initialize()
 
         sut.printlog("info","NLLoc:Vel2Grid", "Running")
         # vel2grid = subprocess.call(f"{vel2grid_exe_path} {self.p_control_file_out} > /dev/null")
-        vel2grid = subprocess.call(f"{self.paths['vel2grid_exe_path']} {self.p_control_file_out}",shell=True)
+        vel2grid = subprocess.call(f"{self.nlloc_paths['vel2grid_exe_path']} {self.p_control_file_out}",shell=True)
         sut.printlog("info","NLLoc:Grid2Time:P", "Running")
-        grid2time = subprocess.call(f"{self.paths['grid2time_exe_path']} {self.p_control_file_out}",shell=True)
+        grid2time = subprocess.call(f"{self.nlloc_paths['grid2time_exe_path']} {self.p_control_file_out}",shell=True)
         sut.printlog("info","NLLoc:Grid2Time:S", "Running")
-        grid2time = subprocess.call(f"{self.paths['grid2time_exe_path']} {self.s_control_file_out}",shell=True)
+        grid2time = subprocess.call(f"{self.nlloc_paths['grid2time_exe_path']} {self.s_control_file_out}",shell=True)
 
     def _locate(self,
                 catalog:Union[Catalog,str],
@@ -223,7 +223,7 @@ class NLLoc():
         nlloc_control_file.write(nlloc_control)
 
         sut.printlog("info","NLLoc:NLLoc", "Running")
-        subprocess.call(f"{self.paths['nll_exe_path']} {nlloc_control}",shell=True)
+        subprocess.call(f"{self.nlloc_paths['nll_exe_path']} {nlloc_control}",shell=True)
         
         _nll_out = nlloc_folder+"*.hyp"
         all_events = []
