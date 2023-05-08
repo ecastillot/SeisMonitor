@@ -45,11 +45,9 @@ class NLLoc():
                 exhaustively:bool = False,
                 search_in_degrees:list = [],
                 rm_attempts:bool = False,
-                download:bool = False
                 ):
-        if download:
-
         paths = ut.testing_nlloc_core_path(core_path)
+        
         self.core_path = core_path
         self.nlloc_paths = paths
         self.agency = agency

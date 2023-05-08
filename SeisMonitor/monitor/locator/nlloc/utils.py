@@ -7,6 +7,7 @@ from subprocess import run
 from obspy import read_inventory
 from tqdm import tqdm
 import glob
+from git import Repo
 import SeisMonitor.utils as sut
 
 # CORE_NLLOC = os.path.join(os.path.dirname(__file__),"core")
@@ -40,7 +41,7 @@ def testing_nlloc_core_path(nlloc_core_path):
 
     for key,path in paths.items():
         if not os.path.isdir(path):
-            raise Exception("Mandatory path was not found->{path}.\n"+\
+            raise Exception(f"Mandatory path was not found->{path}.\n"+\
                             "There is not NLLoc core folder, or it could be corrupted. "+\
                             f"If you are using Ubuntu, feel free to use NLLoc.download() ")
     return paths
@@ -116,12 +117,18 @@ def download_nlloc(nlloc_path,forced=False):
         else:
             pass
 
-    isfile = sut.isfile(zip_path)
-    if not isfile:
-        os.system(f"wget https://github.com/alomax/NonLinLoc/archive/refs/heads/main.zip -O {zip_path}")
+    # isfile = sut.isfile(zip_path)
+    # if not isfile:
+    #     os.system(f"wget https://github.com/alomax/NonLinLoc/archive/refs/heads/main.zip -O {zip_path}")
 
-    if not os.path.isdir(nlloc_paths['core_path']):
-        os.system(f"unzip {zip_path} -d {nlloc_paths['pre_core_path']}")
+    # if not os.path.isdir(nlloc_paths['core_path']):
+    #     os.system(f"unzip {zip_path} -d {nlloc_paths['pre_core_path']}")
+
+    git_url = "https://github.com/alomax/NonLinLoc.git"
+    if os.path.isdir(nlloc_paths['core_path']):
+        print("There is already")
+    else:
+        Repo.clone_from(git_url, nlloc_paths['core_path'])
 
     if os.path.isdir(nlloc_paths['bin_path']):
         os.rmdir(nlloc_paths['bin_path'])

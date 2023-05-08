@@ -66,7 +66,7 @@ def git_clone_aipicker(name,repo_dir):
 
     repo_dir = os.path.join(repo_dir,name)
     if os.path.isdir(repo_dir):
-        print("There is alaready")
+        print("There is already")
         return True
     else:
         Repo.clone_from(git_url, repo_dir)

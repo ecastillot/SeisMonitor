@@ -40,7 +40,6 @@ class EQTransformerObj(object):
             self.model_path = os.path.join(eqt_path,"ModelsAndSampleData","EqT_model.h5")
         else:
             self.model_path = model_path
-        self.model_path = model_path
         self.n_processor = n_processor
         self.overlap = overlap
         self.detection_threshold = detection_threshold
@@ -55,7 +54,7 @@ class EQTransformerObj(object):
 
 class PhaseNetObj(object):
     def __init__(self, pnet_path,
-                model_path=None,
+                modeldir_path=None,
                 mode='pred', P_threshold=0.3, S_threshold=0.3,
                 batch_size=2, plot = False, save_result=False,
                 epochs = 100,learning_rate= 0.01,decay_step = -1,
@@ -78,10 +77,10 @@ class PhaseNetObj(object):
         """
 
         self.phasenet_path = pnet_path
-        if model_path == None:
+        if modeldir_path == None:
             self.model_dir = os.path.join(pnet_path,"model","190703-214543")
         else:
-            self.model_dir = model_path
+            self.model_dir = modeldir_path
         self.mode = mode
         self.tp_prob = P_threshold
         self.ts_prob = S_threshold
