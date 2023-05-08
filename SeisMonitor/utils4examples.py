@@ -4,9 +4,9 @@ from obspy.clients.fdsn import Client as FDSNClient
 from SeisMonitor.core.objects import WaveformRestrictions,Provider
 from SeisMonitor.monitor.downloader.seismonitor import MseedDownloader
 
-out_download_folder = "../out"
+# out_download_folder = "../out"
 
-def quick_download(out_folder):
+def quick_download(out_download_folder):
 
     sgc_rest = WaveformRestrictions(network="CM",
                     station="URMC,VILL,PRA,ORTC,GARC,FLO2,CHI,YOT",
