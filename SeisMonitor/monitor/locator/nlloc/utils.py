@@ -40,10 +40,11 @@ def testing_nlloc_core_path(nlloc_core_path):
     paths = get_nlloc_folders(nlloc_core_path)
 
     for key,path in paths.items():
-        if not os.path.isdir(path):
-            raise Exception(f"Mandatory path was not found->{path}.\n"+\
-                            "There is not NLLoc core folder, or it could be corrupted. "+\
-                            f"If you are using Ubuntu, feel free to use NLLoc.download() ")
+        if key in ["pre_core_path","core_path","src_path","bin_path"]:
+            if not os.path.isdir(path):
+                raise Exception(f"Mandatory path was not found->{path}.\n"+\
+                                "There is not NLLoc core folder, or it could be corrupted. "+\
+                                f"If you are using Ubuntu, feel free to use NLLoc.download() ")
     return paths
 
 def run_nlloc(nlloc_paths,p_control_file_path,
