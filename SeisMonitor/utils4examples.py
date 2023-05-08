@@ -25,7 +25,7 @@ def quick_download(out_download_folder):
     md = MseedDownloader(providers=[sgc_provider])
     json_path = os.path.join(out_download_folder,"stations")
     inv,json = md.make_inv_and_json(json_path)
-    mseed_storage = os.path.join(out_download_folder,"downloads/{station}/{network}.{station}.{location}.{channel}__{starttime}__{endtime}.mseed")
+    mseed_storage = os.path.join(out_download_folder,"{station}/{network}.{station}.{location}.{channel}__{starttime}__{endtime}.mseed")
     md.download(mseed_storage,
             picker_args={"batch_size":100,"overlap":0.3,"length":60},
             chunklength_in_sec=7200,n_processor=None)
