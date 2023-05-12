@@ -1,4 +1,5 @@
 import os
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '1'
 from SeisMonitor.monitor.picker.ai import EQTransformer,EQTransformerObj
 from SeisMonitor.monitor.picker import utils as piut
 from obspy.clients.fdsn import Client as FDSNClient
@@ -13,8 +14,9 @@ json_path = os.path.join(archive,"json/stations.json")
 mseed_storage = os.path.join(archive,"downloads/{station}/{network}.{station}.{location}.{channel}__{starttime}__{endtime}.mseed")
 
 dataset = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))),"data")
-eqt_model = os.path.join(dataset,"models",'EqT_model.h5')
-eqtobj = EQTransformerObj(model_path = eqt_model,
+# eqt_model = os.path.join(dataset,"models",'EqT_model.h5')
+eqt_path = "/home/emmanuel/EDCT/EQTransformer"
+eqtobj = EQTransformerObj(eqt_path,
             n_processor = 6,
             overlap = 0.3,
             detection_threshold =0.1,
