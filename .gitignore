@@ -8,6 +8,7 @@ out/
 **/NLLoc_grid/*
 **/EQTransformer/*
 **/PhaseNet/*
+**/OUTPUT
 build/
 dist/
 SeisMonitor.egg-info/
