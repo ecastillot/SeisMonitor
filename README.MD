@@ -8,13 +8,15 @@ For now only supported for linux
 ## pip
 ```bash
 pip install SeisMonitor
+pip install git+https://github.com/ecastillot/EQTransformer.git@master
 pip install git+https://github.com/wayneweiqiang/GaMMA.git
 ```
 ## conda
 ```bash
-conda create --name seismonitor python=3.7.9
+conda create --name seismonitor python=3.10
 conda activate seismonitor
 pip install SeisMonitor
+pip install git+https://github.com/ecastillot/EQTransformer.git@master
 pip install git+https://github.com/wayneweiqiang/GaMMA.git
 ```
 
