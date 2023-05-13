@@ -1,10 +1,15 @@
 import os
+from git import Repo
 from obspy.core.utcdatetime import UTCDateTime
 from obspy.clients.fdsn import Client as FDSNClient
 from SeisMonitor.core.objects import WaveformRestrictions,Provider
 from SeisMonitor.monitor.downloader.seismonitor import MseedDownloader
 
-# out_download_folder = "../out"
+def clone_seismonitor_data(output_folder):
+    git_url = "https://github.com/ecastillot/SeisMonitor.git"
+    Repo.clone_from(git_url, output_folder,branch="data")
+    return True
+    
 
 def quick_download(out_download_folder):
 
@@ -29,3 +34,6 @@ def quick_download(out_download_folder):
     md.download(mseed_storage,
             picker_args={"batch_size":100,"overlap":0.3,"length":60},
             chunklength_in_sec=7200,n_processor=None)
+
+if __name__ == "__main__":
+    clone_seismonitor_data("/home/emmanuel/EDCT/seismonitor_dataset")
