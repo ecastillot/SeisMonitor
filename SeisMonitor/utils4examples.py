@@ -5,9 +5,9 @@ from obspy.clients.fdsn import Client as FDSNClient
 from SeisMonitor.core.objects import WaveformRestrictions,Provider
 from SeisMonitor.monitor.downloader.seismonitor import MseedDownloader
 
-def clone_seismonitor_data(output_folder):
+def clone_seismonitor_data(output_folder,branch):
     git_url = "https://github.com/ecastillot/SeisMonitor.git"
-    Repo.clone_from(git_url, output_folder,branch="data")
+    Repo.clone_from(git_url, output_folder,branch=branch)
     return True
     
 
