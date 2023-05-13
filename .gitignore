@@ -1,6 +1,7 @@
 _*/
 out/
 **/hypocenter/core
+**/__pycache__
 **/hypoDD/core
 **/nlloc/core
 **/nlloc/test*
@@ -12,6 +13,6 @@ out/
 build/
 dist/
 SeisMonitor.egg-info/
-time_tracks.pkl
+./time_tracks*
 x.input
 analisis/
