@@ -1,4 +1,5 @@
 import os
+import shutil
 from git import Repo
 from obspy.core.utcdatetime import UTCDateTime
 from obspy.clients.fdsn import Client as FDSNClient
@@ -7,6 +8,10 @@ from SeisMonitor.monitor.downloader.seismonitor import MseedDownloader
 
 def clone_seismonitor_data(output_folder,branch):
     git_url = "https://github.com/ecastillot/SeisMonitor.git"
+
+    if os.path.isdir(output_folder):
+        shutil.rmtree(output_folder)
+
     Repo.clone_from(git_url, output_folder,branch=branch)
     return True
     
