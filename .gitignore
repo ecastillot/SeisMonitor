@@ -1,6 +1,7 @@
 _*/
 models/
 out/
+others/
 seismonitor_dataset/
 **/hypocenter/core
 **/__pycache__
