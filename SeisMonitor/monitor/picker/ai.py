@@ -50,6 +50,7 @@ class EQTransformerObj(object):
 
 class PhaseNetObj(object):
     def __init__(self, 
+                pnet_path,
                 model_path,
                 mode='pred', P_threshold=0.3, S_threshold=0.3,
                 batch_size=2, plot = False, save_result=False,
@@ -65,20 +66,12 @@ class PhaseNetObj(object):
                 data_list = "./dataset/waveform.csv",
                 train_dir = "./dataset/waveform_train/",
                 train_list ="./dataset/waveform.csv",
-                pnet_path = os.path.join(os.get_cwd(),"PhaseNet"),
                 valid_dir = None, valid_list = None,
                 output_dir = None,
                 rm_downloads=False ):
         """
         PhaseNet parameters
         """
-        
-        
-        git_url = "https://github.com/ecastillot/PhaseNet"
-        if os.path.isdir(pnet_path):
-            shutil.rmtree(pnet_path)
-        Repo.clone_from(git_url, pnet_path)
-
         self.phasenet_path = pnet_path
         self.model_path = model_path
         self.model_dir = model_path

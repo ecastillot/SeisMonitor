@@ -48,13 +48,13 @@ from obspy.core.event.base import (QuantityError,
 from obspy.core.event import ResourceIdentifier
 
 
-def git_clone_aipicker(name,repo_dir):
+def clone_aipicker(name,output_folder):
     """
     Params:
     -------
     name: str
         EQTransformer or PhaseNet
-    repo_dir: str
+    output_folder: str
         Directory path to place the repository
     """
     if name == "PhaseNet":
@@ -62,15 +62,14 @@ def git_clone_aipicker(name,repo_dir):
     elif name == "EQTransformer":
         git_url = "https://github.com/ecastillot/EQTransformer.git"
     else:
-        return False
+        raise Exception("There are two possible aipickers: EQTransformer and PhaseNet. "+\
+                        f"Please change your aipicker name: {name}")
 
-    repo_dir = os.path.join(repo_dir,name)
-    if os.path.isdir(repo_dir):
-        print("Already exists")
-        return True
-    else:
-        Repo.clone_from(git_url, repo_dir)
-        return True
+    if os.path.isdir(output_folder):
+        shutil.rmtree(output_folder)
+
+    Repo.clone_from(git_url, output_folder)
+    return True
 
 ## EQTransformer functions
 def eqt_picks_2_seismonitor_fmt(eqt_folder,mseed_folder,out_path):
