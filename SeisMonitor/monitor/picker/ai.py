@@ -8,6 +8,7 @@ import warnings
 import pandas as pd
 import datetime as dt
 import tensorflow as tf
+from git import Repo
 from SeisMonitor.utils import printlog, isfile
 from EQTransformer.core.mseed_predictor import mseed_predictor
 
@@ -21,8 +22,7 @@ tf.compat.v1.logging.set_verbosity(tf.compat.v1.logging.ERROR)
 
 class EQTransformerObj(object):
     def __init__(self,
-                eqt_path,
-                model_path=None,
+                model_path,
                 n_processor=2,overlap=0.3,
                 detection_threshold=0.1, P_threshold=0.1,
                 S_threshold=0.1,number_of_plots=1,
@@ -35,11 +35,7 @@ class EQTransformerObj(object):
         """
         EQTransformer parameters
         """
-        self.eqt_path = eqt_path
-        if model_path == None:
-            self.model_path = os.path.join(eqt_path,"ModelsAndSampleData","EqT_model.h5")
-        else:
-            self.model_path = model_path
+        self.model_path = model_path
         self.n_processor = n_processor
         self.overlap = overlap
         self.detection_threshold = detection_threshold
@@ -53,8 +49,8 @@ class EQTransformerObj(object):
         self.name = "EQTransformer"
 
 class PhaseNetObj(object):
-    def __init__(self, pnet_path,
-                modeldir_path=None,
+    def __init__(self, 
+                model_path,
                 mode='pred', P_threshold=0.3, S_threshold=0.3,
                 batch_size=2, plot = False, save_result=False,
                 epochs = 100,learning_rate= 0.01,decay_step = -1,
@@ -69,18 +65,23 @@ class PhaseNetObj(object):
                 data_list = "./dataset/waveform.csv",
                 train_dir = "./dataset/waveform_train/",
                 train_list ="./dataset/waveform.csv",
+                pnet_path = os.path.join(os.get_cwd(),"PhaseNet"),
                 valid_dir = None, valid_list = None,
                 output_dir = None,
                 rm_downloads=False ):
         """
         PhaseNet parameters
         """
+        
+        
+        git_url = "https://github.com/ecastillot/PhaseNet"
+        if os.path.isdir(pnet_path):
+            shutil.rmtree(pnet_path)
+        Repo.clone_from(git_url, pnet_path)
 
         self.phasenet_path = pnet_path
-        if modeldir_path == None:
-            self.model_dir = os.path.join(pnet_path,"model","190703-214543")
-        else:
-            self.model_dir = modeldir_path
+        self.model_path = model_path
+        self.model_dir = model_path
         self.mode = mode
         self.tp_prob = P_threshold
         self.ts_prob = S_threshold
