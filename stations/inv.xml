@@ -1,10 +1,10 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <FDSNStationXML xmlns="http://www.fdsn.org/xml/station/1" schemaVersion="1.2">
-  <Source>ObsPy 1.3.1,SeisComP3</Source>
+  <Source>ObsPy 1.4.0,SeisComP3</Source>
   <Sender>SGC</Sender>
-  <Module>ObsPy 1.3.1</Module>
+  <Module>ObsPy 1.4.0</Module>
   <ModuleURI>https://www.obspy.org</ModuleURI>
-  <Created>2023-01-18T15:11:18.975744Z</Created>
+  <Created>2023-05-16T02:36:06.230292Z</Created>
   <Network code="CM" startDate="1980-01-01T00:00:00.000000Z" restrictedStatus="open">
     <Description>Servicio Geologico Colombiano-SGC</Description>
     <Station code="YOT" startDate="2011-12-09T00:00:00.000000Z" restrictedStatus="open">
@@ -2091,6 +2091,121 @@
             <InputUnits>
               <Name>M/S**2</Name>
               <Description>None</Description>
+            </InputUnits>
+            <OutputUnits>
+              <Name></Name>
+              <Description>None</Description>
+            </OutputUnits>
+          </InstrumentSensitivity>
+        </Response>
+      </Channel>
+    </Station>
+    <Station code="CLEJA" startDate="2016-02-06T00:00:00.000000Z" restrictedStatus="open">
+      <Latitude unit="DEGREES">3.536269</Latitude>
+      <Longitude unit="DEGREES">-74.041429</Longitude>
+      <Elevation>749.0</Elevation>
+      <Site>
+        <Name>Lejanias, Meta, Colombia</Name>
+        <Country> Colombia</Country>
+      </Site>
+      <CreationDate>2016-02-06T00:00:00.000000Z</CreationDate>
+      <Channel code="HNE" startDate="2016-02-06T00:00:00.000000Z" endDate="2019-12-25T23:59:59.000000Z" restrictedStatus="open" locationCode="10">
+        <Latitude unit="DEGREES">3.536269</Latitude>
+        <Longitude unit="DEGREES">-74.041429</Longitude>
+        <Elevation>749.0</Elevation>
+        <Depth>0.0</Depth>
+        <Azimuth unit="DEGREES">90.0</Azimuth>
+        <Dip unit="DEGREES">0.0</Dip>
+        <SampleRate unit="SAMPLES/S">200.0</SampleRate>
+        <SampleRateRatio>
+          <NumberSamples>200</NumberSamples>
+          <NumberSeconds>1</NumberSeconds>
+        </SampleRateRatio>
+        <ClockDrift unit="SECONDS/SAMPLE">0.0</ClockDrift>
+        <Sensor resourceId="Sensor/20200403140815.420216.11">
+          <Type>Episensor, DC</Type>
+          <Description>Episensor, DC to &gt;200 Hz,  20V differential full s</Description>
+          <Manufacturer>Episensor,</Manufacturer>
+          <Model>DC</Model>
+        </Sensor>
+        <DataLogger resourceId="Datalogger/20200403140815.418221.6"/>
+        <Response>
+          <InstrumentSensitivity>
+            <Value>428446.0</Value>
+            <Frequency>0.02</Frequency>
+            <InputUnits>
+              <Name>M/S**2</Name>
+              <Description>Acceleration in Meters Per Second Per Second</Description>
+            </InputUnits>
+            <OutputUnits>
+              <Name></Name>
+              <Description>None</Description>
+            </OutputUnits>
+          </InstrumentSensitivity>
+        </Response>
+      </Channel>
+      <Channel code="HNN" startDate="2016-02-06T00:00:00.000000Z" endDate="2019-12-25T23:59:59.000000Z" restrictedStatus="open" locationCode="10">
+        <Latitude unit="DEGREES">3.536269</Latitude>
+        <Longitude unit="DEGREES">-74.041429</Longitude>
+        <Elevation>749.0</Elevation>
+        <Depth>0.0</Depth>
+        <Azimuth unit="DEGREES">0.0</Azimuth>
+        <Dip unit="DEGREES">0.0</Dip>
+        <SampleRate unit="SAMPLES/S">200.0</SampleRate>
+        <SampleRateRatio>
+          <NumberSamples>200</NumberSamples>
+          <NumberSeconds>1</NumberSeconds>
+        </SampleRateRatio>
+        <ClockDrift unit="SECONDS/SAMPLE">0.0</ClockDrift>
+        <Sensor resourceId="Sensor/20200403140815.422585.19">
+          <Type>Episensor, DC</Type>
+          <Description>Episensor, DC to &gt;200 Hz,  20V differential full s</Description>
+          <Manufacturer>Episensor,</Manufacturer>
+          <Model>DC</Model>
+        </Sensor>
+        <DataLogger resourceId="Datalogger/20200403140815.421016.14"/>
+        <Response>
+          <InstrumentSensitivity>
+            <Value>428446.0</Value>
+            <Frequency>0.02</Frequency>
+            <InputUnits>
+              <Name>M/S**2</Name>
+              <Description>Acceleration in Meters Per Second Per Second</Description>
+            </InputUnits>
+            <OutputUnits>
+              <Name></Name>
+              <Description>None</Description>
+            </OutputUnits>
+          </InstrumentSensitivity>
+        </Response>
+      </Channel>
+      <Channel code="HNZ" startDate="2016-02-06T00:00:00.000000Z" endDate="2019-12-25T23:59:59.000000Z" restrictedStatus="open" locationCode="10">
+        <Latitude unit="DEGREES">3.536269</Latitude>
+        <Longitude unit="DEGREES">-74.041429</Longitude>
+        <Elevation>749.0</Elevation>
+        <Depth>0.0</Depth>
+        <Azimuth unit="DEGREES">0.0</Azimuth>
+        <Dip unit="DEGREES">-90.0</Dip>
+        <SampleRate unit="SAMPLES/S">200.0</SampleRate>
+        <SampleRateRatio>
+          <NumberSamples>200</NumberSamples>
+          <NumberSeconds>1</NumberSeconds>
+        </SampleRateRatio>
+        <ClockDrift unit="SECONDS/SAMPLE">0.0</ClockDrift>
+        <Sensor resourceId="Sensor/20200403140815.424507.27">
+          <Type>Episensor, DC</Type>
+          <Description>Episensor, DC to &gt;200 Hz,  20V differential full s</Description>
+          <Manufacturer>Episensor,</Manufacturer>
+          <Model>DC</Model>
+        </Sensor>
+        <DataLogger resourceId="Datalogger/20200403140815.422976.22"/>
+        <Response>
+          <InstrumentSensitivity>
+            <Value>428446.0</Value>
+            <Frequency>0.02</Frequency>
+            <InputUnits>
+              <Name>M/S**2</Name>
+              <Description>Acceleration in Meters Per Second Per Second</Description>
             </InputUnits>
             <OutputUnits>
               <Name></Name>
