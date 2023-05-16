@@ -1,5 +1,6 @@
 ![seismonitor](docs/figures/seismonitor.PNG)     
 # A package for seismological monitoring.
+#### [Downloader->Picker->Associator->Locator->Magnitude]
 For now only supported for linux
 *In process...*
 
@@ -23,7 +24,9 @@ pip install git+https://github.com/wayneweiqiang/GaMMA.git
 
 # Examples
 
-We will be uploading examples.
+We will be uploading examples. 
+
+Feel free to ask me if you ahve any doubts: ecastillot@unal.edu.co. I am trying little by little to have everything up for everyone.
 
 | Examples |  |
 |---|---|
