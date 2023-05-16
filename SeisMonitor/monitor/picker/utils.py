@@ -84,7 +84,8 @@ def eqt_picks_2_seismonitor_fmt(eqt_folder,mseed_folder,out_path):
                 search_path = os.path.join(dp, f)
                 df = pd.read_csv(search_path)
                 if not df.empty:
-                    df[date_cols] = df[date_cols].apply(pd.to_datetime)
+                    to_date = lambda x: pd.to_datetime(x,format="mixed")
+                    df[date_cols] = df[date_cols].apply(to_date)
                     dfs.append(df)
 
     if not dfs:
