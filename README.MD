@@ -1,4 +1,5 @@
-![seismonitor](docs/figures/seismonitor.PNG)     
+![seismonitor](docs/figures/seismonitor.PNG)   
+![Twitter Follow](https://img.shields.io/twitter/follow/manuavid?style=social)![GitHub followers](https://img.shields.io/github/followers/ecastillot?style=social)![GitHub stars](https://img.shields.io/github/stars/ecastillot/SeisMonitor?style=social)![GitHub forks](https://img.shields.io/github/forks/ecastillot/SeisMonitor?style=social)  
 # A package for seismological monitoring.
 #### [Downloader->Picker->Associator->Locator->Magnitude]
 For now only supported for linux
