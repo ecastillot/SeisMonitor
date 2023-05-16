@@ -77,18 +77,18 @@ class NLLoc():
 
     def __initialize(self,write_nlloc_files=True):
         ### inputs
-        self.vel_model_path = os.path.join(self.tmp_folder,"time_grid","vel_model.dat")
-        self.station_path = os.path.join(self.tmp_folder,"time_grid","station.dat")
+        self.vel_model_path = os.path.join(self.tmp_folder,"vel_model.dat")
+        self.station_path = os.path.join(self.tmp_folder,"station.dat")
         sut.isfile(self.vel_model_path,overwrite=True)
         self.basic_inputs.vel_model.to_nlloc(self.vel_model_path)
         sut.isfile(self.station_path,overwrite=True)
         self.basic_inputs.stations.to_nlloc(self.station_path)
 
-        self.grid_folder_out = os.path.join(self.tmp_folder,"time_grid","model","layer")
-        self.time_folder_out = os.path.join(self.tmp_folder,"time_grid","time","layer")
-        self.loc_folder_out = os.path.join(self.tmp_folder,"time_grid","loc","SeisMonitor")
-        self.p_control_file_out = os.path.join(self.tmp_folder,"time_grid","p_nlloc.in")
-        self.s_control_file_out = os.path.join(self.tmp_folder,"time_grid","s_nlloc.in")
+        self.grid_folder_out = os.path.join(self.tmp_folder,"model","layer")
+        self.time_folder_out = os.path.join(self.tmp_folder,"time","layer")
+        self.loc_folder_out = os.path.join(self.tmp_folder,"loc","SeisMonitor")
+        self.p_control_file_out = os.path.join(self.tmp_folder,"p_nlloc.in")
+        self.s_control_file_out = os.path.join(self.tmp_folder,"s_nlloc.in")
 
         grid_args = self._prepare_grid_args()
 
@@ -112,7 +112,7 @@ class NLLoc():
                             time_folder_out=self.time_folder_out,
                             phase="S")
 
-        self.catalog_path = os.path.join(self.tmp_folder,"time_grid","catalog.out")
+        self.catalog_path = os.path.join(self.tmp_folder,"catalog.out")
         sut.isfile(self.catalog_path,overwrite=True)
         open(self.catalog_path, "w")
         gen_time2loc = ut.Time2Loc(catalog=[self.catalog_path,"SEISAN"],
