@@ -1,9 +1,9 @@
 ![seismonitor](docs/figures/seismonitor.PNG)   
+![PyPI](https://img.shields.io/pypi/v/SeisMonitor?style=plastic)
 ![Twitter Follow](https://img.shields.io/twitter/follow/manuavid?style=social)![GitHub followers](https://img.shields.io/github/followers/ecastillot?style=social)![GitHub stars](https://img.shields.io/github/stars/ecastillot/SeisMonitor?style=social)![GitHub forks](https://img.shields.io/github/forks/ecastillot/SeisMonitor?style=social)  
 # A package for seismological monitoring.
 #### [Downloader->Picker->Associator->Locator->Magnitude]
 For now only supported for linux
-*In process...*
 
 # Installation
 
@@ -25,9 +25,7 @@ pip install git+https://github.com/wayneweiqiang/GaMMA.git
 
 # Examples
 
-We will be uploading examples. 
-
-Feel free to ask me if you ahve any doubts: ecastillot@unal.edu.co. I am trying little by little to have everything up for everyone.
+Feel free to ask me if you have any doubts: ecastillot@unal.edu.co. I am trying little by little to have everything up for everyone.
 
 | Examples |  |
 |---|---|
