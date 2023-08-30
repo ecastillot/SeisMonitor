@@ -82,7 +82,7 @@ def eqt_picks_2_seismonitor_fmt(eqt_folder,mseed_folder,out_path):
         for f in filenames:
             if f == "X_prediction_results.csv" :
                 search_path = os.path.join(dp, f)
-                df = pd.read_csv(search_path)
+                df = pd.read_csv(search_path,dtype={'station': str,'location':str})
                 if not df.empty:
                     to_date = lambda x: pd.to_datetime(x,format="mixed")
                     df[date_cols] = df[date_cols].apply(to_date)
@@ -333,8 +333,7 @@ def create_datalist(self,all_in_folder=False):
     logger.info(f'Total time of execution: {exetime.total_seconds()} seconds')
 
 def phasenet_from_console(pnet_obj,msg_author):
-    phasenet_dir = os.path.dirname(os.path.dirname(pnet_obj.model_dir))
-    run = os.path.join(phasenet_dir,"run.py")
+    run = os.path.join(pnet_obj.phasenet_path,"run.py")
 
     ### nt for windows
     if os.name == 'nt':
