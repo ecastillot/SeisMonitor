@@ -167,7 +167,11 @@ class VelModel():
         self.vel_path = vel_path
         self.vp_vs_ratio = vp_vs_ratio
         self.compute_vs = compute_vs
-        self.vel = pd.read_csv(vel_path)
+
+        if isinstance(vel_path,str):
+            self.vel = pd.read_csv(vel_path)
+        else:
+            self.vel = vel_path
 
     def to_nlloc(self,out):
         vm = open(out, 'w')
