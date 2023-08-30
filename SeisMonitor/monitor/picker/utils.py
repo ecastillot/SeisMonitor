@@ -79,10 +79,14 @@ def eqt_picks_2_seismonitor_fmt(eqt_folder,mseed_folder,out_path):
 
     def parse_datetime(datetime_str):
         formats_to_try = ["%Y-%m-%d %H:%M:%S.%f", "%Y-%m-%d %H:%M:%S"]
-        
+
+        if isinstance(datetime_str,float):
+            return None
+
+        # print(datetime_str)
         for fmt in formats_to_try:
             try:
-                parsed_datetime = datetime.strptime(datetime_str, fmt)
+                parsed_datetime = dt.datetime.strptime(datetime_str, fmt)
                 return parsed_datetime
             except ValueError:
                 pass
@@ -97,7 +101,12 @@ def eqt_picks_2_seismonitor_fmt(eqt_folder,mseed_folder,out_path):
                 if not df.empty:
                     # to_date = lambda x: pd.to_datetime(x,format="mixed")
                     # df[date_cols] = df[date_cols].apply(to_date)
-                    df[date_cols] = df[date_cols].apply(parse_datetime)
+
+                    to_date = lambda x: parse_datetime(x)
+                    # df[date_cols] = df[date_cols].apply(to_date)
+
+                    for date_col in date_cols:
+                        df[date_col] = df[date_col].apply(parse_datetime)
                     dfs.append(df)
 
     if not dfs:
