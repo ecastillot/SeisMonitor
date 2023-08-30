@@ -77,6 +77,17 @@ def eqt_picks_2_seismonitor_fmt(eqt_folder,mseed_folder,out_path):
     date_cols = ["p_arrival_time","s_arrival_time",
                 "event_start_time","event_end_time"]
 
+    def parse_datetime(datetime_str):
+        formats_to_try = ["%Y-%m-%d %H:%M:%S.%f", "%Y-%m-%d %H:%M:%S"]
+        
+        for fmt in formats_to_try:
+            try:
+                parsed_datetime = datetime.strptime(datetime_str, fmt)
+                return parsed_datetime
+            except ValueError:
+                pass
+        return None  # Return None if parsing was unsuccessful with all formats
+
     dfs = []
     for dp, dn, filenames in os.walk(eqt_folder):
         for f in filenames:
@@ -84,8 +95,9 @@ def eqt_picks_2_seismonitor_fmt(eqt_folder,mseed_folder,out_path):
                 search_path = os.path.join(dp, f)
                 df = pd.read_csv(search_path,dtype={'station': str,'location':str})
                 if not df.empty:
-                    to_date = lambda x: pd.to_datetime(x,format="mixed")
-                    df[date_cols] = df[date_cols].apply(to_date)
+                    # to_date = lambda x: pd.to_datetime(x,format="mixed")
+                    # df[date_cols] = df[date_cols].apply(to_date)
+                    df[date_cols] = df[date_cols].apply(parse_datetime)
                     dfs.append(df)
 
     if not dfs:
