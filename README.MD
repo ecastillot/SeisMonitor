@@ -5,6 +5,22 @@
 #### [Downloader->Picker->Associator->Locator->Magnitude]
 For now only supported for linux
 
+
+# Examples
+
+Feel free to ask me if you have any doubts: ecastillot@unal.edu.co. I am trying little by little to have everything up for everyone.
+
+| Examples |  |
+|---|---|
+| 0.seismonitor| [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/ecastillot/SeisMonitor/blob/master/examples/monitor.ipynb) |
+| 1.downloader| [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/ecastillot/SeisMonitor/blob/master/examples/1.downloader.ipynb) |
+| 2.picker| [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/ecastillot/SeisMonitor/blob/master/examples/2.picker.ipynb) |
+| 3.associator| [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/ecastillot/SeisMonitor/blob/master/examples/3.associator.ipynb) |
+| 4.locator| [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/ecastillot/SeisMonitor/blob/master/examples/4.locator.ipynb) | 
+| 5.magnitude| [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/ecastillot/SeisMonitor/blob/master/examples/5.magnitude.ipynb) | 
+ 
+
+
 # Installation
 
 ## pip
@@ -23,18 +39,7 @@ pip install git+https://github.com/wayneweiqiang/GaMMA.git
 ```
 
 
-# Examples
 
-Feel free to ask me if you have any doubts: ecastillot@unal.edu.co. I am trying little by little to have everything up for everyone.
-
-| Examples |  |
-|---|---|
-| 1.downloader| [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/ecastillot/SeisMonitor/blob/master/examples/1.downloader.ipynb) |
-| 2.picker| [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/ecastillot/SeisMonitor/blob/master/examples/2.picker.ipynb) |
-| 3.associator| [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/ecastillot/SeisMonitor/blob/master/examples/3.associator.ipynb) |
-| 4.locator| [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/ecastillot/SeisMonitor/blob/master/examples/4.locator.ipynb) | 
-| 5.magnitude| [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/ecastillot/SeisMonitor/blob/master/examples/5.magnitude.ipynb) | 
-| seismonitor| [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/ecastillot/SeisMonitor/blob/master/examples/monitor.ipynb) | 
 
 
 <!-- | Examples |  |
