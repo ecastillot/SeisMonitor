@@ -34,6 +34,7 @@ Feel free to ask me if you have any doubts: ecastillot@unal.edu.co. I am trying 
 | 3.associator| [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/ecastillot/SeisMonitor/blob/master/examples/3.associator.ipynb) |
 | 4.locator| [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/ecastillot/SeisMonitor/blob/master/examples/4.locator.ipynb) | 
 | 5.magnitude| [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/ecastillot/SeisMonitor/blob/master/examples/5.magnitude.ipynb) | 
+| seismonitor| [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/ecastillot/SeisMonitor/blob/master/examples/monitor.ipynb) | 
 
 
 <!-- | Examples |  |
