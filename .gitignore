@@ -4,7 +4,7 @@ out/
 6m/*
 picking_models/
 others/
-test/
+test/*
 seismonitor_dataset/
 **/hypocenter/core
 **/__pycache__
