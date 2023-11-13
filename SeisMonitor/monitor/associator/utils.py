@@ -8,6 +8,7 @@ from obspy.io.xseed.parser import Parser
 from SeisMonitor.utils import printlog,isfile
 from obspy.core.utcdatetime import UTCDateTime
 import warnings
+import math
 warnings.filterwarnings('ignore')
 ### EQTransformer util associator
 
@@ -38,6 +39,13 @@ def get_picks_GaMMa_df(picks,response,compute_amplitudes=True
     # df["location"] = df["location"].apply(lambda x: "{:02d}".format(x))
     df[date_cols] = df[date_cols].apply(pd.to_datetime)
 
+    def convert_loc(loc):
+        if math.isnan(loc):
+            loc = ""
+        else:
+            loc = "{:02d}".format(int(loc))
+        return loc
+    df['location'] = df['location'].apply(lambda x: convert_loc(x))
     if compute_amplitudes:
         df = get_seismonitor_amplitudes(df,response,
                                         p_window=p_window,
@@ -46,7 +54,7 @@ def get_picks_GaMMa_df(picks,response,compute_amplitudes=True
     else:
         df = df
 
-    id_func = lambda x: x.split("-")[-1]
+    id_func = lambda x: ".".join(x.split("-")[-1].split(".")[0:2])
     df["id"] = df["pick_id"].apply(id_func)
     df = df.rename(columns={"arrival_time":"timestamp",
                         "probability":"prob",
@@ -77,13 +85,14 @@ def get_stations_GaMMA_df(response):
                 
             #     components.append(component)
             #     sensitivities.append(sensitivity)
-
+            # print(station)
 
             # unit = channel.response.response_stages[0].input_units
             inst = station[0].code[:-1]
             loc = station[0].location_code
 
-            scr_id = ".".join((net,sta,loc,inst))
+            # scr_id = ".".join((net,sta,loc,inst))
+            scr_id = ".".join((net,sta))
 
             id_list.append(scr_id)
             station_list.append(sta)

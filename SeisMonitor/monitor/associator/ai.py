@@ -95,10 +95,18 @@ class GaMMAObj():
         y_min,x_min = pyproj.transform(in_proj,out_proj,self.lat_lims[0],self.lon_lims[0])
         y_max,x_max = pyproj.transform(in_proj,out_proj,self.lat_lims[1],self.lon_lims[1])
 
-
         config["x(km)"] = np.array([x_min,x_max])/1e3
         config["y(km)"] = np.array([y_min,y_max])/1e3
         config["z(km)"] = np.array(self.z_lims)
+
+        # config["y(km)_datum"] = 0
+        # config["x(km)_datum"] = 0
+        # print(config["y(km)"],config["x(km)"])
+        # if config["y(km)"][0] < 0:
+        #     config["y(km)_datum"] = config["y(km)"][0]
+        #     config["y(km)"] =  config["y(km)_datum"]*-1 + config["y(km)"]
+        # print(config["y(km)"],config["x(km)"])
+        
         config["bfgs_bounds"] = (
                                 (config["x(km)"][0] - 1, config["x(km)"][1] + 1),  # x
                                 (config["y(km)"][0] - 1, config["y(km)"][1] + 1),  # y
@@ -118,6 +126,8 @@ class GaMMAObj():
         in_proj = pyproj.Proj("EPSG:4326")
         out_proj = pyproj.Proj(self.epsg_proj)
 
+        # stations["y(km)"] = stations.apply(lambda x: self.config["y(km)_datum"]*-1 + (pyproj.transform(in_proj,out_proj,
+        #                                     x["latitude"], x["longitude"])[0] )/ 1e3, axis=1)
         stations["y(km)"] = stations.apply(lambda x: pyproj.transform(in_proj,out_proj,
                                             x["latitude"], x["longitude"])[0] / 1e3, axis=1)
         stations["x(km)"] = stations.apply(lambda x: pyproj.transform(in_proj,out_proj,
@@ -135,6 +145,7 @@ def get_gamma_picks(event_picks):
         #     loc = ""
         # else:
         #     loc = "{:02d}".format(int(row.location))
+        # print(row)
         loc = row.location
         str_id = ".".join((row.network,row.station,
                            loc,row.instrument_type + "Z"))
@@ -209,13 +220,13 @@ def get_gamma_origin(catalog_info,event_picks,in_proj="EPSG:3116",
                      )
     return origin
 
-def get_gamma_catalog(picks_df,catalog_df):
+def get_gamma_catalog(picks_df,catalog_df,in_proj,out_proj):
 
     events = []
     for i, row in catalog_df.iterrows():
         picks = picks_df[picks_df["event_idx"]==i]
         picks = get_gamma_picks(picks)
-        origin = get_gamma_origin(row,picks)
+        origin = get_gamma_origin(row,picks,in_proj,out_proj)
         ev = Event(resource_id = ResourceIdentifier(id=origin.resource_id.id,
                                                             prefix='event'),
                     event_type = "earthquake",
@@ -258,21 +269,22 @@ class GaMMA():
                                 p_window=self.gamma_obj.p_window,
                                 s_window=self.gamma_obj.s_window,
                                 waterlevel = self.gamma_obj.waterlevel)
+        # picks_df = picks_df.iloc[2000:2735]
         stations = list(set(picks_df["station"].to_list()))
 
         self.gamma_obj.add_response(self.response)
         station_df = self.gamma_obj.stations
         station_df =  station_df[station_df["station_name"].isin(stations)]
         station_df = station_df.reset_index(drop=True)
-
         config = self.gamma_obj.__dict__
         pbar = tqdm(1)
         meta = station_df.merge(picks_df["id"], how="right", on="id")
-
         # picks_df = picks_df.iloc[0:200]
-        # print(picks_df) 
+        # print(picks_df["location"]) 
+        # print(station_df) 
         # station_df.info())
         # picks_df.to_csv("./test.csv",index=False)
+        # picks_df.to_csv("./test.csv",index=True)
         catalogs, assignments = association(picks_df, station_df, config, 
                                 method=self.gamma_obj.method,pbar=pbar)
         # print(catalogs, assignments,config)
@@ -283,20 +295,27 @@ class GaMMA():
         
         catalog["time"] = pd.to_datetime(catalog["time"],format="%Y-%m-%dT%H:%M:%S.%f")
         catalog["event_index"] = catalog["time"].apply(lambda x: x)
+        
+        
 
         assignments = pd.DataFrame(assignments,
                                 columns=["pick_index", "event_idx", "prob_gamma"])
+        
         assignments = assignments.set_index("pick_index")
         
 
         picks = pd.merge(picks_df, assignments, left_index=True, 
                         right_index=True, how='right')
+        # print(catalog)
+        # print(picks)
         isfile(self.catalog_out_file)
         catalog.to_csv(self.catalog_out_file,index=False)
         isfile(self.picks_out_file)
         picks.to_csv(self.picks_out_file,index=False)
        
-        obspy_catalog = get_gamma_catalog(picks,catalog)
+        obspy_catalog = get_gamma_catalog(picks,catalog,
+                                        self.gamma_obj.epsg_proj,
+                                        "EPSG:4326")
         isfile(self.xml_out_file)
         obspy_catalog.write(self.xml_out_file,format="SC3ML")
 
