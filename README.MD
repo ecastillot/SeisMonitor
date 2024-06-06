@@ -38,7 +38,14 @@ pip install git+https://github.com/ecastillot/EQTransformer.git@master
 pip install git+https://github.com/wayneweiqiang/GaMMA.git
 ```
 
+# Colombian Catalog (Updated)
 
+| Data |  |
+|---|---|
+| GaMMA-catalog| [Open](https://drive.google.com/file/d/1OnMDNe4NZK98mNLjdrFhZNy14dJHZXhX/view?usp=drive_link) |
+| GaMMA-picks| [Open](https://drive.google.com/file/d/1qJhRHIYpFh8_TyWV0KyOvq9nj4y_zz5T/view?usp=drive_link) |
+| SeisMonitor-catalog| [Open](https://drive.google.com/file/d/1Ewpi6Q-0CenaI1Sog4eA6MoQra-UlXV2/view?usp=drive_link) |
+| SeisMonitor-picks| [Open](https://drive.google.com/file/d/1pwLe8xIUX-wHjtG11I-tRtdfXV6WraSb/view?usp=drive_link) | 
 
 
 
