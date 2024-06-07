@@ -42,6 +42,7 @@ pip install git+https://github.com/wayneweiqiang/GaMMA.git
 
 | Data |  |
 |---|---|
+| EQTransformer-picks| [Open](https://drive.google.com/file/d/1e3044OJBtFjg4HrrbawEJ-3GfqjN-Cbf/view?usp=sharing) |
 | GaMMA-catalog| [Open](https://drive.google.com/file/d/1OnMDNe4NZK98mNLjdrFhZNy14dJHZXhX/view?usp=drive_link) |
 | GaMMA-picks| [Open](https://drive.google.com/file/d/1qJhRHIYpFh8_TyWV0KyOvq9nj4y_zz5T/view?usp=drive_link) |
 | SeisMonitor-catalog| [Open](https://drive.google.com/file/d/1ZphhiOkZkeOZBwBVPmXmVsXp7WL0ZjEL/view?usp=sharing) |
