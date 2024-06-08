@@ -51,8 +51,8 @@ Castillo, E., Prieto, G.A., Siervo, D. (2024). Colombian seismic monitoring usin
 | SeisMonitor-picks| [Open](https://drive.google.com/file/d/1SS1OysOSk-9l-gFRpuCORRgXvwTKeniG/view?usp=sharing) | 
 
 ![Colombia Network](docs/figures/f1-1.png)
-![GaMMA catalog](docs/figures/f8-1.png)
-![NLLoc catalog](docs/figures/f9-1.png)
+![catalog](docs/figures/f8-1.png)
+
 
 
 
