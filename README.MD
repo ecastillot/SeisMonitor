@@ -42,11 +42,6 @@ pip install git+https://github.com/wayneweiqiang/GaMMA.git
 
 Castillo, E., Prieto, G.A., Siervo, D. (2024). Colombian seismic monitoring using advanced machine-learning algorithms. Seism. Res. Lett. [PDF](https://gaprieto.com/wp-content/uploads/2024/05/gprieto_24c.pdf) 
 
-![Colombia Network](docs/figures/f1-1.png)
-![GaMMA catalog](docs/figures/f8-1.png)
-![NLLoc catalog](docs/figures/f9-1.png)
-
-
 | Data |  |
 |---|---|
 | EQTransformer-picks| [Open](https://drive.google.com/file/d/1e3044OJBtFjg4HrrbawEJ-3GfqjN-Cbf/view?usp=sharing) |
@@ -54,6 +49,13 @@ Castillo, E., Prieto, G.A., Siervo, D. (2024). Colombian seismic monitoring usin
 | GaMMA-picks| [Open](https://drive.google.com/file/d/1qJhRHIYpFh8_TyWV0KyOvq9nj4y_zz5T/view?usp=drive_link) |
 | SeisMonitor-catalog| [Open](https://drive.google.com/file/d/1ZphhiOkZkeOZBwBVPmXmVsXp7WL0ZjEL/view?usp=sharing) |
 | SeisMonitor-picks| [Open](https://drive.google.com/file/d/1SS1OysOSk-9l-gFRpuCORRgXvwTKeniG/view?usp=sharing) | 
+
+![Colombia Network](docs/figures/f1-1.png)
+![GaMMA catalog](docs/figures/f8-1.png)
+![NLLoc catalog](docs/figures/f9-1.png)
+
+
+
 
 
 
