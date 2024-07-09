@@ -8,7 +8,7 @@ For now only supported for linux
 
 # Examples
 
-Feel free to ask me if you have any doubts: ecastillot@unal.edu.co. I am trying little by little to have everything up for everyone.
+Feel free to ask me if you have any doubts: castillo.280997@gmail.com. I am trying little by little to have everything up for everyone.
 
 | Examples |  |
 |---|---|
