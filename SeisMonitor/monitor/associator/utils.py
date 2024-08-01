@@ -40,11 +40,17 @@ def get_picks_GaMMa_df(picks,response,compute_amplitudes=True
     df[date_cols] = df[date_cols].apply(pd.to_datetime)
 
     def convert_loc(loc):
-        if math.isnan(loc):
-            loc = ""
-        else:
-            loc = "{:02d}".format(int(loc))
-        return loc
+      # Check if the location is NaN or an empty string
+      if pd.isna(loc) or loc.strip() == '':
+          return ''
+      else:
+          # Try converting the string to an integer and format it
+          try:
+              return "{:02d}".format(int(loc))
+          except ValueError:
+              # In case the conversion fails, return the original location or an empty string
+              return ''
+            
     df['location'] = df['location'].apply(lambda x: convert_loc(x))
     if compute_amplitudes:
         df = get_seismonitor_amplitudes(df,response,
