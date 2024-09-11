@@ -51,7 +51,7 @@ def get_picks_GaMMa_df(picks,response,compute_amplitudes=True
               # In case the conversion fails, return the original location or an empty string
               return ''
             
-    df['location'] = df['location'].apply(lambda x: convert_loc(x))
+    df['location'] = df['location'].apply(lambda x: convert_loc(int(x)))
     if compute_amplitudes:
         df = get_seismonitor_amplitudes(df,response,
                                         p_window=p_window,
