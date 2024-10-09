@@ -11,7 +11,7 @@ import os
 # with codecs.open(os.path.join(here, "README.md"), encoding="utf-8") as fh:
 #     long_description = "\n" + fh.read()
 
-VERSION = '0.0.50'
+VERSION = '0.0.52'
 DESCRIPTION = 'To monitor seismic activity'
 LONG_DESCRIPTION = 'A package that allows to monitor the seismic activity through main steps in the monitoring workflow: earthquake detection and phase picking -> phase associator -> earthquake locator -> magnitude estimation.'
 
@@ -47,3 +47,4 @@ setup(
 
 # python setup.py sdist bdist_wheel
 # twine upload dist/*
+# python -m twine upload -u __token__ -p [unique_token] dist/*
