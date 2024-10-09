@@ -194,7 +194,10 @@ class VelModel():
 
 class Stations():
     def __init__(self,stations) -> None:
-        self.stations = resp2df(stations)
+        if isinstance(stations, pd.DataFrame):
+            self.stations = stations
+        else:
+            self.stations = resp2df(stations)
         # else:
         #     raise Exception("Error: NLLOC Stations class")
 
