@@ -41,7 +41,7 @@ def get_picks_GaMMa_df(picks,response,compute_amplitudes=True
 
     def convert_loc(loc):
       # Check if the location is NaN or an empty string
-      if pd.isna(loc) or loc.strip() == '':
+      if pd.isna(loc):
           return ''
       else:
           # Try converting the string to an integer and format it
