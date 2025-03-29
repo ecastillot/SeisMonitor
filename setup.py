@@ -5,13 +5,13 @@ import pkg_resources
 import setuptools
 import codecs
 import os
-
+import SeisMonitor
 # here = os.path.abspath(os.path.dirname(__file__))
 
 # with codecs.open(os.path.join(here, "README.md"), encoding="utf-8") as fh:
 #     long_description = "\n" + fh.read()
 
-VERSION = '0.0.53'
+VERSION = SeisMonitor.__version__
 DESCRIPTION = 'To monitor seismic activity'
 LONG_DESCRIPTION = 'A package that allows to monitor the seismic activity through main steps in the monitoring workflow: earthquake detection and phase picking -> phase associator -> earthquake locator -> magnitude estimation.'
 
@@ -28,7 +28,7 @@ setup(
     name="SeisMonitor",
     version=VERSION,
     author="ecastillot (Emmanuel Castillo)",
-    author_email="<ecastillot@unal.edu.co>",
+    author_email="<castillo.280997@gmail.com>",
     url="https://github.com/ecastillot/SeisMonitor",
     description=DESCRIPTION,
     long_description_content_type="text/markdown",

@@ -1,9 +1,5 @@
 import sys
 import os
-seismopath = "/home/emmanuel/EDCT"
-seismonitor = os.path.join(seismopath,"SeisMonitor")
-sys.path.insert(0,seismonitor)
-
 from datetime import datetime
 import numpy as np
 import pandas as pd
@@ -12,162 +8,157 @@ from glob import glob
 from multiprocessing import Pool
 import time
 import SeisMonitor.utils as ut
-
 from obspy import read_inventory
 from math import cos
 from numpy import deg2rad
 
-"""
-Some utils functions are taken from: https://github.com/wayneweiqiang/QuakeFlow/blob/master/HypoDD/gamma2hypodd.py
-such us:
-    - download_hypodd()
-"""
+# # Set the base path for SeisMonitor
+# seismopath = "/home/emmanuel/EDCT"
+# seismonitor = os.path.join(seismopath, "SeisMonitor")
+# sys.path.insert(0, seismonitor)
 
-CORE_HYPODD = os.path.join(os.path.dirname(__file__),"core")
+# Constants
+CORE_HYPODD = os.path.join(os.path.dirname(__file__), "core")
+DEG2KM = 111.2  # Conversion factor from degrees to kilometers
 
-DEG2KM = 111.2
-
+# Format strings for phase file output
 PHA1 = ('# {year:4d} {month:2d} {day:2d} {hour:2d}'
         ' {min:2d} {sec:5.2f}  '
         '{lat:7.4f} {lon:9.4f}   '
         '{dep:5.2f} {mag:5.2f} {he:5.2f} {ve:5.2f} {rms:5.2f} {evid:>9}\n')
 PHA2 = '{p.waveform_id.station_code:<5s}  {relt:.4f}  {weight:5.4f}  {p.phase_hint}\n'
 
-
 def _map_eventid(evid, eventid_map, used_ids, counter):
     """
-    Taken from https://docs.obspy.org/_modules/obspy/io/hypodd/pha.html#_write_pha
+    Maps an event ID to a unique integer ID required for HypoDD format.
+    
+    Parameters:
+    -----------
+    evid : str
+        Original event ID.
+    eventid_map : dict
+        Dictionary storing the mapping between original and HypoDD event IDs.
+    used_ids : set
+        Set of already used event IDs to avoid duplicates.
+    counter : list
+        Counter to generate new unique IDs if necessary.
+    
+    Returns:
+    --------
+    idpha : str
+        The mapped event ID.
     """
     idpha = evid
     if evid in eventid_map:
         idpha = eventid_map[evid]
         if not idpha.isdigit() or len(idpha) > 9:
-            msg = ('Invalid value in eventid_map, pha event id has to be '
-                   'digit with max 9 digits')
-            raise ValueError(msg)
+            raise ValueError('Invalid value in eventid_map: event ID must be digits with max 9 digits')
         return idpha
-    if not idpha.isdigit():
-        idpha = ''.join(char for char in idpha if char.isdigit())
+    
+    # Extract numeric values from the event ID
+    idpha = ''.join(char for char in idpha if char.isdigit())
     if len(idpha) > 9:
         idpha = idpha[-9:]
+    
+    # Ensure unique event ID
     while idpha == '' or idpha in used_ids:
         idpha = str(counter[0])
         counter[0] += 1
+    
     if idpha != evid:
         eventid_map[evid] = idpha
     used_ids.add(idpha)
     return idpha
 
-def write_pha(catalog, filename, eventid_map=None,
-               **kwargs):  # @UnusedVariable
+def write_pha(catalog, filename, eventid_map=None, **kwargs):
     """
-    Taken from https://docs.obspy.org/_modules/obspy/io/hypodd/pha.html#_write_pha
-
-    Write a HypoDD PHA file.
-
-    .. warning::
-        This function should NOT be called directly, it registers via the
-        the :meth:`~obspy.core.event.Catalog.write` method of an
-        ObsPy :class:`~obspy.core.event.Catalog` object, call this instead.
-
-    :type catalog: :class:`~obspy.core.event.catalog.Catalog`
-    :param catalog: The ObsPy Catalog object to write.
-    :type filename: str or file-like object
-    :param filename: Filename to write or open file-like object.
-    :param dict eventid_map: Desired mapping of event resource ids (dict keys)
-        to hypodd event ids (dict values).
-        HYPODD expects integer event ids with maximal 9 digits. If the event
-        resource id is not present in the mapping,
-        the event resource id is stripped of all non-digit characters and
-        truncated to a length of 9 chars. If this method does not generate a
-        valid hypodd event id, a counter starting at 1000 is used.
-
-    :returns: Dictionary eventid_map with mapping of event resource id to
-        hypodd event id. Items are only present if both ids are different.
+    Writes an ObsPy catalog to a HypoDD-compatible phase (PHA) file.
+    
+    Parameters:
+    -----------
+    catalog : obspy.core.event.catalog.Catalog
+        The ObsPy catalog containing seismic events.
+    filename : str
+        Output filename for the PHA file.
+    eventid_map : dict, optional
+        Mapping of event resource IDs to HypoDD-compatible IDs.
+    
+    Returns:
+    --------
+    dict or None
+        Mapping of event resource IDs to HypoDD IDs if changes were made.
     """
-    if len(catalog) >= 10**10:
-        warn('Writing a very large catalog will use event ids that might not '
-             'be readable by HypoDD.')
     lines = []
     if eventid_map is None:
         eventid_map = {}
+    
     args_map_eventid = (eventid_map, set(eventid_map.values()), [1])
     for event in catalog:
         try:
             ori = event.preferred_origin() or event.origins[0]
         except IndexError:
-            warn(f'Skipping writing event with missing origin: {event}')
+            print(f'Skipping event with missing origin: {event}')
             continue
         try:
             mag = event.preferred_magnitude() or event.magnitudes[0]
         except IndexError:
-            warn('Missing magnitude will be set to 0.0')
+            print('Missing magnitude, setting to 0.0')
             mag = 0.
         else:
             mag = mag.mag
-        evid = event.resource_id.id
-        evid = evid.split('/')[-1] if '/' in evid else evid
+        
+        evid = event.resource_id.id.split('/')[-1] if '/' in event.resource_id.id else event.resource_id.id
         evid = _map_eventid(evid, *args_map_eventid)
-        rms = (ori.quality.standard_error if 'quality' in ori and ori.quality
-               else None)
-        rms = rms if rms is not None else 0.0
+        
+        rms = ori.quality.standard_error if hasattr(ori, 'quality') and ori.quality else 0.0
         he1 = ori.latitude_errors.uncertainty if ori.latitude_errors else None
-        he2 = (ori.longitude_errors.uncertainty if ori.longitude_errors
-               else None)
+        he2 = ori.longitude_errors.uncertainty if ori.longitude_errors else None
         shortening = cos(deg2rad(ori.latitude))
-        he = max(0. if he1 is None else he1 * DEG2KM,
-                 0. if he2 is None else he2 * DEG2KM * shortening)
+        he = max(0. if he1 is None else he1 * DEG2KM, 0. if he2 is None else he2 * DEG2KM * shortening)
         ve = ori.depth_errors.uncertainty if ori.depth_errors else None
         ve = 0. if ve is None else ve / 1000
-
+        
         year, month, day, hour, min, sec = (
-            ori.time.year,
-            ori.time.month,
-            ori.time.day,
-            ori.time.hour,
-            ori.time.minute,
+            ori.time.year, ori.time.month, ori.time.day,
+            ori.time.hour, ori.time.minute,
             float(ori.time.strftime("%S.%f")),
         )
-        lat = ori.latitude
-        lon = ori.longitude
-        line = PHA1.format(year=year,month=month,day=day,hour=hour,
-                            min=min,sec=sec,lat=lat,lon=lon,
-                            dep=ori.depth / 1000, 
-                            mag=mag,
-                           he=he, ve=ve, rms=rms,
-                           evid=evid)
+        
+        # Format event information
+        line = PHA1.format(year=year, month=month, day=day, hour=hour,
+                            min=min, sec=sec, lat=ori.latitude, lon=ori.longitude,
+                            dep=ori.depth / 1000, mag=mag, he=he, ve=ve, rms=rms, evid=evid)
         lines.append(line)
-        weights = {str(arrival.pick_id): arrival.time_weight
-                   for arrival in ori.arrivals if arrival.time_weight}
+        
+        # Process picks and weights
+        weights = {str(arrival.pick_id): arrival.time_weight for arrival in ori.arrivals if arrival.time_weight}
         for pick in event.picks:
             weight = weights.get(str(pick.resource_id), 1.)
-            line = PHA2.format(p=pick, relt=pick.time - ori.time,
-                               weight=weight)
+            line = PHA2.format(p=pick, relt=pick.time - ori.time, weight=weight)
             lines.append(line)
+    
+    # Write to file
     data = ''.join(lines)
-    try:
-        with open(filename, 'w') as fh:
-            fh.write(data)
-    except TypeError:
-        filename.write(data)
+    with open(filename, 'w') as fh:
+        fh.write(data)
+    
     return None if len(eventid_map) == 0 else eventid_map
 
 def resp2df(resp):
     """
+    Reads a RESP file and extracts station metadata into a DataFrame.
+    
     Parameters:
     -----------
-    resp: str
-        RESP filepath
-
-    Returns: DataFrame
-        Dataframe with the next columns
-        network,station,latitude,longitude,elevation
+    resp : str
+        Path to the RESP file.
+    
+    Returns:
+    --------
+    pd.DataFrame
+        DataFrame containing network, station, latitude, longitude, and elevation.
     """
-    networks = []
-    stations = []
-    longitudes = []
-    latitudes = []
-    elevations = []
+    networks, stations, latitudes, longitudes, elevations = [], [], [], [], []
     inv = read_inventory(resp)
     for net in inv:
         for sta in net:
@@ -176,13 +167,12 @@ def resp2df(resp):
             elevations.append(sta.elevation)
             stations.append(sta.code)
             networks.append(net.code)
-
-    df = {"network":networks,"station":stations,
-        "latitude":latitudes,"longitude":longitudes,
-        "elevation":elevations}
-    df = pd.DataFrame(df)
-    # print(df)
-    return df
+    
+    return pd.DataFrame({
+        "network": networks, "station": stations,
+        "latitude": latitudes, "longitude": longitudes,
+        "elevation": elevations
+    })
 
 def write_hypoDDstation(df,out_folder):
     """

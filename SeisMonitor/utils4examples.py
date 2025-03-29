@@ -7,6 +7,25 @@ from SeisMonitor.core.objects import WaveformRestrictions,Provider
 from SeisMonitor.monitor.downloader.seismonitor import MseedDownloader
 
 def clone_seismonitor_data(output_folder,branch):
+    """
+    Clones the SeisMonitor repository from GitHub into a specified folder.
+
+    Parameters
+    ----------
+    output_folder : str
+        The path to the folder where the repository will be cloned.
+    branch : str
+        The branch of the repository to clone.
+
+    Returns
+    -------
+    bool
+        Returns True if the cloning operation was successful.
+
+    Notes
+    -----
+    If the target folder already exists, it will be removed before cloning the repository.
+    """
     git_url = "https://github.com/ecastillot/SeisMonitor.git"
 
     if os.path.isdir(output_folder):
@@ -17,6 +36,28 @@ def clone_seismonitor_data(output_folder,branch):
     
 
 def quick_download(out_download_folder):
+    """
+    Downloads waveform data from the Colombian Seismological Network (SGC) for a predefined time period and location range.
+
+    Parameters
+    ----------
+    out_download_folder : str
+        The path to the folder where the downloaded data will be stored.
+
+    Returns
+    -------
+    None
+        This function does not return any values but saves the downloaded data in the specified folder.
+
+    Notes
+    -----
+    This function defines a specific time window (from 2019-12-24T19:00 to 2019-12-25T01:00) and a set of stations.
+    The data is downloaded in MiniSEED format, and metadata is also saved as a JSON file.
+
+    Side Effects
+    ------------
+    Downloads waveform data into the given folder, including creating directories if needed.
+    """
 
     sgc_rest = WaveformRestrictions(network="CM",
                     station="URMC,VILL,PRA,ORTC,GARC,FLO2,CHI,YOT",

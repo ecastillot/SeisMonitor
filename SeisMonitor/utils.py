@@ -33,6 +33,32 @@ ch.setFormatter(formatter)
 logger.addHandler(ch)
 
 def validate(func, locals):
+    """
+    Validates the types of arguments in a function according to the annotations defined in the function.
+
+    Parameters
+    ----------
+    func : function
+        The function whose arguments are being validated.
+        
+    locals : dict
+        A dictionary of the local variables (arguments) to be validated, typically passed using `locals()`.
+
+    Returns
+    -------
+    None
+        This function does not return a value. It raises an AssertionError if an argument does not match its expected type.
+
+    Raises
+    ------
+    AssertionError
+        If any argument does not match the expected type as defined in the function's annotations.
+    
+    Notes
+    -----
+    The function compares the actual argument values in `locals` with the expected types defined in the `__annotations__` attribute of `func`.
+    If the type check fails, an error message is raised indicating which argument failed and the expected type(s).
+    """
     for var, test in func.__annotations__.items():
         try:
             test = test.__args__

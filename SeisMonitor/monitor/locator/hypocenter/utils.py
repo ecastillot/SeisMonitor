@@ -1,8 +1,10 @@
 import sys
 import os
-seismopath = "/home/emmanuel/EDCT"
-seismonitor = os.path.join(seismopath,"SeisMonitor")
-sys.path.insert(0,seismonitor)
+
+# # Set up SeisMonitor path
+# seismopath = "/home/emmanuel/EDCT"
+# seismonitor = os.path.join(seismopath, "SeisMonitor")
+# sys.path.insert(0, seismonitor)
 
 from datetime import datetime
 import numpy as np
@@ -16,36 +18,33 @@ from obspy.core.event.catalog import Catalog, read_events
 import pexpect
 import subprocess
 from SeisMonitor.utils import printlog, isfile
-# import SeisMonitor.utils as ut
 
-# if 'google.colab' in sys.modules:
-#     __file__ =
+# Define paths for Seisan software
+libgfortran_path = os.path.join(os.path.dirname(__file__), "libgfortran.so.3.0.0")
+CORE_SEISAN = os.path.join(os.path.dirname(__file__), "core")
+SEISAN_path = os.path.join(CORE_SEISAN, "seismo")
+COM_path = os.path.join(SEISAN_path, "COM")
+PRO_path = os.path.join(SEISAN_path, "PRO")
+DAT_path = os.path.join(SEISAN_path, "DAT")
+STATION0_path = os.path.join(DAT_path, "STATION0.HYP")
 
-libgfortran_path = os.path.join(os.path.dirname(__file__),"libgfortran.so.3.0.0")
-CORE_SEISAN = os.path.join(os.path.dirname(__file__),"core")
-SEISAN_path = os.path.join(CORE_SEISAN,"seismo")
-COM_path = os.path.join(SEISAN_path,"COM")
-PRO_path = os.path.join(SEISAN_path,"PRO")
-DAT_path = os.path.join(SEISAN_path,"DAT")
-STATION0_path = os.path.join(DAT_path,"STATION0.HYP")
-
-
-def download_seisan(libgfortran_path):
-    '''
-    Seisan can be downloaded from https://www.geo.uib.no/seismo/SOFTWARE/SEISAN/seisan_v12.0_linux_64.tar.gz
-    '''
+def download_seisan(libgfortran_path: str) -> None:
+    """
+    Downloads and installs Seisan earthquake analysis software.
+    
+    Args:
+        libgfortran_path (str): Path to the libgfortran library required for Seisan.
+    """
     name = "seisan_v12.0_linux_64.tar.gz"
-    gz_path = os.path.join(CORE_SEISAN,name)
+    gz_path = os.path.join(CORE_SEISAN, name)
 
     if not os.path.isdir(CORE_SEISAN):
-      os.makedirs(CORE_SEISAN)
+        os.makedirs(CORE_SEISAN)
     if not os.path.isdir(gz_path):
-      os.system(f"wget -O {gz_path} https://www.geo.uib.no/seismo/SOFTWARE/SEISAN/seisan_v12.0_linux_64.tar.gz")
+        os.system(f"wget -O {gz_path} https://www.geo.uib.no/seismo/SOFTWARE/SEISAN/seisan_v12.0_linux_64.tar.gz")
     
     os.system("sudo apt-get update")
-    os.system("sudo apt-get install gcc")
-    os.system("sudo apt-get install g++")
-    os.system("sudo apt-get install gfortran")
+    os.system("sudo apt-get install gcc g++ gfortran")
 
     if not os.path.isdir(SEISAN_path):
         os.makedirs(SEISAN_path)
@@ -53,50 +52,32 @@ def download_seisan(libgfortran_path):
     
     os.system(f"cp {libgfortran_path} /usr/lib/x86_64-linux-gnu/libgfortran.so.3")
 
-def split(sfile_folder,sfilename):
+def split(sfile_folder: str, sfilename: str) -> None:
     """
-    Parameters:
-    -----------
-    sfile_folder: str
-        It is the folder where is located the sfile.
-        In addition, it is the folder where will be saved all sfiles.
-
-    sfilename: str
-        Name of the sfile what will be splitted
-
-    Returns:
-    --------
-        Each sfile produced by the split function
-
+    Splits an S-file into multiple smaller files.
+    
+    Args:
+        sfile_folder (str): Directory containing the S-file to be split.
+        sfilename (str): Name of the S-file to be split.
     """
-    split_path = os.path.join(PRO_path,"split")
+    split_path = os.path.join(PRO_path, "split")
     Split = pexpect.spawn(split_path, cwd=sfile_folder)
-    # Split = pexpect.spawn('split', cwd=sfile_folder)
     Split.expect(b' NAME')
     Split.sendline(f'{sfilename}\n')
     Split.expect(b'LOCAL DIRECTORY')
     Split.sendline('\n')
     Split.expect(b'CHARS')
     Split.sendline('usr\n')
-    # print(Split.before)
     Split.interact()
 
-def collect(sfile_folder):
+def collect(sfile_folder: str) -> None:
     """
-    Parameters:
-    -----------
-    sfile_folder: str
-        It is the folder where is located all sfiles.
-        In addition, it is the folder where will be saved 
-        the collected sfile named as collect.out
+    Collects multiple S-files into a single collected S-file.
     
-    Returns:
-        colelcted sfile in the next path
-        {sfile_folder}/collect.out
-
-    
+    Args:
+        sfile_folder (str): Directory containing the S-files to be collected.
     """
-    collect_path = os.path.join(PRO_path,"collect")
+    collect_path = os.path.join(PRO_path, "collect")
     Collect = pexpect.spawn(collect_path, cwd=sfile_folder)
     Collect.expect(b' return for default')
     Collect.sendline(',,\n')
@@ -105,20 +86,16 @@ def collect(sfile_folder):
     Collect.expect(b":")
     Collect.sendline('\n')
     Collect.expect(b"(Y/N=default)")
-    # print(Collect.before)
     Collect.interact()
 
-def update(sfile_folder):
+def update(sfile_folder: str) -> None:
     """
-    Parameters:
-    -----------
-    sfile_folder: str
-        It is the folder where is located all sfiles.
-            
-    Returns:
-        It updates each sfile with the hypocenter location
+    Updates the hypocenter location for each S-file.
+    
+    Args:
+        sfile_folder (str): Directory containing the S-files to be updated.
     """
-    update_path = os.path.join(PRO_path,"update")
+    update_path = os.path.join(PRO_path, "update")
     Update = pexpect.spawn(update_path, cwd=sfile_folder)
     Update.expect(b' return for default')
     Update.sendline(',,\n')
@@ -126,7 +103,6 @@ def update(sfile_folder):
     Update.sendline('usr\n')
     Update.expect(b":")
     Update.sendline('\n')
-    # print(Update.before)
     Update.interact()
 
 def select(sfile_folder):
@@ -194,22 +170,18 @@ def cp_station0(station0,sfile_folder):
         # print(msg)
         os.system(msg)
 
-def resp2df(resp):
-    """
-    Parameters:
-    -----------
-    resp: str
-        RESP filepath
 
-    Returns: DataFrame
-        Dataframe with the next columns
-        network,station,latitude,longitude,elevation
+def resp2df(resp: str) -> pd.DataFrame:
     """
-    networks = []
-    stations = []
-    longitudes = []
-    latitudes = []
-    elevations = []
+    Converts a RESP file into a DataFrame containing station metadata.
+    
+    Args:
+        resp (str): Path to the RESP file.
+    
+    Returns:
+        pd.DataFrame: DataFrame containing station metadata with columns ['network', 'station', 'latitude', 'longitude', 'elevation'].
+    """
+    networks, stations, longitudes, latitudes, elevations = [], [], [], [], []
     inv = read_inventory(resp)
     for net in inv:
         for sta in net:
@@ -218,22 +190,23 @@ def resp2df(resp):
             elevations.append(sta.elevation)
             stations.append(sta.code)
             networks.append(net.code)
-
-    df = {"network":networks,"station":stations,
-        "latitude":latitudes,"longitude":longitudes,
-        "elevation":elevations}
-    df = pd.DataFrame(df)
-    # print(df)
-    return df
+    
+    return pd.DataFrame({
+        "network": networks,
+        "station": stations,
+        "latitude": latitudes,
+        "longitude": longitudes,
+        "elevation": elevations
+    })
 
 def sta2station0(df):
     """
     Parameters:
     ----------
-    df: DataFrame
-        Dataframe with the next columns
-        network,station,latitude,longitude,elevation.
-        Review resp2df function.
+    Converts station metadata into SEISAN STATION0 format.
+
+    Args:
+        df (pd.DataFrame): Dataframe with columns ['network', 'station', 'latitude', 'longitude', 'elevation'].
 
     Returns: 
     --------
@@ -440,31 +413,27 @@ class STATION0():
             only_vp = True
                 ):
         """
-        Parameters:
-        -----------
-        sta_df: DataFrame
-            Dataframe with the next columns
-            network,station,latitude,longitude,elevation.
-            Review resp2df function.
-        vel_df: DataFrame
-            Dataframe with the next columns
-            dep,vp,vs,disc
-        test: dict
-            key: str
-                Number of the SEISAN HYPOCENTER test line
-            value: int
-                Value of the respective key
-        vsp_ratio: ordered dict
-            The key order of the dictionary must be the next:
-            "starting_depth","xnear","xfar","vps"
+        Initializes the STATION0 class.
+        
+        Args:
+            xml_path (str): Path to XML metadata file. 
+            vel_path (str): Path to velocity model CSV file. columns:dep,vp,vs,disc
+            test (dict, optional): SEISAN test parameters. Defaults to standard values.
+                key: str
+                    Number of the SEISAN HYPOCENTER test line
+                value: int
+                    Value of the respective key
+            vsp_ratio (dict, optional): Vp/Vs ratio parameters. Defaults to standard values.
+                The key order of the dictionary must be the next:
+                "starting_depth","xnear","xfar","vps"
 
-            ---------example--------
-            {"starting_depth":2,
-            "xnear":100,
-            "xfar": 800,
-            "vps": 1.84},
-        agency: str
-            Agency 
+                ---------example--------
+                {"starting_depth":2,
+                "xnear":100,
+                "xfar": 800,
+                "vps": 1.84},
+            agency (str, optional): Agency name. Defaults to "TES".
+            only_vp (bool, optional): If True, only includes P-wave velocity. Defaults to True.
         """
 
         self.test = test
@@ -476,7 +445,10 @@ class STATION0():
     
     def _get_msgs(self):
         """
-        Get the messages to write in the station0 file
+        Generates formatted messages for STATION0 file.
+
+        Returns:
+            list: List of formatted STATION0 lines.
         """
         test_msgs = test2station0(self.test) 
         sta_msgs = sta2station0(self.sta_df)
@@ -493,10 +465,10 @@ class STATION0():
 
     def write(self,out):
         """
-        Parameters:
-        -----------
-        out: str
-            Station0 path file
+        Writes the STATION0 file to the specified path.
+
+        Args:
+            out (str): Output file path.
         """
         # ut.isfile(out)
         f = open(out, "w")
