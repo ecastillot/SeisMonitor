@@ -1,322 +1,276 @@
-# /**
-#  * @author [Emmanuel Castillo]
-#  * @email [excastillot@unal.edu.co]
-#  * @create date 2021-12-22 15:13:49
-#  * @modify date 2021-12-22 15:13:49
-#  * @desc [description]
-#  */
-
-"""
-Concurrent downloader based on obspy's Mass Downloader class. 
-
-Author:
-    Emmanuel Castillo (ecastillot@unal.edu.co), 2020
-"""
-
 import time
 import numpy as np
 import itertools
-import concurrent.futures 
+import concurrent.futures
 from obspy.core.utcdatetime import UTCDateTime
 from obspy.core.inventory.inventory import Inventory
-from obspy.clients.fdsn.mass_downloader import (Restrictions,MassDownloader)
+from obspy.clients.fdsn.mass_downloader import Restrictions, MassDownloader
 from SeisMonitor.utils import printlog
 
-def _run_subprocess(mdl,domain,restriction,
-                    mseed_storage,stationxml_storage):
-    """
-    Parameters
-    ----------
-    domain: class:'obspy.mass_downloader.domain'
-        The download domain.
-    restrictions: class:'obspy.mass_downloader.restrictions.Restrictions'
-        Non-spatial downloading restrictions.
-    mseed_storage: str
-        Where to store the waveform files. 
-    stationxml_storage: str
-        Where to store the StationXML files.
 
-    Returns:
-    Download the mseed files.
+def _run_subprocess(mdl, domain, restriction, mseed_storage, stationxml_storage):
+    """Execute download in a subprocess with error handling.
+    
+    Args:
+        mdl (MassDownloader): MassDownloader instance
+        domain (Domain): Download domain specification
+        restriction (Restrictions): Non-spatial download restrictions
+        mseed_storage (str): Path for waveform storage
+        stationxml_storage (str): Path for StationXML storage
     """
     try:
         tic = time.time()
-        mdl.download(domain=domain,
-                restrictions=restriction, 
-                download_chunk_size_in_mb=20, 
-                threads_per_client=3, 
-                mseed_storage=mseed_storage,
-                stationxml_storage=stationxml_storage)
+        mdl.download(
+            domain=domain,
+            restrictions=restriction,
+            download_chunk_size_in_mb=20,
+            threads_per_client=3,
+            mseed_storage=mseed_storage,
+            stationxml_storage=stationxml_storage
+        )
         time.sleep(np.random.randint(25, 30))
         toc = time.time()
-
-        printlog("info","Downloader",
-        f"Thread done:{restriction.network} -- {restriction.station}"+
-        f"\ttime: {round(toc-tic,2)} s")
-
+        printlog(
+            "info", "Downloader",
+            f"Thread done: {restriction.network} -- {restriction.station}"
+            f"\ttime: {round(toc-tic, 2)} s"
+        )
     except Exception:
-        printlog("error","Downloader",
-        f"Thread failure: {restriction.network} -- {restriction.station}")
-        pass
+        printlog(
+            "error", "Downloader",
+            f"Thread failure: {restriction.network} -- {restriction.station}"
+        )
+
 
 def process(args):
+    """Process download parameters for a single station.
+    
+    Args:
+        args (tuple): Contains (mdl, domain, restriction, mseed_storage, stationxml_storage)
+            mdl (MassDownloader): MassDownloader instance
+            domain (Domain): Download domain specification
+            restriction (Restrictions): Non-spatial download restrictions
+            mseed_storage (str): Path for waveform storage
+            stationxml_storage (str): Path for StationXML storage
     """
-    Parameters:
-    -----------
-    args: dict
-        Contains the massdownloader parameters to download
-        by process. 
-    """
-
-    mdl,domain,restriction,\
-    mseed_storage,stationxml_storage = args
-
+    mdl, domain, restriction, mseed_storage, stationxml_storage = args
+    
     try:
         tic = time.time()
-        mdl.download(domain=domain,
-                restrictions=restriction, 
-                download_chunk_size_in_mb=20, 
-                threads_per_client=3, 
-                mseed_storage=mseed_storage,
-                stationxml_storage=stationxml_storage)
+        mdl.download(
+            domain=domain,
+            restrictions=restriction,
+            download_chunk_size_in_mb=20,
+            threads_per_client=3,
+            mseed_storage=mseed_storage,
+            stationxml_storage=stationxml_storage
+        )
         toc = time.time()
-        printlog("info","Downloader",
-        f"Process done:{restriction.network} -- {restriction.station}"+
-        f"\ttime: {round(toc-tic,2)} s")                 
-
+        printlog(
+            "info", "Downloader",
+            f"Process done: {restriction.network} -- {restriction.station}"
+            f"\ttime: {round(toc-tic, 2)} s"
+        )
     except Exception:
-        printlog("error","Downloader",
-        f"Process failure: {restriction.network} -- {restriction.station}")
-        pass
+        printlog(
+            "error", "Downloader",
+            f"Process failure: {restriction.network} -- {restriction.station}"
+        )
 
-class MseedDownloader(object):
-    def __init__(self,providers):
-        self.providers= providers
 
-    """Concurrent bulk downloader based on obspy's Mass Downloader class.
-
-    parameters
-    ----------
-    providers: list
-        list of Client instances
-
-    returns
-    -------
-        MseedDownloader object
-
+class MseedDownloader:
+    """Concurrent bulk downloader based on Obspy's Mass Downloader class.
+    
+    Attributes:
+        providers (list): List of FDSN client instances
+        
     Warnings:
-    ---------
-    client instances must have available the get_stations method    
+        Client instances must implement the get_stations method
     """
-
-    def _get_stations_info(self,bulk):
+    
+    def __init__(self, providers):
+        """Initialize MseedDownloader with FDSN providers.
+        
+        Args:
+            providers (list): List of Client instances
         """
-        Parameters:
-        -----------
-        bulk: str, file or list of lists
-            Information about the requested data. 
-            See get_stations_bulk from obspy for details.
+        self.providers = providers
 
-        returns: 
-        --------
-            stations_info: list
-            list of tuples with stations information
-            (network,station)
+    def _get_stations_info(self, bulk):
+        """Retrieve station information from providers.
+        
+        Args:
+            bulk (str or list): Station request information
+                See obspy.clients.fdsn.client.Client.get_stations_bulk for details
+                
+        Returns:
+            list: List of tuples with (network, station) information
         """
-
         inv = Inventory()
         for provider in self.providers:
-            one_inv = provider.get_stations_bulk(bulk,level="station")
-            # one_inv = provider.get_stations_bulk(bulk,level="response")
-            inv = inv.__add__(one_inv) 
+            one_inv = provider.get_stations_bulk(bulk, level="station")
+            inv = inv.__add__(one_inv)
 
-        stations_info = [(net.code, sta.code) 
+        stations_info = [(net.code, sta.code)
                         for net in inv
-                        for sta in net ]
+                        for sta in net]
         return stations_info
 
-    def _build_station_restrictions(self,restrictions,
-                                    stations_info):
-        """
-        Parameters:
-        -----------
-        restrictions: class:'obspy.mass_downloader.restrictions.Restrictions'
-            Download restrictions from obspy
-        stations_info: list
-            list of tuples with stations information
-            (network,station)
-
+    def _build_station_restrictions(self, restrictions, stations_info):
+        """Build restriction objects for each station.
+        
+        Args:
+            restrictions (Restrictions): Base download restrictions
+            stations_info (list): List of (network, station) tuples
+            
         Returns:
-        --------
-        rest_list: list
-            List of restrictions by each tuple given by stations_info
+            list: List of Restrictions objects per station
         """
-        rest_dict = restrictions.__dict__
-        new_rest_dict = {}
-        for key,value in rest_dict.items():
-            if key[0] == '_':
-                pass
-            elif key == 'chunklength':
-                new_rest_dict[key+'_in_sec'] = value
-            else:
-                new_rest_dict[key] = value
+        rest_dict = {k: v for k, v in restrictions.__dict__.items() if k[0] != '_'}
+        if 'chunklength' in rest_dict:
+            rest_dict['chunklength_in_sec'] = rest_dict.pop('chunklength')
 
         rest_list = []
-        for info in stations_info:
-            net,sta = info
-
+        for net, sta in stations_info:
+            new_rest_dict = rest_dict.copy()
             new_rest_dict['network'] = net
             new_rest_dict['station'] = sta
-            station_rest = Restrictions(**new_rest_dict)
-            rest_list.append(station_rest)
+            rest_list.append(Restrictions(**new_rest_dict))
 
         return rest_list
 
-    def _prepare_args_for_process(self,domain,restrictions_list,
-                                    mseed_storage,stationxml_storage):
+    def _prepare_args_for_process(self, domain, restrictions_list, mseed_storage, stationxml_storage):
+        """Prepare arguments for parallel processing.
         
-        """
-        method to join all massdownloader parameters and save it in 
-        the list to map parallelly.
+        Args:
+            domain (Domain): Download domain specification
+            restrictions_list (list): List of Restrictions objects
+            mseed_storage (str): Path for waveform storage
+            stationxml_storage (str): Path for StationXML storage
+            
+        Returns:
+            list: List of argument tuples for parallel execution
         """
         mdl = MassDownloader(providers=self.providers)
-        args = zip(itertools.repeat(mdl), 
+        args = zip(
+            itertools.repeat(mdl),
             itertools.repeat(domain),
             restrictions_list,
-            itertools.repeat(mseed_storage),  
-            itertools.repeat(stationxml_storage))
+            itertools.repeat(mseed_storage),
+            itertools.repeat(stationxml_storage)
+        )
         return list(args)
 
-    def download(self,domain,restrictions,
-                    mseed_storage,stationxml_storage,
-                    workers=None,parallel_mode="thread"):
+    def download(self, domain, restrictions, mseed_storage, stationxml_storage, workers=None, parallel_mode="thread"):
+        """Perform parallel download of seismic data by station.
+        
+        Args:
+            domain (Domain): Download domain specification
+            restrictions (Restrictions): Non-spatial download restrictions
+            mseed_storage (str): Path for waveform storage
+            stationxml_storage (str): Path for StationXML storage
+            workers (int, optional): Number of parallel workers
+            parallel_mode (str): 'thread' or 'process' parallel execution mode
+                'thread' recommended for <=6 workers due to FDSN response limitations
+                'process' recommended for higher worker counts
+                
+        Raises:
+            Exception: If workers < 1 or invalid parallel_mode specified
+            
+        Notes:
+            Downloads mseed and StationXML files to specified storage locations
         """
-        Parallel download by each station. 
-
-        Parameters
-        ----------
-        domain: class:'obspy.mass_downloader.domain'
-            The download domain.
-        restrictions: class:'obspy.mass_downloader.restrictions.Restrictions'
-            Non-spatial downloading restrictions.
-        mseed_storage: str
-            Where to store the waveform files. 
-        stationxml_storage: str
-            Where to store the StationXML files.
-        workers: int
-            Number of subprocess that will be used.
-        parallel_mode: str
-            It can be 'thread' or 'process'. However It's recommended
-            to use 'process' because by 'thread' you only can use 6 workers
-            because for greater workers the downloading is not complete 
-            due to no FDSN response.
-
-        returns
-        -------
-        mseed files and xml files in mseed_storage and stationxml_storage
-        respectively.
-        """
-
-        ## get the stations information and prepare the restrisctions_list
-        ## for the parallel downloading
-
-        bulk = [(restrictions.network, restrictions.station,
-                '*', '*',
-                 restrictions.starttime, restrictions.endtime) ]
-        # bulk = [(restrictions.network, restrictions.station,
-        #         restrictions.location, restrictions.channel,
-        #          restrictions.starttime, restrictions.endtime) ]
-
+        bulk = [(restrictions.network, restrictions.station, '*', '*',
+                restrictions.starttime, restrictions.endtime)]
+        
         stations_info = self._get_stations_info(bulk)
-        restrictions_list = self._build_station_restrictions(restrictions,
-                                                            stations_info)
-
-
+        restrictions_list = self._build_station_restrictions(restrictions, stations_info)
         mdl = MassDownloader(providers=self.providers)
-        ## Go to the downloading: 
+
         if workers == 1:
             for rest in restrictions_list:
-                args = (mdl,domain,rest,mseed_storage,stationxml_storage)
-                process(args)
-        elif workers == 0:
-            raise Exception("workers must be grater than 1")
+                process((mdl, domain, rest, mseed_storage, stationxml_storage))
+        elif workers == 0 or workers is None:
+            raise Exception("workers must be greater than 0")
         else:
             total_tic = time.time()
 
-            #Thread mode
-            if parallel_mode in ("thread","t","T"):
-
-                def subprocess(restriction):
-                    _run_subprocess(mdl,domain,restriction,
-                                    mseed_storage, stationxml_storage)
-
-                with concurrent.futures.ThreadPoolExecutor(
-                    max_workers=workers) as executor:
-                    executor.map(subprocess,restrictions_list)
-
-            #Process mode
-            elif parallel_mode in ("process","p","P"):
-                args = self._prepare_args_for_process(domain,
-                                    restrictions_list,
-                                    mseed_storage,
-                                    stationxml_storage)
-                with concurrent.futures.ProcessPoolExecutor(
-                    max_workers=workers) as executor:
-                    executor.map(process,args)
-                
+            if parallel_mode.lower() in ("thread", "t"):
+                with concurrent.futures.ThreadPoolExecutor(max_workers=workers) as executor:
+                    executor.map(
+                        lambda r: _run_subprocess(mdl, domain, r, mseed_storage, stationxml_storage),
+                        restrictions_list
+                    )
+            elif parallel_mode.lower() in ("process", "p"):
+                args = self._prepare_args_for_process(
+                    domain, restrictions_list, mseed_storage, stationxml_storage
+                )
+                with concurrent.futures.ProcessPoolExecutor(max_workers=workers) as executor:
+                    executor.map(process, args)
             else:
-                raise Exception(f"Doesn't exist {parallel_mode} mode"
-                                "only 1)thread or 2)process")
+                raise Exception(f"Invalid parallel_mode '{parallel_mode}' - use 'thread' or 'process'")
 
             total_toc = time.time()
-            printlog("info","Downloader"," Total download time: "+
-                    f"\t{round(total_toc-total_tic,2)} s")
+            printlog(
+                "info", "Downloader",
+                f"Total download time: {round(total_toc-total_tic, 2)} s"
+            )
 
 
 if __name__ == "__main__":
     from obspy.clients.fdsn.mass_downloader.domain import RectangularDomain
     from obspy.clients.fdsn.client import Client
 
-
-    IRIS_client = Client(base_url="IRIS", user="gaprietogo@unal.edu.co",
-                        password="DaCgmn3hNjg")  
-
+    IRIS_client = Client(
+        base_url="IRIS",
+        user="gaprietogo@unal.edu.co",
+        password="DaCgmn3hNjg"
+    )
     CM_client = Client(base_url='http://10.100.100.232:8091')
 
-    YU_restrictions = Restrictions(starttime=UTCDateTime(2016, 8, 1),
-                            endtime=UTCDateTime(2016, 8, 2),
-                            network="YU", 
-                            station="CS01,CS02",
-                            # location="*", channel="*",
-                            chunklength_in_sec=86400,
-                            reject_channels_with_gaps=False,
-                            minimum_length=0.0,
-                            minimum_interstation_distance_in_m=0.0,
-                            channel_priorities=["HH[ZNE]", "BH[ZNE]","EH[ZNE]","HN[ZNE]"],
-                            location_priorities=["", "00", "20", "10"])
+    YU_restrictions = Restrictions(
+        starttime=UTCDateTime(2016, 8, 1),
+        endtime=UTCDateTime(2016, 8, 2),
+        network="YU",
+        station="CS01,CS02",
+        chunklength_in_sec=86400,
+        reject_channels_with_gaps=False,
+        minimum_length=0.0,
+        minimum_interstation_distance_in_m=0.0,
+        channel_priorities=["HH[ZNE]", "BH[ZNE]", "EH[ZNE]", "HN[ZNE]"],
+        location_priorities=["", "00", "20", "10"]
+    )
 
-    VMM_restrictions = Restrictions(starttime=UTCDateTime(2016, 8, 1),
-                            endtime=UTCDateTime(2016, 8, 2),
-                            network="CM", 
-                            station="BAR2,VMM*",
-                            # location="*", channel="*",
-                            chunklength_in_sec=86400,
-                            sanitize = False,
-                            reject_channels_with_gaps=False,
-                            minimum_length=0.0,
-                            minimum_interstation_distance_in_m=1000,
-                            channel_priorities=["HH[ZNE]", "BH[ZNE]","EH[ZNE]","HN[ZNE]"],
-                            location_priorities=["", "00", "20", "10"])
+    VMM_restrictions = Restrictions(
+        starttime=UTCDateTime(2016, 8, 1),
+        endtime=UTCDateTime(2016, 8, 2),
+        network="CM",
+        station="BAR2,VMM*",
+        chunklength_in_sec=86400,
+        sanitize=False,
+        reject_channels_with_gaps=False,
+        minimum_length=0.0,
+        minimum_interstation_distance_in_m=1000,
+        channel_priorities=["HH[ZNE]", "BH[ZNE]", "EH[ZNE]", "HN[ZNE]"],
+        location_priorities=["", "00", "20", "10"]
+    )
 
-    Colombian_domain = RectangularDomain(minlatitude=-2, maxlatitude=16,
-                           minlongitude=-84, maxlongitude=-68)
+    Colombian_domain = RectangularDomain(
+        minlatitude=-2,
+        maxlatitude=16,
+        minlongitude=-84,
+        maxlongitude=-68
+    )
 
     mseed_storage = "/home/ecastillo/download/prove/waveforms"
     stationxml_storage = "/home/ecastillo/download/prove/stations"
 
     mseed_dl = MseedDownloader([CM_client])
-    mseed_dl.download(domain=Colombian_domain,
-                        restrictions=VMM_restrictions, 
-                        mseed_storage=mseed_storage,
-                        stationxml_storage=stationxml_storage,
-                        workers=1,parallel_mode="process",picker='phasenet')
+    mseed_dl.download(
+        domain=Colombian_domain,
+        restrictions=VMM_restrictions,
+        mseed_storage=mseed_storage,
+        stationxml_storage=stationxml_storage,
+        workers=1,
+        parallel_mode="process"
+    )
