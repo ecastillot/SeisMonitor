@@ -291,7 +291,7 @@ def get_all_sdswaveforms(client, **kwargs):
     
     Args:
         client (Client): Obspy client
-        **kwargs: network, station, location, channel, starttime, endtime
+        ``**kwargs``: network, station, location, channel, starttime, endtime
         
     Returns:
         Stream: Combined waveforms

@@ -248,9 +248,7 @@
 <span class="sd">            mseed_storage (str): Path for waveform storage</span>
 <span class="sd">            stationxml_storage (str): Path for StationXML storage</span>
 <span class="sd">            workers (int, optional): Number of parallel workers</span>
-<span class="sd">            parallel_mode (str): &#39;thread&#39; or &#39;process&#39; parallel execution mode</span>
-<span class="sd">                &#39;thread&#39; recommended for &lt;=6 workers due to FDSN response limitations</span>
-<span class="sd">                &#39;process&#39; recommended for higher worker counts</span>
+<span class="sd">            parallel_mode (str): &#39;thread&#39; or &#39;process&#39; parallel execution mode. &#39;thread&#39; recommended for &lt;=6 workers due to FDSN response limitations; &#39;process&#39; recommended for higher worker counts</span>
 <span class="sd">                </span>
 <span class="sd">        Raises:</span>
 <span class="sd">            Exception: If workers &lt; 1 or invalid parallel_mode specified</span>

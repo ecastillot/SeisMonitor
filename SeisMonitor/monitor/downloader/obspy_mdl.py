@@ -170,9 +170,7 @@ class MseedDownloader:
             mseed_storage (str): Path for waveform storage
             stationxml_storage (str): Path for StationXML storage
             workers (int, optional): Number of parallel workers
-            parallel_mode (str): 'thread' or 'process' parallel execution mode
-                'thread' recommended for <=6 workers due to FDSN response limitations
-                'process' recommended for higher worker counts
+            parallel_mode (str): 'thread' or 'process' parallel execution mode. 'thread' recommended for <=6 workers due to FDSN response limitations; 'process' recommended for higher worker counts
                 
         Raises:
             Exception: If workers < 1 or invalid parallel_mode specified

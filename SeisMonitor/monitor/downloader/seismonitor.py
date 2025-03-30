@@ -80,14 +80,11 @@ class MseedDownloader:
         overlap_in_sec=0,
         picker_args={},
         groupby='{network}.{station}.{channel}',
-        n_processor=None
-    ):
+        n_processor=None):
         """Download seismic waveforms with specified parameters.
         
         Args:
-            mseed_storage (str): Path template for waveform storage
-                Supports keywords: {network}, {station}, {location}, {channel},
-                {year}, {month}, {day}, {julday}, {starttime}, {endtime}
+            mseed_storage (str): Path template for waveform storage. Supports keywords: {network}, {station}, {location}, {channel},{year}, {month}, {day}, {julday}, {starttime}, {endtime}
             chunklength_in_sec (int, optional): Length of each time chunk in seconds
             threshold (int): Minimum length in seconds for download
             overlap_in_sec (int): Overlap between chunks in seconds

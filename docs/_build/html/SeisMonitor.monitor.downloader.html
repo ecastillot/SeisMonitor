@@ -111,17 +111,13 @@
 <dt class="sig sig-object py" id="SeisMonitor.monitor.downloader.obspy_mdl.MseedDownloader.download">
 <span class="sig-name descname"><span class="pre">download</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">domain</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">restrictions</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mseed_storage</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stationxml_storage</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">workers</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parallel_mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'thread'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/SeisMonitor/monitor/downloader/obspy_mdl.html#MseedDownloader.download"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SeisMonitor.monitor.downloader.obspy_mdl.MseedDownloader.download" title="Link to this definition"></a></dt>
 <dd><p>Perform parallel download of seismic data by station.</p>
-<dl>
+<dl class="simple">
 <dt>Args:</dt><dd><p>domain (Domain): Download domain specification
 restrictions (Restrictions): Non-spatial download restrictions
 mseed_storage (str): Path for waveform storage
 stationxml_storage (str): Path for StationXML storage
 workers (int, optional): Number of parallel workers
-parallel_mode (str): ‘thread’ or ‘process’ parallel execution mode</p>
-<blockquote>
-<div><p>‘thread’ recommended for &lt;=6 workers due to FDSN response limitations
-‘process’ recommended for higher worker counts</p>
-</div></blockquote>
+parallel_mode (str): ‘thread’ or ‘process’ parallel execution mode. ‘thread’ recommended for &lt;=6 workers due to FDSN response limitations; ‘process’ recommended for higher worker counts</p>
 </dd>
 <dt>Raises:</dt><dd><p>Exception: If workers &lt; 1 or invalid parallel_mode specified</p>
 </dd>
@@ -170,13 +166,9 @@ Stations not available will not be downloaded</p>
 <dt class="sig sig-object py" id="SeisMonitor.monitor.downloader.seismonitor.MseedDownloader.download">
 <span class="sig-name descname"><span class="pre">download</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mseed_storage</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chunklength_in_sec</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">threshold</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">60</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">overlap_in_sec</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">picker_args</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">groupby</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'{network}.{station}.{channel}'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_processor</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/SeisMonitor/monitor/downloader/seismonitor.html#MseedDownloader.download"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SeisMonitor.monitor.downloader.seismonitor.MseedDownloader.download" title="Link to this definition"></a></dt>
 <dd><p>Download seismic waveforms with specified parameters.</p>
-<dl>
-<dt>Args:</dt><dd><dl class="simple">
-<dt>mseed_storage (str): Path template for waveform storage</dt><dd><p>Supports keywords: {network}, {station}, {location}, {channel},
-{year}, {month}, {day}, {julday}, {starttime}, {endtime}</p>
-</dd>
-</dl>
-<p>chunklength_in_sec (int, optional): Length of each time chunk in seconds
+<dl class="simple">
+<dt>Args:</dt><dd><p>mseed_storage (str): Path template for waveform storage. Supports keywords: {network}, {station}, {location}, {channel},{year}, {month}, {day}, {julday}, {starttime}, {endtime}
+chunklength_in_sec (int, optional): Length of each time chunk in seconds
 threshold (int): Minimum length in seconds for download
 overlap_in_sec (int): Overlap between chunks in seconds
 picker_args (dict): Picker parameters (batch_size, overlap, length)
@@ -225,7 +217,7 @@ last update: 14-11-2020</p>
 <dd><p>Get waveforms from client with multiple parameters.</p>
 <dl class="simple">
 <dt>Args:</dt><dd><p>client (Client): Obspy client
-<a href="#id1"><span class="problematic" id="id2">**</span></a>kwargs: network, station, location, channel, starttime, endtime</p>
+<code class="docutils literal notranslate"><span class="pre">**kwargs</span></code>: network, station, location, channel, starttime, endtime</p>
 </dd>
 <dt>Returns:</dt><dd><p>Stream: Combined waveforms</p>
 </dd>

@@ -1,0 +1,386 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SeisMonitor.monitor.downloader.obspy_mdl &mdash; SeisMonitor 0.0.57 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../../_static/documentation_options.js?v=2bfb35b6"></script>
+      <script src="../../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../../index.html" class="icon icon-home">
+            SeisMonitor
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../modules.html">SeisMonitor</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">SeisMonitor</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">SeisMonitor.monitor.downloader.obspy_mdl</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for SeisMonitor.monitor.downloader.obspy_mdl</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">itertools</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">concurrent.futures</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">obspy.core.utcdatetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">UTCDateTime</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">obspy.core.inventory.inventory</span><span class="w"> </span><span class="kn">import</span> <span class="n">Inventory</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">obspy.clients.fdsn.mass_downloader</span><span class="w"> </span><span class="kn">import</span> <span class="n">Restrictions</span><span class="p">,</span> <span class="n">MassDownloader</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">SeisMonitor.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">printlog</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_run_subprocess</span><span class="p">(</span><span class="n">mdl</span><span class="p">,</span> <span class="n">domain</span><span class="p">,</span> <span class="n">restriction</span><span class="p">,</span> <span class="n">mseed_storage</span><span class="p">,</span> <span class="n">stationxml_storage</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Execute download in a subprocess with error handling.</span>
+<span class="sd">    </span>
+<span class="sd">    Args:</span>
+<span class="sd">        mdl (MassDownloader): MassDownloader instance</span>
+<span class="sd">        domain (Domain): Download domain specification</span>
+<span class="sd">        restriction (Restrictions): Non-spatial download restrictions</span>
+<span class="sd">        mseed_storage (str): Path for waveform storage</span>
+<span class="sd">        stationxml_storage (str): Path for StationXML storage</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">tic</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+        <span class="n">mdl</span><span class="o">.</span><span class="n">download</span><span class="p">(</span>
+            <span class="n">domain</span><span class="o">=</span><span class="n">domain</span><span class="p">,</span>
+            <span class="n">restrictions</span><span class="o">=</span><span class="n">restriction</span><span class="p">,</span>
+            <span class="n">download_chunk_size_in_mb</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span>
+            <span class="n">threads_per_client</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+            <span class="n">mseed_storage</span><span class="o">=</span><span class="n">mseed_storage</span><span class="p">,</span>
+            <span class="n">stationxml_storage</span><span class="o">=</span><span class="n">stationxml_storage</span>
+        <span class="p">)</span>
+        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">25</span><span class="p">,</span> <span class="mi">30</span><span class="p">))</span>
+        <span class="n">toc</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+        <span class="n">printlog</span><span class="p">(</span>
+            <span class="s2">&quot;info&quot;</span><span class="p">,</span> <span class="s2">&quot;Downloader&quot;</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">&quot;Thread done: </span><span class="si">{</span><span class="n">restriction</span><span class="o">.</span><span class="n">network</span><span class="si">}</span><span class="s2"> -- </span><span class="si">{</span><span class="n">restriction</span><span class="o">.</span><span class="n">station</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">time: </span><span class="si">{</span><span class="nb">round</span><span class="p">(</span><span class="n">toc</span><span class="o">-</span><span class="n">tic</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="si">}</span><span class="s2"> s&quot;</span>
+        <span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+        <span class="n">printlog</span><span class="p">(</span>
+            <span class="s2">&quot;error&quot;</span><span class="p">,</span> <span class="s2">&quot;Downloader&quot;</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">&quot;Thread failure: </span><span class="si">{</span><span class="n">restriction</span><span class="o">.</span><span class="n">network</span><span class="si">}</span><span class="s2"> -- </span><span class="si">{</span><span class="n">restriction</span><span class="o">.</span><span class="n">station</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="p">)</span>
+
+
+<div class="viewcode-block" id="process">
+<a class="viewcode-back" href="../../../../SeisMonitor.monitor.downloader.html#SeisMonitor.monitor.downloader.obspy_mdl.process">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">process</span><span class="p">(</span><span class="n">args</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Process download parameters for a single station.</span>
+<span class="sd">    </span>
+<span class="sd">    Args:</span>
+<span class="sd">        args (tuple): Contains (mdl, domain, restriction, mseed_storage, stationxml_storage)</span>
+<span class="sd">            mdl (MassDownloader): MassDownloader instance</span>
+<span class="sd">            domain (Domain): Download domain specification</span>
+<span class="sd">            restriction (Restrictions): Non-spatial download restrictions</span>
+<span class="sd">            mseed_storage (str): Path for waveform storage</span>
+<span class="sd">            stationxml_storage (str): Path for StationXML storage</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">mdl</span><span class="p">,</span> <span class="n">domain</span><span class="p">,</span> <span class="n">restriction</span><span class="p">,</span> <span class="n">mseed_storage</span><span class="p">,</span> <span class="n">stationxml_storage</span> <span class="o">=</span> <span class="n">args</span>
+    
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">tic</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+        <span class="n">mdl</span><span class="o">.</span><span class="n">download</span><span class="p">(</span>
+            <span class="n">domain</span><span class="o">=</span><span class="n">domain</span><span class="p">,</span>
+            <span class="n">restrictions</span><span class="o">=</span><span class="n">restriction</span><span class="p">,</span>
+            <span class="n">download_chunk_size_in_mb</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span>
+            <span class="n">threads_per_client</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+            <span class="n">mseed_storage</span><span class="o">=</span><span class="n">mseed_storage</span><span class="p">,</span>
+            <span class="n">stationxml_storage</span><span class="o">=</span><span class="n">stationxml_storage</span>
+        <span class="p">)</span>
+        <span class="n">toc</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+        <span class="n">printlog</span><span class="p">(</span>
+            <span class="s2">&quot;info&quot;</span><span class="p">,</span> <span class="s2">&quot;Downloader&quot;</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">&quot;Process done: </span><span class="si">{</span><span class="n">restriction</span><span class="o">.</span><span class="n">network</span><span class="si">}</span><span class="s2"> -- </span><span class="si">{</span><span class="n">restriction</span><span class="o">.</span><span class="n">station</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">time: </span><span class="si">{</span><span class="nb">round</span><span class="p">(</span><span class="n">toc</span><span class="o">-</span><span class="n">tic</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="si">}</span><span class="s2"> s&quot;</span>
+        <span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+        <span class="n">printlog</span><span class="p">(</span>
+            <span class="s2">&quot;error&quot;</span><span class="p">,</span> <span class="s2">&quot;Downloader&quot;</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">&quot;Process failure: </span><span class="si">{</span><span class="n">restriction</span><span class="o">.</span><span class="n">network</span><span class="si">}</span><span class="s2"> -- </span><span class="si">{</span><span class="n">restriction</span><span class="o">.</span><span class="n">station</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="MseedDownloader">
+<a class="viewcode-back" href="../../../../SeisMonitor.monitor.downloader.html#SeisMonitor.monitor.downloader.obspy_mdl.MseedDownloader">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">MseedDownloader</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Concurrent bulk downloader based on Obspy&#39;s Mass Downloader class.</span>
+<span class="sd">    </span>
+<span class="sd">    Attributes:</span>
+<span class="sd">        providers (list): List of FDSN client instances</span>
+<span class="sd">        </span>
+<span class="sd">    Warnings:</span>
+<span class="sd">        Client instances must implement the get_stations method</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">providers</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize MseedDownloader with FDSN providers.</span>
+<span class="sd">        </span>
+<span class="sd">        Args:</span>
+<span class="sd">            providers (list): List of Client instances</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">providers</span> <span class="o">=</span> <span class="n">providers</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_get_stations_info</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bulk</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Retrieve station information from providers.</span>
+<span class="sd">        </span>
+<span class="sd">        Args:</span>
+<span class="sd">            bulk (str or list): Station request information</span>
+<span class="sd">                See obspy.clients.fdsn.client.Client.get_stations_bulk for details</span>
+<span class="sd">                </span>
+<span class="sd">        Returns:</span>
+<span class="sd">            list: List of tuples with (network, station) information</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">inv</span> <span class="o">=</span> <span class="n">Inventory</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">provider</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">providers</span><span class="p">:</span>
+            <span class="n">one_inv</span> <span class="o">=</span> <span class="n">provider</span><span class="o">.</span><span class="n">get_stations_bulk</span><span class="p">(</span><span class="n">bulk</span><span class="p">,</span> <span class="n">level</span><span class="o">=</span><span class="s2">&quot;station&quot;</span><span class="p">)</span>
+            <span class="n">inv</span> <span class="o">=</span> <span class="n">inv</span><span class="o">.</span><span class="fm">__add__</span><span class="p">(</span><span class="n">one_inv</span><span class="p">)</span>
+
+        <span class="n">stations_info</span> <span class="o">=</span> <span class="p">[(</span><span class="n">net</span><span class="o">.</span><span class="n">code</span><span class="p">,</span> <span class="n">sta</span><span class="o">.</span><span class="n">code</span><span class="p">)</span>
+                        <span class="k">for</span> <span class="n">net</span> <span class="ow">in</span> <span class="n">inv</span>
+                        <span class="k">for</span> <span class="n">sta</span> <span class="ow">in</span> <span class="n">net</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">stations_info</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_build_station_restrictions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">restrictions</span><span class="p">,</span> <span class="n">stations_info</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Build restriction objects for each station.</span>
+<span class="sd">        </span>
+<span class="sd">        Args:</span>
+<span class="sd">            restrictions (Restrictions): Base download restrictions</span>
+<span class="sd">            stations_info (list): List of (network, station) tuples</span>
+<span class="sd">            </span>
+<span class="sd">        Returns:</span>
+<span class="sd">            list: List of Restrictions objects per station</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">rest_dict</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">restrictions</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">k</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="s1">&#39;_&#39;</span><span class="p">}</span>
+        <span class="k">if</span> <span class="s1">&#39;chunklength&#39;</span> <span class="ow">in</span> <span class="n">rest_dict</span><span class="p">:</span>
+            <span class="n">rest_dict</span><span class="p">[</span><span class="s1">&#39;chunklength_in_sec&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">rest_dict</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;chunklength&#39;</span><span class="p">)</span>
+
+        <span class="n">rest_list</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">net</span><span class="p">,</span> <span class="n">sta</span> <span class="ow">in</span> <span class="n">stations_info</span><span class="p">:</span>
+            <span class="n">new_rest_dict</span> <span class="o">=</span> <span class="n">rest_dict</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+            <span class="n">new_rest_dict</span><span class="p">[</span><span class="s1">&#39;network&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">net</span>
+            <span class="n">new_rest_dict</span><span class="p">[</span><span class="s1">&#39;station&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">sta</span>
+            <span class="n">rest_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Restrictions</span><span class="p">(</span><span class="o">**</span><span class="n">new_rest_dict</span><span class="p">))</span>
+
+        <span class="k">return</span> <span class="n">rest_list</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_prepare_args_for_process</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">domain</span><span class="p">,</span> <span class="n">restrictions_list</span><span class="p">,</span> <span class="n">mseed_storage</span><span class="p">,</span> <span class="n">stationxml_storage</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Prepare arguments for parallel processing.</span>
+<span class="sd">        </span>
+<span class="sd">        Args:</span>
+<span class="sd">            domain (Domain): Download domain specification</span>
+<span class="sd">            restrictions_list (list): List of Restrictions objects</span>
+<span class="sd">            mseed_storage (str): Path for waveform storage</span>
+<span class="sd">            stationxml_storage (str): Path for StationXML storage</span>
+<span class="sd">            </span>
+<span class="sd">        Returns:</span>
+<span class="sd">            list: List of argument tuples for parallel execution</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">mdl</span> <span class="o">=</span> <span class="n">MassDownloader</span><span class="p">(</span><span class="n">providers</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">providers</span><span class="p">)</span>
+        <span class="n">args</span> <span class="o">=</span> <span class="nb">zip</span><span class="p">(</span>
+            <span class="n">itertools</span><span class="o">.</span><span class="n">repeat</span><span class="p">(</span><span class="n">mdl</span><span class="p">),</span>
+            <span class="n">itertools</span><span class="o">.</span><span class="n">repeat</span><span class="p">(</span><span class="n">domain</span><span class="p">),</span>
+            <span class="n">restrictions_list</span><span class="p">,</span>
+            <span class="n">itertools</span><span class="o">.</span><span class="n">repeat</span><span class="p">(</span><span class="n">mseed_storage</span><span class="p">),</span>
+            <span class="n">itertools</span><span class="o">.</span><span class="n">repeat</span><span class="p">(</span><span class="n">stationxml_storage</span><span class="p">)</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+
+<div class="viewcode-block" id="MseedDownloader.download">
+<a class="viewcode-back" href="../../../../SeisMonitor.monitor.downloader.html#SeisMonitor.monitor.downloader.obspy_mdl.MseedDownloader.download">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">download</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">domain</span><span class="p">,</span> <span class="n">restrictions</span><span class="p">,</span> <span class="n">mseed_storage</span><span class="p">,</span> <span class="n">stationxml_storage</span><span class="p">,</span> <span class="n">workers</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">parallel_mode</span><span class="o">=</span><span class="s2">&quot;thread&quot;</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Perform parallel download of seismic data by station.</span>
+<span class="sd">        </span>
+<span class="sd">        Args:</span>
+<span class="sd">            domain (Domain): Download domain specification</span>
+<span class="sd">            restrictions (Restrictions): Non-spatial download restrictions</span>
+<span class="sd">            mseed_storage (str): Path for waveform storage</span>
+<span class="sd">            stationxml_storage (str): Path for StationXML storage</span>
+<span class="sd">            workers (int, optional): Number of parallel workers</span>
+<span class="sd">            parallel_mode (str): &#39;thread&#39; or &#39;process&#39; parallel execution mode</span>
+<span class="sd">                &#39;thread&#39; recommended for &lt;=6 workers due to FDSN response limitations</span>
+<span class="sd">                &#39;process&#39; recommended for higher worker counts</span>
+<span class="sd">                </span>
+<span class="sd">        Raises:</span>
+<span class="sd">            Exception: If workers &lt; 1 or invalid parallel_mode specified</span>
+<span class="sd">            </span>
+<span class="sd">        Notes:</span>
+<span class="sd">            Downloads mseed and StationXML files to specified storage locations</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">bulk</span> <span class="o">=</span> <span class="p">[(</span><span class="n">restrictions</span><span class="o">.</span><span class="n">network</span><span class="p">,</span> <span class="n">restrictions</span><span class="o">.</span><span class="n">station</span><span class="p">,</span> <span class="s1">&#39;*&#39;</span><span class="p">,</span> <span class="s1">&#39;*&#39;</span><span class="p">,</span>
+                <span class="n">restrictions</span><span class="o">.</span><span class="n">starttime</span><span class="p">,</span> <span class="n">restrictions</span><span class="o">.</span><span class="n">endtime</span><span class="p">)]</span>
+        
+        <span class="n">stations_info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_stations_info</span><span class="p">(</span><span class="n">bulk</span><span class="p">)</span>
+        <span class="n">restrictions_list</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_build_station_restrictions</span><span class="p">(</span><span class="n">restrictions</span><span class="p">,</span> <span class="n">stations_info</span><span class="p">)</span>
+        <span class="n">mdl</span> <span class="o">=</span> <span class="n">MassDownloader</span><span class="p">(</span><span class="n">providers</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">providers</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">workers</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">rest</span> <span class="ow">in</span> <span class="n">restrictions_list</span><span class="p">:</span>
+                <span class="n">process</span><span class="p">((</span><span class="n">mdl</span><span class="p">,</span> <span class="n">domain</span><span class="p">,</span> <span class="n">rest</span><span class="p">,</span> <span class="n">mseed_storage</span><span class="p">,</span> <span class="n">stationxml_storage</span><span class="p">))</span>
+        <span class="k">elif</span> <span class="n">workers</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">workers</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;workers must be greater than 0&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">total_tic</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+
+            <span class="k">if</span> <span class="n">parallel_mode</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;thread&quot;</span><span class="p">,</span> <span class="s2">&quot;t&quot;</span><span class="p">):</span>
+                <span class="k">with</span> <span class="n">concurrent</span><span class="o">.</span><span class="n">futures</span><span class="o">.</span><span class="n">ThreadPoolExecutor</span><span class="p">(</span><span class="n">max_workers</span><span class="o">=</span><span class="n">workers</span><span class="p">)</span> <span class="k">as</span> <span class="n">executor</span><span class="p">:</span>
+                    <span class="n">executor</span><span class="o">.</span><span class="n">map</span><span class="p">(</span>
+                        <span class="k">lambda</span> <span class="n">r</span><span class="p">:</span> <span class="n">_run_subprocess</span><span class="p">(</span><span class="n">mdl</span><span class="p">,</span> <span class="n">domain</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="n">mseed_storage</span><span class="p">,</span> <span class="n">stationxml_storage</span><span class="p">),</span>
+                        <span class="n">restrictions_list</span>
+                    <span class="p">)</span>
+            <span class="k">elif</span> <span class="n">parallel_mode</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;process&quot;</span><span class="p">,</span> <span class="s2">&quot;p&quot;</span><span class="p">):</span>
+                <span class="n">args</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_prepare_args_for_process</span><span class="p">(</span>
+                    <span class="n">domain</span><span class="p">,</span> <span class="n">restrictions_list</span><span class="p">,</span> <span class="n">mseed_storage</span><span class="p">,</span> <span class="n">stationxml_storage</span>
+                <span class="p">)</span>
+                <span class="k">with</span> <span class="n">concurrent</span><span class="o">.</span><span class="n">futures</span><span class="o">.</span><span class="n">ProcessPoolExecutor</span><span class="p">(</span><span class="n">max_workers</span><span class="o">=</span><span class="n">workers</span><span class="p">)</span> <span class="k">as</span> <span class="n">executor</span><span class="p">:</span>
+                    <span class="n">executor</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">process</span><span class="p">,</span> <span class="n">args</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Invalid parallel_mode &#39;</span><span class="si">{</span><span class="n">parallel_mode</span><span class="si">}</span><span class="s2">&#39; - use &#39;thread&#39; or &#39;process&#39;&quot;</span><span class="p">)</span>
+
+            <span class="n">total_toc</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+            <span class="n">printlog</span><span class="p">(</span>
+                <span class="s2">&quot;info&quot;</span><span class="p">,</span> <span class="s2">&quot;Downloader&quot;</span><span class="p">,</span>
+                <span class="sa">f</span><span class="s2">&quot;Total download time: </span><span class="si">{</span><span class="nb">round</span><span class="p">(</span><span class="n">total_toc</span><span class="o">-</span><span class="n">total_tic</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="si">}</span><span class="s2"> s&quot;</span>
+            <span class="p">)</span></div>
+</div>
+
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">obspy.clients.fdsn.mass_downloader.domain</span><span class="w"> </span><span class="kn">import</span> <span class="n">RectangularDomain</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">obspy.clients.fdsn.client</span><span class="w"> </span><span class="kn">import</span> <span class="n">Client</span>
+
+    <span class="n">IRIS_client</span> <span class="o">=</span> <span class="n">Client</span><span class="p">(</span>
+        <span class="n">base_url</span><span class="o">=</span><span class="s2">&quot;IRIS&quot;</span><span class="p">,</span>
+        <span class="n">user</span><span class="o">=</span><span class="s2">&quot;gaprietogo@unal.edu.co&quot;</span><span class="p">,</span>
+        <span class="n">password</span><span class="o">=</span><span class="s2">&quot;DaCgmn3hNjg&quot;</span>
+    <span class="p">)</span>
+    <span class="n">CM_client</span> <span class="o">=</span> <span class="n">Client</span><span class="p">(</span><span class="n">base_url</span><span class="o">=</span><span class="s1">&#39;http://10.100.100.232:8091&#39;</span><span class="p">)</span>
+
+    <span class="n">YU_restrictions</span> <span class="o">=</span> <span class="n">Restrictions</span><span class="p">(</span>
+        <span class="n">starttime</span><span class="o">=</span><span class="n">UTCDateTime</span><span class="p">(</span><span class="mi">2016</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+        <span class="n">endtime</span><span class="o">=</span><span class="n">UTCDateTime</span><span class="p">(</span><span class="mi">2016</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span>
+        <span class="n">network</span><span class="o">=</span><span class="s2">&quot;YU&quot;</span><span class="p">,</span>
+        <span class="n">station</span><span class="o">=</span><span class="s2">&quot;CS01,CS02&quot;</span><span class="p">,</span>
+        <span class="n">chunklength_in_sec</span><span class="o">=</span><span class="mi">86400</span><span class="p">,</span>
+        <span class="n">reject_channels_with_gaps</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">minimum_length</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
+        <span class="n">minimum_interstation_distance_in_m</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
+        <span class="n">channel_priorities</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;HH[ZNE]&quot;</span><span class="p">,</span> <span class="s2">&quot;BH[ZNE]&quot;</span><span class="p">,</span> <span class="s2">&quot;EH[ZNE]&quot;</span><span class="p">,</span> <span class="s2">&quot;HN[ZNE]&quot;</span><span class="p">],</span>
+        <span class="n">location_priorities</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="s2">&quot;00&quot;</span><span class="p">,</span> <span class="s2">&quot;20&quot;</span><span class="p">,</span> <span class="s2">&quot;10&quot;</span><span class="p">]</span>
+    <span class="p">)</span>
+
+    <span class="n">VMM_restrictions</span> <span class="o">=</span> <span class="n">Restrictions</span><span class="p">(</span>
+        <span class="n">starttime</span><span class="o">=</span><span class="n">UTCDateTime</span><span class="p">(</span><span class="mi">2016</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+        <span class="n">endtime</span><span class="o">=</span><span class="n">UTCDateTime</span><span class="p">(</span><span class="mi">2016</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span>
+        <span class="n">network</span><span class="o">=</span><span class="s2">&quot;CM&quot;</span><span class="p">,</span>
+        <span class="n">station</span><span class="o">=</span><span class="s2">&quot;BAR2,VMM*&quot;</span><span class="p">,</span>
+        <span class="n">chunklength_in_sec</span><span class="o">=</span><span class="mi">86400</span><span class="p">,</span>
+        <span class="n">sanitize</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">reject_channels_with_gaps</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">minimum_length</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
+        <span class="n">minimum_interstation_distance_in_m</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span>
+        <span class="n">channel_priorities</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;HH[ZNE]&quot;</span><span class="p">,</span> <span class="s2">&quot;BH[ZNE]&quot;</span><span class="p">,</span> <span class="s2">&quot;EH[ZNE]&quot;</span><span class="p">,</span> <span class="s2">&quot;HN[ZNE]&quot;</span><span class="p">],</span>
+        <span class="n">location_priorities</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="s2">&quot;00&quot;</span><span class="p">,</span> <span class="s2">&quot;20&quot;</span><span class="p">,</span> <span class="s2">&quot;10&quot;</span><span class="p">]</span>
+    <span class="p">)</span>
+
+    <span class="n">Colombian_domain</span> <span class="o">=</span> <span class="n">RectangularDomain</span><span class="p">(</span>
+        <span class="n">minlatitude</span><span class="o">=-</span><span class="mi">2</span><span class="p">,</span>
+        <span class="n">maxlatitude</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span>
+        <span class="n">minlongitude</span><span class="o">=-</span><span class="mi">84</span><span class="p">,</span>
+        <span class="n">maxlongitude</span><span class="o">=-</span><span class="mi">68</span>
+    <span class="p">)</span>
+
+    <span class="n">mseed_storage</span> <span class="o">=</span> <span class="s2">&quot;/home/ecastillo/download/prove/waveforms&quot;</span>
+    <span class="n">stationxml_storage</span> <span class="o">=</span> <span class="s2">&quot;/home/ecastillo/download/prove/stations&quot;</span>
+
+    <span class="n">mseed_dl</span> <span class="o">=</span> <span class="n">MseedDownloader</span><span class="p">([</span><span class="n">CM_client</span><span class="p">])</span>
+    <span class="n">mseed_dl</span><span class="o">.</span><span class="n">download</span><span class="p">(</span>
+        <span class="n">domain</span><span class="o">=</span><span class="n">Colombian_domain</span><span class="p">,</span>
+        <span class="n">restrictions</span><span class="o">=</span><span class="n">VMM_restrictions</span><span class="p">,</span>
+        <span class="n">mseed_storage</span><span class="o">=</span><span class="n">mseed_storage</span><span class="p">,</span>
+        <span class="n">stationxml_storage</span><span class="o">=</span><span class="n">stationxml_storage</span><span class="p">,</span>
+        <span class="n">workers</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+        <span class="n">parallel_mode</span><span class="o">=</span><span class="s2">&quot;process&quot;</span>
+    <span class="p">)</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Emmanuel Castillo.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

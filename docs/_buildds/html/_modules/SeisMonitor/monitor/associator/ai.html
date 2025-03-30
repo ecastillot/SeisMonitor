@@ -1,0 +1,565 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SeisMonitor.monitor.associator.ai &mdash; SeisMonitor 0.0.57 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../../_static/documentation_options.js?v=2bfb35b6"></script>
+      <script src="../../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../../index.html" class="icon icon-home">
+            SeisMonitor
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../modules.html">SeisMonitor</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">SeisMonitor</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">SeisMonitor.monitor.associator.ai</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for SeisMonitor.monitor.associator.ai</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">math</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">dt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pyproj</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">utils</span> <span class="k">as</span> <span class="n">ut</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">SeisMonitor.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">isfile</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">gamma.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">association</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">obspy.core.inventory.inventory</span><span class="w"> </span><span class="kn">import</span> <span class="n">Inventory</span><span class="p">,</span> <span class="n">read_inventory</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">tqdm</span><span class="w"> </span><span class="kn">import</span> <span class="n">tqdm</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">obspy</span><span class="w"> </span><span class="kn">import</span> <span class="n">UTCDateTime</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">obspy.core.event.event</span><span class="w"> </span><span class="kn">import</span> <span class="n">Event</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">obspy.core.event</span><span class="w"> </span><span class="kn">import</span> <span class="n">ResourceIdentifier</span><span class="p">,</span> <span class="n">Catalog</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">obspy.core.event.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">CreationInfo</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">obspy.core.event.origin</span><span class="w"> </span><span class="kn">import</span> <span class="n">Pick</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">obspy.core.event.base</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">QuantityError</span><span class="p">,</span>
+    <span class="n">WaveformStreamID</span><span class="p">,</span>
+    <span class="n">CreationInfo</span><span class="p">,</span>
+    <span class="n">Comment</span>
+<span class="p">)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">obspy.core.event.origin</span><span class="w"> </span><span class="kn">import</span> <span class="n">Origin</span><span class="p">,</span> <span class="n">OriginQuality</span><span class="p">,</span> <span class="n">Arrival</span>
+
+
+<div class="viewcode-block" id="GaMMAObj">
+<a class="viewcode-back" href="../../../../SeisMonitor.monitor.associator.html#SeisMonitor.monitor.associator.ai.GaMMAObj">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">GaMMAObj</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;GaMMA object for seismic event association and processing.&quot;&quot;&quot;</span>
+    
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">region</span><span class="p">,</span>
+        <span class="n">epsg_proj</span><span class="p">,</span>
+        <span class="n">use_dbscan</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">use_amplitude</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">dbscan_eps</span><span class="o">=</span><span class="mf">10.0</span><span class="p">,</span>
+        <span class="n">dbscan_min_samples</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+        <span class="n">vel</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;p&quot;</span><span class="p">:</span> <span class="mf">7.0</span><span class="p">,</span> <span class="s2">&quot;s&quot;</span><span class="p">:</span> <span class="mf">7.0</span> <span class="o">/</span> <span class="mf">1.75</span><span class="p">},</span>
+        <span class="n">method</span><span class="o">=</span><span class="s2">&quot;BGMM&quot;</span><span class="p">,</span>
+        <span class="n">oversample_factor</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span>
+        <span class="n">min_picks_per_eq</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+        <span class="n">max_sigma11</span><span class="o">=</span><span class="mf">2.0</span><span class="p">,</span>
+        <span class="n">max_sigma22</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+        <span class="n">max_sigma12</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+        <span class="n">calculate_amp</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">p_window</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+        <span class="n">s_window</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+        <span class="n">waterlevel</span><span class="o">=</span><span class="mi">10</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize GaMMAObj with configuration parameters.</span>
+<span class="sd">        </span>
+<span class="sd">        Args:</span>
+<span class="sd">            region (list): List of [lon_min, lon_max, lat_min, lat_max, z_min, z_max]. z is depth in km.</span>
+<span class="sd">            epsg_proj (str): EPSG projection code</span>
+<span class="sd">            use_dbscan (bool): Whether to use DBSCAN clustering</span>
+<span class="sd">            use_amplitude (bool): Whether to use amplitude in processing</span>
+<span class="sd">            dbscan_eps (float): DBSCAN epsilon parameter</span>
+<span class="sd">            dbscan_min_samples (int): DBSCAN minimum samples parameter</span>
+<span class="sd">            vel (dict): Average velocity model with P and S wave velocities</span>
+<span class="sd">            method (str): Association method (default: &quot;BGMM&quot;)</span>
+<span class="sd">            oversample_factor (int): Oversampling factor for processing</span>
+<span class="sd">            min_picks_per_eq (int): Minimum picks per earthquake</span>
+<span class="sd">            max_sigma11 (float): Maximum sigma for x-x uncertainty</span>
+<span class="sd">            max_sigma22 (float): Maximum sigma for y-y uncertainty</span>
+<span class="sd">            max_sigma12 (float): Maximum sigma for x-y uncertainty</span>
+<span class="sd">            calculate_amp (bool): Whether to calculate amplitudes</span>
+<span class="sd">            p_window (int): P-wave window length</span>
+<span class="sd">            s_window (int): S-wave window length</span>
+<span class="sd">            waterlevel (int): Waterlevel for amplitude calculation</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lon_lims</span> <span class="o">=</span> <span class="n">region</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lat_lims</span> <span class="o">=</span> <span class="n">region</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span><span class="mi">4</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">z_lims</span> <span class="o">=</span> <span class="n">region</span><span class="p">[</span><span class="mi">4</span><span class="p">:]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">epsg_proj</span> <span class="o">=</span> <span class="n">epsg_proj</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">use_dbscan</span> <span class="o">=</span> <span class="n">use_dbscan</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">use_amplitude</span> <span class="o">=</span> <span class="n">use_amplitude</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">vel</span> <span class="o">=</span> <span class="n">vel</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dbscan_eps</span> <span class="o">=</span> <span class="n">dbscan_eps</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dbscan_min_samples</span> <span class="o">=</span> <span class="n">dbscan_min_samples</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">method</span> <span class="o">=</span> <span class="n">method</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">oversample_factor</span> <span class="o">=</span> <span class="n">oversample_factor</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">min_picks_per_eq</span> <span class="o">=</span> <span class="n">min_picks_per_eq</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">max_sigma11</span> <span class="o">=</span> <span class="n">max_sigma11</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">max_sigma22</span> <span class="o">=</span> <span class="n">max_sigma22</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">max_sigma12</span> <span class="o">=</span> <span class="n">max_sigma12</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dims</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;x(km)&quot;</span><span class="p">,</span> <span class="s2">&quot;y(km)&quot;</span><span class="p">,</span> <span class="s2">&quot;z(km)&quot;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">calculate_amp</span> <span class="o">=</span> <span class="n">calculate_amp</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">p_window</span> <span class="o">=</span> <span class="n">p_window</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">s_window</span> <span class="o">=</span> <span class="n">s_window</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">waterlevel</span> <span class="o">=</span> <span class="n">waterlevel</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">config</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_config</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">response</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;GaMMA&quot;</span>
+
+<div class="viewcode-block" id="GaMMAObj.add_response">
+<a class="viewcode-back" href="../../../../SeisMonitor.monitor.associator.html#SeisMonitor.monitor.associator.ai.GaMMAObj.add_response">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">add_response</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">response</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Add response inventory to the GaMMA object.</span>
+<span class="sd">        </span>
+<span class="sd">        Args:</span>
+<span class="sd">            response (Inventory or str): Either an Inventory object or path to inventory file</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">response</span><span class="p">,</span> <span class="n">Inventory</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">response</span> <span class="o">=</span> <span class="n">response</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">response</span> <span class="o">=</span> <span class="n">read_inventory</span><span class="p">(</span><span class="n">response</span><span class="p">)</span></div>
+
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_get_config</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Generate configuration dictionary with transformed coordinates.</span>
+<span class="sd">        </span>
+<span class="sd">        Returns:</span>
+<span class="sd">            dict: Configuration dictionary with projected coordinates</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">config</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span>
+
+        <span class="n">in_proj</span> <span class="o">=</span> <span class="n">pyproj</span><span class="o">.</span><span class="n">Proj</span><span class="p">(</span><span class="s2">&quot;EPSG:4326&quot;</span><span class="p">)</span>
+        <span class="n">out_proj</span> <span class="o">=</span> <span class="n">pyproj</span><span class="o">.</span><span class="n">Proj</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">epsg_proj</span><span class="p">)</span>
+        <span class="n">y_min</span><span class="p">,</span> <span class="n">x_min</span> <span class="o">=</span> <span class="n">pyproj</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">in_proj</span><span class="p">,</span> <span class="n">out_proj</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">lat_lims</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">lon_lims</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="n">y_max</span><span class="p">,</span> <span class="n">x_max</span> <span class="o">=</span> <span class="n">pyproj</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">in_proj</span><span class="p">,</span> <span class="n">out_proj</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">lat_lims</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">lon_lims</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+
+        <span class="n">config</span><span class="p">[</span><span class="s2">&quot;x(km)&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">x_min</span><span class="p">,</span> <span class="n">x_max</span><span class="p">])</span> <span class="o">/</span> <span class="mf">1e3</span>
+        <span class="n">config</span><span class="p">[</span><span class="s2">&quot;y(km)&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">y_min</span><span class="p">,</span> <span class="n">y_max</span><span class="p">])</span> <span class="o">/</span> <span class="mf">1e3</span>
+        <span class="n">config</span><span class="p">[</span><span class="s2">&quot;z(km)&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">z_lims</span><span class="p">)</span>
+
+        <span class="n">config</span><span class="p">[</span><span class="s2">&quot;bfgs_bounds&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="p">(</span><span class="n">config</span><span class="p">[</span><span class="s2">&quot;x(km)&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">config</span><span class="p">[</span><span class="s2">&quot;x(km)&quot;</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span>  <span class="c1"># x</span>
+            <span class="p">(</span><span class="n">config</span><span class="p">[</span><span class="s2">&quot;y(km)&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">config</span><span class="p">[</span><span class="s2">&quot;y(km)&quot;</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span>  <span class="c1"># y</span>
+            <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">config</span><span class="p">[</span><span class="s2">&quot;z(km)&quot;</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span>  <span class="c1"># z</span>
+            <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>  <span class="c1"># t</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">config</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">stations</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get station information with transformed coordinates.</span>
+<span class="sd">        </span>
+<span class="sd">        Returns:</span>
+<span class="sd">            pandas.DataFrame: Station information with projected coordinates</span>
+<span class="sd">            </span>
+<span class="sd">        Raises:</span>
+<span class="sd">            Exception: If response inventory hasn&#39;t been added</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">response</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;You must add response file to the GaMMA Object&quot;</span><span class="p">)</span>
+
+        <span class="n">stations</span> <span class="o">=</span> <span class="n">ut</span><span class="o">.</span><span class="n">get_stations_gamma_df</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">response</span><span class="p">)</span>
+
+        <span class="n">in_proj</span> <span class="o">=</span> <span class="n">pyproj</span><span class="o">.</span><span class="n">Proj</span><span class="p">(</span><span class="s2">&quot;EPSG:4326&quot;</span><span class="p">)</span>
+        <span class="n">out_proj</span> <span class="o">=</span> <span class="n">pyproj</span><span class="o">.</span><span class="n">Proj</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">epsg_proj</span><span class="p">)</span>
+
+        <span class="n">stations</span><span class="p">[</span><span class="s2">&quot;y(km)&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">stations</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span>
+            <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">pyproj</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">in_proj</span><span class="p">,</span> <span class="n">out_proj</span><span class="p">,</span> <span class="n">x</span><span class="p">[</span><span class="s2">&quot;latitude&quot;</span><span class="p">],</span> <span class="n">x</span><span class="p">[</span><span class="s2">&quot;longitude&quot;</span><span class="p">])[</span><span class="mi">0</span><span class="p">]</span> <span class="o">/</span> <span class="mf">1e3</span><span class="p">,</span> 
+            <span class="n">axis</span><span class="o">=</span><span class="mi">1</span>
+        <span class="p">)</span>
+        <span class="n">stations</span><span class="p">[</span><span class="s2">&quot;x(km)&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">stations</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span>
+            <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">pyproj</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">in_proj</span><span class="p">,</span> <span class="n">out_proj</span><span class="p">,</span> <span class="n">x</span><span class="p">[</span><span class="s2">&quot;latitude&quot;</span><span class="p">],</span> <span class="n">x</span><span class="p">[</span><span class="s2">&quot;longitude&quot;</span><span class="p">])[</span><span class="mi">1</span><span class="p">]</span> <span class="o">/</span> <span class="mf">1e3</span><span class="p">,</span> 
+            <span class="n">axis</span><span class="o">=</span><span class="mi">1</span>
+        <span class="p">)</span>
+        <span class="n">stations</span><span class="p">[</span><span class="s2">&quot;z(km)&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">stations</span><span class="p">[</span><span class="s2">&quot;elevation(m)&quot;</span><span class="p">]</span> <span class="o">/</span> <span class="o">-</span><span class="mf">1e3</span>
+
+        <span class="n">stations</span> <span class="o">=</span> <span class="n">stations</span><span class="o">.</span><span class="n">drop_duplicates</span><span class="p">(</span><span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">stations</span></div>
+
+
+
+<div class="viewcode-block" id="get_gamma_picks">
+<a class="viewcode-back" href="../../../../SeisMonitor.monitor.associator.html#SeisMonitor.monitor.associator.ai.get_gamma_picks">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_gamma_picks</span><span class="p">(</span><span class="n">event_picks</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Convert event picks to Obspy Pick objects.</span>
+<span class="sd">    </span>
+<span class="sd">    Args:</span>
+<span class="sd">        event_picks (pandas.DataFrame): DataFrame containing pick information</span>
+<span class="sd">        </span>
+<span class="sd">    Returns:</span>
+<span class="sd">        list: List of Obspy Pick objects</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">pick_list</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">event_picks</span><span class="o">.</span><span class="n">iterrows</span><span class="p">():</span>
+        <span class="n">loc</span> <span class="o">=</span> <span class="n">row</span><span class="o">.</span><span class="n">location</span>
+        <span class="n">str_id</span> <span class="o">=</span> <span class="s2">&quot;.&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">((</span><span class="nb">str</span><span class="p">(</span><span class="n">row</span><span class="o">.</span><span class="n">network</span><span class="p">),</span> <span class="nb">str</span><span class="p">(</span><span class="n">row</span><span class="o">.</span><span class="n">station</span><span class="p">),</span> <span class="nb">str</span><span class="p">(</span><span class="n">loc</span><span class="p">),</span>
+                           <span class="n">row</span><span class="o">.</span><span class="n">instrument_type</span> <span class="o">+</span> <span class="s2">&quot;Z&quot;</span><span class="p">))</span>
+        
+        <span class="n">comment</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;probability&#39;</span><span class="p">:</span> <span class="n">row</span><span class="o">.</span><span class="n">prob</span><span class="p">,</span>
+            <span class="s1">&#39;GaMMA_probability&#39;</span><span class="p">:</span> <span class="n">row</span><span class="o">.</span><span class="n">prob_gamma</span>
+        <span class="p">}</span>
+
+        <span class="k">if</span> <span class="n">row</span><span class="o">.</span><span class="n">author</span> <span class="o">==</span> <span class="s2">&quot;EQTransformer&quot;</span><span class="p">:</span>
+            <span class="n">comment</span><span class="o">.</span><span class="n">update</span><span class="p">({</span>
+                <span class="s1">&#39;snr&#39;</span><span class="p">:</span> <span class="n">row</span><span class="o">.</span><span class="n">snr</span><span class="p">,</span>
+                <span class="s1">&#39;detection_probability&#39;</span><span class="p">:</span> <span class="n">row</span><span class="o">.</span><span class="n">detection_probability</span><span class="p">,</span>
+                <span class="s1">&#39;event_start_time&#39;</span><span class="p">:</span> <span class="n">row</span><span class="o">.</span><span class="n">event_start_time</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2"> %H:%M:%S.</span><span class="si">%f</span><span class="s2">&quot;</span><span class="p">),</span>
+                <span class="s1">&#39;event_end_time&#39;</span><span class="p">:</span> <span class="n">row</span><span class="o">.</span><span class="n">event_end_time</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2"> %H:%M:%S.</span><span class="si">%f</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="p">})</span>
+       
+        <span class="n">pick_obj</span> <span class="o">=</span> <span class="n">Pick</span><span class="p">(</span>
+            <span class="n">resource_id</span><span class="o">=</span><span class="n">ResourceIdentifier</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">row</span><span class="o">.</span><span class="n">pick_id</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="s2">&quot;pick&quot;</span><span class="p">),</span>
+            <span class="n">time</span><span class="o">=</span><span class="n">UTCDateTime</span><span class="p">(</span><span class="n">row</span><span class="o">.</span><span class="n">timestamp</span><span class="p">),</span>
+            <span class="n">time_errors</span><span class="o">=</span><span class="n">QuantityError</span><span class="p">(</span>
+                <span class="n">uncertainty</span><span class="o">=</span><span class="mi">20</span><span class="o">/</span><span class="mi">100</span><span class="p">,</span>
+                <span class="n">confidence_level</span><span class="o">=</span><span class="n">row</span><span class="o">.</span><span class="n">prob</span><span class="o">*</span><span class="mi">100</span>
+            <span class="p">),</span>
+            <span class="n">waveform_id</span><span class="o">=</span><span class="n">WaveformStreamID</span><span class="p">(</span>
+                <span class="n">network_code</span><span class="o">=</span><span class="n">row</span><span class="o">.</span><span class="n">network</span><span class="p">,</span>
+                <span class="n">station_code</span><span class="o">=</span><span class="n">row</span><span class="o">.</span><span class="n">station</span><span class="p">,</span>
+                <span class="n">location_code</span><span class="o">=</span><span class="n">loc</span><span class="p">,</span>
+                <span class="n">channel_code</span><span class="o">=</span><span class="n">row</span><span class="o">.</span><span class="n">instrument_type</span> <span class="o">+</span> <span class="s2">&quot;Z&quot;</span><span class="p">,</span>
+                <span class="n">resource_uri</span><span class="o">=</span><span class="n">ResourceIdentifier</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">str_id</span><span class="p">),</span>
+                <span class="n">seed_string</span><span class="o">=</span><span class="n">str_id</span>
+            <span class="p">),</span>
+            <span class="n">phase_hint</span><span class="o">=</span><span class="n">row</span><span class="p">[</span><span class="s2">&quot;type&quot;</span><span class="p">],</span>
+            <span class="n">evaluation_mode</span><span class="o">=</span><span class="s1">&#39;automatic&#39;</span><span class="p">,</span>
+            <span class="n">creation_info</span><span class="o">=</span><span class="n">CreationInfo</span><span class="p">(</span>
+                <span class="n">author</span><span class="o">=</span><span class="n">row</span><span class="o">.</span><span class="n">author</span><span class="p">,</span>
+                <span class="n">creation_time</span><span class="o">=</span><span class="n">UTCDateTime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
+            <span class="p">),</span>
+            <span class="n">method_id</span><span class="o">=</span><span class="n">row</span><span class="o">.</span><span class="n">author</span><span class="p">,</span>
+            <span class="n">comments</span><span class="o">=</span><span class="p">[</span><span class="n">Comment</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">comment</span><span class="p">))]</span>
+        <span class="p">)</span>
+        <span class="n">pick_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pick_obj</span><span class="p">)</span>
+    
+    <span class="k">return</span> <span class="n">pick_list</span></div>
+
+
+
+<div class="viewcode-block" id="picks2arrivals">
+<a class="viewcode-back" href="../../../../SeisMonitor.monitor.associator.html#SeisMonitor.monitor.associator.ai.picks2arrivals">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">picks2arrivals</span><span class="p">(</span><span class="n">picks</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Convert picks to arrivals.</span>
+<span class="sd">    </span>
+<span class="sd">    Args:</span>
+<span class="sd">        picks (list): List of Pick objects</span>
+<span class="sd">        </span>
+<span class="sd">    Returns:</span>
+<span class="sd">        list: List of Arrival objects</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">arrivals</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">pick</span> <span class="ow">in</span> <span class="n">picks</span><span class="p">:</span>
+        <span class="n">arrival</span> <span class="o">=</span> <span class="n">Arrival</span><span class="p">(</span>
+            <span class="n">resource_id</span><span class="o">=</span><span class="n">ResourceIdentifier</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">pick</span><span class="o">.</span><span class="n">resource_id</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="s1">&#39;arrival&#39;</span><span class="p">),</span>
+            <span class="n">pick_id</span><span class="o">=</span><span class="n">pick</span><span class="o">.</span><span class="n">resource_id</span><span class="p">,</span>
+            <span class="n">phase</span><span class="o">=</span><span class="n">pick</span><span class="o">.</span><span class="n">phase_hint</span><span class="p">,</span>
+            <span class="n">time_weight</span><span class="o">=</span><span class="n">pick</span><span class="o">.</span><span class="n">time_errors</span><span class="o">.</span><span class="n">confidence_level</span><span class="o">/</span><span class="mi">100</span><span class="p">,</span>
+            <span class="n">creation_info</span><span class="o">=</span><span class="n">pick</span><span class="o">.</span><span class="n">creation_info</span>
+        <span class="p">)</span>
+        <span class="n">arrivals</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">arrival</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">arrivals</span></div>
+
+
+
+<div class="viewcode-block" id="get_gamma_origin">
+<a class="viewcode-back" href="../../../../SeisMonitor.monitor.associator.html#SeisMonitor.monitor.associator.ai.get_gamma_origin">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_gamma_origin</span><span class="p">(</span><span class="n">catalog_info</span><span class="p">,</span> <span class="n">event_picks</span><span class="p">,</span> <span class="n">in_proj</span><span class="o">=</span><span class="s2">&quot;EPSG:3116&quot;</span><span class="p">,</span> <span class="n">out_proj</span><span class="o">=</span><span class="s2">&quot;EPSG:4326&quot;</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Create an Origin object from catalog information and picks.</span>
+<span class="sd">    </span>
+<span class="sd">    Args:</span>
+<span class="sd">        catalog_info (pandas.Series): Catalog information for the event</span>
+<span class="sd">        event_picks (list): List of Pick objects</span>
+<span class="sd">        in_proj (str): Input projection EPSG code</span>
+<span class="sd">        out_proj (str): Output projection EPSG code</span>
+<span class="sd">        </span>
+<span class="sd">    Returns:</span>
+<span class="sd">        Origin: Obspy Origin object</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">y</span><span class="p">,</span> <span class="n">x</span> <span class="o">=</span> <span class="n">catalog_info</span><span class="p">[</span><span class="s2">&quot;y(km)&quot;</span><span class="p">]</span><span class="o">*</span><span class="mf">1e3</span><span class="p">,</span> <span class="n">catalog_info</span><span class="p">[</span><span class="s2">&quot;x(km)&quot;</span><span class="p">]</span><span class="o">*</span><span class="mf">1e3</span>
+    <span class="n">in_proj</span> <span class="o">=</span> <span class="n">pyproj</span><span class="o">.</span><span class="n">Proj</span><span class="p">(</span><span class="n">in_proj</span><span class="p">)</span>
+    <span class="n">out_proj</span> <span class="o">=</span> <span class="n">pyproj</span><span class="o">.</span><span class="n">Proj</span><span class="p">(</span><span class="n">out_proj</span><span class="p">)</span>
+    <span class="n">lat</span><span class="p">,</span> <span class="n">lon</span> <span class="o">=</span> <span class="n">pyproj</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">in_proj</span><span class="p">,</span> <span class="n">out_proj</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
+
+    <span class="n">origin</span> <span class="o">=</span> <span class="n">Origin</span><span class="p">(</span>
+        <span class="n">resource_id</span><span class="o">=</span><span class="n">ResourceIdentifier</span><span class="p">(</span>
+            <span class="nb">id</span><span class="o">=</span><span class="n">UTCDateTime</span><span class="p">(</span><span class="n">catalog_info</span><span class="o">.</span><span class="n">time</span><span class="p">)</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y%m</span><span class="si">%d</span><span class="s2">.%H%M%S.</span><span class="si">%f</span><span class="s2">&quot;</span><span class="p">),</span>
+            <span class="n">prefix</span><span class="o">=</span><span class="s1">&#39;origin&#39;</span>
+        <span class="p">),</span>
+        <span class="n">time</span><span class="o">=</span><span class="n">UTCDateTime</span><span class="p">(</span><span class="n">catalog_info</span><span class="o">.</span><span class="n">time</span><span class="p">),</span>
+        <span class="n">time_errors</span><span class="o">=</span><span class="n">QuantityError</span><span class="p">(</span><span class="n">uncertainty</span><span class="o">=</span><span class="n">catalog_info</span><span class="o">.</span><span class="n">sigma_time</span><span class="p">),</span>
+        <span class="n">longitude</span><span class="o">=</span><span class="n">lon</span><span class="p">,</span>
+        <span class="n">longitude_errors</span><span class="o">=</span><span class="n">QuantityError</span><span class="p">(),</span>
+        <span class="n">latitude</span><span class="o">=</span><span class="n">lat</span><span class="p">,</span>
+        <span class="n">latitude_errors</span><span class="o">=</span><span class="n">QuantityError</span><span class="p">(),</span>
+        <span class="n">depth</span><span class="o">=</span><span class="n">catalog_info</span><span class="p">[</span><span class="s2">&quot;z(km)&quot;</span><span class="p">],</span>
+        <span class="n">depth_errors</span><span class="o">=</span><span class="n">QuantityError</span><span class="p">(),</span>
+        <span class="n">method_id</span><span class="o">=</span><span class="n">ResourceIdentifier</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="s2">&quot;GaMMA&quot;</span><span class="p">),</span>
+        <span class="n">arrivals</span><span class="o">=</span><span class="n">picks2arrivals</span><span class="p">(</span><span class="n">event_picks</span><span class="p">),</span>
+        <span class="n">quality</span><span class="o">=</span><span class="n">OriginQuality</span><span class="p">(</span><span class="n">associated_phase_count</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">event_picks</span><span class="p">)),</span>
+        <span class="n">evaluation_status</span><span class="o">=</span><span class="s2">&quot;preliminary&quot;</span><span class="p">,</span>
+        <span class="n">evaluation_mode</span><span class="o">=</span><span class="s2">&quot;automatic&quot;</span><span class="p">,</span>
+        <span class="n">creation_info</span><span class="o">=</span><span class="n">CreationInfo</span><span class="p">(</span>
+            <span class="n">author</span><span class="o">=</span><span class="s2">&quot;SeisMonitor&quot;</span><span class="p">,</span>
+            <span class="n">creation_time</span><span class="o">=</span><span class="n">UTCDateTime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
+        <span class="p">)</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">origin</span></div>
+
+
+
+<div class="viewcode-block" id="get_gamma_catalog">
+<a class="viewcode-back" href="../../../../SeisMonitor.monitor.associator.html#SeisMonitor.monitor.associator.ai.get_gamma_catalog">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_gamma_catalog</span><span class="p">(</span><span class="n">picks_df</span><span class="p">,</span> <span class="n">catalog_df</span><span class="p">,</span> <span class="n">in_proj</span><span class="p">,</span> <span class="n">out_proj</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Create a Catalog object from picks and catalog dataframes.</span>
+<span class="sd">    </span>
+<span class="sd">    Args:</span>
+<span class="sd">        picks_df (pandas.DataFrame): DataFrame containing pick information</span>
+<span class="sd">        catalog_df (pandas.DataFrame): DataFrame containing catalog information</span>
+<span class="sd">        in_proj (str): Input projection EPSG code</span>
+<span class="sd">        out_proj (str): Output projection EPSG code</span>
+<span class="sd">        </span>
+<span class="sd">    Returns:</span>
+<span class="sd">        Catalog: Obspy Catalog object</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">events</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">catalog_df</span><span class="o">.</span><span class="n">iterrows</span><span class="p">():</span>
+        <span class="n">picks</span> <span class="o">=</span> <span class="n">picks_df</span><span class="p">[</span><span class="n">picks_df</span><span class="p">[</span><span class="s2">&quot;event_idx&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">i</span><span class="p">]</span>
+        <span class="n">picks</span> <span class="o">=</span> <span class="n">get_gamma_picks</span><span class="p">(</span><span class="n">picks</span><span class="p">)</span>
+        <span class="n">origin</span> <span class="o">=</span> <span class="n">get_gamma_origin</span><span class="p">(</span><span class="n">row</span><span class="p">,</span> <span class="n">picks</span><span class="p">,</span> <span class="n">in_proj</span><span class="p">,</span> <span class="n">out_proj</span><span class="p">)</span>
+        <span class="n">ev</span> <span class="o">=</span> <span class="n">Event</span><span class="p">(</span>
+            <span class="n">resource_id</span><span class="o">=</span><span class="n">ResourceIdentifier</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">origin</span><span class="o">.</span><span class="n">resource_id</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> 
+                                           <span class="n">prefix</span><span class="o">=</span><span class="s1">&#39;event&#39;</span><span class="p">),</span>
+            <span class="n">event_type</span><span class="o">=</span><span class="s2">&quot;earthquake&quot;</span><span class="p">,</span>
+            <span class="n">event_type_certainty</span><span class="o">=</span><span class="s2">&quot;known&quot;</span><span class="p">,</span>
+            <span class="n">picks</span><span class="o">=</span><span class="n">picks</span><span class="p">,</span>
+            <span class="n">amplitudes</span><span class="o">=</span><span class="p">[],</span>
+            <span class="n">focal_mechanisms</span><span class="o">=</span><span class="p">[],</span>
+            <span class="n">origins</span><span class="o">=</span><span class="p">[</span><span class="n">origin</span><span class="p">],</span>
+            <span class="n">magnitudes</span><span class="o">=</span><span class="p">[],</span>
+            <span class="n">station_magnitudes</span><span class="o">=</span><span class="p">[],</span>
+            <span class="n">creation_info</span><span class="o">=</span><span class="n">CreationInfo</span><span class="p">(</span>
+                <span class="n">author</span><span class="o">=</span><span class="s2">&quot;SeisMonitor&quot;</span><span class="p">,</span>
+                <span class="n">creation_time</span><span class="o">=</span><span class="n">UTCDateTime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+        <span class="n">ev</span><span class="o">.</span><span class="n">preferred_origin_id</span> <span class="o">=</span> <span class="n">origin</span><span class="o">.</span><span class="n">resource_id</span><span class="o">.</span><span class="n">id</span>
+        <span class="n">events</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ev</span><span class="p">)</span>
+    
+    <span class="n">catalog</span> <span class="o">=</span> <span class="n">Catalog</span><span class="p">(</span>
+        <span class="n">events</span><span class="o">=</span><span class="n">events</span><span class="p">,</span>
+        <span class="n">resource_id</span><span class="o">=</span><span class="n">ResourceIdentifier</span><span class="p">(</span><span class="n">prefix</span><span class="o">=</span><span class="s1">&#39;catalog&#39;</span><span class="p">),</span>
+        <span class="n">creation_info</span><span class="o">=</span><span class="n">CreationInfo</span><span class="p">(</span>
+            <span class="n">author</span><span class="o">=</span><span class="s2">&quot;SeisMonitor&quot;</span><span class="p">,</span>
+            <span class="n">creation_time</span><span class="o">=</span><span class="n">UTCDateTime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
+        <span class="p">)</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">catalog</span></div>
+
+
+
+<div class="viewcode-block" id="GaMMA">
+<a class="viewcode-back" href="../../../../SeisMonitor.monitor.associator.html#SeisMonitor.monitor.associator.ai.GaMMA">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">GaMMA</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Main GaMMA class for seismic event association.&quot;&quot;&quot;</span>
+    
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">gamma_obj</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize GaMMA with a GaMMAObj.</span>
+<span class="sd">        </span>
+<span class="sd">        Args:</span>
+<span class="sd">            gamma_obj (GaMMAObj): GaMMAObj instance with configuration</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">gamma_obj</span> <span class="o">=</span> <span class="n">gamma_obj</span>
+
+<div class="viewcode-block" id="GaMMA.associate">
+<a class="viewcode-back" href="../../../../SeisMonitor.monitor.associator.html#SeisMonitor.monitor.associator.ai.GaMMA.associate">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">associate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">picks_csv</span><span class="p">,</span> <span class="n">xml_path</span><span class="p">,</span> <span class="n">out_dir</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Associate picks and create catalog.</span>
+<span class="sd">        </span>
+<span class="sd">        Args:</span>
+<span class="sd">            picks_csv (str): Path to picks CSV file</span>
+<span class="sd">            xml_path (str): Path to station XML file</span>
+<span class="sd">            out_dir (str): Output directory path</span>
+<span class="sd">            </span>
+<span class="sd">        Returns:</span>
+<span class="sd">            tuple: (Catalog, pandas.DataFrame, pandas.DataFrame) containing</span>
+<span class="sd">                  catalog, catalog DataFrame, and picks DataFrame</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">picks_csv</span> <span class="o">=</span> <span class="n">picks_csv</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">xml_path</span> <span class="o">=</span> <span class="n">xml_path</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">response</span> <span class="o">=</span> <span class="n">read_inventory</span><span class="p">(</span><span class="n">xml_path</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">out_dir</span> <span class="o">=</span> <span class="n">out_dir</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">xml_out_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">out_dir</span><span class="p">,</span> <span class="s2">&quot;associations.xml&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">catalog_out_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">out_dir</span><span class="p">,</span> <span class="s2">&quot;catalog.csv&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">picks_out_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">out_dir</span><span class="p">,</span> <span class="s2">&quot;picks.csv&quot;</span><span class="p">)</span>
+
+        <span class="n">picks_df</span> <span class="o">=</span> <span class="n">ut</span><span class="o">.</span><span class="n">get_picks_gamma_df</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">picks_csv</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">response</span><span class="p">,</span>
+            <span class="n">compute_amplitudes</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">gamma_obj</span><span class="o">.</span><span class="n">calculate_amp</span><span class="p">,</span>
+            <span class="n">p_window</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">gamma_obj</span><span class="o">.</span><span class="n">p_window</span><span class="p">,</span>
+            <span class="n">s_window</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">gamma_obj</span><span class="o">.</span><span class="n">s_window</span><span class="p">,</span>
+            <span class="n">waterlevel</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">gamma_obj</span><span class="o">.</span><span class="n">waterlevel</span>
+        <span class="p">)</span>
+        <span class="n">stations</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">picks_df</span><span class="p">[</span><span class="s2">&quot;station&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_list</span><span class="p">()))</span>
+        <span class="n">stations</span> <span class="o">=</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="k">for</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">stations</span><span class="p">]</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">gamma_obj</span><span class="o">.</span><span class="n">add_response</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">response</span><span class="p">)</span>
+        <span class="n">station_df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">gamma_obj</span><span class="o">.</span><span class="n">stations</span>
+        <span class="n">station_df</span> <span class="o">=</span> <span class="n">station_df</span><span class="p">[</span><span class="n">station_df</span><span class="p">[</span><span class="s2">&quot;station_name&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">stations</span><span class="p">)]</span>
+        <span class="n">station_df</span> <span class="o">=</span> <span class="n">station_df</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">config</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">gamma_obj</span><span class="o">.</span><span class="vm">__dict__</span>
+        <span class="n">pbar</span> <span class="o">=</span> <span class="n">tqdm</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">meta</span> <span class="o">=</span> <span class="n">station_df</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">picks_df</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">],</span> <span class="n">how</span><span class="o">=</span><span class="s2">&quot;right&quot;</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="s2">&quot;id&quot;</span><span class="p">)</span>
+        
+        <span class="n">catalogs</span><span class="p">,</span> <span class="n">assignments</span> <span class="o">=</span> <span class="n">association</span><span class="p">(</span>
+            <span class="n">picks_df</span><span class="p">,</span>
+            <span class="n">station_df</span><span class="p">,</span>
+            <span class="n">config</span><span class="p">,</span>
+            <span class="n">method</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">gamma_obj</span><span class="o">.</span><span class="n">method</span><span class="p">,</span>
+            <span class="n">pbar</span><span class="o">=</span><span class="n">pbar</span>
+        <span class="p">)</span>
+        
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">catalogs</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">Catalog</span><span class="p">(),</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(),</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
+        
+        <span class="n">catalog</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">catalogs</span><span class="p">)</span>
+        <span class="n">catalog</span><span class="o">.</span><span class="n">index</span> <span class="o">=</span> <span class="n">catalog</span><span class="o">.</span><span class="n">index</span> <span class="o">+</span> <span class="mi">1</span> <span class="c1"># important to fix event index with the same index in assignments</span>
+        <span class="n">catalog</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">catalog</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">],</span> <span class="nb">format</span><span class="o">=</span><span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2">T%H:%M:%S.</span><span class="si">%f</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">catalog</span><span class="p">[</span><span class="s2">&quot;event_idx&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">catalog</span><span class="o">.</span><span class="n">index</span>
+        <span class="c1"># catalog[&quot;event_index&quot;] = catalog[&quot;time&quot;].apply(lambda x: x)</span>
+        <span class="c1"># catalog[&quot;event_idx&quot;] = catalog.index</span>
+        
+        <span class="n">assignments</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
+            <span class="n">assignments</span><span class="p">,</span>
+            <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;pick_index&quot;</span><span class="p">,</span> <span class="s2">&quot;event_idx&quot;</span><span class="p">,</span> <span class="s2">&quot;prob_gamma&quot;</span><span class="p">]</span>
+        <span class="p">)</span>
+        <span class="n">assignments</span> <span class="o">=</span> <span class="n">assignments</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s2">&quot;pick_index&quot;</span><span class="p">)</span>
+        
+        <span class="n">picks</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span>
+            <span class="n">picks_df</span><span class="p">,</span>
+            <span class="n">assignments</span><span class="p">,</span>
+            <span class="n">left_index</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="n">right_index</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="n">how</span><span class="o">=</span><span class="s1">&#39;right&#39;</span>
+        <span class="p">)</span>
+        
+        <span class="n">isfile</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">catalog_out_file</span><span class="p">)</span>
+        <span class="n">catalog</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">catalog_out_file</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="n">isfile</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">picks_out_file</span><span class="p">)</span>
+        <span class="n">picks</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">picks_out_file</span><span class="p">)</span> <span class="c1">#saving pick index</span>
+       
+        <span class="n">obspy_catalog</span> <span class="o">=</span> <span class="n">get_gamma_catalog</span><span class="p">(</span>
+            <span class="n">picks</span><span class="p">,</span>
+            <span class="n">catalog</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">gamma_obj</span><span class="o">.</span><span class="n">epsg_proj</span><span class="p">,</span>
+            <span class="s2">&quot;EPSG:4326&quot;</span>
+        <span class="p">)</span>
+        <span class="n">isfile</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xml_out_file</span><span class="p">)</span>
+        <span class="n">obspy_catalog</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xml_out_file</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s2">&quot;SC3ML&quot;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">obspy_catalog</span><span class="p">,</span> <span class="n">catalog</span><span class="p">,</span> <span class="n">picks</span></div>
+</div>
+
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">csv</span> <span class="o">=</span> <span class="s2">&quot;/home/emmanuel/EDCT/SeisMonitor/SeisMonitor/monitor/associator/test.csv&quot;</span>
+    <span class="n">cat_csv</span> <span class="o">=</span> <span class="s2">&quot;/home/emmanuel/EDCT/SeisMonitor/SeisMonitor/monitor/associator/cat_test.csv&quot;</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">csv</span><span class="p">)</span>
+    <span class="n">df</span><span class="p">[</span><span class="s2">&quot;timestamp&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;timestamp&quot;</span><span class="p">])</span>
+    <span class="n">cat_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">cat_csv</span><span class="p">)</span>
+    <span class="n">cat_df</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">cat_df</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">])</span>
+
+    <span class="n">get_gamma_catalog</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">cat_df</span><span class="p">)</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Emmanuel Castillo.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

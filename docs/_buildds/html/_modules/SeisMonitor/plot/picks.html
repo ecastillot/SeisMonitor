@@ -1,0 +1,214 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SeisMonitor.plot.picks &mdash; SeisMonitor 0.0.57 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=2bfb35b6"></script>
+      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            SeisMonitor
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules.html">SeisMonitor</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">SeisMonitor</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">SeisMonitor.plot.picks</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for SeisMonitor.plot.picks</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">obspy.clients.fdsn</span><span class="w"> </span><span class="kn">import</span> <span class="n">Client</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">obspy.core.utcdatetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">UTCDateTime</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">obspy.realtime.signal</span><span class="w"> </span><span class="kn">import</span> <span class="n">scale</span>
+<span class="c1"># from obspy.core.stream import Stream</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.cm</span><span class="w">     </span><span class="k">as</span><span class="w"> </span><span class="nn">cm</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">dt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">mpl_toolkits.axes_grid1</span><span class="w"> </span><span class="kn">import</span> <span class="n">make_axes_locatable</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.gridspec</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">gs</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.dates</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">mdates</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">utils</span> <span class="k">as</span> <span class="n">ut</span>
+<span class="c1"># import utils as ut</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">matplotlib.dates</span><span class="w"> </span><span class="kn">import</span> <span class="n">DateFormatter</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">matplotlib.transforms</span><span class="w"> </span><span class="kn">import</span> <span class="n">blended_transform_factory</span>
+
+<div class="viewcode-block" id="Tracer">
+<a class="viewcode-back" href="../../../SeisMonitor.plot.html#SeisMonitor.plot.picks.Tracer">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">Tracer</span><span class="p">():</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">provider</span><span class="p">,</span><span class="n">picks</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">provider</span> <span class="o">=</span> <span class="n">provider</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">picks</span> <span class="o">=</span> <span class="n">picks</span>
+    
+<div class="viewcode-block" id="Tracer.plot">
+<a class="viewcode-back" href="../../../SeisMonitor.plot.html#SeisMonitor.plot.picks.Tracer.plot">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">plot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">show</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="n">waveform_restrictions</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">provider</span><span class="o">.</span><span class="n">waveform_restrictions</span>
+        <span class="n">processing</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">provider</span><span class="o">.</span><span class="n">processing</span>
+        <span class="n">st</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">provider</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">get_waveforms</span><span class="p">(</span><span class="n">waveform_restrictions</span><span class="o">.</span><span class="n">network</span><span class="p">,</span>
+                                <span class="n">waveform_restrictions</span><span class="o">.</span><span class="n">station</span><span class="p">,</span>
+                                <span class="n">waveform_restrictions</span><span class="o">.</span><span class="n">location</span><span class="p">,</span>
+                                <span class="n">waveform_restrictions</span><span class="o">.</span><span class="n">channel</span><span class="p">,</span>
+                                <span class="n">waveform_restrictions</span><span class="o">.</span><span class="n">starttime</span><span class="p">,</span>
+                                <span class="n">waveform_restrictions</span><span class="o">.</span><span class="n">endtime</span><span class="p">)</span>
+        <span class="n">fig</span> <span class="o">=</span> <span class="n">ut</span><span class="o">.</span><span class="n">plot_multiple_picker</span><span class="p">(</span><span class="n">st</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">picks</span><span class="p">,</span><span class="n">processing</span> <span class="p">)</span>
+        <span class="k">if</span> <span class="n">show</span><span class="p">:</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">fig</span></div>
+</div>
+
+
+<div class="viewcode-block" id="Streamer">
+<a class="viewcode-back" href="../../../SeisMonitor.plot.html#SeisMonitor.plot.picks.Streamer">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">Streamer</span><span class="p">():</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">providers</span><span class="p">,</span><span class="n">picks</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">providers</span> <span class="o">=</span> <span class="n">providers</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">picks</span> <span class="o">=</span> <span class="n">picks</span>
+
+<div class="viewcode-block" id="Streamer.plot">
+<a class="viewcode-back" href="../../../SeisMonitor.plot.html#SeisMonitor.plot.picks.Streamer.plot">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">plot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">picker</span><span class="p">,</span><span class="n">starttime</span><span class="p">,</span><span class="n">endtime</span><span class="p">,</span>
+                <span class="n">order</span><span class="p">,</span>
+                <span class="n">fontsize</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span>
+                <span class="n">show</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+
+        <span class="n">picker_csv</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">picks</span><span class="p">[</span><span class="n">picker</span><span class="p">]</span>
+        <span class="n">streams</span> <span class="o">=</span> <span class="n">ut</span><span class="o">.</span><span class="n">get_ordered_streams</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">providers</span><span class="p">,</span><span class="n">order</span><span class="p">,</span>
+                                    <span class="n">starttime</span><span class="p">,</span><span class="n">endtime</span><span class="p">)</span>
+        <span class="n">fig</span> <span class="o">=</span> <span class="n">ut</span><span class="o">.</span><span class="n">get_streamer_plot</span><span class="p">(</span><span class="n">streams</span><span class="p">,</span><span class="n">picker_csv</span><span class="p">,</span>
+                                    <span class="n">starttime</span><span class="p">,</span><span class="n">endtime</span><span class="p">,</span>
+                                    <span class="n">fontsize</span><span class="p">,</span><span class="n">show</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">fig</span></div>
+
+
+<div class="viewcode-block" id="Streamer.plot_by_station">
+<a class="viewcode-back" href="../../../SeisMonitor.plot.html#SeisMonitor.plot.picks.Streamer.plot_by_station">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">plot_by_station</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">picker</span><span class="p">,</span><span class="n">netsta</span><span class="p">,</span><span class="n">n_picks</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span>
+                        <span class="n">align</span><span class="o">=</span><span class="s2">&quot;S&quot;</span><span class="p">,</span>
+                        <span class="n">phase_second</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span>
+                        <span class="n">window</span> <span class="o">=</span> <span class="mi">15</span><span class="p">,</span>
+                        <span class="n">show</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+
+        <span class="n">picker_csv</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">picks</span><span class="p">[</span><span class="n">picker</span><span class="p">]</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">ut</span><span class="o">.</span><span class="n">get_picks</span><span class="p">(</span><span class="n">picker_csv</span><span class="p">,</span>
+                    <span class="n">select_networks</span><span class="o">=</span><span class="p">[</span><span class="n">netsta</span><span class="p">[</span><span class="mi">0</span><span class="p">]],</span>
+                    <span class="n">select_stations</span><span class="o">=</span><span class="p">[</span><span class="n">netsta</span><span class="p">[</span><span class="mi">1</span><span class="p">]])</span>
+        <span class="n">fig</span> <span class="o">=</span> <span class="n">ut</span><span class="o">.</span><span class="n">get_plot_by_station</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">providers</span><span class="p">,</span><span class="n">netsta</span><span class="p">,</span>
+                            <span class="n">df</span><span class="p">,</span><span class="n">n_picks</span><span class="p">,</span><span class="n">align</span><span class="p">,</span><span class="n">phase_second</span><span class="p">,</span>
+                            <span class="n">window</span><span class="p">,</span>
+                            <span class="n">show</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">fig</span></div>
+</div>
+
+        
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">client</span> <span class="o">=</span> <span class="n">Client</span><span class="p">(</span><span class="n">base_url</span><span class="o">=</span><span class="s1">&#39;http://sismo.sgc.gov.co:8080/&#39;</span><span class="p">)</span>
+
+    <span class="n">eqt_csv</span> <span class="o">=</span> <span class="s2">&quot;/home/emmanuel/EDCT/test/picks/eqt/seismonitor_picks.csv&quot;</span>
+    <span class="n">sgc_csv</span> <span class="o">=</span> <span class="s2">&quot;/home/emmanuel/EDCT/test/picks/eqt/seismonitor_picks.csv&quot;</span>
+    <span class="n">phasenet_csv</span> <span class="o">=</span> <span class="s2">&quot;/home/emmanuel/EDCT/test/picks/eqt/seismonitor_picks.csv&quot;</span>
+    <span class="n">picks</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;EQT&quot;</span><span class="p">:</span><span class="n">eqt_csv</span><span class="p">,</span><span class="s2">&quot;PNET&quot;</span><span class="p">:</span><span class="n">phasenet_csv</span><span class="p">,</span><span class="s2">&quot;SGC&quot;</span><span class="p">:</span><span class="n">sgc_csv</span><span class="p">}</span>
+
+    <span class="c1"># Trace(client,picks)</span>
+    <span class="c1"># # client = Client(base_url=&#39;http://10.100.100.232:8091&#39;)</span>
+    <span class="c1"># # starttime = UTCDateTime(&quot;20191224T185959&quot;)</span>
+    <span class="c1"># starttime = UTCDateTime(&quot;20191224T190600&quot;)</span>
+    <span class="c1"># endtime = UTCDateTime(&quot;20191224T191359&quot;)</span>
+    <span class="c1"># st = client.get_waveforms(network=&quot;CM&quot;,station=&quot;URMC&quot;,</span>
+    <span class="c1">#                                 location=&quot;*&quot;,</span>
+    <span class="c1">#                                 channel=&quot;HHZ&quot;,</span>
+    <span class="c1">#                                 starttime=starttime,</span>
+    <span class="c1">#                                 endtime=endtime)</span>
+
+    <span class="c1"># # csvs = [eqt_csv,sgc_csv,phasenet_csv]</span>
+
+    <span class="c1"># # df = get_picks(phasenet_csv,starttime,endtime)</span>
+    <span class="c1"># # print(df)</span>
+    <span class="c1"># fig = plot_multiple_picker(st,csvs)</span>
+    <span class="c1"># fig.savefig(&quot;/home/emmanuel/EDCT/SeisMonitor/SeisMonitor/plot/mpt.png&quot;,dpi=300)</span>
+    <span class="c1"># # plt.show()</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Emmanuel Castillo.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

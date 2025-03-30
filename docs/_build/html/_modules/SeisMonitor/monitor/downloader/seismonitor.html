@@ -158,14 +158,11 @@
         <span class="n">overlap_in_sec</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
         <span class="n">picker_args</span><span class="o">=</span><span class="p">{},</span>
         <span class="n">groupby</span><span class="o">=</span><span class="s1">&#39;</span><span class="si">{network}</span><span class="s1">.</span><span class="si">{station}</span><span class="s1">.</span><span class="si">{channel}</span><span class="s1">&#39;</span><span class="p">,</span>
-        <span class="n">n_processor</span><span class="o">=</span><span class="kc">None</span>
-    <span class="p">):</span>
+        <span class="n">n_processor</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Download seismic waveforms with specified parameters.</span>
 <span class="sd">        </span>
 <span class="sd">        Args:</span>
-<span class="sd">            mseed_storage (str): Path template for waveform storage</span>
-<span class="sd">                Supports keywords: {network}, {station}, {location}, {channel},</span>
-<span class="sd">                {year}, {month}, {day}, {julday}, {starttime}, {endtime}</span>
+<span class="sd">            mseed_storage (str): Path template for waveform storage. Supports keywords: {network}, {station}, {location}, {channel},{year}, {month}, {day}, {julday}, {starttime}, {endtime}</span>
 <span class="sd">            chunklength_in_sec (int, optional): Length of each time chunk in seconds</span>
 <span class="sd">            threshold (int): Minimum length in seconds for download</span>
 <span class="sd">            overlap_in_sec (int): Overlap between chunks in seconds</span>
