@@ -1,8 +1,5 @@
-SeisMonitor.core package
+Core
 ========================
-
-Submodules
-----------
 
 SeisMonitor.core.client module
 ------------------------------
@@ -28,10 +25,3 @@ SeisMonitor.core.utils module
    :undoc-members:
    :show-inheritance:
 
-Module contents
----------------
-
-.. automodule:: SeisMonitor.core
-   :members:
-   :undoc-members:
-   :show-inheritance:

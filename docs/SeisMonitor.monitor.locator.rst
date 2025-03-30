@@ -1,8 +1,5 @@
-SeisMonitor.monitor.locator package
-===================================
-
-Subpackages
------------
+Locator
+=======
 
 .. toctree::
    :maxdepth: 4
@@ -10,9 +7,6 @@ Subpackages
    SeisMonitor.monitor.locator.hypoDD
    SeisMonitor.monitor.locator.hypocenter
    SeisMonitor.monitor.locator.nlloc
-
-Submodules
-----------
 
 SeisMonitor.monitor.locator.utils module
 ----------------------------------------
@@ -22,10 +16,3 @@ SeisMonitor.monitor.locator.utils module
    :undoc-members:
    :show-inheritance:
 
-Module contents
----------------
-
-.. automodule:: SeisMonitor.monitor.locator
-   :members:
-   :undoc-members:
-   :show-inheritance:

@@ -1,8 +1,5 @@
-SeisMonitor.monitor package
+Monitor
 ===========================
-
-Subpackages
------------
 
 .. toctree::
    :maxdepth: 4

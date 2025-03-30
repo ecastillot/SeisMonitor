@@ -1,9 +1,6 @@
 SeisMonitor.plot package
 ========================
 
-Submodules
-----------
-
 SeisMonitor.plot.picks module
 -----------------------------
 

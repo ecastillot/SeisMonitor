@@ -1,8 +1,5 @@
-SeisMonitor.monitor.picker package
+Picker
 ==================================
-
-Submodules
-----------
 
 SeisMonitor.monitor.picker.ai module
 ------------------------------------
@@ -20,10 +17,3 @@ SeisMonitor.monitor.picker.utils module
    :undoc-members:
    :show-inheritance:
 
-Module contents
----------------
-
-.. automodule:: SeisMonitor.monitor.picker
-   :members:
-   :undoc-members:
-   :show-inheritance:
