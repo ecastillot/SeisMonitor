@@ -1,0 +1,37 @@
+version: 2
+
+# Specify the build environment
+build:
+  image: "latest"  # Use the latest available image
+  docker_image: "readthedocs/sphinx-build"  # Docker image to use for building
+  type: "sphinx"  # Set the build type to sphinx
+
+# Python version to use for building the docs
+python:
+  version: 3.8  # Ensure this matches the python_requires from setup.py
+
+# Dependencies that Read the Docs needs to install for your project
+install:
+  - method: pip
+    path: .
+    extra_requirements:
+      - docs  # If you have extra requirements for docs like 'sphinx'
+
+# Build configuration for Sphinx
+sphinx:
+  configuration: docs/conf.py  # Path to the Sphinx conf.py file
+
+# Optional: If you need custom steps or scripts before building
+pre_build:
+  - pip install -r requirements.txt  # Ensure dependencies are installed
+  - pip install .  # Install the package locally if needed
+
+# Optional: Cache configuration
+cache:
+  paths:
+    - .tox
+    - .nox
+    - .venv
+    - _build
+    - node_modules
+    - sphinx/.nox
