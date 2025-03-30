@@ -19,8 +19,8 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="SeisMonitor.monitor.locator package" href="SeisMonitor.monitor.locator.html" />
-    <link rel="prev" title="SeisMonitor.monitor.associator package" href="SeisMonitor.monitor.associator.html" /> 
+    <link rel="next" title="SeisMonitor.monitor.picker package" href="SeisMonitor.monitor.picker.html" />
+    <link rel="prev" title="SeisMonitor documentation" href="index.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -44,22 +44,49 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
-<li class="toctree-l1 current"><a class="reference internal" href="modules.html">SeisMonitor</a><ul class="current">
-<li class="toctree-l2 current"><a class="reference internal" href="SeisMonitor.html">SeisMonitor package</a><ul class="current">
-<li class="toctree-l3 current"><a class="reference internal" href="SeisMonitor.html#subpackages">Subpackages</a><ul class="current">
-<li class="toctree-l4"><a class="reference internal" href="SeisMonitor.core.html">SeisMonitor.core package</a></li>
-<li class="toctree-l4 current"><a class="reference internal" href="SeisMonitor.monitor.html">SeisMonitor.monitor package</a></li>
-<li class="toctree-l4"><a class="reference internal" href="SeisMonitor.plot.html">SeisMonitor.plot package</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">SeisMonitor.monitor.downloader package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-SeisMonitor.monitor.downloader.obspy_mdl">SeisMonitor.monitor.downloader.obspy_mdl module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#SeisMonitor.monitor.downloader.obspy_mdl.MseedDownloader"><code class="docutils literal notranslate"><span class="pre">MseedDownloader</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#SeisMonitor.monitor.downloader.obspy_mdl.MseedDownloader.download"><code class="docutils literal notranslate"><span class="pre">MseedDownloader.download()</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="SeisMonitor.html#submodules">Submodules</a></li>
-<li class="toctree-l3"><a class="reference internal" href="SeisMonitor.html#module-SeisMonitor.utils">SeisMonitor.utils module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="SeisMonitor.html#module-SeisMonitor.utils4examples">SeisMonitor.utils4examples module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="SeisMonitor.html#module-SeisMonitor">Module contents</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#SeisMonitor.monitor.downloader.obspy_mdl.process"><code class="docutils literal notranslate"><span class="pre">process()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-SeisMonitor.monitor.downloader.seismonitor">SeisMonitor.monitor.downloader.seismonitor module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#SeisMonitor.monitor.downloader.seismonitor.MseedDownloader"><code class="docutils literal notranslate"><span class="pre">MseedDownloader</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#SeisMonitor.monitor.downloader.seismonitor.MseedDownloader.download"><code class="docutils literal notranslate"><span class="pre">MseedDownloader.download()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#SeisMonitor.monitor.downloader.seismonitor.MseedDownloader.make_inv_and_json"><code class="docutils literal notranslate"><span class="pre">MseedDownloader.make_inv_and_json()</span></code></a></li>
 </ul>
 </li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="#module-SeisMonitor.monitor.downloader.utils">SeisMonitor.monitor.downloader.utils module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#SeisMonitor.monitor.downloader.utils.DownloadRestrictions"><code class="docutils literal notranslate"><span class="pre">DownloadRestrictions</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#SeisMonitor.monitor.downloader.utils.get_all_sdswaveforms"><code class="docutils literal notranslate"><span class="pre">get_all_sdswaveforms()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#SeisMonitor.monitor.downloader.utils.get_chunktimes"><code class="docutils literal notranslate"><span class="pre">get_chunktimes()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#SeisMonitor.monitor.downloader.utils.get_client_waveforms"><code class="docutils literal notranslate"><span class="pre">get_client_waveforms()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#SeisMonitor.monitor.downloader.utils.get_filenames"><code class="docutils literal notranslate"><span class="pre">get_filenames()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#SeisMonitor.monitor.downloader.utils.get_inv_and_json"><code class="docutils literal notranslate"><span class="pre">get_inv_and_json()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#SeisMonitor.monitor.downloader.utils.get_max_allowed_batch_size"><code class="docutils literal notranslate"><span class="pre">get_max_allowed_batch_size()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#SeisMonitor.monitor.downloader.utils.get_merged_inv_and_json"><code class="docutils literal notranslate"><span class="pre">get_merged_inv_and_json()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#SeisMonitor.monitor.downloader.utils.get_mseed_filename"><code class="docutils literal notranslate"><span class="pre">get_mseed_filename()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#SeisMonitor.monitor.downloader.utils.get_st_according2preference"><code class="docutils literal notranslate"><span class="pre">get_st_according2preference()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#SeisMonitor.monitor.downloader.utils.inside_the_polygon"><code class="docutils literal notranslate"><span class="pre">inside_the_polygon()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#SeisMonitor.monitor.downloader.utils.sanitize_provider_times"><code class="docutils literal notranslate"><span class="pre">sanitize_provider_times()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#SeisMonitor.monitor.downloader.utils.select_inventory"><code class="docutils literal notranslate"><span class="pre">select_inventory()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#SeisMonitor.monitor.downloader.utils.write_client_waveforms"><code class="docutils literal notranslate"><span class="pre">write_client_waveforms()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#SeisMonitor.monitor.downloader.utils.write_stream"><code class="docutils literal notranslate"><span class="pre">write_stream()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-SeisMonitor.monitor.downloader">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="SeisMonitor.monitor.picker.html">SeisMonitor.monitor.picker package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="SeisMonitor.monitor.associator.html">SeisMonitor.monitor.associator package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="SeisMonitor.monitor.locator.html">SeisMonitor.monitor.locator package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="SeisMonitor.monitor.magnitude.html">SeisMonitor.monitor.magnitude package</a></li>
 </ul>
 
         </div>
@@ -76,9 +103,6 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
-          <li class="breadcrumb-item"><a href="modules.html">SeisMonitor</a></li>
-          <li class="breadcrumb-item"><a href="SeisMonitor.html">SeisMonitor package</a></li>
-          <li class="breadcrumb-item"><a href="SeisMonitor.monitor.html">SeisMonitor.monitor package</a></li>
       <li class="breadcrumb-item active">SeisMonitor.monitor.downloader package</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/SeisMonitor.monitor.downloader.rst.txt" rel="nofollow"> View page source</a>
@@ -427,8 +451,8 @@ ppc_and_comment (list): [preprocessed_flag, comment]</p>
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="SeisMonitor.monitor.associator.html" class="btn btn-neutral float-left" title="SeisMonitor.monitor.associator package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="SeisMonitor.monitor.locator.html" class="btn btn-neutral float-right" title="SeisMonitor.monitor.locator package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="index.html" class="btn btn-neutral float-left" title="SeisMonitor documentation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="SeisMonitor.monitor.picker.html" class="btn btn-neutral float-right" title="SeisMonitor.monitor.picker package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

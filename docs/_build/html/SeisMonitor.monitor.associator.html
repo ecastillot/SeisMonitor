@@ -19,8 +19,8 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="SeisMonitor.monitor.downloader package" href="SeisMonitor.monitor.downloader.html" />
-    <link rel="prev" title="SeisMonitor.monitor package" href="SeisMonitor.monitor.html" /> 
+    <link rel="next" title="SeisMonitor.monitor.locator package" href="SeisMonitor.monitor.locator.html" />
+    <link rel="prev" title="SeisMonitor.monitor.picker package" href="SeisMonitor.monitor.picker.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -44,22 +44,45 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
-<li class="toctree-l1 current"><a class="reference internal" href="modules.html">SeisMonitor</a><ul class="current">
-<li class="toctree-l2 current"><a class="reference internal" href="SeisMonitor.html">SeisMonitor package</a><ul class="current">
-<li class="toctree-l3 current"><a class="reference internal" href="SeisMonitor.html#subpackages">Subpackages</a><ul class="current">
-<li class="toctree-l4"><a class="reference internal" href="SeisMonitor.core.html">SeisMonitor.core package</a></li>
-<li class="toctree-l4 current"><a class="reference internal" href="SeisMonitor.monitor.html">SeisMonitor.monitor package</a></li>
-<li class="toctree-l4"><a class="reference internal" href="SeisMonitor.plot.html">SeisMonitor.plot package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="SeisMonitor.monitor.downloader.html">SeisMonitor.monitor.downloader package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="SeisMonitor.monitor.picker.html">SeisMonitor.monitor.picker package</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">SeisMonitor.monitor.associator package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-SeisMonitor.monitor.associator.ai">SeisMonitor.monitor.associator.ai module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#SeisMonitor.monitor.associator.ai.GaMMA"><code class="docutils literal notranslate"><span class="pre">GaMMA</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#SeisMonitor.monitor.associator.ai.GaMMA.associate"><code class="docutils literal notranslate"><span class="pre">GaMMA.associate()</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="SeisMonitor.html#submodules">Submodules</a></li>
-<li class="toctree-l3"><a class="reference internal" href="SeisMonitor.html#module-SeisMonitor.utils">SeisMonitor.utils module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="SeisMonitor.html#module-SeisMonitor.utils4examples">SeisMonitor.utils4examples module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="SeisMonitor.html#module-SeisMonitor">Module contents</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#SeisMonitor.monitor.associator.ai.GaMMAObj"><code class="docutils literal notranslate"><span class="pre">GaMMAObj</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#SeisMonitor.monitor.associator.ai.GaMMAObj.add_response"><code class="docutils literal notranslate"><span class="pre">GaMMAObj.add_response()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#SeisMonitor.monitor.associator.ai.GaMMAObj.stations"><code class="docutils literal notranslate"><span class="pre">GaMMAObj.stations</span></code></a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="#SeisMonitor.monitor.associator.ai.get_gamma_catalog"><code class="docutils literal notranslate"><span class="pre">get_gamma_catalog()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#SeisMonitor.monitor.associator.ai.get_gamma_origin"><code class="docutils literal notranslate"><span class="pre">get_gamma_origin()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#SeisMonitor.monitor.associator.ai.get_gamma_picks"><code class="docutils literal notranslate"><span class="pre">get_gamma_picks()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#SeisMonitor.monitor.associator.ai.picks2arrivals"><code class="docutils literal notranslate"><span class="pre">picks2arrivals()</span></code></a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="#module-SeisMonitor.monitor.associator.utils">SeisMonitor.monitor.associator.utils module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#SeisMonitor.monitor.associator.utils.get_amplitudes_from_local_st"><code class="docutils literal notranslate"><span class="pre">get_amplitudes_from_local_st()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#SeisMonitor.monitor.associator.utils.get_amplitudes_from_pick"><code class="docutils literal notranslate"><span class="pre">get_amplitudes_from_pick()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#SeisMonitor.monitor.associator.utils.get_paz_from_response"><code class="docutils literal notranslate"><span class="pre">get_paz_from_response()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#SeisMonitor.monitor.associator.utils.get_picks_gamma_df"><code class="docutils literal notranslate"><span class="pre">get_picks_gamma_df()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#SeisMonitor.monitor.associator.utils.get_seismonitor_amplitudes"><code class="docutils literal notranslate"><span class="pre">get_seismonitor_amplitudes()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#SeisMonitor.monitor.associator.utils.get_stations_gamma_df"><code class="docutils literal notranslate"><span class="pre">get_stations_gamma_df()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#SeisMonitor.monitor.associator.utils.link"><code class="docutils literal notranslate"><span class="pre">link()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#SeisMonitor.monitor.associator.utils.link_eqt_phases"><code class="docutils literal notranslate"><span class="pre">link_eqt_phases()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#SeisMonitor.monitor.associator.utils.link_seismonitor_phases"><code class="docutils literal notranslate"><span class="pre">link_seismonitor_phases()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#SeisMonitor.monitor.associator.utils.make_eqt_dirs"><code class="docutils literal notranslate"><span class="pre">make_eqt_dirs()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#SeisMonitor.monitor.associator.utils.seismonitor_picks_to_eqt_fmt"><code class="docutils literal notranslate"><span class="pre">seismonitor_picks_to_eqt_fmt()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-SeisMonitor.monitor.associator">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="SeisMonitor.monitor.locator.html">SeisMonitor.monitor.locator package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="SeisMonitor.monitor.magnitude.html">SeisMonitor.monitor.magnitude package</a></li>
 </ul>
 
         </div>
@@ -76,9 +99,6 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
-          <li class="breadcrumb-item"><a href="modules.html">SeisMonitor</a></li>
-          <li class="breadcrumb-item"><a href="SeisMonitor.html">SeisMonitor package</a></li>
-          <li class="breadcrumb-item"><a href="SeisMonitor.monitor.html">SeisMonitor.monitor package</a></li>
       <li class="breadcrumb-item active">SeisMonitor.monitor.associator package</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/SeisMonitor.monitor.associator.rst.txt" rel="nofollow"> View page source</a>
@@ -377,8 +397,8 @@ et (float): End time offset in seconds</p>
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="SeisMonitor.monitor.html" class="btn btn-neutral float-left" title="SeisMonitor.monitor package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="SeisMonitor.monitor.downloader.html" class="btn btn-neutral float-right" title="SeisMonitor.monitor.downloader package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="SeisMonitor.monitor.picker.html" class="btn btn-neutral float-left" title="SeisMonitor.monitor.picker package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="SeisMonitor.monitor.locator.html" class="btn btn-neutral float-right" title="SeisMonitor.monitor.locator package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
