@@ -7,28 +7,25 @@
 #  */
 
 """
-This script is an example to make a client class
-for specific data structure archive on local filesystem. 
+This script provides an example of creating a client class for a specific data structure archive on a local filesystem.
 
-The structure is:
-"{root_path}","{field_name}","seedfiles",
-"{year}-{month:02d}", "{year}-{month:02d}-{day:02d}", 
-"{network}.{station}.{location}.{channel}.{year}.{julianday:03d}"
+The data structure is organized as follows:
 
-To do this, I builded OwnClient class as SDS client subclass. 
-It  it inherits the SDS Client functionalities.
-However field_name, month and day  are not used in fmt on the SDS client instance.
-Therefore, it's mandatory override two private functions: 
-_get_filenames, _get_filename.
+{root_path}/{field_name}/seedfiles/{year}-{month:02d}/{year}-{month:02d}-{day:02d}/{network}.{station}.{location}.{channel}.{year}.{julianday:03d}
 
-The mandatory parameters for OwnClient class is: root_path and field_name
-Example:
----------
-root_path = "/home/emmanuel/myarchive"
-client = OwnClient(root_path,"FIELD_1")
-st = client.get_waveforms("YY","XXXX","00",
-                        channel="HHZ",starttime = UTCDateTime("20220102T000100"),
-                        endtime = UTCDateTime("20220102T000200"))
+To achieve this, I built the ``OwnClient`` class as a subclass of the SDS client. It inherits the SDS client functionalities. However, ``field_name``, ``month``, and ``day`` are not used in the format string (``fmt``) of the base SDS client instance. Therefore, it’s mandatory to override two private methods: ``_get_filenames`` and ``_get_filename``.
+
+The mandatory parameters for the ``OwnClient`` class are ``root_path`` and ``field_name``.
+
+Example
+-------
+Here’s how to use the ``OwnClient`` class::
+
+    root_path = "/home/emmanuel/myarchive"
+    client = OwnClient(root_path, "FIELD_1")
+    st = client.get_waveforms("YY", "XXXX", "00",
+                            channel="HHZ", starttime=UTCDateTime("20220102T000100"),
+                            endtime=UTCDateTime("20220102T000200"))
 """
 
 import os 
@@ -39,14 +36,14 @@ from obspy.core.util.misc import BAND_CODE
 
 class LocalClient(Client):
 
-    def __init__(self,root,fmt,**kwargs):
+    def __init__(self, root, fmt, **kwargs):
         """
         Parameters:
         -----------
         root: str
             Path where is located the Local structure
         fmt: str
-            The parameter should name the corresponding keys of the stats object, e.g. 
+            The parameter should name the corresponding keys of the stats object, e.g.
             "{year}-{month:02d}/{year}-{month:02d}-{day:02d}/{network}.{station}.{location}.{channel}.{year}.{julday:03d}"
 
         **kwargs SDS client additional args

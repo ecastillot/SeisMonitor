@@ -78,28 +78,25 @@
 <span class="c1">#  */</span>
 
 <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">This script is an example to make a client class</span>
-<span class="sd">for specific data structure archive on local filesystem. </span>
+<span class="sd">This script provides an example of creating a client class for a specific data structure archive on a local filesystem.</span>
 
-<span class="sd">The structure is:</span>
-<span class="sd">&quot;{root_path}&quot;,&quot;{field_name}&quot;,&quot;seedfiles&quot;,</span>
-<span class="sd">&quot;{year}-{month:02d}&quot;, &quot;{year}-{month:02d}-{day:02d}&quot;, </span>
-<span class="sd">&quot;{network}.{station}.{location}.{channel}.{year}.{julianday:03d}&quot;</span>
+<span class="sd">The data structure is organized as follows:</span>
 
-<span class="sd">To do this, I builded OwnClient class as SDS client subclass. </span>
-<span class="sd">It  it inherits the SDS Client functionalities.</span>
-<span class="sd">However field_name, month and day  are not used in fmt on the SDS client instance.</span>
-<span class="sd">Therefore, it&#39;s mandatory override two private functions: </span>
-<span class="sd">_get_filenames, _get_filename.</span>
+<span class="sd">{root_path}/{field_name}/seedfiles/{year}-{month:02d}/{year}-{month:02d}-{day:02d}/{network}.{station}.{location}.{channel}.{year}.{julianday:03d}</span>
 
-<span class="sd">The mandatory parameters for OwnClient class is: root_path and field_name</span>
-<span class="sd">Example:</span>
-<span class="sd">---------</span>
-<span class="sd">root_path = &quot;/home/emmanuel/myarchive&quot;</span>
-<span class="sd">client = OwnClient(root_path,&quot;FIELD_1&quot;)</span>
-<span class="sd">st = client.get_waveforms(&quot;YY&quot;,&quot;XXXX&quot;,&quot;00&quot;,</span>
-<span class="sd">                        channel=&quot;HHZ&quot;,starttime = UTCDateTime(&quot;20220102T000100&quot;),</span>
-<span class="sd">                        endtime = UTCDateTime(&quot;20220102T000200&quot;))</span>
+<span class="sd">To achieve this, I built the ``OwnClient`` class as a subclass of the SDS client. It inherits the SDS client functionalities. However, ``field_name``, ``month``, and ``day`` are not used in the format string (``fmt``) of the base SDS client instance. Therefore, it’s mandatory to override two private methods: ``_get_filenames`` and ``_get_filename``.</span>
+
+<span class="sd">The mandatory parameters for the ``OwnClient`` class are ``root_path`` and ``field_name``.</span>
+
+<span class="sd">Example</span>
+<span class="sd">-------</span>
+<span class="sd">Here’s how to use the ``OwnClient`` class::</span>
+
+<span class="sd">    root_path = &quot;/home/emmanuel/myarchive&quot;</span>
+<span class="sd">    client = OwnClient(root_path, &quot;FIELD_1&quot;)</span>
+<span class="sd">    st = client.get_waveforms(&quot;YY&quot;, &quot;XXXX&quot;, &quot;00&quot;,</span>
+<span class="sd">                            channel=&quot;HHZ&quot;, starttime=UTCDateTime(&quot;20220102T000100&quot;),</span>
+<span class="sd">                            endtime=UTCDateTime(&quot;20220102T000200&quot;))</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">os</span> 
@@ -112,14 +109,14 @@
 <a class="viewcode-back" href="../../../SeisMonitor.core.html#SeisMonitor.core.client.LocalClient">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">LocalClient</span><span class="p">(</span><span class="n">Client</span><span class="p">):</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">root</span><span class="p">,</span><span class="n">fmt</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">root</span><span class="p">,</span> <span class="n">fmt</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Parameters:</span>
 <span class="sd">        -----------</span>
 <span class="sd">        root: str</span>
 <span class="sd">            Path where is located the Local structure</span>
 <span class="sd">        fmt: str</span>
-<span class="sd">            The parameter should name the corresponding keys of the stats object, e.g. </span>
+<span class="sd">            The parameter should name the corresponding keys of the stats object, e.g.</span>
 <span class="sd">            &quot;{year}-{month:02d}/{year}-{month:02d}-{day:02d}/{network}.{station}.{location}.{channel}.{year}.{julday:03d}&quot;</span>
 
 <span class="sd">        **kwargs SDS client additional args</span>

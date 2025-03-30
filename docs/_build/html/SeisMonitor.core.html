@@ -95,27 +95,22 @@
 </section>
 <section id="module-SeisMonitor.core.client">
 <span id="seismonitor-core-client-module"></span><h2>SeisMonitor.core.client module<a class="headerlink" href="#module-SeisMonitor.core.client" title="Link to this heading"></a></h2>
-<p>This script is an example to make a client class
-for specific data structure archive on local filesystem.</p>
-<p>The structure is:
-“{root_path}”,”{field_name}”,”seedfiles”,
-“{year}-{month:02d}”, “{year}-{month:02d}-{day:02d}”, 
-“{network}.{station}.{location}.{channel}.{year}.{julianday:03d}”</p>
-<p>To do this, I builded OwnClient class as SDS client subclass. 
-It  it inherits the SDS Client functionalities.
-However field_name, month and day  are not used in fmt on the SDS client instance.
-Therefore, it’s mandatory override two private functions: 
-_get_filenames, _get_filename.</p>
-<p>The mandatory parameters for OwnClient class is: root_path and field_name
-Example:
-———
-root_path = “/home/emmanuel/myarchive”
-client = OwnClient(root_path,”FIELD_1”)
-st = client.get_waveforms(“YY”,”XXXX”,”00”,</p>
-<blockquote>
-<div><p>channel=”HHZ”,starttime = UTCDateTime(“20220102T000100”),
-endtime = UTCDateTime(“20220102T000200”))</p>
-</div></blockquote>
+<p>This script provides an example of creating a client class for a specific data structure archive on a local filesystem.</p>
+<p>The data structure is organized as follows:</p>
+<p>{root_path}/{field_name}/seedfiles/{year}-{month:02d}/{year}-{month:02d}-{day:02d}/{network}.{station}.{location}.{channel}.{year}.{julianday:03d}</p>
+<p>To achieve this, I built the <code class="docutils literal notranslate"><span class="pre">OwnClient</span></code> class as a subclass of the SDS client. It inherits the SDS client functionalities. However, <code class="docutils literal notranslate"><span class="pre">field_name</span></code>, <code class="docutils literal notranslate"><span class="pre">month</span></code>, and <code class="docutils literal notranslate"><span class="pre">day</span></code> are not used in the format string (<code class="docutils literal notranslate"><span class="pre">fmt</span></code>) of the base SDS client instance. Therefore, it’s mandatory to override two private methods: <code class="docutils literal notranslate"><span class="pre">_get_filenames</span></code> and <code class="docutils literal notranslate"><span class="pre">_get_filename</span></code>.</p>
+<p>The mandatory parameters for the <code class="docutils literal notranslate"><span class="pre">OwnClient</span></code> class are <code class="docutils literal notranslate"><span class="pre">root_path</span></code> and <code class="docutils literal notranslate"><span class="pre">field_name</span></code>.</p>
+<section id="example">
+<h3>Example<a class="headerlink" href="#example" title="Link to this heading"></a></h3>
+<p>Here’s how to use the <code class="docutils literal notranslate"><span class="pre">OwnClient</span></code> class:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">root_path</span> <span class="o">=</span> <span class="s2">&quot;/home/emmanuel/myarchive&quot;</span>
+<span class="n">client</span> <span class="o">=</span> <span class="n">OwnClient</span><span class="p">(</span><span class="n">root_path</span><span class="p">,</span> <span class="s2">&quot;FIELD_1&quot;</span><span class="p">)</span>
+<span class="n">st</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">get_waveforms</span><span class="p">(</span><span class="s2">&quot;YY&quot;</span><span class="p">,</span> <span class="s2">&quot;XXXX&quot;</span><span class="p">,</span> <span class="s2">&quot;00&quot;</span><span class="p">,</span>
+                        <span class="n">channel</span><span class="o">=</span><span class="s2">&quot;HHZ&quot;</span><span class="p">,</span> <span class="n">starttime</span><span class="o">=</span><span class="n">UTCDateTime</span><span class="p">(</span><span class="s2">&quot;20220102T000100&quot;</span><span class="p">),</span>
+                        <span class="n">endtime</span><span class="o">=</span><span class="n">UTCDateTime</span><span class="p">(</span><span class="s2">&quot;20220102T000200&quot;</span><span class="p">))</span>
+</pre></div>
+</div>
+</section>
 <dl class="py class">
 <dt class="sig sig-object py" id="SeisMonitor.core.client.LocalClient">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">SeisMonitor.core.client.</span></span><span class="sig-name descname"><span class="pre">LocalClient</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">root</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fmt</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/SeisMonitor/core/client.html#LocalClient"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SeisMonitor.core.client.LocalClient" title="Link to this definition"></a></dt>
