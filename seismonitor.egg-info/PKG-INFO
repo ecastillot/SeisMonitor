@@ -1,0 +1,43 @@
+Metadata-Version: 2.2
+Name: seismonitor
+Version: 0.0.55
+Summary: To monitor seismic activity
+Home-page: https://github.com/ecastillot/SeisMonitor
+Author: ecastillot (Emmanuel Castillo)
+Author-email: <castillo.280997@gmail.com>
+Keywords: python,seismonitor,earthquakes,seismology
+Classifier: Development Status :: 1 - Planning
+Classifier: Intended Audience :: Developers
+Classifier: Programming Language :: Python :: 3
+Classifier: Operating System :: Unix
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: obspy
+Requires-Dist: pytest
+Requires-Dist: pyproj
+Requires-Dist: GitPython
+Requires-Dist: matplotlib
+Requires-Dist: pandas
+Requires-Dist: tqdm
+Requires-Dist: tensorflow==2.15
+Requires-Dist: keras>=2.12
+Requires-Dist: numpy>=1.23
+Requires-Dist: keyring>=15.1
+Requires-Dist: pkginfo>=1.4.2
+Requires-Dist: scipy>=1.4.1
+Requires-Dist: h5py>=3.8
+Requires-Dist: gmma
+Requires-Dist: EQTransformer
+Dynamic: author
+Dynamic: author-email
+Dynamic: classifier
+Dynamic: description
+Dynamic: description-content-type
+Dynamic: home-page
+Dynamic: keywords
+Dynamic: requires-dist
+Dynamic: requires-python
+Dynamic: summary
+
+A package that allows to monitor the seismic activity through main steps in the monitoring workflow: earthquake detection and phase picking -> phase associator -> earthquake locator -> magnitude estimation.

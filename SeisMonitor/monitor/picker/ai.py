@@ -310,7 +310,7 @@ class PhaseNet:
         tic = time.time()
         printlog("info", self.msg_author, "Running to create datalist")
         
-        ut.make_PhaseNet_datalist(
+        ut.make_phasenet_datalist(
             datadir=self.datadir,
             json_path=self.json_path,
             datalist_path=self.datalist

@@ -164,7 +164,7 @@ class MseedDownloader:
                 for netsta in waveform_restrictions.bulk_info:
                     get_client_waveforms_by_thread(netsta)
             else:
-                with cfitools.ThreadPoolExecutor(download_restrictions.n_processor) as executor:
+                with cf.ThreadPoolExecutor(download_restrictions.n_processor) as executor:
                     executor.map(
                         get_client_waveforms_by_thread,
                         waveform_restrictions.bulk_info

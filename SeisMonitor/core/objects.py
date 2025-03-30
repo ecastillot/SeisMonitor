@@ -48,7 +48,7 @@ class Provider:
         Provider
             A new instance of Provider with copied attributes.
         """
-        return copy.deepcopy(self)
+        return copy.copy(self) # be careful, maybe deepcopy is needed
 
 
 class WaveformRestrictions:

@@ -53,7 +53,8 @@ def get_picks_gamma_df(picks, response, compute_amplitudes=True, p_window=10, s_
     Returns:
         pandas.DataFrame: Formatted picks DataFrame
     """
-    df = pd.read_csv(picks, dtype={'location': str})
+    df = pd.read_csv(picks, dtype={'location': str,'network':str,
+                                   'station': str,'instrument_type': str}) #forcing string
     date_cols = ["arrival_time", "creation_time", "event_start_time", "event_end_time"]
     df[date_cols] = df[date_cols].apply(pd.to_datetime)
 

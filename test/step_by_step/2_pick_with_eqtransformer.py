@@ -1,3 +1,7 @@
+import sys
+repository_path = r"/home/edc240000/SeisMonitor"  
+sys.path.insert(0,repository_path)
+
 import os
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '1'
 from SeisMonitor.monitor.picker.ai import EQTransformer,EQTransformerObj
@@ -9,14 +13,14 @@ from SeisMonitor.core.client import LocalClient
 from SeisMonitor.core.objects import WaveformRestrictions,Provider
 from SeisMonitor.monitor.downloader.seismonitor import MseedDownloader
 
-archive = "./out/download/fdsn"
+archive = "/home/edc240000/SeisMonitor/test/out/download/fdsn"
 json_path = os.path.join(archive,"json/stations.json")
 mseed_storage = os.path.join(archive,"downloads/{station}/{network}.{station}.{location}.{channel}__{starttime}__{endtime}.mseed")
 
 dataset = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))),"data")
 # eqt_model = os.path.join(dataset,"models",'EqT_model.h5')
-eqt_path = "/home/emmanuel/EDCT/EQTransformer"
-eqtobj = EQTransformerObj(eqt_path,
+eqt_model_path = "/home/edc240000/EQTransformer/ModelsAndSampleData/EqT_model.h5"
+eqtobj = EQTransformerObj(eqt_model_path,
             n_processor = 6,
             overlap = 0.3,
             detection_threshold =0.1,

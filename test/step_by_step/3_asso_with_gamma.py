@@ -1,5 +1,5 @@
 import sys
-repository_path = r"/home/emmanuel/SeisMonitor"  
+repository_path = r"/home/edc240000/SeisMonitor"  
 sys.path.insert(0,repository_path)
 
 import os
@@ -9,11 +9,10 @@ from obspy.core.inventory.inventory import read_inventory
 from SeisMonitor.monitor.associator.ai import GaMMA,GaMMAObj
 
 # archive = "./out/download/fdsn"
-archive = "/home/emmanuel/SeisMonitor/out"
+archive = "/home/edc240000/SeisMonitor/test/others"
 
 resp = os.path.join(archive,"stations","inv.xml")
-# picks = os.path.join(archive,"picks","eqt","results","seismonitor_picks.csv")
-picks = "/home/emmanuel/SeisMonitor/data/picks/pnet_seismonitor_picks.csv"
+picks = os.path.join(archive,"picks","eqt_seismonitor_picks.csv")
 out_dir = os.path.join(archive,"asso","gamma")
 
 # region = [-84.798, -66.546,-1.628, 15.445,0, 150]

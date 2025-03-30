@@ -50,13 +50,13 @@ class GaMMAObj:
         """Initialize GaMMAObj with configuration parameters.
         
         Args:
-            region (list): List of [lon_min, lon_max, lat_min, lat_max, z_min, z_max]
+            region (list): List of [lon_min, lon_max, lat_min, lat_max, z_min, z_max]. z is depth in km.
             epsg_proj (str): EPSG projection code
             use_dbscan (bool): Whether to use DBSCAN clustering
             use_amplitude (bool): Whether to use amplitude in processing
             dbscan_eps (float): DBSCAN epsilon parameter
             dbscan_min_samples (int): DBSCAN minimum samples parameter
-            vel (dict): Velocity model with P and S wave velocities
+            vel (dict): Average velocity model with P and S wave velocities
             method (str): Association method (default: "BGMM")
             oversample_factor (int): Oversampling factor for processing
             min_picks_per_eq (int): Minimum picks per earthquake
@@ -142,7 +142,7 @@ class GaMMAObj:
         if self.response is None:
             raise Exception("You must add response file to the GaMMA Object")
 
-        stations = ut.get_stations_GaMMA_df(self.response)
+        stations = ut.get_stations_gamma_df(self.response)
 
         in_proj = pyproj.Proj("EPSG:4326")
         out_proj = pyproj.Proj(self.epsg_proj)
@@ -173,7 +173,8 @@ def get_gamma_picks(event_picks):
     pick_list = []
     for i, row in event_picks.iterrows():
         loc = row.location
-        str_id = ".".join((row.network, row.station, loc, row.instrument_type + "Z"))
+        str_id = ".".join((str(row.network), str(row.station), str(loc),
+                           row.instrument_type + "Z"))
         
         comment = {
             'probability': row.prob,
@@ -300,7 +301,8 @@ def get_gamma_catalog(picks_df, catalog_df, in_proj, out_proj):
         picks = get_gamma_picks(picks)
         origin = get_gamma_origin(row, picks, in_proj, out_proj)
         ev = Event(
-            resource_id=ResourceIdentifier(id=origin.resource_id.id, prefix='event'),
+            resource_id=ResourceIdentifier(id=origin.resource_id.id, 
+                                           prefix='event'),
             event_type="earthquake",
             event_type_certainty="known",
             picks=picks,
@@ -359,7 +361,7 @@ class GaMMA:
         self.catalog_out_file = os.path.join(out_dir, "catalog.csv")
         self.picks_out_file = os.path.join(out_dir, "picks.csv")
 
-        picks_df = ut.get_picks_GaMMa_df(
+        picks_df = ut.get_picks_gamma_df(
             self.picks_csv,
             self.response,
             compute_amplitudes=self.gamma_obj.calculate_amp,
@@ -368,6 +370,7 @@ class GaMMA:
             waterlevel=self.gamma_obj.waterlevel
         )
         stations = list(set(picks_df["station"].to_list()))
+        stations = [str(val) for val in stations]
 
         self.gamma_obj.add_response(self.response)
         station_df = self.gamma_obj.stations
@@ -389,15 +392,18 @@ class GaMMA:
             return Catalog(), pd.DataFrame(), pd.DataFrame()
         
         catalog = pd.DataFrame(catalogs)
+        catalog.index = catalog.index + 1 # important to fix event index with the same index in assignments
         catalog["time"] = pd.to_datetime(catalog["time"], format="%Y-%m-%dT%H:%M:%S.%f")
-        catalog["event_index"] = catalog["time"].apply(lambda x: x)
+        catalog["event_idx"] = catalog.index
+        # catalog["event_index"] = catalog["time"].apply(lambda x: x)
+        # catalog["event_idx"] = catalog.index
         
         assignments = pd.DataFrame(
             assignments,
             columns=["pick_index", "event_idx", "prob_gamma"]
         )
         assignments = assignments.set_index("pick_index")
-
+        
         picks = pd.merge(
             picks_df,
             assignments,
@@ -409,7 +415,7 @@ class GaMMA:
         isfile(self.catalog_out_file)
         catalog.to_csv(self.catalog_out_file, index=False)
         isfile(self.picks_out_file)
-        picks.to_csv(self.picks_out_file, index=False)
+        picks.to_csv(self.picks_out_file) #saving pick index
        
         obspy_catalog = get_gamma_catalog(
             picks,

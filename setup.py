@@ -25,7 +25,7 @@ with pathlib.Path('requirements.txt').open() as requirements_txt:
 
 # Setting up
 setup(
-    name="SeisMonitor",
+    name="seismonitor",
     version=VERSION,
     author="ecastillot (Emmanuel Castillo)",
     author_email="<castillo.280997@gmail.com>",
@@ -35,6 +35,10 @@ setup(
     long_description=LONG_DESCRIPTION,
     packages=find_packages(),
     install_requires=install_requires,
+    dependency_links=[
+        "https://github.com/wayneweiqiang/GaMMA/tarball/master#egg=gmma",
+        "https://github.com/ecastillot/EQTransformer/tarball/master#egg=EQTransformer",
+    ],
     keywords=['python', "seismonitor","earthquakes","seismology"],
     classifiers=[
         "Development Status :: 1 - Planning",

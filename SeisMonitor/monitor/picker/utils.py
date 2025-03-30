@@ -29,7 +29,7 @@ from obspy.core.event.base import QuantityError, WaveformStreamID, CreationInfo,
 from obspy.core.event import ResourceIdentifier
 
 # Define standard columns for SeisMonitor
-SEISMONITOR_COLUMNS = [
+SeisMonitor_columns = [
     "pick_id", "arrival_time", "probability", "phasehint",
     "network", "station", "location", "instrument_type", "author",
     "creation_time", "event_start_time", "event_end_time",
@@ -93,54 +93,89 @@ def eqt_picks_2_seismonitor_fmt(eqt_folder, mseed_folder, out_path):
         return None
 
     dfs = []
-    for dp, _, filenames in os.walk(eqt_folder):
+    for dp, dn, filenames in os.walk(eqt_folder):
         for f in filenames:
-            if f == "X_prediction_results.csv":
-                path = os.path.join(dp, f)
-                df = pd.read_csv(path, dtype={'station': str, 'location': str})
+            if f == "X_prediction_results.csv" :
+                search_path = os.path.join(dp, f)
+                df = pd.read_csv(search_path,dtype={'station': str,'location':str})
                 if not df.empty:
-                    for col in date_cols:
-                        df[col] = df[col].apply(parse_datetime)
+                    # to_date = lambda x: pd.to_datetime(x,format="mixed")
+                    # df[date_cols] = df[date_cols].apply(to_date)
+
+                    to_date = lambda x: parse_datetime(x)
+                    # df[date_cols] = df[date_cols].apply(to_date)
+
+                    for date_col in date_cols:
+                        df[date_col] = df[date_col].apply(parse_datetime)
                     dfs.append(df)
 
     if not dfs:
         return pd.DataFrame()
 
-    df = pd.concat(dfs, ignore_index=True)
-    df["station"] = df["station"].str.strip()
-    df = df.sort_values(by="p_arrival_time", ignore_index=True)
-    
-    x_results_path = os.path.join(os.path.dirname(out_path), "X_prediction_results_merge.csv")
-    df.to_csv(x_results_path, index=False, date_format="%Y-%m-%d %H:%M:%S.%f")
+    df = pd.concat(dfs,ignore_index=True)
+    df["station"] = df["station"].apply(lambda x: x.strip())
+    df = df.sort_values(by="p_arrival_time",ignore_index=True)
 
-    df["location"] = df["file_name"].apply(lambda x: x.split(".")[2])
+    x_results_path = os.path.join(os.path.dirname(out_path),
+                                "X_prediction_results_merge.csv")
+    df.to_csv(x_results_path,index=False,
+                date_format="%Y-%m-%d %H:%M:%S.%f")
+
+    #seismonitor
+    date_cols = ["arrival_time","creation_time",
+                "event_start_time","event_end_time"]
+
+    get_loc = lambda x: x.file_name.split(".")[2]
+    df["location"] = df.apply(get_loc,axis=1)
     df["author"] = "EQTransformer"
-    df["file_name"] = df["file_name"].apply(lambda x: os.path.join(mseed_folder, x))
 
+    filename_func = lambda x: os.path.join(mseed_folder,x)
+    df["file_name"] = df["file_name"].apply(filename_func)
+
+    p_cols = df.columns.to_list()
+    s_cols = df.columns.to_list()
     dfs = []
-    for phase in ["p", "s"]:
-        rm = "s" if phase == "p" else "p"
-        phase_cols = [col for col in df.columns if not col.startswith(rm)]
+    for phase in ["p","s"]:
+        if phase.lower() == "p":
+            rm = "s"
+        else:
+            rm = "p"
+
+        phase_cols = df.columns.to_list()
+        not_rm_cols = [f'{phase}_arrival_time', f'{phase}_probability',
+                         f'{phase}_uncertainty', f'{phase}_snr']
+        rm_cols = [f'{rm}_arrival_time', f'{rm}_probability',
+                 f'{rm}_uncertainty', f'{rm}_snr']
+        for x in rm_cols:
+            phase_cols.remove(x)
+
         phase_df = df[phase_cols]
-        
-        not_rm_cols = [f'{phase}_arrival_time', f'{phase}_probability', 
-                      f'{phase}_uncertainty', f'{phase}_snr']
-        new_cols = [col[2:] for col in not_rm_cols]
-        phase_df = phase_df.rename(columns=dict(zip(not_rm_cols, new_cols)))
-        
+
+        new_cols_gen = lambda x: x[2:]
+        new_cols = list(map(new_cols_gen,not_rm_cols))
+
+        columns = dict(zip(not_rm_cols, new_cols))
+        phase_df = phase_df.rename(columns=columns)
         phase_df["phasehint"] = phase.upper()
         phase_df = phase_df.dropna(subset=["arrival_time"])
-        phase_df["creation_time"] = dt.datetime.now()
-        phase_df["pick_id"] = phase_df.apply(
-            lambda x: id_maker(x.arrival_time, x.network, x.station, x.location, 
-                             x.instrument_type, x.phasehint), axis=1
-        )
-        dfs.append(phase_df)
 
-    df = pd.concat(dfs, ignore_index=True)
-    df = df[SEISMONITOR_COLUMNS]
-    df = df.sort_values(by="arrival_time", ignore_index=True)
-    df.to_csv(out_path, index=False, date_format="%Y-%m-%d %H:%M:%S.%f")
+        phase_df["creation_time"] = dt.datetime.now()
+        pick_id = lambda x: id_maker(x.arrival_time, x.network, 
+                            x.station, x.location, 
+                            x.instrument_type, x.phasehint)
+        phase_df["pick_id"] = phase_df.apply(pick_id,axis=1) 
+
+
+        phase_df[date_cols] = phase_df[date_cols].apply(pd.to_datetime)
+
+        dfs.append(phase_df)
+        
+
+    df = pd.concat(dfs,ignore_index=True)
+    df = df[SeisMonitor_columns]
+    df = df.sort_values(by="arrival_time",ignore_index=True)
+    df.to_csv(out_path,index=False,
+            date_format="%Y-%m-%d %H:%M:%S.%f")
     return df
 
 
@@ -487,6 +522,7 @@ def picks2df(picks):
     """
     df_data = []
     for pick in picks:
+        comment = json.loads(pick.comments[0].text)
         seismonitor = {
             "pick_id": pick.resource_id.id,
             "arrival_time": pick.time.strftime("%Y-%m-%d %H:%M:%S.%f"),
@@ -496,15 +532,31 @@ def picks2df(picks):
             "station": pick.waveform_id.station_code,
             "instrument_type": pick.waveform_id.channel_code[0:2],
             "author": pick.method_id.id,
-            "creation_time": pick.creation_info.creation_time.strftime("%Y-%m-%d %H:%M:%S.%f")
+            "creation_time": pick.creation_info.creation_time.strftime("%Y-%m-%d %H:%M:%S.%f"),
+            # "event_start_time": comment.get("event_start_time"),
+            # "event_end_time": comment.get("event_end_time"),
+            # "mseed_start_time": comment.get("mseed_start_time"),
+            # "mseed_end_time": comment.get("mseed_end_time"),
+            # "detection_probability": comment.get("detection_probability"),
+            # "snr": comment.get("snr"),
+            # "sampling_rate": comment.get("sampling_rate"),
+            # "sample": comment.get("sample"),
+            # "segment": comment.get("segment"),
+            # "segment_type": comment.get("segment_type"),
+            # "station_lat": comment.get("station_lat"),
+            # "station_lon": comment.get("station_lon"),
+            # "station_elv": comment.get("station_elv"),
+            # "file_name": comment.get("file_name")
         }
+        
+        for key, value in comment.items():
+            seismonitor[key] = value
         
         loc = pick.waveform_id.location_code
         seismonitor["location"] = (
-            "" if loc is None or (isinstance(loc, (int, float)) and math.isnan(loc))
-            else "{:02d}".format(int(loc))
+            "" if loc in [None, ""] or (isinstance(loc, (int, float)) and math.isnan(loc))
+            else f"{int(loc):02d}" if isinstance(loc, (int, float)) else str(loc)
         )
-        
         seismonitor.update(pick.comments[0])
         df_data.append(seismonitor)
     
@@ -575,10 +627,10 @@ def get_picks(
         if not isinstance(picks, pd.DataFrame):
             logger.warning('There are no picks to convert.')
             return pd.DataFrame()
-        
+        # print(picks)
         pnet_cols = ["mseed_start_time", "mseed_end_time", "sampling_rate", "sample",
                     "segment", "segment_type"]
-        picks = picks[SEISMONITOR_COLUMNS + pnet_cols].sort_values('arrival_time').reset_index(drop=True)
+        picks = picks[SeisMonitor_columns + pnet_cols].sort_values('arrival_time').reset_index(drop=True)
         logger.info('Conversion pick_sample in pick_time ok. See your results in pick_df.csv.')
         
         if export:
@@ -622,6 +674,9 @@ def pick_constructor(datalist, picks, prob, wf_name, ph_type, min_prob, one_sing
         
         row = datalist_df.loc[wfpath]
         net, sta, loc, ch = row["network"], row["station"], row["location"], row["instrument_type"]
+        
+        if isinstance(loc, (int, float)) and math.isnan(loc):
+            loc = ""
         sampling_rate = (
             one_single_sampling_rate if one_single_sampling_rate != -1 else row["sampling_rate"]
         )
