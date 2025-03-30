@@ -1,0 +1,29 @@
+monitor.magnitude package
+=========================
+
+Submodules
+----------
+
+monitor.magnitude.mag module
+----------------------------
+
+.. automodule:: monitor.magnitude.mag
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+monitor.magnitude.utils module
+------------------------------
+
+.. automodule:: monitor.magnitude.utils
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: monitor.magnitude
+   :members:
+   :undoc-members:
+   :show-inheritance:

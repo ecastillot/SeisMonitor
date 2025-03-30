@@ -1,0 +1,33 @@
+monitor package
+===============
+
+Subpackages
+-----------
+
+.. toctree::
+   :maxdepth: 4
+
+   monitor.associator
+   monitor.downloader
+   monitor.locator
+   monitor.magnitude
+   monitor.picker
+
+Submodules
+----------
+
+monitor.seismonitor module
+--------------------------
+
+.. automodule:: monitor.seismonitor
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: monitor
+   :members:
+   :undoc-members:
+   :show-inheritance:
