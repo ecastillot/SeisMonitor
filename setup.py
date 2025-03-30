@@ -48,3 +48,7 @@ setup(
 # python setup.py sdist bdist_wheel
 # twine upload dist/*
 # python -m twine upload -u __token__ -p [unique_token] dist/*
+
+#pip install sphinx
+#pip install sphinx-rtd-theme
+# https://www.youtube.com/watch?v=BWIrhgCAae0&ab_channel=MariattaWijaya
