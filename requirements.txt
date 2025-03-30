@@ -5,15 +5,15 @@ GitPython
 matplotlib 
 pandas
 tqdm
+scipy
 tensorflow==2.15
-keras>=2.12
-numpy >= 1.23
+keras==2.15
+numpy~=1.24
 keyring >=15.1 
 pkginfo>=1.4.2
-scipy>=1.4.1 
 h5py>=3.8 
-gmma
-EQTransformer
+# gmma
+# EQTransformer
 
 
 # keras == 2.3.1
