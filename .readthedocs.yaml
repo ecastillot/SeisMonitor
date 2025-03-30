@@ -4,8 +4,7 @@ version: 2
 build:
   image: "latest"  # Use the latest available image
   docker_image: "readthedocs/sphinx-build"  # Docker image to use for building
-  # Optionally, you can specify a custom build type (default: 'sphinx')
-  type: "sphinx"
+  type: "sphinx"  # Set the build type to sphinx
 
 # Python version to use for building the docs
 python:
