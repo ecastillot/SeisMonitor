@@ -69,35 +69,37 @@
            <div itemprop="articleBody">
              
   <h1>Source code for SeisMonitor.core.client</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">This script provides an example of a client class for a specific data structure archive on a local filesystem.</span>
+<span></span><span class="c1"># /**</span>
+<span class="c1">#  * @author [Emmanuel Castillo]</span>
+<span class="c1">#  * @email [ecastillot@unal.edu.co]</span>
+<span class="c1">#  * @create date 2022-03-17 08:53:23</span>
+<span class="c1">#  * @modify date 2022-03-17 08:53:23</span>
+<span class="c1">#  * @desc [description]</span>
+<span class="c1">#  */</span>
 
-<span class="sd">The expected directory structure is:</span>
-<span class="sd">```&quot;{root_path}&quot;,&quot;{field_name}&quot;,&quot;seedfiles&quot;,</span>
-<span class="sd">&quot;{year}-{month:02d}&quot;, &quot;{year}-{month:02d}-{day:02d}&quot;,</span>
-<span class="sd">&quot;{network}.{station}.{location}.{channel}.{year}.{julianday:03d}&quot;```</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">This script is an example to make a client class</span>
+<span class="sd">for specific data structure archive on local filesystem. </span>
 
-<span class="sd">To achieve this, the `OwnClient` class is implemented as a subclass of `SDSClient`. It inherits the functionalities </span>
-<span class="sd">of `SDSClient`, but `field_name`, `month`, and `day` are not used in `fmt` on the `SDSClient` instance. </span>
-<span class="sd">Therefore, it is necessary to override two private methods:</span>
+<span class="sd">The structure is:</span>
+<span class="sd">&quot;{root_path}&quot;,&quot;{field_name}&quot;,&quot;seedfiles&quot;,</span>
+<span class="sd">&quot;{year}-{month:02d}&quot;, &quot;{year}-{month:02d}-{day:02d}&quot;, </span>
+<span class="sd">&quot;{network}.{station}.{location}.{channel}.{year}.{julianday:03d}&quot;</span>
 
-<span class="sd">- `_get_filenames`</span>
-<span class="sd">- `_get_filename`</span>
+<span class="sd">To do this, I builded OwnClient class as SDS client subclass. </span>
+<span class="sd">It  it inherits the SDS Client functionalities.</span>
+<span class="sd">However field_name, month and day  are not used in fmt on the SDS client instance.</span>
+<span class="sd">Therefore, it&#39;s mandatory override two private functions: </span>
+<span class="sd">_get_filenames, _get_filename.</span>
 
-<span class="sd">### Parameters</span>
-<span class="sd">- **root_path** (*str*): Path to the root directory where the seismic data archive is stored.</span>
-<span class="sd">- **field_name** (*str*): Name of the field used in the local storage format.</span>
-
-<span class="sd">### Example Usage</span>
-<span class="sd">```python</span>
-<span class="sd">from obspy import UTCDateTime</span>
-
+<span class="sd">The mandatory parameters for OwnClient class is: root_path and field_name</span>
+<span class="sd">Example:</span>
+<span class="sd">---------</span>
 <span class="sd">root_path = &quot;/home/emmanuel/myarchive&quot;</span>
-<span class="sd">client = OwnClient(root_path, &quot;FIELD_1&quot;)</span>
-<span class="sd">st = client.get_waveforms(&quot;YY&quot;, &quot;XXXX&quot;, &quot;00&quot;,</span>
-<span class="sd">                          channel=&quot;HHZ&quot;,</span>
-<span class="sd">                          starttime=UTCDateTime(&quot;2022-01-02T00:01:00&quot;),</span>
-<span class="sd">                          endtime=UTCDateTime(&quot;2022-01-02T00:02:00&quot;))```</span>
+<span class="sd">client = OwnClient(root_path,&quot;FIELD_1&quot;)</span>
+<span class="sd">st = client.get_waveforms(&quot;YY&quot;,&quot;XXXX&quot;,&quot;00&quot;,</span>
+<span class="sd">                        channel=&quot;HHZ&quot;,starttime = UTCDateTime(&quot;20220102T000100&quot;),</span>
+<span class="sd">                        endtime = UTCDateTime(&quot;20220102T000200&quot;))</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">os</span> 

@@ -95,31 +95,26 @@
 </section>
 <section id="module-SeisMonitor.core.client">
 <span id="seismonitor-core-client-module"></span><h2>SeisMonitor.core.client module<a class="headerlink" href="#module-SeisMonitor.core.client" title="Link to this heading"></a></h2>
-<p>This script provides an example of a client class for a specific data structure archive on a local filesystem.</p>
-<p>The expected directory structure is:
-<code class="docutils literal notranslate"><span class="pre">`&quot;{root_path}&quot;,&quot;{field_name}&quot;,&quot;seedfiles&quot;,</span>
-<span class="pre">&quot;{year}-{month:02d}&quot;,</span> <span class="pre">&quot;{year}-{month:02d}-{day:02d}&quot;,</span>
-<span class="pre">&quot;{network}.{station}.{location}.{channel}.{year}.{julianday:03d}&quot;`</span></code></p>
-<p>To achieve this, the <cite>OwnClient</cite> class is implemented as a subclass of <cite>SDSClient</cite>. It inherits the functionalities 
-of <cite>SDSClient</cite>, but <cite>field_name</cite>, <cite>month</cite>, and <cite>day</cite> are not used in <cite>fmt</cite> on the <cite>SDSClient</cite> instance. 
-Therefore, it is necessary to override two private methods:</p>
-<ul class="simple">
-<li><p><cite>_get_filenames</cite></p></li>
-<li><p><cite>_get_filename</cite></p></li>
-</ul>
-<p>### Parameters
-- <strong>root_path</strong> (<em>str</em>): Path to the root directory where the seismic data archive is stored.
-- <strong>field_name</strong> (<em>str</em>): Name of the field used in the local storage format.</p>
-<p>### Example Usage
-<a href="#id1"><span class="problematic" id="id2">``</span></a><a href="#id3"><span class="problematic" id="id4">`</span></a>python
-from obspy import UTCDateTime</p>
-<p>root_path = “/home/emmanuel/myarchive”
-client = OwnClient(root_path, “FIELD_1”)
-st = client.get_waveforms(“YY”, “XXXX”, “00”,</p>
+<p>This script is an example to make a client class
+for specific data structure archive on local filesystem.</p>
+<p>The structure is:
+“{root_path}”,”{field_name}”,”seedfiles”,
+“{year}-{month:02d}”, “{year}-{month:02d}-{day:02d}”, 
+“{network}.{station}.{location}.{channel}.{year}.{julianday:03d}”</p>
+<p>To do this, I builded OwnClient class as SDS client subclass. 
+It  it inherits the SDS Client functionalities.
+However field_name, month and day  are not used in fmt on the SDS client instance.
+Therefore, it’s mandatory override two private functions: 
+_get_filenames, _get_filename.</p>
+<p>The mandatory parameters for OwnClient class is: root_path and field_name
+Example:
+———
+root_path = “/home/emmanuel/myarchive”
+client = OwnClient(root_path,”FIELD_1”)
+st = client.get_waveforms(“YY”,”XXXX”,”00”,</p>
 <blockquote>
-<div><p>channel=”HHZ”,
-starttime=UTCDateTime(“2022-01-02T00:01:00”),
-endtime=UTCDateTime(“2022-01-02T00:02:00”))```</p>
+<div><p>channel=”HHZ”,starttime = UTCDateTime(“20220102T000100”),
+endtime = UTCDateTime(“20220102T000200”))</p>
 </div></blockquote>
 <dl class="py class">
 <dt class="sig sig-object py" id="SeisMonitor.core.client.LocalClient">
@@ -167,8 +162,8 @@ from either an XML file or a client service.</p>
 <dt class="sig sig-object py" id="SeisMonitor.core.objects.Provider.copy">
 <span class="sig-name descname"><span class="pre">copy</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/SeisMonitor/core/objects.html#Provider.copy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SeisMonitor.core.objects.Provider.copy" title="Link to this definition"></a></dt>
 <dd><p>Creates a deep copy of the Provider instance.</p>
-<section id="id5">
-<h3>Returns:<a class="headerlink" href="#id5" title="Link to this heading"></a></h3>
+<section id="id1">
+<h3>Returns:<a class="headerlink" href="#id1" title="Link to this heading"></a></h3>
 <dl class="simple">
 <dt>Provider</dt><dd><p>A new instance of Provider with copied attributes.</p>
 </dd>
@@ -200,8 +195,8 @@ location, and time range constraints.</p>
 <dt class="sig sig-object py" id="SeisMonitor.core.utils.add_aditional_catalog_info">
 <span class="sig-prename descclassname"><span class="pre">SeisMonitor.core.utils.</span></span><span class="sig-name descname"><span class="pre">add_aditional_catalog_info</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">catalog</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">agency</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/SeisMonitor/core/utils.html#add_aditional_catalog_info"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SeisMonitor.core.utils.add_aditional_catalog_info" title="Link to this definition"></a></dt>
 <dd><p>Adds additional metadata to a seismic catalog object.</p>
-<section id="id6">
-<h3>Parameters:<a class="headerlink" href="#id6" title="Link to this heading"></a></h3>
+<section id="id2">
+<h3>Parameters:<a class="headerlink" href="#id2" title="Link to this heading"></a></h3>
 <dl class="simple">
 <dt>catalog<span class="classifier">obspy.core.event.Catalog</span></dt><dd><p>The seismic catalog to update.</p>
 </dd>
@@ -209,8 +204,8 @@ location, and time range constraints.</p>
 </dd>
 </dl>
 </section>
-<section id="id7">
-<h3>Returns:<a class="headerlink" href="#id7" title="Link to this heading"></a></h3>
+<section id="id3">
+<h3>Returns:<a class="headerlink" href="#id3" title="Link to this heading"></a></h3>
 <dl class="simple">
 <dt>catalog<span class="classifier">obspy.core.event.Catalog</span></dt><dd><p>The updated catalog object.</p>
 </dd>
@@ -222,8 +217,8 @@ location, and time range constraints.</p>
 <dt class="sig sig-object py" id="SeisMonitor.core.utils.add_aditional_event_info">
 <span class="sig-prename descclassname"><span class="pre">SeisMonitor.core.utils.</span></span><span class="sig-name descname"><span class="pre">add_aditional_event_info</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">agency</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">event_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'earthquake'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">event_type_certainty</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'suspected'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/SeisMonitor/core/utils.html#add_aditional_event_info"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SeisMonitor.core.utils.add_aditional_event_info" title="Link to this definition"></a></dt>
 <dd><p>Adds additional metadata to a seismic event object.</p>
-<section id="id8">
-<h3>Parameters:<a class="headerlink" href="#id8" title="Link to this heading"></a></h3>
+<section id="id4">
+<h3>Parameters:<a class="headerlink" href="#id4" title="Link to this heading"></a></h3>
 <dl class="simple">
 <dt>event<span class="classifier">obspy.core.event.Event</span></dt><dd><p>The seismic event to update.</p>
 </dd>
@@ -235,8 +230,8 @@ location, and time range constraints.</p>
 </dd>
 </dl>
 </section>
-<section id="id9">
-<h3>Returns:<a class="headerlink" href="#id9" title="Link to this heading"></a></h3>
+<section id="id5">
+<h3>Returns:<a class="headerlink" href="#id5" title="Link to this heading"></a></h3>
 <dl class="simple">
 <dt>event<span class="classifier">obspy.core.event.Event</span></dt><dd><p>The updated event object.</p>
 </dd>
@@ -248,8 +243,8 @@ location, and time range constraints.</p>
 <dt class="sig sig-object py" id="SeisMonitor.core.utils.add_aditional_origin_info">
 <span class="sig-prename descclassname"><span class="pre">SeisMonitor.core.utils.</span></span><span class="sig-name descname"><span class="pre">add_aditional_origin_info</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">origin</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">agency</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">region</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">earth_model_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">evaluation_mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'automatic'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">evaluation_status</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'preliminary'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/SeisMonitor/core/utils.html#add_aditional_origin_info"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SeisMonitor.core.utils.add_aditional_origin_info" title="Link to this definition"></a></dt>
 <dd><p>Adds additional metadata to a seismic origin object.</p>
-<section id="id10">
-<h3>Parameters:<a class="headerlink" href="#id10" title="Link to this heading"></a></h3>
+<section id="id6">
+<h3>Parameters:<a class="headerlink" href="#id6" title="Link to this heading"></a></h3>
 <dl class="simple">
 <dt>origin<span class="classifier">obspy.core.event.Origin</span></dt><dd><p>The seismic origin to update.</p>
 </dd>
@@ -267,8 +262,8 @@ location, and time range constraints.</p>
 </dd>
 </dl>
 </section>
-<section id="id11">
-<h3>Returns:<a class="headerlink" href="#id11" title="Link to this heading"></a></h3>
+<section id="id7">
+<h3>Returns:<a class="headerlink" href="#id7" title="Link to this heading"></a></h3>
 <dl class="simple">
 <dt>origin<span class="classifier">obspy.core.event.Origin</span></dt><dd><p>The updated origin object.</p>
 </dd>
@@ -280,8 +275,8 @@ location, and time range constraints.</p>
 <dt class="sig sig-object py" id="SeisMonitor.core.utils.get_csv_events">
 <span class="sig-prename descclassname"><span class="pre">SeisMonitor.core.utils.</span></span><span class="sig-name descname"><span class="pre">get_csv_events</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">seiscomp_file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">version</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'0.9'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">with_magnitude</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">export</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">from_format</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'SC3ML'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inside_polygon</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/SeisMonitor/core/utils.html#get_csv_events"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SeisMonitor.core.utils.get_csv_events" title="Link to this definition"></a></dt>
 <dd><p>Extracts event and pick data from a SeisComp file and returns it as Pandas DataFrames.</p>
-<section id="id12">
-<h3>Parameters<a class="headerlink" href="#id12" title="Link to this heading"></a></h3>
+<section id="id8">
+<h3>Parameters<a class="headerlink" href="#id8" title="Link to this heading"></a></h3>
 <dl class="simple">
 <dt>seiscomp_file<span class="classifier">str</span></dt><dd><p>Path to the SC3ML SeisComp file that contains information about a single event.</p>
 </dd>
@@ -297,8 +292,8 @@ location, and time range constraints.</p>
 </dd>
 </dl>
 </section>
-<section id="id13">
-<h3>Returns<a class="headerlink" href="#id13" title="Link to this heading"></a></h3>
+<section id="id9">
+<h3>Returns<a class="headerlink" href="#id9" title="Link to this heading"></a></h3>
 <dl class="simple">
 <dt>events_df<span class="classifier">pandas.DataFrame</span></dt><dd><p>DataFrame containing event information such as event ID, time, location, and magnitude.</p>
 </dd>
@@ -312,8 +307,8 @@ location, and time range constraints.</p>
 <dt class="sig sig-object py" id="SeisMonitor.core.utils.preproc_stream">
 <span class="sig-prename descclassname"><span class="pre">SeisMonitor.core.utils.</span></span><span class="sig-name descname"><span class="pre">preproc_stream</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">st</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">order</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">['normalize',</span> <span class="pre">'merge',</span> <span class="pre">'detrend',</span> <span class="pre">'taper',</span> <span class="pre">'filter']</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">decimate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">detrend</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">merge</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">normalize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resample</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">taper</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">select_networks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">select_stations</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter_networks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter_stations</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/SeisMonitor/core/utils.html#preproc_stream"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SeisMonitor.core.utils.preproc_stream" title="Link to this definition"></a></dt>
 <dd><p>Preprocesses a seismic stream according to specified operations.</p>
-<section id="id14">
-<h3>Parameters<a class="headerlink" href="#id14" title="Link to this heading"></a></h3>
+<section id="id10">
+<h3>Parameters<a class="headerlink" href="#id10" title="Link to this heading"></a></h3>
 <dl class="simple">
 <dt>st<span class="classifier">obspy.Stream</span></dt><dd><p>The seismic stream object to preprocess.</p>
 </dd>
@@ -347,8 +342,8 @@ are included. Default is an empty list.</p>
 </dd>
 </dl>
 </section>
-<section id="id15">
-<h3>Returns<a class="headerlink" href="#id15" title="Link to this heading"></a></h3>
+<section id="id11">
+<h3>Returns<a class="headerlink" href="#id11" title="Link to this heading"></a></h3>
 <dl class="simple">
 <dt>st<span class="classifier">obspy.Stream</span></dt><dd><p>The preprocessed seismic stream object.</p>
 </dd>

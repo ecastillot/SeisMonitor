@@ -1,32 +1,34 @@
+# /**
+#  * @author [Emmanuel Castillo]
+#  * @email [ecastillot@unal.edu.co]
+#  * @create date 2022-03-17 08:53:23
+#  * @modify date 2022-03-17 08:53:23
+#  * @desc [description]
+#  */
+
 """
-This script provides an example of a client class for a specific data structure archive on a local filesystem.
+This script is an example to make a client class
+for specific data structure archive on local filesystem. 
 
-The expected directory structure is:
-```"{root_path}","{field_name}","seedfiles",
-"{year}-{month:02d}", "{year}-{month:02d}-{day:02d}",
-"{network}.{station}.{location}.{channel}.{year}.{julianday:03d}"```
+The structure is:
+"{root_path}","{field_name}","seedfiles",
+"{year}-{month:02d}", "{year}-{month:02d}-{day:02d}", 
+"{network}.{station}.{location}.{channel}.{year}.{julianday:03d}"
 
-To achieve this, the `OwnClient` class is implemented as a subclass of `SDSClient`. It inherits the functionalities 
-of `SDSClient`, but `field_name`, `month`, and `day` are not used in `fmt` on the `SDSClient` instance. 
-Therefore, it is necessary to override two private methods:
+To do this, I builded OwnClient class as SDS client subclass. 
+It  it inherits the SDS Client functionalities.
+However field_name, month and day  are not used in fmt on the SDS client instance.
+Therefore, it's mandatory override two private functions: 
+_get_filenames, _get_filename.
 
-- `_get_filenames`
-- `_get_filename`
-
-### Parameters
-- **root_path** (*str*): Path to the root directory where the seismic data archive is stored.
-- **field_name** (*str*): Name of the field used in the local storage format.
-
-### Example Usage
-```python
-from obspy import UTCDateTime
-
+The mandatory parameters for OwnClient class is: root_path and field_name
+Example:
+---------
 root_path = "/home/emmanuel/myarchive"
-client = OwnClient(root_path, "FIELD_1")
-st = client.get_waveforms("YY", "XXXX", "00",
-                          channel="HHZ",
-                          starttime=UTCDateTime("2022-01-02T00:01:00"),
-                          endtime=UTCDateTime("2022-01-02T00:02:00"))```
+client = OwnClient(root_path,"FIELD_1")
+st = client.get_waveforms("YY","XXXX","00",
+                        channel="HHZ",starttime = UTCDateTime("20220102T000100"),
+                        endtime = UTCDateTime("20220102T000200"))
 """
 
 import os 
