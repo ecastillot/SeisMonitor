@@ -1,3 +1,18 @@
 sphinx
 sphinx-rtd-theme
+obspy
+pytest 
+pyproj
+GitPython
+matplotlib 
+pandas
+tqdm
+scipy
+pexpect
+tensorflow==2.15
+keras==2.15
+numpy~=1.24
+keyring >=15.1 
+pkginfo>=1.4.2
+h5py>=3.8 
 
