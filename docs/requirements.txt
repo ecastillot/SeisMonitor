@@ -15,4 +15,6 @@ numpy~=1.24
 keyring >=15.1 
 pkginfo>=1.4.2
 h5py>=3.8 
+gmma @ git+https://github.com/wayneweiqiang/GaMMA.git@1a5a5371c294727d2f814bcfd48f73bde94627b4
+EQTransformer @ git+https://github.com/ecastillot/EQTransformer.git@master
 
