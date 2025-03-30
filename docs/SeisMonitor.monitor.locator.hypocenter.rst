@@ -1,10 +1,7 @@
-SeisMonitor.monitor.locator.hypocenter package
+Hypocenter
 ==============================================
 
-Submodules
-----------
-
-SeisMonitor.monitor.locator.hypocenter.core module
+core
 --------------------------------------------------
 
 .. automodule:: SeisMonitor.monitor.locator.hypocenter.core
@@ -12,18 +9,10 @@ SeisMonitor.monitor.locator.hypocenter.core module
    :undoc-members:
    :show-inheritance:
 
-SeisMonitor.monitor.locator.hypocenter.utils module
+utils
 ---------------------------------------------------
 
 .. automodule:: SeisMonitor.monitor.locator.hypocenter.utils
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-Module contents
----------------
-
-.. automodule:: SeisMonitor.monitor.locator.hypocenter
    :members:
    :undoc-members:
    :show-inheritance:

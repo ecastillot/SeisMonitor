@@ -1,7 +1,7 @@
-SeisMonitor.plot package
+Plot
 ========================
 
-SeisMonitor.plot.picks module
+Picks (In progress)
 -----------------------------
 
 .. automodule:: SeisMonitor.plot.picks
@@ -9,7 +9,7 @@ SeisMonitor.plot.picks module
    :undoc-members:
    :show-inheritance:
 
-SeisMonitor.plot.utils module
+utils
 -----------------------------
 
 .. automodule:: SeisMonitor.plot.utils
@@ -17,10 +17,4 @@ SeisMonitor.plot.utils module
    :undoc-members:
    :show-inheritance:
 
-Module contents
----------------
 
-.. automodule:: SeisMonitor.plot
-   :members:
-   :undoc-members:
-   :show-inheritance:

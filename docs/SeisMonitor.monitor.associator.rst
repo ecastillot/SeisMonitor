@@ -1,7 +1,7 @@
 Associator
-======================================
+==========
 
-SeisMonitor.monitor.associator.ai module
+ai 
 ----------------------------------------
 
 .. automodule:: SeisMonitor.monitor.associator.ai
@@ -9,7 +9,7 @@ SeisMonitor.monitor.associator.ai module
    :undoc-members:
    :show-inheritance:
 
-SeisMonitor.monitor.associator.utils module
+utils
 -------------------------------------------
 
 .. automodule:: SeisMonitor.monitor.associator.utils

@@ -1,10 +1,10 @@
-SeisMonitor.monitor.locator.nlloc package
+Nlloc
 =========================================
 
 Submodules
 ----------
 
-SeisMonitor.monitor.locator.nlloc.nlloc module
+nlloc
 ----------------------------------------------
 
 .. automodule:: SeisMonitor.monitor.locator.nlloc.nlloc
@@ -12,7 +12,7 @@ SeisMonitor.monitor.locator.nlloc.nlloc module
    :undoc-members:
    :show-inheritance:
 
-SeisMonitor.monitor.locator.nlloc.utils module
+utils
 ----------------------------------------------
 
 .. automodule:: SeisMonitor.monitor.locator.nlloc.utils
@@ -20,10 +20,4 @@ SeisMonitor.monitor.locator.nlloc.utils module
    :undoc-members:
    :show-inheritance:
 
-Module contents
----------------
 
-.. automodule:: SeisMonitor.monitor.locator.nlloc
-   :members:
-   :undoc-members:
-   :show-inheritance:

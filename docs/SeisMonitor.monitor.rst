@@ -10,10 +10,8 @@ Monitor
    SeisMonitor.monitor.magnitude
    SeisMonitor.monitor.picker
 
-Submodules
-----------
 
-SeisMonitor.monitor.seismonitor module
+SeisMonitor (All in one)
 --------------------------------------
 
 .. automodule:: SeisMonitor.monitor.seismonitor
@@ -21,10 +19,3 @@ SeisMonitor.monitor.seismonitor module
    :undoc-members:
    :show-inheritance:
 
-Module contents
----------------
-
-.. automodule:: SeisMonitor.monitor
-   :members:
-   :undoc-members:
-   :show-inheritance:

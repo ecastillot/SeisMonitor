@@ -1,7 +1,7 @@
 Downloader
 ======================================
 
-SeisMonitor.monitor.downloader.seismonitor module
+seismonitor 
 -------------------------------------------------
 
 .. automodule:: SeisMonitor.monitor.downloader.seismonitor
@@ -9,7 +9,7 @@ SeisMonitor.monitor.downloader.seismonitor module
    :undoc-members:
    :show-inheritance:
 
-SeisMonitor.monitor.downloader.utils module
+utils 
 -------------------------------------------
 
 .. automodule:: SeisMonitor.monitor.downloader.utils

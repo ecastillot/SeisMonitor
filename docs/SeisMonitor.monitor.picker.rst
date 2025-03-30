@@ -1,7 +1,7 @@
 Picker
 ==================================
 
-SeisMonitor.monitor.picker.ai module
+ai
 ------------------------------------
 
 .. automodule:: SeisMonitor.monitor.picker.ai
@@ -9,7 +9,7 @@ SeisMonitor.monitor.picker.ai module
    :undoc-members:
    :show-inheritance:
 
-SeisMonitor.monitor.picker.utils module
+utils
 ---------------------------------------
 
 .. automodule:: SeisMonitor.monitor.picker.utils

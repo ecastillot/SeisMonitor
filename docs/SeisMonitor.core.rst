@@ -1,7 +1,7 @@
 Core
 ========================
 
-SeisMonitor.core.client module
+client
 ------------------------------
 
 .. automodule:: SeisMonitor.core.client
@@ -9,7 +9,7 @@ SeisMonitor.core.client module
    :undoc-members:
    :show-inheritance:
 
-SeisMonitor.core.objects module
+objects
 -------------------------------
 
 .. automodule:: SeisMonitor.core.objects
@@ -17,7 +17,7 @@ SeisMonitor.core.objects module
    :undoc-members:
    :show-inheritance:
 
-SeisMonitor.core.utils module
+utils
 -----------------------------
 
 .. automodule:: SeisMonitor.core.utils

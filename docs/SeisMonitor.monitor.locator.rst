@@ -8,7 +8,7 @@ Locator
    SeisMonitor.monitor.locator.hypocenter
    SeisMonitor.monitor.locator.nlloc
 
-SeisMonitor.monitor.locator.utils module
+utils
 ----------------------------------------
 
 .. automodule:: SeisMonitor.monitor.locator.utils
