@@ -7,8 +7,6 @@ pandas
 tqdm
 scipy
 pexpect
-sphinx
-sphinx_rtd_theme
 tensorflow==2.15
 keras==2.15
 numpy~=1.24
