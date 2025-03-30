@@ -41,7 +41,7 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="SeisMonitor.monitor.downloader.html">Downloader</a></li>
+<li class="toctree-l1"><a class="reference internal" href="SeisMonitor.monitor.downloader.html">SeisMonitor.monitor.downloader package</a></li>
 <li class="toctree-l1"><a class="reference internal" href="SeisMonitor.monitor.picker.html">SeisMonitor.monitor.picker package</a></li>
 <li class="toctree-l1"><a class="reference internal" href="SeisMonitor.monitor.associator.html">SeisMonitor.monitor.associator package</a></li>
 <li class="toctree-l1"><a class="reference internal" href="SeisMonitor.monitor.locator.html">SeisMonitor.monitor.locator package</a></li>
@@ -162,8 +162,12 @@
 <h2 id="D">D</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="SeisMonitor.monitor.downloader.html#SeisMonitor.monitor.downloader.seismonitor.MseedDownloader.download">download() (SeisMonitor.monitor.downloader.seismonitor.MseedDownloader method)</a>
+      <li><a href="SeisMonitor.monitor.downloader.html#SeisMonitor.monitor.downloader.obspy_mdl.MseedDownloader.download">download() (SeisMonitor.monitor.downloader.obspy_mdl.MseedDownloader method)</a>
+
+      <ul>
+        <li><a href="SeisMonitor.monitor.downloader.html#SeisMonitor.monitor.downloader.seismonitor.MseedDownloader.download">(SeisMonitor.monitor.downloader.seismonitor.MseedDownloader method)</a>
 </li>
+      </ul></li>
       <li><a href="SeisMonitor.monitor.locator.hypoDD.html#SeisMonitor.monitor.locator.hypoDD.utils.download_hypodd">download_hypodd() (in module SeisMonitor.monitor.locator.hypoDD.utils)</a>
 </li>
   </ul></td>
@@ -171,6 +175,8 @@
       <li><a href="SeisMonitor.monitor.locator.nlloc.html#SeisMonitor.monitor.locator.nlloc.utils.download_nlloc">download_nlloc() (in module SeisMonitor.monitor.locator.nlloc.utils)</a>
 </li>
       <li><a href="SeisMonitor.monitor.locator.hypocenter.html#SeisMonitor.monitor.locator.hypocenter.utils.download_seisan">download_seisan() (in module SeisMonitor.monitor.locator.hypocenter.utils)</a>
+</li>
+      <li><a href="SeisMonitor.monitor.downloader.html#SeisMonitor.monitor.downloader.utils.DownloadRestrictions">DownloadRestrictions (class in SeisMonitor.monitor.downloader.utils)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -210,18 +216,28 @@
 </li>
       <li><a href="SeisMonitor.monitor.locator.nlloc.html#SeisMonitor.monitor.locator.nlloc.utils.GenericControlStatement">GenericControlStatement (class in SeisMonitor.monitor.locator.nlloc.utils)</a>
 </li>
+      <li><a href="SeisMonitor.monitor.downloader.html#SeisMonitor.monitor.downloader.utils.get_all_sdswaveforms">get_all_sdswaveforms() (in module SeisMonitor.monitor.downloader.utils)</a>
+</li>
       <li><a href="SeisMonitor.monitor.associator.html#SeisMonitor.monitor.associator.utils.get_amplitudes_from_local_st">get_amplitudes_from_local_st() (in module SeisMonitor.monitor.associator.utils)</a>
 </li>
       <li><a href="SeisMonitor.monitor.associator.html#SeisMonitor.monitor.associator.utils.get_amplitudes_from_pick">get_amplitudes_from_pick() (in module SeisMonitor.monitor.associator.utils)</a>
 </li>
       <li><a href="SeisMonitor.monitor.locator.html#SeisMonitor.monitor.locator.utils.get_bad_and_good_events">get_bad_and_good_events() (in module SeisMonitor.monitor.locator.utils)</a>
 </li>
+      <li><a href="SeisMonitor.monitor.downloader.html#SeisMonitor.monitor.downloader.utils.get_chunktimes">get_chunktimes() (in module SeisMonitor.monitor.downloader.utils)</a>
+</li>
       <li><a href="SeisMonitor.monitor.html#SeisMonitor.monitor.seismonitor.get_chunktimes_by_provider">get_chunktimes_by_provider() (in module SeisMonitor.monitor.seismonitor)</a>
+</li>
+      <li><a href="SeisMonitor.monitor.downloader.html#SeisMonitor.monitor.downloader.utils.get_client_waveforms">get_client_waveforms() (in module SeisMonitor.monitor.downloader.utils)</a>
 </li>
       <li><a href="SeisMonitor.core.html#SeisMonitor.core.utils.get_csv_events">get_csv_events() (in module SeisMonitor.core.utils)</a>
 </li>
-      <li><a href="SeisMonitor.monitor.picker.html#SeisMonitor.monitor.picker.utils.get_filenames">get_filenames() (in module SeisMonitor.monitor.picker.utils)</a>
+      <li><a href="SeisMonitor.monitor.downloader.html#SeisMonitor.monitor.downloader.utils.get_filenames">get_filenames() (in module SeisMonitor.monitor.downloader.utils)</a>
+
+      <ul>
+        <li><a href="SeisMonitor.monitor.picker.html#SeisMonitor.monitor.picker.utils.get_filenames">(in module SeisMonitor.monitor.picker.utils)</a>
 </li>
+      </ul></li>
       <li><a href="SeisMonitor.monitor.html#SeisMonitor.monitor.seismonitor.get_folders_by_chunk">get_folders_by_chunk() (in module SeisMonitor.monitor.seismonitor)</a>
 </li>
       <li><a href="SeisMonitor.monitor.associator.html#SeisMonitor.monitor.associator.ai.get_gamma_catalog">get_gamma_catalog() (in module SeisMonitor.monitor.associator.ai)</a>
@@ -230,7 +246,13 @@
 </li>
       <li><a href="SeisMonitor.monitor.associator.html#SeisMonitor.monitor.associator.ai.get_gamma_picks">get_gamma_picks() (in module SeisMonitor.monitor.associator.ai)</a>
 </li>
+      <li><a href="SeisMonitor.monitor.downloader.html#SeisMonitor.monitor.downloader.utils.get_inv_and_json">get_inv_and_json() (in module SeisMonitor.monitor.downloader.utils)</a>
+</li>
       <li><a href="SeisMonitor.monitor.magnitude.html#SeisMonitor.monitor.magnitude.utils.get_M0_magnitude_by_pick">get_M0_magnitude_by_pick() (in module SeisMonitor.monitor.magnitude.utils)</a>
+</li>
+      <li><a href="SeisMonitor.monitor.downloader.html#SeisMonitor.monitor.downloader.utils.get_max_allowed_batch_size">get_max_allowed_batch_size() (in module SeisMonitor.monitor.downloader.utils)</a>
+</li>
+      <li><a href="SeisMonitor.monitor.downloader.html#SeisMonitor.monitor.downloader.utils.get_merged_inv_and_json">get_merged_inv_and_json() (in module SeisMonitor.monitor.downloader.utils)</a>
 </li>
       <li><a href="SeisMonitor.monitor.magnitude.html#SeisMonitor.monitor.magnitude.utils.get_Ml">get_Ml() (in module SeisMonitor.monitor.magnitude.utils)</a>
 
@@ -239,6 +261,8 @@
 </li>
       </ul></li>
       <li><a href="SeisMonitor.monitor.magnitude.html#SeisMonitor.monitor.magnitude.utils.get_Ml_magparams_by_station">get_Ml_magparams_by_station() (in module SeisMonitor.monitor.magnitude.utils)</a>
+</li>
+      <li><a href="SeisMonitor.monitor.downloader.html#SeisMonitor.monitor.downloader.utils.get_mseed_filename">get_mseed_filename() (in module SeisMonitor.monitor.downloader.utils)</a>
 </li>
       <li><a href="SeisMonitor.monitor.locator.nlloc.html#SeisMonitor.monitor.locator.nlloc.utils.GenericControlStatement.get_msg">get_msg() (SeisMonitor.monitor.locator.nlloc.utils.GenericControlStatement method)</a>
 
@@ -290,8 +314,12 @@
 </li>
       <li><a href="SeisMonitor.monitor.associator.html#SeisMonitor.monitor.associator.utils.get_seismonitor_amplitudes">get_seismonitor_amplitudes() (in module SeisMonitor.monitor.associator.utils)</a>
 </li>
-      <li><a href="SeisMonitor.monitor.magnitude.html#SeisMonitor.monitor.magnitude.mag.get_st_according2preference">get_st_according2preference() (in module SeisMonitor.monitor.magnitude.mag)</a>
+      <li><a href="SeisMonitor.monitor.downloader.html#SeisMonitor.monitor.downloader.utils.get_st_according2preference">get_st_according2preference() (in module SeisMonitor.monitor.downloader.utils)</a>
+
+      <ul>
+        <li><a href="SeisMonitor.monitor.magnitude.html#SeisMonitor.monitor.magnitude.mag.get_st_according2preference">(in module SeisMonitor.monitor.magnitude.mag)</a>
 </li>
+      </ul></li>
       <li><a href="SeisMonitor.monitor.associator.html#SeisMonitor.monitor.associator.utils.get_stations_gamma_df">get_stations_gamma_df() (in module SeisMonitor.monitor.associator.utils)</a>
 </li>
       <li><a href="SeisMonitor.plot.html#SeisMonitor.plot.utils.get_streamer_plot">get_streamer_plot() (in module SeisMonitor.plot.utils)</a>
@@ -326,6 +354,8 @@
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="SeisMonitor.monitor.downloader.html#SeisMonitor.monitor.downloader.utils.inside_the_polygon">inside_the_polygon() (in module SeisMonitor.monitor.downloader.utils)</a>
+</li>
       <li><a href="SeisMonitor.html#SeisMonitor.utils.isfile">isfile() (in module SeisMonitor.utils)</a>
 </li>
   </ul></td>
@@ -402,7 +432,13 @@
 </li>
         <li><a href="SeisMonitor.monitor.associator.html#module-SeisMonitor.monitor.associator.utils">SeisMonitor.monitor.associator.utils</a>
 </li>
+        <li><a href="SeisMonitor.monitor.downloader.html#module-SeisMonitor.monitor.downloader">SeisMonitor.monitor.downloader</a>
+</li>
+        <li><a href="SeisMonitor.monitor.downloader.html#module-SeisMonitor.monitor.downloader.obspy_mdl">SeisMonitor.monitor.downloader.obspy_mdl</a>
+</li>
         <li><a href="SeisMonitor.monitor.downloader.html#module-SeisMonitor.monitor.downloader.seismonitor">SeisMonitor.monitor.downloader.seismonitor</a>
+</li>
+        <li><a href="SeisMonitor.monitor.downloader.html#module-SeisMonitor.monitor.downloader.utils">SeisMonitor.monitor.downloader.utils</a>
 </li>
         <li><a href="SeisMonitor.monitor.locator.html#module-SeisMonitor.monitor.locator">SeisMonitor.monitor.locator</a>
 </li>
@@ -453,8 +489,12 @@
       </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="SeisMonitor.monitor.downloader.html#SeisMonitor.monitor.downloader.seismonitor.MseedDownloader">MseedDownloader (class in SeisMonitor.monitor.downloader.seismonitor)</a>
+      <li><a href="SeisMonitor.monitor.downloader.html#SeisMonitor.monitor.downloader.obspy_mdl.MseedDownloader">MseedDownloader (class in SeisMonitor.monitor.downloader.obspy_mdl)</a>
+
+      <ul>
+        <li><a href="SeisMonitor.monitor.downloader.html#SeisMonitor.monitor.downloader.seismonitor.MseedDownloader">(class in SeisMonitor.monitor.downloader.seismonitor)</a>
 </li>
+      </ul></li>
       <li><a href="SeisMonitor.monitor.picker.html#SeisMonitor.monitor.picker.utils.mv_mseed2onefolder">mv_mseed2onefolder() (in module SeisMonitor.monitor.picker.utils)</a>
 </li>
       <li><a href="SeisMonitor.monitor.picker.html#SeisMonitor.monitor.picker.utils.mv_mseed2stationfolder">mv_mseed2stationfolder() (in module SeisMonitor.monitor.picker.utils)</a>
@@ -523,6 +563,8 @@
 </li>
       <li><a href="SeisMonitor.html#SeisMonitor.utils.printlog">printlog() (in module SeisMonitor.utils)</a>
 </li>
+      <li><a href="SeisMonitor.monitor.downloader.html#SeisMonitor.monitor.downloader.obspy_mdl.process">process() (in module SeisMonitor.monitor.downloader.obspy_mdl)</a>
+</li>
       <li><a href="SeisMonitor.core.html#SeisMonitor.core.objects.Processing">Processing (class in SeisMonitor.core.objects)</a>
 </li>
       <li><a href="SeisMonitor.core.html#SeisMonitor.core.objects.Provider">Provider (class in SeisMonitor.core.objects)</a>
@@ -576,6 +618,8 @@
       <li><a href="SeisMonitor.monitor.html#SeisMonitor.monitor.seismonitor.sanitize_downloads">sanitize_downloads() (in module SeisMonitor.monitor.seismonitor)</a>
 </li>
       <li><a href="SeisMonitor.monitor.html#SeisMonitor.monitor.seismonitor.sanitize_pick_batch_size">sanitize_pick_batch_size() (in module SeisMonitor.monitor.seismonitor)</a>
+</li>
+      <li><a href="SeisMonitor.monitor.downloader.html#SeisMonitor.monitor.downloader.utils.sanitize_provider_times">sanitize_provider_times() (in module SeisMonitor.monitor.downloader.utils)</a>
 </li>
       <li>
     SeisMonitor
@@ -643,10 +687,31 @@
 </li>
       </ul></li>
       <li>
+    SeisMonitor.monitor.downloader
+
+      <ul>
+        <li><a href="SeisMonitor.monitor.downloader.html#module-SeisMonitor.monitor.downloader">module</a>
+</li>
+      </ul></li>
+      <li>
+    SeisMonitor.monitor.downloader.obspy_mdl
+
+      <ul>
+        <li><a href="SeisMonitor.monitor.downloader.html#module-SeisMonitor.monitor.downloader.obspy_mdl">module</a>
+</li>
+      </ul></li>
+      <li>
     SeisMonitor.monitor.downloader.seismonitor
 
       <ul>
         <li><a href="SeisMonitor.monitor.downloader.html#module-SeisMonitor.monitor.downloader.seismonitor">module</a>
+</li>
+      </ul></li>
+      <li>
+    SeisMonitor.monitor.downloader.utils
+
+      <ul>
+        <li><a href="SeisMonitor.monitor.downloader.html#module-SeisMonitor.monitor.downloader.utils">module</a>
 </li>
       </ul></li>
       <li>
@@ -698,6 +763,8 @@
         <li><a href="SeisMonitor.monitor.locator.hypoDD.html#module-SeisMonitor.monitor.locator.hypoDD.utils">module</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li>
     SeisMonitor.monitor.locator.nlloc
 
@@ -705,8 +772,6 @@
         <li><a href="SeisMonitor.monitor.locator.nlloc.html#module-SeisMonitor.monitor.locator.nlloc">module</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li>
     SeisMonitor.monitor.locator.nlloc.nlloc
 
@@ -820,6 +885,8 @@
         <li><a href="SeisMonitor.monitor.locator.hypocenter.html#SeisMonitor.monitor.locator.hypocenter.utils.HypocenterTools.select">(SeisMonitor.monitor.locator.hypocenter.utils.HypocenterTools method)</a>
 </li>
       </ul></li>
+      <li><a href="SeisMonitor.monitor.downloader.html#SeisMonitor.monitor.downloader.utils.select_inventory">select_inventory() (in module SeisMonitor.monitor.downloader.utils)</a>
+</li>
       <li><a href="SeisMonitor.monitor.locator.hypoDD.html#SeisMonitor.monitor.locator.hypoDD.utils.setup_velocity_model">setup_velocity_model() (in module SeisMonitor.monitor.locator.hypoDD.utils)</a>
 </li>
       <li><a href="SeisMonitor.monitor.locator.hypocenter.html#SeisMonitor.monitor.locator.hypocenter.utils.split">split() (in module SeisMonitor.monitor.locator.hypocenter.utils)</a>
@@ -908,6 +975,8 @@
 </li>
       <li><a href="SeisMonitor.monitor.magnitude.html#SeisMonitor.monitor.magnitude.utils.write_amplitude_values">write_amplitude_values() (in module SeisMonitor.monitor.magnitude.utils)</a>
 </li>
+      <li><a href="SeisMonitor.monitor.downloader.html#SeisMonitor.monitor.downloader.utils.write_client_waveforms">write_client_waveforms() (in module SeisMonitor.monitor.downloader.utils)</a>
+</li>
       <li><a href="SeisMonitor.monitor.locator.hypoDD.html#SeisMonitor.monitor.locator.hypoDD.utils.write_hypoDD_inp_file">write_hypoDD_inp_file() (in module SeisMonitor.monitor.locator.hypoDD.utils)</a>
 </li>
   </ul></td>
@@ -925,6 +994,8 @@
       <li><a href="SeisMonitor.monitor.locator.nlloc.html#SeisMonitor.monitor.locator.nlloc.utils.write_pref_origin_removing_phaselocinfo">write_pref_origin_removing_phaselocinfo() (in module SeisMonitor.monitor.locator.nlloc.utils)</a>
 </li>
       <li><a href="SeisMonitor.monitor.locator.nlloc.html#SeisMonitor.monitor.locator.nlloc.utils.write_station_file">write_station_file() (in module SeisMonitor.monitor.locator.nlloc.utils)</a>
+</li>
+      <li><a href="SeisMonitor.monitor.downloader.html#SeisMonitor.monitor.downloader.utils.write_stream">write_stream() (in module SeisMonitor.monitor.downloader.utils)</a>
 </li>
   </ul></td>
 </tr></table>
