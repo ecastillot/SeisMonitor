@@ -1,9 +1,6 @@
 SeisMonitor.monitor.downloader package
 ======================================
 
-Submodules
-----------
-
 SeisMonitor.monitor.downloader.obspy\_mdl module
 ------------------------------------------------
 
@@ -28,10 +25,3 @@ SeisMonitor.monitor.downloader.utils module
    :undoc-members:
    :show-inheritance:
 
-Module contents
----------------
-
-.. automodule:: SeisMonitor.monitor.downloader
-   :members:
-   :undoc-members:
-   :show-inheritance:

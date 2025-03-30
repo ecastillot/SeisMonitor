@@ -15,6 +15,10 @@ documentation for details.
    :maxdepth: 2
    :caption: Contents:
 
-   modules
+   SeisMonitor.monitor.downloader
+   SeisMonitor.monitor.picker
+   SeisMonitor.monitor.associator
+   SeisMonitor.monitor.locator
+   SeisMonitor.monitor.magnitude
 
 

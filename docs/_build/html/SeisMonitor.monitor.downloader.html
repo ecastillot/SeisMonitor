@@ -18,7 +18,9 @@
       <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" /> 
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="SeisMonitor.monitor.picker package" href="SeisMonitor.monitor.picker.html" />
+    <link rel="prev" title="SeisMonitor documentation" href="index.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -41,8 +43,48 @@
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="modules.html">SeisMonitor</a></li>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">SeisMonitor.monitor.downloader package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#module-SeisMonitor.monitor.downloader.obspy_mdl">SeisMonitor.monitor.downloader.obspy_mdl module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#SeisMonitor.monitor.downloader.obspy_mdl.MseedDownloader"><code class="docutils literal notranslate"><span class="pre">MseedDownloader</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#SeisMonitor.monitor.downloader.obspy_mdl.MseedDownloader.download"><code class="docutils literal notranslate"><span class="pre">MseedDownloader.download()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#SeisMonitor.monitor.downloader.obspy_mdl.process"><code class="docutils literal notranslate"><span class="pre">process()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-SeisMonitor.monitor.downloader.seismonitor">SeisMonitor.monitor.downloader.seismonitor module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#SeisMonitor.monitor.downloader.seismonitor.MseedDownloader"><code class="docutils literal notranslate"><span class="pre">MseedDownloader</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#SeisMonitor.monitor.downloader.seismonitor.MseedDownloader.download"><code class="docutils literal notranslate"><span class="pre">MseedDownloader.download()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#SeisMonitor.monitor.downloader.seismonitor.MseedDownloader.make_inv_and_json"><code class="docutils literal notranslate"><span class="pre">MseedDownloader.make_inv_and_json()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-SeisMonitor.monitor.downloader.utils">SeisMonitor.monitor.downloader.utils module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#SeisMonitor.monitor.downloader.utils.DownloadRestrictions"><code class="docutils literal notranslate"><span class="pre">DownloadRestrictions</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#SeisMonitor.monitor.downloader.utils.get_all_sdswaveforms"><code class="docutils literal notranslate"><span class="pre">get_all_sdswaveforms()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#SeisMonitor.monitor.downloader.utils.get_chunktimes"><code class="docutils literal notranslate"><span class="pre">get_chunktimes()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#SeisMonitor.monitor.downloader.utils.get_client_waveforms"><code class="docutils literal notranslate"><span class="pre">get_client_waveforms()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#SeisMonitor.monitor.downloader.utils.get_filenames"><code class="docutils literal notranslate"><span class="pre">get_filenames()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#SeisMonitor.monitor.downloader.utils.get_inv_and_json"><code class="docutils literal notranslate"><span class="pre">get_inv_and_json()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#SeisMonitor.monitor.downloader.utils.get_max_allowed_batch_size"><code class="docutils literal notranslate"><span class="pre">get_max_allowed_batch_size()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#SeisMonitor.monitor.downloader.utils.get_merged_inv_and_json"><code class="docutils literal notranslate"><span class="pre">get_merged_inv_and_json()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#SeisMonitor.monitor.downloader.utils.get_mseed_filename"><code class="docutils literal notranslate"><span class="pre">get_mseed_filename()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#SeisMonitor.monitor.downloader.utils.get_st_according2preference"><code class="docutils literal notranslate"><span class="pre">get_st_according2preference()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#SeisMonitor.monitor.downloader.utils.inside_the_polygon"><code class="docutils literal notranslate"><span class="pre">inside_the_polygon()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#SeisMonitor.monitor.downloader.utils.sanitize_provider_times"><code class="docutils literal notranslate"><span class="pre">sanitize_provider_times()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#SeisMonitor.monitor.downloader.utils.select_inventory"><code class="docutils literal notranslate"><span class="pre">select_inventory()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#SeisMonitor.monitor.downloader.utils.write_client_waveforms"><code class="docutils literal notranslate"><span class="pre">write_client_waveforms()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#SeisMonitor.monitor.downloader.utils.write_stream"><code class="docutils literal notranslate"><span class="pre">write_stream()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="SeisMonitor.monitor.picker.html">SeisMonitor.monitor.picker package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="SeisMonitor.monitor.associator.html">SeisMonitor.monitor.associator package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="SeisMonitor.monitor.locator.html">SeisMonitor.monitor.locator package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="SeisMonitor.monitor.magnitude.html">SeisMonitor.monitor.magnitude package</a></li>
 </ul>
 
         </div>
@@ -71,9 +113,6 @@
              
   <section id="seismonitor-monitor-downloader-package">
 <h1>SeisMonitor.monitor.downloader package<a class="headerlink" href="#seismonitor-monitor-downloader-package" title="Link to this heading"></a></h1>
-<section id="submodules">
-<h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading"></a></h2>
-</section>
 <section id="module-SeisMonitor.monitor.downloader.obspy_mdl">
 <span id="seismonitor-monitor-downloader-obspy-mdl-module"></span><h2>SeisMonitor.monitor.downloader.obspy_mdl module<a class="headerlink" href="#module-SeisMonitor.monitor.downloader.obspy_mdl" title="Link to this heading"></a></h2>
 <dl class="py class">
@@ -398,15 +437,15 @@ ppc_and_comment (list): [preprocessed_flag, comment]</p>
 </dd></dl>
 
 </section>
-<section id="module-SeisMonitor.monitor.downloader">
-<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-SeisMonitor.monitor.downloader" title="Link to this heading"></a></h2>
-</section>
 </section>
 
 
            </div>
           </div>
-          <footer>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="SeisMonitor documentation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="SeisMonitor.monitor.picker.html" class="btn btn-neutral float-right" title="SeisMonitor.monitor.picker package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
 
   <hr/>
 
