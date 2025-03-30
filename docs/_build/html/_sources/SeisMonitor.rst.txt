@@ -19,21 +19,21 @@ SeisMonitor.utils module
 
 .. automodule:: SeisMonitor.utils
    :members:
-   :show-inheritance:
    :undoc-members:
+   :show-inheritance:
 
 SeisMonitor.utils4examples module
 ---------------------------------
 
 .. automodule:: SeisMonitor.utils4examples
    :members:
-   :show-inheritance:
    :undoc-members:
+   :show-inheritance:
 
 Module contents
 ---------------
 
 .. automodule:: SeisMonitor
    :members:
-   :show-inheritance:
    :undoc-members:
+   :show-inheritance:

@@ -1,0 +1,388 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SeisMonitor package &mdash; SeisMonitor 0.0.56 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=8f83b1af"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="SeisMonitor.core package" href="SeisMonitor.core.html" />
+    <link rel="prev" title="SeisMonitor" href="modules.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            SeisMonitor
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">SeisMonitor</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">SeisMonitor package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#subpackages">Subpackages</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="SeisMonitor.core.html">SeisMonitor.core package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="SeisMonitor.monitor.html">SeisMonitor.monitor package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="SeisMonitor.plot.html">SeisMonitor.plot package</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#submodules">Submodules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-SeisMonitor.utils">SeisMonitor.utils module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#SeisMonitor.utils.isfile"><code class="docutils literal notranslate"><span class="pre">isfile()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#SeisMonitor.utils.printlog"><code class="docutils literal notranslate"><span class="pre">printlog()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#SeisMonitor.utils.validate"><code class="docutils literal notranslate"><span class="pre">validate()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-SeisMonitor.utils4examples">SeisMonitor.utils4examples module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#SeisMonitor.utils4examples.clone_seismonitor_data"><code class="docutils literal notranslate"><span class="pre">clone_seismonitor_data()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#SeisMonitor.utils4examples.quick_download"><code class="docutils literal notranslate"><span class="pre">quick_download()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-SeisMonitor">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">SeisMonitor</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="modules.html">SeisMonitor</a></li>
+      <li class="breadcrumb-item active">SeisMonitor package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/SeisMonitor.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="seismonitor-package">
+<h1>SeisMonitor package<a class="headerlink" href="#seismonitor-package" title="Link to this heading"></a></h1>
+<section id="subpackages">
+<h2>Subpackages<a class="headerlink" href="#subpackages" title="Link to this heading"></a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="SeisMonitor.core.html">SeisMonitor.core package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="SeisMonitor.core.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="SeisMonitor.core.html#module-SeisMonitor.core.client">SeisMonitor.core.client module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="SeisMonitor.core.html#SeisMonitor.core.client.LocalClient"><code class="docutils literal notranslate"><span class="pre">LocalClient</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="SeisMonitor.core.html#module-SeisMonitor.core.objects">SeisMonitor.core.objects module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="SeisMonitor.core.html#SeisMonitor.core.objects.Processing"><code class="docutils literal notranslate"><span class="pre">Processing</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="SeisMonitor.core.html#SeisMonitor.core.objects.Processing.run"><code class="docutils literal notranslate"><span class="pre">Processing.run()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="SeisMonitor.core.html#SeisMonitor.core.objects.Provider"><code class="docutils literal notranslate"><span class="pre">Provider</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="SeisMonitor.core.html#SeisMonitor.core.objects.Provider.copy"><code class="docutils literal notranslate"><span class="pre">Provider.copy()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="SeisMonitor.core.html#SeisMonitor.core.objects.WaveformRestrictions"><code class="docutils literal notranslate"><span class="pre">WaveformRestrictions</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="SeisMonitor.core.html#module-SeisMonitor.core.utils">SeisMonitor.core.utils module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="SeisMonitor.core.html#SeisMonitor.core.utils.add_aditional_catalog_info"><code class="docutils literal notranslate"><span class="pre">add_aditional_catalog_info()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="SeisMonitor.core.html#SeisMonitor.core.utils.add_aditional_event_info"><code class="docutils literal notranslate"><span class="pre">add_aditional_event_info()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="SeisMonitor.core.html#SeisMonitor.core.utils.add_aditional_origin_info"><code class="docutils literal notranslate"><span class="pre">add_aditional_origin_info()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="SeisMonitor.core.html#SeisMonitor.core.utils.get_csv_events"><code class="docutils literal notranslate"><span class="pre">get_csv_events()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="SeisMonitor.core.html#SeisMonitor.core.utils.preproc_stream"><code class="docutils literal notranslate"><span class="pre">preproc_stream()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="SeisMonitor.core.html#module-SeisMonitor.core">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="SeisMonitor.monitor.html">SeisMonitor.monitor package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="SeisMonitor.monitor.html#subpackages">Subpackages</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="SeisMonitor.monitor.associator.html">SeisMonitor.monitor.associator package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="SeisMonitor.monitor.associator.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="SeisMonitor.monitor.associator.html#module-SeisMonitor.monitor.associator.ai">SeisMonitor.monitor.associator.ai module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="SeisMonitor.monitor.associator.html#module-SeisMonitor.monitor.associator.utils">SeisMonitor.monitor.associator.utils module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="SeisMonitor.monitor.associator.html#module-SeisMonitor.monitor.associator">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="SeisMonitor.monitor.downloader.html">SeisMonitor.monitor.downloader package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="SeisMonitor.monitor.downloader.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="SeisMonitor.monitor.downloader.html#module-SeisMonitor.monitor.downloader.obspy_mdl">SeisMonitor.monitor.downloader.obspy_mdl module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="SeisMonitor.monitor.downloader.html#module-SeisMonitor.monitor.downloader.seismonitor">SeisMonitor.monitor.downloader.seismonitor module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="SeisMonitor.monitor.downloader.html#module-SeisMonitor.monitor.downloader.utils">SeisMonitor.monitor.downloader.utils module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="SeisMonitor.monitor.downloader.html#module-SeisMonitor.monitor.downloader">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="SeisMonitor.monitor.locator.html">SeisMonitor.monitor.locator package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="SeisMonitor.monitor.locator.html#subpackages">Subpackages</a></li>
+<li class="toctree-l4"><a class="reference internal" href="SeisMonitor.monitor.locator.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="SeisMonitor.monitor.locator.html#module-SeisMonitor.monitor.locator.utils">SeisMonitor.monitor.locator.utils module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="SeisMonitor.monitor.locator.html#module-SeisMonitor.monitor.locator">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="SeisMonitor.monitor.magnitude.html">SeisMonitor.monitor.magnitude package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="SeisMonitor.monitor.magnitude.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="SeisMonitor.monitor.magnitude.html#module-SeisMonitor.monitor.magnitude.mag">SeisMonitor.monitor.magnitude.mag module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="SeisMonitor.monitor.magnitude.html#module-SeisMonitor.monitor.magnitude.utils">SeisMonitor.monitor.magnitude.utils module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="SeisMonitor.monitor.magnitude.html#module-SeisMonitor.monitor.magnitude">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="SeisMonitor.monitor.picker.html">SeisMonitor.monitor.picker package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="SeisMonitor.monitor.picker.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="SeisMonitor.monitor.picker.html#module-SeisMonitor.monitor.picker.ai">SeisMonitor.monitor.picker.ai module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="SeisMonitor.monitor.picker.html#module-SeisMonitor.monitor.picker.utils">SeisMonitor.monitor.picker.utils module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="SeisMonitor.monitor.picker.html#module-SeisMonitor.monitor.picker">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="SeisMonitor.monitor.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="SeisMonitor.monitor.html#module-SeisMonitor.monitor.seismonitor">SeisMonitor.monitor.seismonitor module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="SeisMonitor.monitor.html#SeisMonitor.monitor.seismonitor.SeisMonitor"><code class="docutils literal notranslate"><span class="pre">SeisMonitor</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="SeisMonitor.monitor.html#SeisMonitor.monitor.seismonitor.SeisMonitor.add_associator"><code class="docutils literal notranslate"><span class="pre">SeisMonitor.add_associator()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="SeisMonitor.monitor.html#SeisMonitor.monitor.seismonitor.SeisMonitor.add_downloader"><code class="docutils literal notranslate"><span class="pre">SeisMonitor.add_downloader()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="SeisMonitor.monitor.html#SeisMonitor.monitor.seismonitor.SeisMonitor.add_locator"><code class="docutils literal notranslate"><span class="pre">SeisMonitor.add_locator()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="SeisMonitor.monitor.html#SeisMonitor.monitor.seismonitor.SeisMonitor.add_magnitude"><code class="docutils literal notranslate"><span class="pre">SeisMonitor.add_magnitude()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="SeisMonitor.monitor.html#SeisMonitor.monitor.seismonitor.SeisMonitor.add_picker"><code class="docutils literal notranslate"><span class="pre">SeisMonitor.add_picker()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="SeisMonitor.monitor.html#SeisMonitor.monitor.seismonitor.SeisMonitor.run"><code class="docutils literal notranslate"><span class="pre">SeisMonitor.run()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="SeisMonitor.monitor.html#SeisMonitor.monitor.seismonitor.get_chunktimes_by_provider"><code class="docutils literal notranslate"><span class="pre">get_chunktimes_by_provider()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="SeisMonitor.monitor.html#SeisMonitor.monitor.seismonitor.get_folders_by_chunk"><code class="docutils literal notranslate"><span class="pre">get_folders_by_chunk()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="SeisMonitor.monitor.html#SeisMonitor.monitor.seismonitor.get_preproc_providers"><code class="docutils literal notranslate"><span class="pre">get_preproc_providers()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="SeisMonitor.monitor.html#SeisMonitor.monitor.seismonitor.sanitize_downloads"><code class="docutils literal notranslate"><span class="pre">sanitize_downloads()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="SeisMonitor.monitor.html#SeisMonitor.monitor.seismonitor.sanitize_pick_batch_size"><code class="docutils literal notranslate"><span class="pre">sanitize_pick_batch_size()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="SeisMonitor.monitor.html#module-SeisMonitor.monitor">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="SeisMonitor.plot.html">SeisMonitor.plot package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="SeisMonitor.plot.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="SeisMonitor.plot.html#module-SeisMonitor.plot.picks">SeisMonitor.plot.picks module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="SeisMonitor.plot.html#SeisMonitor.plot.picks.Streamer"><code class="docutils literal notranslate"><span class="pre">Streamer</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="SeisMonitor.plot.html#SeisMonitor.plot.picks.Streamer.plot"><code class="docutils literal notranslate"><span class="pre">Streamer.plot()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="SeisMonitor.plot.html#SeisMonitor.plot.picks.Streamer.plot_by_station"><code class="docutils literal notranslate"><span class="pre">Streamer.plot_by_station()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="SeisMonitor.plot.html#SeisMonitor.plot.picks.Tracer"><code class="docutils literal notranslate"><span class="pre">Tracer</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="SeisMonitor.plot.html#SeisMonitor.plot.picks.Tracer.plot"><code class="docutils literal notranslate"><span class="pre">Tracer.plot()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="SeisMonitor.plot.html#module-SeisMonitor.plot.utils">SeisMonitor.plot.utils module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="SeisMonitor.plot.html#SeisMonitor.plot.utils.get_multiple_picker_figure"><code class="docutils literal notranslate"><span class="pre">get_multiple_picker_figure()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="SeisMonitor.plot.html#SeisMonitor.plot.utils.get_ordered_info"><code class="docutils literal notranslate"><span class="pre">get_ordered_info()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="SeisMonitor.plot.html#SeisMonitor.plot.utils.get_ordered_streams"><code class="docutils literal notranslate"><span class="pre">get_ordered_streams()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="SeisMonitor.plot.html#SeisMonitor.plot.utils.get_picks"><code class="docutils literal notranslate"><span class="pre">get_picks()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="SeisMonitor.plot.html#SeisMonitor.plot.utils.get_plot_by_station"><code class="docutils literal notranslate"><span class="pre">get_plot_by_station()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="SeisMonitor.plot.html#SeisMonitor.plot.utils.get_proc_tr"><code class="docutils literal notranslate"><span class="pre">get_proc_tr()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="SeisMonitor.plot.html#SeisMonitor.plot.utils.get_streamer_plot"><code class="docutils literal notranslate"><span class="pre">get_streamer_plot()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="SeisMonitor.plot.html#SeisMonitor.plot.utils.plot_multiple_picker"><code class="docutils literal notranslate"><span class="pre">plot_multiple_picker()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="SeisMonitor.plot.html#module-SeisMonitor.plot">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading"></a></h2>
+</section>
+<section id="module-SeisMonitor.utils">
+<span id="seismonitor-utils-module"></span><h2>SeisMonitor.utils module<a class="headerlink" href="#module-SeisMonitor.utils" title="Link to this heading"></a></h2>
+<p>Utils functions used in the SeisMonitor Module</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="SeisMonitor.utils.isfile">
+<span class="sig-prename descclassname"><span class="pre">SeisMonitor.utils.</span></span><span class="sig-name descname"><span class="pre">isfile</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filepath</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">overwrite</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/SeisMonitor/utils.html#isfile"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SeisMonitor.utils.isfile" title="Link to this definition"></a></dt>
+<dd><p>Parameters:
+filepath: file path will be saved
+Returns:
+Make the directories needed to save the file.
+If the file is already exist, then ask to the user if want to replace it.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="SeisMonitor.utils.printlog">
+<span class="sig-prename descclassname"><span class="pre">SeisMonitor.utils.</span></span><span class="sig-name descname"><span class="pre">printlog</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">levelname</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">configure_logging</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/SeisMonitor/utils.html#printlog"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SeisMonitor.utils.printlog" title="Link to this definition"></a></dt>
+<dd><section id="parameters">
+<h3>Parameters:<a class="headerlink" href="#parameters" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>levelname: str</dt><dd><p>logger levelname
+available: “info”,”warning,”error”</p>
+</dd>
+<dt>name: str</dt><dd><p>Subject</p>
+</dd>
+<dt>msg: str</dt><dd><p>Message that you want to print</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="SeisMonitor.utils.validate">
+<span class="sig-prename descclassname"><span class="pre">SeisMonitor.utils.</span></span><span class="sig-name descname"><span class="pre">validate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">func</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">locals</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/SeisMonitor/utils.html#validate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SeisMonitor.utils.validate" title="Link to this definition"></a></dt>
+<dd><p>Validates the types of arguments in a function according to the annotations defined in the function.</p>
+<section id="id1">
+<h3>Parameters<a class="headerlink" href="#id1" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>func<span class="classifier">function</span></dt><dd><p>The function whose arguments are being validated.</p>
+</dd>
+<dt>locals<span class="classifier">dict</span></dt><dd><p>A dictionary of the local variables (arguments) to be validated, typically passed using <cite>locals()</cite>.</p>
+</dd>
+</dl>
+</section>
+<section id="returns">
+<h3>Returns<a class="headerlink" href="#returns" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>None</dt><dd><p>This function does not return a value. It raises an AssertionError if an argument does not match its expected type.</p>
+</dd>
+</dl>
+</section>
+<section id="raises">
+<h3>Raises<a class="headerlink" href="#raises" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>AssertionError</dt><dd><p>If any argument does not match the expected type as defined in the function’s annotations.</p>
+</dd>
+</dl>
+</section>
+<section id="notes">
+<h3>Notes<a class="headerlink" href="#notes" title="Link to this heading"></a></h3>
+<p>The function compares the actual argument values in <cite>locals</cite> with the expected types defined in the <cite>__annotations__</cite> attribute of <cite>func</cite>.
+If the type check fails, an error message is raised indicating which argument failed and the expected type(s).</p>
+</section>
+</dd></dl>
+
+</section>
+<section id="module-SeisMonitor.utils4examples">
+<span id="seismonitor-utils4examples-module"></span><h2>SeisMonitor.utils4examples module<a class="headerlink" href="#module-SeisMonitor.utils4examples" title="Link to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="SeisMonitor.utils4examples.clone_seismonitor_data">
+<span class="sig-prename descclassname"><span class="pre">SeisMonitor.utils4examples.</span></span><span class="sig-name descname"><span class="pre">clone_seismonitor_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">output_folder</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">branch</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/SeisMonitor/utils4examples.html#clone_seismonitor_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SeisMonitor.utils4examples.clone_seismonitor_data" title="Link to this definition"></a></dt>
+<dd><p>Clones the SeisMonitor repository from GitHub into a specified folder.</p>
+<section id="id2">
+<h3>Parameters<a class="headerlink" href="#id2" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>output_folder<span class="classifier">str</span></dt><dd><p>The path to the folder where the repository will be cloned.</p>
+</dd>
+<dt>branch<span class="classifier">str</span></dt><dd><p>The branch of the repository to clone.</p>
+</dd>
+</dl>
+</section>
+<section id="id3">
+<h3>Returns<a class="headerlink" href="#id3" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>bool</dt><dd><p>Returns True if the cloning operation was successful.</p>
+</dd>
+</dl>
+</section>
+<section id="id4">
+<h3>Notes<a class="headerlink" href="#id4" title="Link to this heading"></a></h3>
+<p>If the target folder already exists, it will be removed before cloning the repository.</p>
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="SeisMonitor.utils4examples.quick_download">
+<span class="sig-prename descclassname"><span class="pre">SeisMonitor.utils4examples.</span></span><span class="sig-name descname"><span class="pre">quick_download</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">out_download_folder</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/SeisMonitor/utils4examples.html#quick_download"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SeisMonitor.utils4examples.quick_download" title="Link to this definition"></a></dt>
+<dd><p>Downloads waveform data from the Colombian Seismological Network (SGC) for a predefined time period and location range.</p>
+<section id="id5">
+<h3>Parameters<a class="headerlink" href="#id5" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>out_download_folder<span class="classifier">str</span></dt><dd><p>The path to the folder where the downloaded data will be stored.</p>
+</dd>
+</dl>
+</section>
+<section id="id6">
+<h3>Returns<a class="headerlink" href="#id6" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>None</dt><dd><p>This function does not return any values but saves the downloaded data in the specified folder.</p>
+</dd>
+</dl>
+</section>
+<section id="id7">
+<h3>Notes<a class="headerlink" href="#id7" title="Link to this heading"></a></h3>
+<p>This function defines a specific time window (from 2019-12-24T19:00 to 2019-12-25T01:00) and a set of stations.
+The data is downloaded in MiniSEED format, and metadata is also saved as a JSON file.</p>
+</section>
+<section id="side-effects">
+<h3>Side Effects<a class="headerlink" href="#side-effects" title="Link to this heading"></a></h3>
+<p>Downloads waveform data into the given folder, including creating directories if needed.</p>
+</section>
+</dd></dl>
+
+</section>
+<section id="module-SeisMonitor">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-SeisMonitor" title="Link to this heading"></a></h2>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="modules.html" class="btn btn-neutral float-left" title="SeisMonitor" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="SeisMonitor.core.html" class="btn btn-neutral float-right" title="SeisMonitor.core package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Emmanuel Castillo.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

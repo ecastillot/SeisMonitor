@@ -311,9 +311,9 @@ def make_dataframe(mseed, json_path, filter_net=None, filter_sta=None, filter_ch
 
 
 def make_phasenet_datalist(
-    datadir, json_path, datalist_path, channel_list=None,
-    filter_network=None, filter_station=None, **kwargs
-):
+        datadir, json_path, datalist_path, channel_list=None,
+        filter_network=None, filter_station=None, **kwargs
+    ):
     """Create PhaseNet datalist CSV file.
     
     Args:
@@ -323,7 +323,7 @@ def make_phasenet_datalist(
         channel_list (list, optional): Channels to include
         filter_network (list, optional): Networks to exclude
         filter_station (list, optional): Stations to exclude
-        **kwargs: Additional keyword arguments
+        kwargs: Additional keyword arguments
         
     Returns:
         str: Directory containing the datalist

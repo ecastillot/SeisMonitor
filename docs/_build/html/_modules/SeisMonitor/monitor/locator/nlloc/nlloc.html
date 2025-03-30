@@ -1,0 +1,545 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SeisMonitor.monitor.locator.nlloc.nlloc &mdash; SeisMonitor 0.0.57 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../../../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../../../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../../../_static/documentation_options.js?v=2bfb35b6"></script>
+      <script src="../../../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../../../index.html" class="icon icon-home">
+            SeisMonitor
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../modules.html">SeisMonitor</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../../index.html">SeisMonitor</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">SeisMonitor.monitor.locator.nlloc.nlloc</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for SeisMonitor.monitor.locator.nlloc.nlloc</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">glob</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">posixpath</span><span class="w"> </span><span class="kn">import</span> <span class="n">basename</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">shutil</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Union</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">concurrent.futures</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">cf</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">obspy.core.event.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">CreationInfo</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">obspy.core.event.catalog</span><span class="w"> </span><span class="kn">import</span> <span class="n">Catalog</span><span class="p">,</span> <span class="n">read_events</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">obspy.geodetics.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">gps2dist_azimuth</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">obspy.io.nlloc.core</span><span class="w"> </span><span class="kn">import</span> <span class="n">read_nlloc_hyp</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">obspy.core.event.resourceid</span><span class="w"> </span><span class="kn">import</span> <span class="n">ResourceIdentifier</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">obspy</span><span class="w"> </span><span class="kn">import</span> <span class="n">UTCDateTime</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">subprocess</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">tqdm</span><span class="w"> </span><span class="kn">import</span> <span class="n">tqdm</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">utils</span> <span class="k">as</span> <span class="n">ut</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">SeisMonitor</span><span class="w"> </span><span class="kn">import</span> <span class="n">utils</span> <span class="k">as</span> <span class="n">sut</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">SeisMonitor.core</span><span class="w"> </span><span class="kn">import</span> <span class="n">utils</span> <span class="k">as</span> <span class="n">scut</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">SeisMonitor.monitor.locator</span><span class="w"> </span><span class="kn">import</span> <span class="n">utils</span> <span class="k">as</span> <span class="n">slut</span>
+
+
+<div class="viewcode-block" id="NLLoc">
+<a class="viewcode-back" href="../../../../../SeisMonitor.monitor.locator.nlloc.html#SeisMonitor.monitor.locator.nlloc.nlloc.NLLoc">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">NLLoc</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;NonLinLoc seismic event locator class.</span>
+
+<span class="sd">    This class implements the NonLinLoc algorithm for locating seismic events</span>
+<span class="sd">    using velocity models and station information.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">core_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">agency</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">region</span><span class="p">:</span> <span class="nb">list</span><span class="p">,</span>
+        <span class="n">vel_model</span><span class="p">:</span> <span class="n">slut</span><span class="o">.</span><span class="n">VelModel</span><span class="p">,</span>
+        <span class="n">stations</span><span class="p">:</span> <span class="n">slut</span><span class="o">.</span><span class="n">Stations</span><span class="p">,</span>
+        <span class="n">delta_in_km</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span>
+        <span class="n">kwargs_for_trans</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="p">{},</span>
+        <span class="n">kwargs_for_vel2grid</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="p">{},</span>
+        <span class="n">kwargs_for_grid2time</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="p">{},</span>
+        <span class="n">kwargs_for_time2loc</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="p">{},</span>
+        <span class="n">tmp_folder</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">(),</span>
+        <span class="n">exhaustively</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">search_in_degrees</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="p">[],</span>
+        <span class="n">rm_attempts</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize NLLoc locator instance.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            core_path: Path to NonLinLoc core directory</span>
+<span class="sd">            agency: Agency identifier string</span>
+<span class="sd">            region: List of [lon_w, lon_e, lat_s, lat_n, z_min, z_max]</span>
+<span class="sd">            vel_model: Velocity model object</span>
+<span class="sd">            stations: Station information object</span>
+<span class="sd">            delta_in_km: Grid spacing in kilometers</span>
+<span class="sd">            kwargs_for_trans: Transformation parameters</span>
+<span class="sd">            kwargs_for_vel2grid: Vel2Grid parameters</span>
+<span class="sd">            kwargs_for_grid2time: Grid2Time parameters</span>
+<span class="sd">            kwargs_for_time2loc: Time2Loc parameters</span>
+<span class="sd">            tmp_folder: Temporary working directory</span>
+<span class="sd">            exhaustively: Whether to perform exhaustive search</span>
+<span class="sd">            search_in_degrees: Degrees for exhaustive search</span>
+<span class="sd">            rm_attempts: Remove temporary attempt files</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">paths</span> <span class="o">=</span> <span class="n">ut</span><span class="o">.</span><span class="n">testing_nlloc_core_path</span><span class="p">(</span><span class="n">core_path</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">core_path</span> <span class="o">=</span> <span class="n">core_path</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nlloc_paths</span> <span class="o">=</span> <span class="n">paths</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">agency</span> <span class="o">=</span> <span class="n">agency</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">region</span> <span class="o">=</span> <span class="n">region</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">vel_model</span> <span class="o">=</span> <span class="n">vel_model</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">stations</span> <span class="o">=</span> <span class="n">stations</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">basic_inputs</span> <span class="o">=</span> <span class="n">slut</span><span class="o">.</span><span class="n">LocatorBasicInputs</span><span class="p">(</span>
+            <span class="n">vel_model</span><span class="o">=</span><span class="n">vel_model</span><span class="p">,</span>
+            <span class="n">stations</span><span class="o">=</span><span class="n">stations</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">delta_in_km</span> <span class="o">=</span> <span class="n">delta_in_km</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">kwargs_for_trans</span> <span class="o">=</span> <span class="n">kwargs_for_trans</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">kwargs_for_vel2grid</span> <span class="o">=</span> <span class="n">kwargs_for_vel2grid</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">kwargs_for_grid2time</span> <span class="o">=</span> <span class="n">kwargs_for_grid2time</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">kwargs_for_time2loc</span> <span class="o">=</span> <span class="n">kwargs_for_time2loc</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tmp_folder</span> <span class="o">=</span> <span class="n">tmp_folder</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">rm_attempts</span> <span class="o">=</span> <span class="n">rm_attempts</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">exhaustively</span> <span class="o">=</span> <span class="n">exhaustively</span>
+        <span class="k">if</span> <span class="n">exhaustively</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">search_in_degrees</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">search_in_degrees</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">reversed</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">)))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">search_in_degrees</span> <span class="o">=</span> <span class="n">search_in_degrees</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">__initialize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">write_nlloc_files</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Prepare input files and parameters for location process.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            write_nlloc_files: Whether to write NLLoc control files</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Set up file paths</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">vel_model_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tmp_folder</span><span class="p">,</span> <span class="s2">&quot;vel_model.dat&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">station_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tmp_folder</span><span class="p">,</span> <span class="s2">&quot;station.dat&quot;</span><span class="p">)</span>
+        
+        <span class="c1"># Create/overwrite input files</span>
+        <span class="n">sut</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">vel_model_path</span><span class="p">,</span> <span class="n">overwrite</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">basic_inputs</span><span class="o">.</span><span class="n">vel_model</span><span class="o">.</span><span class="n">to_nlloc</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">vel_model_path</span><span class="p">)</span>
+        <span class="n">sut</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">station_path</span><span class="p">,</span> <span class="n">overwrite</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">basic_inputs</span><span class="o">.</span><span class="n">stations</span><span class="o">.</span><span class="n">to_nlloc</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">station_path</span><span class="p">)</span>
+
+        <span class="c1"># Define output directories</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">grid_folder_out</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tmp_folder</span><span class="p">,</span> <span class="s2">&quot;model&quot;</span><span class="p">,</span> <span class="s2">&quot;layer&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">time_folder_out</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tmp_folder</span><span class="p">,</span> <span class="s2">&quot;time&quot;</span><span class="p">,</span> <span class="s2">&quot;layer&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">loc_folder_out</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tmp_folder</span><span class="p">,</span> <span class="s2">&quot;loc&quot;</span><span class="p">,</span> <span class="s2">&quot;SeisMonitor&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">p_control_file_out</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tmp_folder</span><span class="p">,</span> <span class="s2">&quot;p_nlloc.in&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">s_control_file_out</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tmp_folder</span><span class="p">,</span> <span class="s2">&quot;s_nlloc.in&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Prepare grid parameters</span>
+        <span class="n">grid_args</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_prepare_grid_args</span><span class="p">()</span>
+
+        <span class="c1"># Update grid arguments with kwargs if provided</span>
+        <span class="n">grid_args</span><span class="o">.</span><span class="n">update</span><span class="p">({</span>
+            <span class="s2">&quot;trans&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">kwargs_for_trans</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;trans&quot;</span><span class="p">,</span> <span class="n">grid_args</span><span class="p">[</span><span class="s2">&quot;trans&quot;</span><span class="p">]),</span>
+            <span class="s2">&quot;velgrid&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">kwargs_for_vel2grid</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;grid&quot;</span><span class="p">,</span> <span class="n">grid_args</span><span class="p">[</span><span class="s2">&quot;velgrid&quot;</span><span class="p">]),</span>
+            <span class="s2">&quot;locgrid&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">kwargs_for_grid2time</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;grid&quot;</span><span class="p">,</span> <span class="n">grid_args</span><span class="p">[</span><span class="s2">&quot;locgrid&quot;</span><span class="p">])</span>
+        <span class="p">})</span>
+
+        <span class="c1"># Create control objects</span>
+        <span class="n">gen_control</span> <span class="o">=</span> <span class="n">ut</span><span class="o">.</span><span class="n">GenericControlStatement</span><span class="p">(</span><span class="n">trans</span><span class="o">=</span><span class="n">grid_args</span><span class="p">[</span><span class="s2">&quot;trans&quot;</span><span class="p">])</span>
+        <span class="n">gen_vel2grid</span> <span class="o">=</span> <span class="n">ut</span><span class="o">.</span><span class="n">Vel2Grid</span><span class="p">(</span>
+            <span class="n">vel_path</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">vel_model_path</span><span class="p">,</span>
+            <span class="n">grid_folder_out</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">grid_folder_out</span><span class="p">,</span>
+            <span class="n">grid</span><span class="o">=</span><span class="n">grid_args</span><span class="p">[</span><span class="s2">&quot;velgrid&quot;</span><span class="p">]</span>
+        <span class="p">)</span>
+        <span class="n">p_grid2time</span> <span class="o">=</span> <span class="n">ut</span><span class="o">.</span><span class="n">Grid2Time</span><span class="p">(</span>
+            <span class="n">station_path</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">station_path</span><span class="p">,</span>
+            <span class="n">grid_folder_out</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">grid_folder_out</span><span class="p">,</span>
+            <span class="n">time_folder_out</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">time_folder_out</span><span class="p">,</span>
+            <span class="n">phase</span><span class="o">=</span><span class="s2">&quot;P&quot;</span>
+        <span class="p">)</span>
+        <span class="n">s_grid2time</span> <span class="o">=</span> <span class="n">ut</span><span class="o">.</span><span class="n">Grid2Time</span><span class="p">(</span>
+            <span class="n">station_path</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">station_path</span><span class="p">,</span>
+            <span class="n">grid_folder_out</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">grid_folder_out</span><span class="p">,</span>
+            <span class="n">time_folder_out</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">time_folder_out</span><span class="p">,</span>
+            <span class="n">phase</span><span class="o">=</span><span class="s2">&quot;S&quot;</span>
+        <span class="p">)</span>
+
+        <span class="c1"># Prepare catalog output</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">catalog_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tmp_folder</span><span class="p">,</span> <span class="s2">&quot;catalog.out&quot;</span><span class="p">)</span>
+        <span class="n">sut</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">catalog_path</span><span class="p">,</span> <span class="n">overwrite</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="nb">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">catalog_path</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="n">gen_time2loc</span> <span class="o">=</span> <span class="n">ut</span><span class="o">.</span><span class="n">Time2Loc</span><span class="p">(</span>
+            <span class="n">catalog</span><span class="o">=</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">catalog_path</span><span class="p">,</span> <span class="s2">&quot;SEISAN&quot;</span><span class="p">],</span>
+            <span class="n">grid</span><span class="o">=</span><span class="n">grid_args</span><span class="p">[</span><span class="s2">&quot;locgrid&quot;</span><span class="p">],</span>
+            <span class="n">time_folder_out</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">time_folder_out</span><span class="p">,</span>
+            <span class="n">loc_folder_out</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">loc_folder_out</span>
+        <span class="p">)</span>
+
+        <span class="k">def</span><span class="w"> </span><span class="nf">write_each_nlloc_file</span><span class="p">(</span><span class="n">nlloc_and_out</span><span class="p">):</span>
+<span class="w">            </span><span class="sd">&quot;&quot;&quot;Helper function to write NLLoc control files.&quot;&quot;&quot;</span>
+            <span class="n">nlloc</span><span class="p">,</span> <span class="n">out</span> <span class="o">=</span> <span class="n">nlloc_and_out</span>
+            <span class="n">nlloc</span><span class="o">.</span><span class="n">write</span><span class="p">(</span>
+                <span class="n">out</span><span class="p">,</span>
+                <span class="n">vel2grid</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                <span class="n">grid2time</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                <span class="n">time2loc</span><span class="o">=</span><span class="kc">True</span>
+            <span class="p">)</span>
+            <span class="k">return</span> <span class="kc">True</span>
+
+        <span class="c1"># Create control files for P and S phases</span>
+        <span class="n">p_nlloc</span> <span class="o">=</span> <span class="n">ut</span><span class="o">.</span><span class="n">NLLocControlFile</span><span class="p">(</span><span class="n">gen_control</span><span class="p">,</span> <span class="n">gen_vel2grid</span><span class="p">,</span> <span class="n">p_grid2time</span><span class="p">,</span> <span class="n">gen_time2loc</span><span class="p">)</span>
+        <span class="n">s_nlloc</span> <span class="o">=</span> <span class="n">ut</span><span class="o">.</span><span class="n">NLLocControlFile</span><span class="p">(</span><span class="n">gen_control</span><span class="p">,</span> <span class="n">gen_vel2grid</span><span class="p">,</span> <span class="n">s_grid2time</span><span class="p">,</span> <span class="n">gen_time2loc</span><span class="p">)</span>
+        <span class="n">nlloc_control_files</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="p">(</span><span class="n">p_nlloc</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">p_control_file_out</span><span class="p">),</span>
+            <span class="p">(</span><span class="n">s_nlloc</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">s_control_file_out</span><span class="p">)</span>
+        <span class="p">]</span>
+
+        <span class="k">if</span> <span class="n">write_nlloc_files</span><span class="p">:</span>
+            <span class="c1"># Write control files using single-threaded executor</span>
+            <span class="k">with</span> <span class="n">cf</span><span class="o">.</span><span class="n">ThreadPoolExecutor</span><span class="p">(</span><span class="n">max_workers</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="k">as</span> <span class="n">executor</span><span class="p">:</span>
+                <span class="n">executor</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">write_each_nlloc_file</span><span class="p">,</span> <span class="n">nlloc_control_files</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">nll_control_file</span> <span class="o">=</span> <span class="n">p_nlloc</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_prepare_grid_args</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Calculate grid parameters based on region and delta.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Dictionary containing transformation, velocity grid, and location grid parameters</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">lon_w</span><span class="p">,</span> <span class="n">lon_e</span><span class="p">,</span> <span class="n">lat_s</span><span class="p">,</span> <span class="n">lat_n</span><span class="p">,</span> <span class="n">z_min</span><span class="p">,</span> <span class="n">z_max</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">region</span>
+
+        <span class="c1"># Calculate center point</span>
+        <span class="n">c_lat</span> <span class="o">=</span> <span class="p">(</span><span class="n">lat_s</span> <span class="o">+</span> <span class="n">lat_n</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>
+        <span class="n">c_lon</span> <span class="o">=</span> <span class="p">(</span><span class="n">lon_w</span> <span class="o">+</span> <span class="n">lon_e</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>
+
+        <span class="c1"># Calculate grid dimensions in km</span>
+        <span class="n">x</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">gps2dist_azimuth</span><span class="p">(</span><span class="n">lat_s</span><span class="p">,</span> <span class="n">lon_w</span><span class="p">,</span> <span class="n">lat_s</span><span class="p">,</span> <span class="n">c_lon</span><span class="p">)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">x</span> <span class="o">/</span> <span class="mf">1e3</span>  <span class="c1"># Convert to km</span>
+        <span class="n">x_num</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">x</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">delta_in_km</span><span class="p">)</span>
+        
+        <span class="n">y</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">gps2dist_azimuth</span><span class="p">(</span><span class="n">lat_s</span><span class="p">,</span> <span class="n">lon_w</span><span class="p">,</span> <span class="n">c_lat</span><span class="p">,</span> <span class="n">lon_w</span><span class="p">)</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="n">y</span> <span class="o">/</span> <span class="mf">1e3</span>  <span class="c1"># Convert to km</span>
+        <span class="n">y_num</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">y</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">delta_in_km</span><span class="p">)</span>
+
+        <span class="n">z_num</span> <span class="o">=</span> <span class="nb">int</span><span class="p">((</span><span class="n">z_max</span> <span class="o">-</span> <span class="n">z_min</span><span class="p">)</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">delta_in_km</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s2">&quot;trans&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;SIMPLE&quot;</span><span class="p">,</span> <span class="n">c_lat</span><span class="p">,</span> <span class="n">c_lon</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+            <span class="s2">&quot;velgrid&quot;</span><span class="p">:</span> <span class="p">[</span>
+                <span class="n">x_num</span><span class="p">,</span> <span class="n">y_num</span><span class="p">,</span> <span class="n">z_num</span><span class="p">,</span>
+                <span class="o">-</span><span class="nb">round</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="o">-</span><span class="nb">round</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="nb">round</span><span class="p">(</span><span class="n">z_min</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">delta_in_km</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">delta_in_km</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">delta_in_km</span><span class="p">,</span>
+                <span class="s2">&quot;SLOW_LEN&quot;</span>
+            <span class="p">],</span>
+            <span class="s2">&quot;locgrid&quot;</span><span class="p">:</span> <span class="p">[</span>
+                <span class="n">x_num</span><span class="p">,</span> <span class="n">y_num</span><span class="p">,</span> <span class="n">z_num</span><span class="p">,</span>
+                <span class="o">-</span><span class="nb">round</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="o">-</span><span class="nb">round</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="nb">round</span><span class="p">(</span><span class="n">z_min</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">delta_in_km</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">delta_in_km</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">delta_in_km</span><span class="p">,</span>
+                <span class="s2">&quot;PROB_DENSITY&quot;</span><span class="p">,</span> <span class="s2">&quot;SAVE&quot;</span>
+            <span class="p">]</span>
+        <span class="p">}</span>
+
+<div class="viewcode-block" id="NLLoc.compute_travel_times">
+<a class="viewcode-back" href="../../../../../SeisMonitor.monitor.locator.nlloc.html#SeisMonitor.monitor.locator.nlloc.nlloc.NLLoc.compute_travel_times">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">compute_travel_times</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute travel times using velocity model and station locations.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__initialize</span><span class="p">()</span>
+        
+        <span class="n">sut</span><span class="o">.</span><span class="n">printlog</span><span class="p">(</span><span class="s2">&quot;info&quot;</span><span class="p">,</span> <span class="s2">&quot;NLLoc:Vel2Grid&quot;</span><span class="p">,</span> <span class="s2">&quot;Running&quot;</span><span class="p">)</span>
+        <span class="n">subprocess</span><span class="o">.</span><span class="n">call</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">nlloc_paths</span><span class="p">[</span><span class="s1">&#39;vel2grid_exe_path&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">p_control_file_out</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+            <span class="n">shell</span><span class="o">=</span><span class="kc">True</span>
+        <span class="p">)</span>
+        
+        <span class="n">sut</span><span class="o">.</span><span class="n">printlog</span><span class="p">(</span><span class="s2">&quot;info&quot;</span><span class="p">,</span> <span class="s2">&quot;NLLoc:Grid2Time:P&quot;</span><span class="p">,</span> <span class="s2">&quot;Running&quot;</span><span class="p">)</span>
+        <span class="n">subprocess</span><span class="o">.</span><span class="n">call</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">nlloc_paths</span><span class="p">[</span><span class="s1">&#39;grid2time_exe_path&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">p_control_file_out</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+            <span class="n">shell</span><span class="o">=</span><span class="kc">True</span>
+        <span class="p">)</span>
+        
+        <span class="n">sut</span><span class="o">.</span><span class="n">printlog</span><span class="p">(</span><span class="s2">&quot;info&quot;</span><span class="p">,</span> <span class="s2">&quot;NLLoc:Grid2Time:S&quot;</span><span class="p">,</span> <span class="s2">&quot;Running&quot;</span><span class="p">)</span>
+        <span class="n">subprocess</span><span class="o">.</span><span class="n">call</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">nlloc_paths</span><span class="p">[</span><span class="s1">&#39;grid2time_exe_path&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">s_control_file_out</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+            <span class="n">shell</span><span class="o">=</span><span class="kc">True</span>
+        <span class="p">)</span></div>
+
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_locate</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">catalog</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Catalog</span><span class="p">,</span> <span class="nb">str</span><span class="p">],</span>
+        <span class="n">nlloc_out_folder</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">out_filename</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;locations.xml&quot;</span><span class="p">,</span>
+        <span class="n">out_format</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;SC3ML&quot;</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Catalog</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Perform single-pass event location.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            catalog: Input catalog or path to catalog file</span>
+<span class="sd">            nlloc_out_folder: Output directory</span>
+<span class="sd">            out_filename: Output filename</span>
+<span class="sd">            out_format: Output format</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Located event catalog</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">catalog</span> <span class="o">=</span> <span class="n">catalog</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">catalog</span><span class="p">,</span> <span class="n">Catalog</span><span class="p">)</span> <span class="k">else</span> <span class="n">read_events</span><span class="p">(</span><span class="n">catalog</span><span class="p">)</span>
+
+        <span class="c1"># Set up file paths</span>
+        <span class="n">nlloc_inp</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">nlloc_out_folder</span><span class="p">,</span> <span class="s2">&quot;catalog_input.inp&quot;</span><span class="p">)</span>
+        <span class="n">nlloc_folder</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">nlloc_out_folder</span><span class="p">,</span> <span class="s2">&quot;nlloc&quot;</span><span class="p">,</span> <span class="s2">&quot;SeisMonitor&quot;</span><span class="p">)</span>
+        <span class="n">nlloc_out</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">nlloc_out_folder</span><span class="p">,</span> <span class="n">out_filename</span><span class="p">)</span>
+        <span class="n">nlloc_control</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">nlloc_out_folder</span><span class="p">,</span> <span class="s2">&quot;loc.in&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Write input catalog</span>
+        <span class="n">sut</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">nlloc_inp</span><span class="p">,</span> <span class="n">overwrite</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">catalog</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">nlloc_inp</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s2">&quot;NORDIC&quot;</span><span class="p">)</span>
+
+        <span class="n">picks_from_unproc_catalog</span> <span class="o">=</span> <span class="n">slut</span><span class="o">.</span><span class="n">get_picks</span><span class="p">(</span><span class="n">catalog</span><span class="p">)</span>
+
+        <span class="c1"># Initialize if needed and update control file</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">nlloc_control_file</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">nll_control_file</span>
+        <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__initialize</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+            <span class="n">nlloc_control_file</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">nll_control_file</span>
+
+        <span class="n">nlloc_control_file</span><span class="o">.</span><span class="n">time2loc</span><span class="o">.</span><span class="n">catalog</span> <span class="o">=</span> <span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">((</span><span class="n">nlloc_inp</span><span class="p">,</span> <span class="s2">&quot;SEISAN&quot;</span><span class="p">))</span>
+        <span class="n">nlloc_control_file</span><span class="o">.</span><span class="n">time2loc</span><span class="o">.</span><span class="n">loc_folder_out</span> <span class="o">=</span> <span class="n">nlloc_folder</span>
+        <span class="n">nlloc_control_file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">nlloc_control</span><span class="p">)</span>
+
+        <span class="c1"># Run location</span>
+        <span class="n">sut</span><span class="o">.</span><span class="n">printlog</span><span class="p">(</span><span class="s2">&quot;info&quot;</span><span class="p">,</span> <span class="s2">&quot;NLLoc:NLLoc&quot;</span><span class="p">,</span> <span class="s2">&quot;Running&quot;</span><span class="p">)</span>
+        <span class="n">subprocess</span><span class="o">.</span><span class="n">call</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">nlloc_paths</span><span class="p">[</span><span class="s1">&#39;nll_exe_path&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">nlloc_control</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+            <span class="n">shell</span><span class="o">=</span><span class="kc">True</span>
+        <span class="p">)</span>
+
+        <span class="c1"># Process results</span>
+        <span class="n">all_events</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">path</span> <span class="ow">in</span> <span class="n">tqdm</span><span class="p">(</span><span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="n">nlloc_folder</span> <span class="o">+</span> <span class="s2">&quot;*.hyp&quot;</span><span class="p">)):</span>
+            <span class="n">file_base</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+            <span class="n">date</span> <span class="o">=</span> <span class="n">file_base</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">date</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;sum&quot;</span><span class="p">,</span> <span class="s2">&quot;last.hyp&quot;</span><span class="p">]:</span>
+                <span class="k">continue</span>
+                
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">catalog</span> <span class="o">=</span> <span class="n">read_nlloc_hyp</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s2">&quot;NORDIC&quot;</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unread: </span><span class="si">{</span><span class="n">path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="k">continue</span>
+
+            <span class="k">for</span> <span class="n">ev</span> <span class="ow">in</span> <span class="n">catalog</span><span class="o">.</span><span class="n">events</span><span class="p">:</span>
+                <span class="n">ori_pref</span> <span class="o">=</span> <span class="n">ev</span><span class="o">.</span><span class="n">preferred_origin</span><span class="p">()</span>
+                <span class="n">ori_pref</span> <span class="o">=</span> <span class="n">scut</span><span class="o">.</span><span class="n">add_aditional_origin_info</span><span class="p">(</span>
+                    <span class="n">ori_pref</span><span class="p">,</span>
+                    <span class="n">agency</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">agency</span><span class="p">,</span>
+                    <span class="n">method_id</span><span class="o">=</span><span class="s2">&quot;NLLOC&quot;</span><span class="p">,</span>
+                    <span class="n">earth_model_id</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">vel_model</span><span class="o">.</span><span class="n">model_name</span>
+                <span class="p">)</span>
+                <span class="n">ev</span><span class="o">.</span><span class="n">preferred_origin_id</span> <span class="o">=</span> <span class="n">ori_pref</span><span class="o">.</span><span class="n">resource_id</span><span class="o">.</span><span class="n">id</span>
+                <span class="n">ev</span> <span class="o">=</span> <span class="n">slut</span><span class="o">.</span><span class="n">changing_picks_info</span><span class="p">(</span><span class="n">ev</span><span class="p">,</span> <span class="n">picks_from_unproc_catalog</span><span class="p">)</span>
+                <span class="n">ev</span> <span class="o">=</span> <span class="n">scut</span><span class="o">.</span><span class="n">add_aditional_event_info</span><span class="p">(</span><span class="n">ev</span><span class="p">,</span> <span class="n">agency</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">agency</span><span class="p">)</span>
+                <span class="n">all_events</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ev</span><span class="p">)</span>
+
+        <span class="n">catalog</span> <span class="o">=</span> <span class="n">Catalog</span><span class="p">(</span><span class="n">events</span><span class="o">=</span><span class="n">all_events</span><span class="p">)</span>
+        <span class="n">catalog</span> <span class="o">=</span> <span class="n">scut</span><span class="o">.</span><span class="n">add_aditional_catalog_info</span><span class="p">(</span><span class="n">catalog</span><span class="p">,</span> <span class="n">agency</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">agency</span><span class="p">)</span>
+        
+        <span class="n">sut</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">nlloc_out</span><span class="p">)</span>
+        <span class="n">catalog</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">nlloc_out</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="n">out_format</span><span class="p">)</span>
+        <span class="n">sut</span><span class="o">.</span><span class="n">printlog</span><span class="p">(</span><span class="s2">&quot;info&quot;</span><span class="p">,</span> <span class="s2">&quot;NLLoc:NLLoc&quot;</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;Finished. See your results in </span><span class="si">{</span><span class="n">nlloc_out</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        
+        <span class="k">return</span> <span class="n">catalog</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_iterlocate</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">catalog</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Catalog</span><span class="p">,</span> <span class="nb">str</span><span class="p">],</span>
+        <span class="n">nlloc_out_folder</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">out_filename</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;locations.xml&quot;</span><span class="p">,</span>
+        <span class="n">out_format</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;SC3ML&quot;</span><span class="p">,</span>
+        <span class="n">degrees</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mf">2.5</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+        <span class="n">rm_attempts</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Catalog</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Perform iterative event location with decreasing distance thresholds.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            catalog: Input catalog or path</span>
+<span class="sd">            nlloc_out_folder: Output directory</span>
+<span class="sd">            out_filename: Output filename</span>
+<span class="sd">            out_format: Output format</span>
+<span class="sd">            degrees: List of distance thresholds</span>
+<span class="sd">            rm_attempts: Remove temporary files</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Located event catalog</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">nlloc_out</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">nlloc_out_folder</span><span class="p">,</span> <span class="n">out_filename</span><span class="p">)</span>
+        <span class="n">reloc_catalog</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_locate</span><span class="p">(</span>
+            <span class="n">catalog</span><span class="p">,</span>
+            <span class="n">nlloc_out_folder</span><span class="p">,</span>
+            <span class="n">out_filename</span><span class="o">=</span><span class="s2">&quot;base.xml&quot;</span><span class="p">,</span>
+            <span class="n">out_format</span><span class="o">=</span><span class="s2">&quot;SC3ML&quot;</span>
+        <span class="p">)</span>
+
+        <span class="n">good_evs</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">bad_catalog</span> <span class="o">=</span> <span class="n">reloc_catalog</span>
+        <span class="n">iter_count</span> <span class="o">=</span> <span class="mi">0</span>
+        
+        <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="n">good_events</span><span class="p">,</span> <span class="n">bad_events</span> <span class="o">=</span> <span class="n">slut</span><span class="o">.</span><span class="n">get_bad_and_good_events</span><span class="p">(</span><span class="n">bad_catalog</span><span class="p">)</span>
+            <span class="n">good_evs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">good_events</span><span class="p">)</span>
+            <span class="n">degree</span> <span class="o">=</span> <span class="n">degrees</span><span class="p">[</span><span class="n">iter_count</span><span class="p">]</span>
+            
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">bad_events</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;convergence in </span><span class="si">{</span><span class="n">iter_count</span><span class="si">}</span><span class="s2"> iterations, &quot;</span>
+                    <span class="sa">f</span><span class="s2">&quot;only stations with distance &lt; </span><span class="si">{</span><span class="n">degrees</span><span class="p">[</span><span class="n">iter_count</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2"> degrees&quot;</span>
+                    <span class="k">if</span> <span class="n">iter_count</span> <span class="o">&gt;</span> <span class="mi">0</span>
+                    <span class="k">else</span> <span class="s2">&quot;convergence without iterate&quot;</span>
+                <span class="p">)</span>
+                <span class="k">break</span>
+                
+            <span class="n">bad_events</span> <span class="o">=</span> <span class="n">slut</span><span class="o">.</span><span class="n">filter_arrivals_by_distance</span><span class="p">(</span><span class="n">bad_events</span><span class="p">,</span> <span class="n">degree</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">bad_events</span><span class="p">:</span>
+                <span class="k">break</span>
+                
+            <span class="n">bad_catalog</span> <span class="o">=</span> <span class="n">Catalog</span><span class="p">(</span><span class="n">bad_events</span><span class="p">)</span>
+            <span class="n">tmp_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">nlloc_out_folder</span><span class="p">,</span> <span class="s2">&quot;tmp&quot;</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;deg_</span><span class="si">{</span><span class="n">degree</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">bad_catalog</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_locate</span><span class="p">(</span>
+                <span class="n">bad_catalog</span><span class="p">,</span>
+                <span class="n">tmp_path</span><span class="p">,</span>
+                <span class="n">out_filename</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">iter_count</span><span class="si">}</span><span class="s2">.xml&quot;</span><span class="p">,</span>
+                <span class="n">out_format</span><span class="o">=</span><span class="s2">&quot;SC3ML&quot;</span>
+            <span class="p">)</span>
+            <span class="n">iter_count</span> <span class="o">+=</span> <span class="mi">1</span>
+
+        <span class="n">good_evs</span> <span class="o">=</span> <span class="p">[</span><span class="n">y</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">good_evs</span> <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">x</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">good_evs</span><span class="p">:</span>
+            <span class="n">reloc_catalog</span><span class="o">.</span><span class="n">events</span> <span class="o">=</span> <span class="n">good_evs</span>
+
+        <span class="n">sut</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">nlloc_out</span><span class="p">)</span>
+        <span class="n">reloc_catalog</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">nlloc_out</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="n">out_format</span><span class="p">)</span>
+        <span class="n">sut</span><span class="o">.</span><span class="n">printlog</span><span class="p">(</span><span class="s2">&quot;info&quot;</span><span class="p">,</span> <span class="s2">&quot;NLLoc:NLLoc&quot;</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;Finished. See your results in </span><span class="si">{</span><span class="n">nlloc_out</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        
+        <span class="k">if</span> <span class="n">rm_attempts</span><span class="p">:</span>
+            <span class="n">shutil</span><span class="o">.</span><span class="n">rmtree</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">nlloc_out_folder</span><span class="p">,</span> <span class="s2">&quot;tmp&quot;</span><span class="p">))</span>
+
+        <span class="k">return</span> <span class="n">reloc_catalog</span>
+
+<div class="viewcode-block" id="NLLoc.locate">
+<a class="viewcode-back" href="../../../../../SeisMonitor.monitor.locator.nlloc.html#SeisMonitor.monitor.locator.nlloc.nlloc.NLLoc.locate">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">locate</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">catalog</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Catalog</span><span class="p">,</span> <span class="nb">str</span><span class="p">],</span>
+        <span class="n">nlloc_out_folder</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">out_filename</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;locations.xml&quot;</span><span class="p">,</span>
+        <span class="n">out_format</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;SC3ML&quot;</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Catalog</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Main location method with optional exhaustive search.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            catalog: Input catalog or path</span>
+<span class="sd">            nlloc_out_folder: Output directory</span>
+<span class="sd">            out_filename: Output filename</span>
+<span class="sd">            out_format: Output format</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Located event catalog</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">exhaustively</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_iterlocate</span><span class="p">(</span>
+                <span class="n">catalog</span><span class="o">=</span><span class="n">catalog</span><span class="p">,</span>
+                <span class="n">nlloc_out_folder</span><span class="o">=</span><span class="n">nlloc_out_folder</span><span class="p">,</span>
+                <span class="n">out_filename</span><span class="o">=</span><span class="n">out_filename</span><span class="p">,</span>
+                <span class="n">out_format</span><span class="o">=</span><span class="n">out_format</span><span class="p">,</span>
+                <span class="n">degrees</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">search_in_degrees</span><span class="p">,</span>
+                <span class="n">rm_attempts</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">rm_attempts</span>
+            <span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_locate</span><span class="p">(</span>
+            <span class="n">catalog</span><span class="o">=</span><span class="n">catalog</span><span class="p">,</span>
+            <span class="n">nlloc_out_folder</span><span class="o">=</span><span class="n">nlloc_out_folder</span><span class="p">,</span>
+            <span class="n">out_filename</span><span class="o">=</span><span class="n">out_filename</span><span class="p">,</span>
+            <span class="n">out_format</span><span class="o">=</span><span class="n">out_format</span>
+        <span class="p">)</span></div>
+</div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Emmanuel Castillo.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

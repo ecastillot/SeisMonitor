@@ -1,3 +1,7 @@
+"""
+Hypocenter utils. It runs several seisan commands to get hypocenter solutions
+"""
+
 import sys
 import os
 
@@ -201,23 +205,22 @@ def resp2df(resp: str) -> pd.DataFrame:
 
 def sta2station0(df):
     """
-    Parameters:
-    ----------
     Converts station metadata into SEISAN STATION0 format.
 
-    Args:
-        df (pd.DataFrame): Dataframe with columns ['network', 'station', 'latitude', 'longitude', 'elevation'].
+    Parameters
+    ----------
+    df : pd.DataFrame
+        Dataframe with columns ['network', 'station', 'latitude', 'longitude', 'elevation'].
 
-    Returns: 
-    --------
-    msgs: list
+    Returns
+    -------
+    list
         List of each message by station.
-        The station message contains the next information:
+        The station message contains the following information:
         
         station lat lon elevation
-        ---example---
+        Example:
         CA01A 353.16N 7341.07W 436
-
     """
     df = df.sort_values(by="station")
 

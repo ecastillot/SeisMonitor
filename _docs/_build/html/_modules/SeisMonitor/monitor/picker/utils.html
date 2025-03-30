@@ -1,0 +1,924 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SeisMonitor.monitor.picker.utils &mdash; SeisMonitor 0.0.56 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../../_static/documentation_options.js?v=8f83b1af"></script>
+      <script src="../../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../../index.html" class="icon icon-home">
+            SeisMonitor
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../modules.html">SeisMonitor</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">SeisMonitor</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">SeisMonitor.monitor.picker.utils</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for SeisMonitor.monitor.picker.utils</h1><div class="highlight"><pre>
+<span></span><span class="c1"># /**</span>
+<span class="c1">#  * @author [Emmanuel Castillo]</span>
+<span class="c1">#  * @email [excastillot@unal.edu.co]</span>
+<span class="c1">#  * @create date 2021-12-22 09:49:23</span>
+<span class="c1">#  * @modify date 2021-12-22 09:49:23</span>
+<span class="c1">#  * @desc [description]</span>
+<span class="c1">#  */</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">csv</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">math</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">obspy</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">shutil</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">datetime</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">dt</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">obspy</span><span class="w"> </span><span class="kn">import</span> <span class="n">UTCDateTime</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">timedelta</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">SeisMonitor.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">printlog</span><span class="p">,</span> <span class="n">isfile</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">SeisMonitor.monitor.downloader.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_chunktimes</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">concurrent.futures</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">cf</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">git</span><span class="w"> </span><span class="kn">import</span> <span class="n">Repo</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">obspy.core.event.origin</span><span class="w"> </span><span class="kn">import</span> <span class="n">Pick</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">obspy.core.event.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">QuantityError</span><span class="p">,</span> <span class="n">WaveformStreamID</span><span class="p">,</span> <span class="n">CreationInfo</span><span class="p">,</span> <span class="n">Comment</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">obspy.core.event</span><span class="w"> </span><span class="kn">import</span> <span class="n">ResourceIdentifier</span>
+
+<span class="c1"># Define standard columns for SeisMonitor</span>
+<span class="n">SeisMonitor_columns</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&quot;pick_id&quot;</span><span class="p">,</span> <span class="s2">&quot;arrival_time&quot;</span><span class="p">,</span> <span class="s2">&quot;probability&quot;</span><span class="p">,</span> <span class="s2">&quot;phasehint&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;network&quot;</span><span class="p">,</span> <span class="s2">&quot;station&quot;</span><span class="p">,</span> <span class="s2">&quot;location&quot;</span><span class="p">,</span> <span class="s2">&quot;instrument_type&quot;</span><span class="p">,</span> <span class="s2">&quot;author&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;creation_time&quot;</span><span class="p">,</span> <span class="s2">&quot;event_start_time&quot;</span><span class="p">,</span> <span class="s2">&quot;event_end_time&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;detection_probability&quot;</span><span class="p">,</span> <span class="s2">&quot;snr&quot;</span><span class="p">,</span> <span class="s2">&quot;station_lat&quot;</span><span class="p">,</span> <span class="s2">&quot;station_lon&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;station_elv&quot;</span><span class="p">,</span> <span class="s2">&quot;file_name&quot;</span>
+<span class="p">]</span>
+
+
+<div class="viewcode-block" id="clone_aipicker">
+<a class="viewcode-back" href="../../../../SeisMonitor.monitor.picker.html#SeisMonitor.monitor.picker.utils.clone_aipicker">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">clone_aipicker</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">output_folder</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Clone AI picker repository from GitHub.</span>
+<span class="sd">    </span>
+<span class="sd">    Args:</span>
+<span class="sd">        name (str): Name of the AI picker (&#39;EQTransformer&#39; or &#39;PhaseNet&#39;)</span>
+<span class="sd">        output_folder (str): Directory path to store the cloned repository</span>
+<span class="sd">        </span>
+<span class="sd">    Returns:</span>
+<span class="sd">        bool: True if successful</span>
+<span class="sd">        </span>
+<span class="sd">    Raises:</span>
+<span class="sd">        Exception: If invalid picker name is provided</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">git_urls</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;PhaseNet&quot;</span><span class="p">:</span> <span class="s2">&quot;https://github.com/ecastillot/PhaseNet.git&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;EQTransformer&quot;</span><span class="p">:</span> <span class="s2">&quot;https://github.com/ecastillot/EQTransformer.git&quot;</span>
+    <span class="p">}</span>
+    
+    <span class="k">if</span> <span class="n">name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">git_urls</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;Invalid picker name: </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">. Choose &#39;EQTransformer&#39; or &#39;PhaseNet&#39;&quot;</span>
+        <span class="p">)</span>
+    
+    <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="n">output_folder</span><span class="p">):</span>
+        <span class="n">shutil</span><span class="o">.</span><span class="n">rmtree</span><span class="p">(</span><span class="n">output_folder</span><span class="p">)</span>
+    
+    <span class="n">Repo</span><span class="o">.</span><span class="n">clone_from</span><span class="p">(</span><span class="n">git_urls</span><span class="p">[</span><span class="n">name</span><span class="p">],</span> <span class="n">output_folder</span><span class="p">)</span>
+    <span class="k">return</span> <span class="kc">True</span></div>
+
+
+
+<div class="viewcode-block" id="eqt_picks_2_seismonitor_fmt">
+<a class="viewcode-back" href="../../../../SeisMonitor.monitor.picker.html#SeisMonitor.monitor.picker.utils.eqt_picks_2_seismonitor_fmt">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">eqt_picks_2_seismonitor_fmt</span><span class="p">(</span><span class="n">eqt_folder</span><span class="p">,</span> <span class="n">mseed_folder</span><span class="p">,</span> <span class="n">out_path</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Convert EQTransformer picks to SeisMonitor format.</span>
+<span class="sd">    </span>
+<span class="sd">    Args:</span>
+<span class="sd">        eqt_folder (str): Directory containing EQTransformer pick files</span>
+<span class="sd">        mseed_folder (str): Directory containing MSEED files</span>
+<span class="sd">        out_path (str): Output path for the converted CSV file</span>
+<span class="sd">        </span>
+<span class="sd">    Returns:</span>
+<span class="sd">        pandas.DataFrame: Converted picks DataFrame</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">date_cols</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;p_arrival_time&quot;</span><span class="p">,</span> <span class="s2">&quot;s_arrival_time&quot;</span><span class="p">,</span> <span class="s2">&quot;event_start_time&quot;</span><span class="p">,</span> <span class="s2">&quot;event_end_time&quot;</span><span class="p">]</span>
+    
+    <span class="k">def</span><span class="w"> </span><span class="nf">parse_datetime</span><span class="p">(</span><span class="n">datetime_str</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Parse datetime string with multiple possible formats.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">datetime_str</span><span class="p">,</span> <span class="nb">float</span><span class="p">):</span>
+            <span class="k">return</span> <span class="kc">None</span>
+        <span class="k">for</span> <span class="n">fmt</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2"> %H:%M:%S.</span><span class="si">%f</span><span class="s2">&quot;</span><span class="p">,</span> <span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2"> %H:%M:%S&quot;</span><span class="p">]:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">dt</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">datetime_str</span><span class="p">,</span> <span class="n">fmt</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+                <span class="k">pass</span>
+        <span class="k">return</span> <span class="kc">None</span>
+
+    <span class="n">dfs</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">dp</span><span class="p">,</span> <span class="n">dn</span><span class="p">,</span> <span class="n">filenames</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">walk</span><span class="p">(</span><span class="n">eqt_folder</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">filenames</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">f</span> <span class="o">==</span> <span class="s2">&quot;X_prediction_results.csv&quot;</span> <span class="p">:</span>
+                <span class="n">search_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">dp</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span>
+                <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">search_path</span><span class="p">,</span><span class="n">dtype</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;station&#39;</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span><span class="s1">&#39;location&#39;</span><span class="p">:</span><span class="nb">str</span><span class="p">})</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">df</span><span class="o">.</span><span class="n">empty</span><span class="p">:</span>
+                    <span class="c1"># to_date = lambda x: pd.to_datetime(x,format=&quot;mixed&quot;)</span>
+                    <span class="c1"># df[date_cols] = df[date_cols].apply(to_date)</span>
+
+                    <span class="n">to_date</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">parse_datetime</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+                    <span class="c1"># df[date_cols] = df[date_cols].apply(to_date)</span>
+
+                    <span class="k">for</span> <span class="n">date_col</span> <span class="ow">in</span> <span class="n">date_cols</span><span class="p">:</span>
+                        <span class="n">df</span><span class="p">[</span><span class="n">date_col</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">date_col</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">parse_datetime</span><span class="p">)</span>
+                    <span class="n">dfs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">dfs</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
+
+    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">dfs</span><span class="p">,</span><span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">df</span><span class="p">[</span><span class="s2">&quot;station&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;station&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="s2">&quot;p_arrival_time&quot;</span><span class="p">,</span><span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="n">x_results_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">out_path</span><span class="p">),</span>
+                                <span class="s2">&quot;X_prediction_results_merge.csv&quot;</span><span class="p">)</span>
+    <span class="n">df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">x_results_path</span><span class="p">,</span><span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                <span class="n">date_format</span><span class="o">=</span><span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2"> %H:%M:%S.</span><span class="si">%f</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="c1">#seismonitor</span>
+    <span class="n">date_cols</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;arrival_time&quot;</span><span class="p">,</span><span class="s2">&quot;creation_time&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;event_start_time&quot;</span><span class="p">,</span><span class="s2">&quot;event_end_time&quot;</span><span class="p">]</span>
+
+    <span class="n">get_loc</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">file_name</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)[</span><span class="mi">2</span><span class="p">]</span>
+    <span class="n">df</span><span class="p">[</span><span class="s2">&quot;location&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">get_loc</span><span class="p">,</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">df</span><span class="p">[</span><span class="s2">&quot;author&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;EQTransformer&quot;</span>
+
+    <span class="n">filename_func</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">mseed_folder</span><span class="p">,</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">df</span><span class="p">[</span><span class="s2">&quot;file_name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;file_name&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">filename_func</span><span class="p">)</span>
+
+    <span class="n">p_cols</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">to_list</span><span class="p">()</span>
+    <span class="n">s_cols</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">to_list</span><span class="p">()</span>
+    <span class="n">dfs</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">phase</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;p&quot;</span><span class="p">,</span><span class="s2">&quot;s&quot;</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="n">phase</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;p&quot;</span><span class="p">:</span>
+            <span class="n">rm</span> <span class="o">=</span> <span class="s2">&quot;s&quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">rm</span> <span class="o">=</span> <span class="s2">&quot;p&quot;</span>
+
+        <span class="n">phase_cols</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">to_list</span><span class="p">()</span>
+        <span class="n">not_rm_cols</span> <span class="o">=</span> <span class="p">[</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">phase</span><span class="si">}</span><span class="s1">_arrival_time&#39;</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">phase</span><span class="si">}</span><span class="s1">_probability&#39;</span><span class="p">,</span>
+                         <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">phase</span><span class="si">}</span><span class="s1">_uncertainty&#39;</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">phase</span><span class="si">}</span><span class="s1">_snr&#39;</span><span class="p">]</span>
+        <span class="n">rm_cols</span> <span class="o">=</span> <span class="p">[</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">rm</span><span class="si">}</span><span class="s1">_arrival_time&#39;</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">rm</span><span class="si">}</span><span class="s1">_probability&#39;</span><span class="p">,</span>
+                 <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">rm</span><span class="si">}</span><span class="s1">_uncertainty&#39;</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">rm</span><span class="si">}</span><span class="s1">_snr&#39;</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">rm_cols</span><span class="p">:</span>
+            <span class="n">phase_cols</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+        <span class="n">phase_df</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">phase_cols</span><span class="p">]</span>
+
+        <span class="n">new_cols_gen</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">2</span><span class="p">:]</span>
+        <span class="n">new_cols</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="n">new_cols_gen</span><span class="p">,</span><span class="n">not_rm_cols</span><span class="p">))</span>
+
+        <span class="n">columns</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">not_rm_cols</span><span class="p">,</span> <span class="n">new_cols</span><span class="p">))</span>
+        <span class="n">phase_df</span> <span class="o">=</span> <span class="n">phase_df</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="n">columns</span><span class="p">)</span>
+        <span class="n">phase_df</span><span class="p">[</span><span class="s2">&quot;phasehint&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">phase</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
+        <span class="n">phase_df</span> <span class="o">=</span> <span class="n">phase_df</span><span class="o">.</span><span class="n">dropna</span><span class="p">(</span><span class="n">subset</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;arrival_time&quot;</span><span class="p">])</span>
+
+        <span class="n">phase_df</span><span class="p">[</span><span class="s2">&quot;creation_time&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">dt</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
+        <span class="n">pick_id</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">id_maker</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">arrival_time</span><span class="p">,</span> <span class="n">x</span><span class="o">.</span><span class="n">network</span><span class="p">,</span> 
+                            <span class="n">x</span><span class="o">.</span><span class="n">station</span><span class="p">,</span> <span class="n">x</span><span class="o">.</span><span class="n">location</span><span class="p">,</span> 
+                            <span class="n">x</span><span class="o">.</span><span class="n">instrument_type</span><span class="p">,</span> <span class="n">x</span><span class="o">.</span><span class="n">phasehint</span><span class="p">)</span>
+        <span class="n">phase_df</span><span class="p">[</span><span class="s2">&quot;pick_id&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">phase_df</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">pick_id</span><span class="p">,</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> 
+
+
+        <span class="n">phase_df</span><span class="p">[</span><span class="n">date_cols</span><span class="p">]</span> <span class="o">=</span> <span class="n">phase_df</span><span class="p">[</span><span class="n">date_cols</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">)</span>
+
+        <span class="n">dfs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">phase_df</span><span class="p">)</span>
+        
+
+    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">dfs</span><span class="p">,</span><span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">SeisMonitor_columns</span><span class="p">]</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="s2">&quot;arrival_time&quot;</span><span class="p">,</span><span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">out_path</span><span class="p">,</span><span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+            <span class="n">date_format</span><span class="o">=</span><span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2"> %H:%M:%S.</span><span class="si">%f</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">df</span></div>
+
+
+
+<div class="viewcode-block" id="get_filenames">
+<a class="viewcode-back" href="../../../../SeisMonitor.monitor.picker.html#SeisMonitor.monitor.picker.utils.get_filenames">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_filenames</span><span class="p">(</span><span class="n">mseed</span><span class="p">,</span> <span class="n">filter_net</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">filter_sta</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">filter_cha</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Retrieve MSEED filenames with optional filtering.</span>
+<span class="sd">    </span>
+<span class="sd">    Args:</span>
+<span class="sd">        mseed (str): Path to MSEED files directory</span>
+<span class="sd">        filter_net (list, optional): Networks to exclude</span>
+<span class="sd">        filter_sta (list, optional): Stations to exclude</span>
+<span class="sd">        filter_cha (list, optional): Channels to include (if specified)</span>
+<span class="sd">        </span>
+<span class="sd">    Returns:</span>
+<span class="sd">        list: Filtered filenames</span>
+<span class="sd">        </span>
+<span class="sd">    Raises:</span>
+<span class="sd">        Exception: If filter parameters are not lists</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">filter_net</span> <span class="o">=</span> <span class="n">filter_net</span> <span class="ow">or</span> <span class="p">[]</span>
+    <span class="n">filter_sta</span> <span class="o">=</span> <span class="n">filter_sta</span> <span class="ow">or</span> <span class="p">[]</span>
+    <span class="n">filter_cha</span> <span class="o">=</span> <span class="n">filter_cha</span> <span class="ow">or</span> <span class="p">[]</span>
+    
+    <span class="k">for</span> <span class="n">param</span> <span class="ow">in</span> <span class="p">(</span><span class="n">filter_net</span><span class="p">,</span> <span class="n">filter_sta</span><span class="p">,</span> <span class="n">filter_cha</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">param</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">param</span><span class="si">}</span><span class="s2"> must be a list&quot;</span><span class="p">)</span>
+
+    <span class="n">filenames</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">file_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">f</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">mseed</span><span class="p">)</span> <span class="k">if</span> <span class="n">f</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;.mseed&#39;</span><span class="p">)]</span>
+    <span class="k">for</span> <span class="n">filename</span> <span class="ow">in</span> <span class="n">file_list</span><span class="p">:</span>
+        <span class="n">net</span><span class="p">,</span> <span class="n">sta</span><span class="p">,</span> <span class="n">loc</span><span class="p">,</span> <span class="n">cha</span> <span class="o">=</span> <span class="n">filename</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;__&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">net</span> <span class="ow">in</span> <span class="n">filter_net</span> <span class="ow">or</span> <span class="n">sta</span> <span class="ow">in</span> <span class="n">filter_sta</span> <span class="ow">or</span> <span class="p">(</span><span class="n">filter_cha</span> <span class="ow">and</span> <span class="n">cha</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">filter_cha</span><span class="p">):</span>
+            <span class="k">continue</span>
+        <span class="n">filenames</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">filenames</span></div>
+
+
+
+<div class="viewcode-block" id="mv_mseed2onefolder">
+<a class="viewcode-back" href="../../../../SeisMonitor.monitor.picker.html#SeisMonitor.monitor.picker.utils.mv_mseed2onefolder">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">mv_mseed2onefolder</span><span class="p">(</span><span class="n">mseed_folder</span><span class="p">,</span> <span class="n">one_folder</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Move MSEED files from subfolders to a single folder.</span>
+<span class="sd">    </span>
+<span class="sd">    Args:</span>
+<span class="sd">        mseed_folder (str): Source directory with MSEED files</span>
+<span class="sd">        one_folder (str): Destination directory</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">for</span> <span class="n">dp</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">filenames</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">walk</span><span class="p">(</span><span class="n">mseed_folder</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">filenames</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">f</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;.mseed&quot;</span><span class="p">):</span>
+                <span class="n">src</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">dp</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span>
+                <span class="n">dst</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">one_folder</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span>
+                <span class="n">printlog</span><span class="p">(</span><span class="s2">&quot;debug&quot;</span><span class="p">,</span> <span class="s2">&quot;mv_mseed2onefolder&quot;</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">src</span><span class="si">}</span><span class="s2"> -&gt; </span><span class="si">{</span><span class="n">dst</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="n">shutil</span><span class="o">.</span><span class="n">move</span><span class="p">(</span><span class="n">src</span><span class="p">,</span> <span class="n">dst</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="mv_mseed2stationfolder">
+<a class="viewcode-back" href="../../../../SeisMonitor.monitor.picker.html#SeisMonitor.monitor.picker.utils.mv_mseed2stationfolder">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">mv_mseed2stationfolder</span><span class="p">(</span><span class="n">one_folder</span><span class="p">,</span> <span class="n">mseed_folder</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Move MSEED files to station-specific subfolders.</span>
+<span class="sd">    </span>
+<span class="sd">    Args:</span>
+<span class="sd">        one_folder (str): Source directory with MSEED files</span>
+<span class="sd">        mseed_folder (str): Destination base directory</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">for</span> <span class="n">dp</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">filenames</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">walk</span><span class="p">(</span><span class="n">one_folder</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">filenames</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">f</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;.mseed&quot;</span><span class="p">):</span>
+                <span class="n">src</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">dp</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span>
+                <span class="n">net</span><span class="p">,</span> <span class="n">sta</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;__&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)</span>
+                <span class="n">dst</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">mseed_folder</span><span class="p">,</span> <span class="n">sta</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">dst</span><span class="p">)):</span>
+                    <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">dst</span><span class="p">))</span>
+                <span class="n">printlog</span><span class="p">(</span><span class="s2">&quot;debug&quot;</span><span class="p">,</span> <span class="s2">&quot;mv_mseed2stationfolder&quot;</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">src</span><span class="si">}</span><span class="s2"> -&gt; </span><span class="si">{</span><span class="n">dst</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="n">shutil</span><span class="o">.</span><span class="n">move</span><span class="p">(</span><span class="n">src</span><span class="p">,</span> <span class="n">dst</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="make_dataframe">
+<a class="viewcode-back" href="../../../../SeisMonitor.monitor.picker.html#SeisMonitor.monitor.picker.utils.make_dataframe">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">make_dataframe</span><span class="p">(</span><span class="n">mseed</span><span class="p">,</span> <span class="n">json_path</span><span class="p">,</span> <span class="n">filter_net</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">filter_sta</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">filter_cha</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Create DataFrame from MSEED files and JSON metadata.</span>
+<span class="sd">    </span>
+<span class="sd">    Args:</span>
+<span class="sd">        mseed (str): Directory containing MSEED files</span>
+<span class="sd">        json_path (str): Path to JSON metadata file</span>
+<span class="sd">        filter_net (list, optional): Networks to exclude</span>
+<span class="sd">        filter_sta (list, optional): Stations to exclude</span>
+<span class="sd">        filter_cha (list, optional): Channels to include</span>
+<span class="sd">        </span>
+<span class="sd">    Returns:</span>
+<span class="sd">        pandas.DataFrame: DataFrame with waveform metadata</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">json_path</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">jfile</span><span class="p">:</span>
+        <span class="n">datajson</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">jfile</span><span class="p">)</span>
+
+    <span class="n">filenames</span> <span class="o">=</span> <span class="n">get_filenames</span><span class="p">(</span><span class="n">mseed</span><span class="p">,</span> <span class="n">filter_net</span><span class="p">,</span> <span class="n">filter_sta</span><span class="p">,</span> <span class="n">filter_cha</span><span class="p">)</span>
+    <span class="n">mseed_paths</span> <span class="o">=</span> <span class="p">[]</span>
+    
+    <span class="k">for</span> <span class="n">onefile</span> <span class="ow">in</span> <span class="n">filenames</span><span class="p">:</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">mseed</span><span class="p">,</span> <span class="n">onefile</span><span class="p">)</span>
+        <span class="n">st</span> <span class="o">=</span> <span class="n">obspy</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+        <span class="n">stats</span> <span class="o">=</span> <span class="n">st</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">stats</span>
+        
+        <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">st</span><span class="o">.</span><span class="n">_get_common_channels_info</span><span class="p">()</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">net</span><span class="p">,</span> <span class="n">sta</span><span class="p">,</span> <span class="n">loc</span><span class="p">,</span> <span class="n">instrument_type</span> <span class="o">=</span> <span class="n">key</span>
+            <span class="n">channels</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">val</span><span class="p">[</span><span class="s2">&quot;channels&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+
+        <span class="n">df</span><span class="p">[</span><span class="s2">&quot;fname&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">path</span>
+        <span class="k">for</span> <span class="n">channel</span> <span class="ow">in</span> <span class="n">channels</span><span class="p">:</span>
+            <span class="n">direction</span> <span class="o">=</span> <span class="n">channel</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">channels</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">df</span><span class="p">[</span><span class="s2">&quot;E&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;N&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;Z&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">channel</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">df</span><span class="p">[</span><span class="n">direction</span><span class="p">]</span> <span class="o">=</span> <span class="n">channel</span>
+
+        <span class="n">instrument</span> <span class="o">=</span> <span class="n">instrument_type</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">instruments</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">datajson</span><span class="p">[</span><span class="n">sta</span><span class="p">][</span><span class="s1">&#39;channels&#39;</span><span class="p">]]</span>
+        <span class="n">idx</span> <span class="o">=</span> <span class="nb">next</span><span class="p">((</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">instruments</span><span class="p">)</span> <span class="k">if</span> <span class="n">x</span> <span class="o">==</span> <span class="n">instrument</span><span class="p">),</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">idx</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">continue</span>
+        
+        <span class="n">sampling_rate</span> <span class="o">=</span> <span class="n">datajson</span><span class="p">[</span><span class="n">sta</span><span class="p">][</span><span class="s1">&#39;sampling_rate&#39;</span><span class="p">][</span><span class="n">idx</span><span class="p">]</span>
+        <span class="n">lat</span><span class="p">,</span> <span class="n">lon</span><span class="p">,</span> <span class="n">elv</span> <span class="o">=</span> <span class="n">datajson</span><span class="p">[</span><span class="n">sta</span><span class="p">][</span><span class="s1">&#39;coords&#39;</span><span class="p">]</span>
+        
+        <span class="n">df</span><span class="o">.</span><span class="n">update</span><span class="p">({</span>
+            <span class="s1">&#39;mseed_start_time&#39;</span><span class="p">:</span> <span class="n">stats</span><span class="o">.</span><span class="n">starttime</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2"> %H:%M:%S.</span><span class="si">%f</span><span class="s2">&quot;</span><span class="p">),</span>
+            <span class="s1">&#39;mseed_end_time&#39;</span><span class="p">:</span> <span class="n">stats</span><span class="o">.</span><span class="n">endtime</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2"> %H:%M:%S.</span><span class="si">%f</span><span class="s2">&quot;</span><span class="p">),</span>
+            <span class="s2">&quot;network&quot;</span><span class="p">:</span> <span class="n">net</span><span class="p">,</span>
+            <span class="s2">&quot;station&quot;</span><span class="p">:</span> <span class="n">sta</span><span class="p">,</span>
+            <span class="s2">&quot;location&quot;</span><span class="p">:</span> <span class="n">loc</span><span class="p">,</span>
+            <span class="s2">&quot;instrument_type&quot;</span><span class="p">:</span> <span class="n">instrument</span><span class="p">,</span>
+            <span class="s2">&quot;sampling_rate&quot;</span><span class="p">:</span> <span class="n">sampling_rate</span><span class="p">,</span>
+            <span class="s2">&quot;sta_lat&quot;</span><span class="p">:</span> <span class="n">lat</span><span class="p">,</span>
+            <span class="s2">&quot;sta_lon&quot;</span><span class="p">:</span> <span class="n">lon</span><span class="p">,</span>
+            <span class="s2">&quot;sta_elv&quot;</span><span class="p">:</span> <span class="n">elv</span>
+        <span class="p">})</span>
+        <span class="n">mseed_paths</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+    
+    <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">mseed_paths</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="make_phasenet_datalist">
+<a class="viewcode-back" href="../../../../SeisMonitor.monitor.picker.html#SeisMonitor.monitor.picker.utils.make_phasenet_datalist">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">make_phasenet_datalist</span><span class="p">(</span>
+        <span class="n">datadir</span><span class="p">,</span> <span class="n">json_path</span><span class="p">,</span> <span class="n">datalist_path</span><span class="p">,</span> <span class="n">channel_list</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">filter_network</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">filter_station</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
+    <span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Create PhaseNet datalist CSV file.</span>
+<span class="sd">    </span>
+<span class="sd">    Args:</span>
+<span class="sd">        datadir (str): Directory with MSEED files</span>
+<span class="sd">        json_path (str): Path to JSON metadata</span>
+<span class="sd">        datalist_path (str): Output path for datalist CSV</span>
+<span class="sd">        channel_list (list, optional): Channels to include</span>
+<span class="sd">        filter_network (list, optional): Networks to exclude</span>
+<span class="sd">        filter_station (list, optional): Stations to exclude</span>
+<span class="sd">        kwargs: Additional keyword arguments</span>
+<span class="sd">        </span>
+<span class="sd">    Returns:</span>
+<span class="sd">        str: Directory containing the datalist</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">make_dataframe</span><span class="p">(</span><span class="n">datadir</span><span class="p">,</span> <span class="n">json_path</span><span class="p">,</span> <span class="n">filter_network</span><span class="p">,</span> <span class="n">filter_station</span><span class="p">,</span> <span class="n">channel_list</span><span class="p">)</span>
+    <span class="n">datalist_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">datalist_path</span><span class="p">)</span>
+    <span class="n">isfile</span><span class="p">(</span><span class="n">datalist_path</span><span class="p">)</span>
+    <span class="n">df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">datalist_path</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">datalist_dir</span></div>
+
+
+
+<div class="viewcode-block" id="create_datalist">
+<a class="viewcode-back" href="../../../../SeisMonitor.monitor.picker.html#SeisMonitor.monitor.picker.utils.create_datalist">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">create_datalist</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">all_in_folder</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Create PhaseNet datalist(s) for processing.</span>
+<span class="sd">    </span>
+<span class="sd">    Args:</span>
+<span class="sd">        self: Object with datalist_dir and mseed_storage attributes</span>
+<span class="sd">        all_in_folder (bool): If True, create single datalist; otherwise, per station</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">tic</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+    <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s1">&#39;PhaseNet: datalist&#39;</span><span class="p">)</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Running to create datalist&quot;</span><span class="p">)</span>
+    
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">datalist_dir</span><span class="p">):</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">datalist_dir</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">all_in_folder</span><span class="p">:</span>
+        <span class="n">datalist</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">datalist_dir</span><span class="p">,</span> <span class="s1">&#39;fname.csv&#39;</span><span class="p">)</span>
+        <span class="n">make_phasenet_datalist</span><span class="p">(</span>
+            <span class="n">datadir</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">all_mseed</span><span class="p">,</span>
+            <span class="n">datalist_path</span><span class="o">=</span><span class="n">datalist</span><span class="p">,</span>
+            <span class="n">json_path</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">json_path</span><span class="p">,</span>  <span class="c1"># Assuming json_path is an attribute</span>
+            <span class="n">groupby</span><span class="o">=</span><span class="s1">&#39;</span><span class="si">{network}</span><span class="s1">.</span><span class="si">{station}</span><span class="s1">&#39;</span>
+        <span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">sta</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mseed_storage</span><span class="p">):</span>
+            <span class="n">datadir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mseed_storage</span><span class="p">,</span> <span class="n">sta</span><span class="p">)</span>
+            <span class="n">datalist_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">datalist_dir</span><span class="p">,</span> <span class="n">sta</span><span class="p">,</span> <span class="s1">&#39;fname.csv&#39;</span><span class="p">)</span>
+            <span class="n">make_phasenet_datalist</span><span class="p">(</span>
+                <span class="n">datadir</span><span class="o">=</span><span class="n">datadir</span><span class="p">,</span>
+                <span class="n">datalist_path</span><span class="o">=</span><span class="n">datalist_path</span><span class="p">,</span>
+                <span class="n">json_path</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">json_path</span><span class="p">,</span>  <span class="c1"># Assuming json_path is an attribute</span>
+                <span class="n">groupby</span><span class="o">=</span><span class="s1">&#39;</span><span class="si">{network}</span><span class="s1">.</span><span class="si">{station}</span><span class="s1">.</span><span class="si">{location}</span><span class="s1">&#39;</span>
+            <span class="p">)</span>
+    
+    <span class="n">toc</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+    <span class="n">exetime</span> <span class="o">=</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">seconds</span><span class="o">=</span><span class="n">toc</span> <span class="o">-</span> <span class="n">tic</span><span class="p">)</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Total time of execution: </span><span class="si">{</span><span class="n">exetime</span><span class="o">.</span><span class="n">total_seconds</span><span class="p">()</span><span class="si">}</span><span class="s1"> seconds&#39;</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="phasenet_from_console">
+<a class="viewcode-back" href="../../../../SeisMonitor.monitor.picker.html#SeisMonitor.monitor.picker.utils.phasenet_from_console">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">phasenet_from_console</span><span class="p">(</span><span class="n">pnet_obj</span><span class="p">,</span> <span class="n">msg_author</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Run PhaseNet from console with specified parameters.</span>
+<span class="sd">    </span>
+<span class="sd">    Args:</span>
+<span class="sd">        pnet_obj: Object with PhaseNet configuration attributes</span>
+<span class="sd">        msg_author (str): Author identifier for logging</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">run</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">pnet_obj</span><span class="o">.</span><span class="n">phasenet_path</span><span class="p">,</span> <span class="s2">&quot;run.py&quot;</span><span class="p">)</span>
+    <span class="n">base_command</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="sa">f</span><span class="s2">&quot;python </span><span class="se">\&quot;</span><span class="si">{</span><span class="n">run</span><span class="si">}</span><span class="se">\&quot;</span><span class="s2"> --mode=pred &quot;</span>
+        <span class="sa">f</span><span class="s2">&quot;--model_dir=</span><span class="se">\&quot;</span><span class="si">{</span><span class="n">pnet_obj</span><span class="o">.</span><span class="n">model_dir</span><span class="si">}</span><span class="se">\&quot;</span><span class="s2"> --data_dir=</span><span class="se">\&quot;</span><span class="si">{</span><span class="n">pnet_obj</span><span class="o">.</span><span class="n">data_dir</span><span class="si">}</span><span class="se">\&quot;</span><span class="s2"> &quot;</span>
+        <span class="sa">f</span><span class="s2">&quot;--data_list=</span><span class="se">\&quot;</span><span class="si">{</span><span class="n">pnet_obj</span><span class="o">.</span><span class="n">data_list</span><span class="si">}</span><span class="se">\&quot;</span><span class="s2"> --output_dir=</span><span class="se">\&quot;</span><span class="si">{</span><span class="n">pnet_obj</span><span class="o">.</span><span class="n">output_dir</span><span class="si">}</span><span class="se">\&quot;</span><span class="s2"> &quot;</span>
+        <span class="sa">f</span><span class="s2">&quot;--batch_size=</span><span class="si">{</span><span class="n">pnet_obj</span><span class="o">.</span><span class="n">batch_size</span><span class="si">}</span><span class="s2"> --tp_prob=</span><span class="si">{</span><span class="n">pnet_obj</span><span class="o">.</span><span class="n">tp_prob</span><span class="si">}</span><span class="s2"> &quot;</span>
+        <span class="sa">f</span><span class="s2">&quot;--ts_prob=</span><span class="si">{</span><span class="n">pnet_obj</span><span class="o">.</span><span class="n">ts_prob</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="p">)</span>
+    
+    <span class="n">command</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">base_command</span><span class="si">}</span><span class="s2"> --input_mseed&quot;</span> <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s1">&#39;nt&#39;</span> <span class="k">else</span>
+        <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">base_command</span><span class="si">}</span><span class="s2"> --resampling=</span><span class="si">{</span><span class="n">pnet_obj</span><span class="o">.</span><span class="n">one_single_sampling_rate</span><span class="si">}</span><span class="s2"> --input_mseed&quot;</span>
+    <span class="p">)</span>
+    
+    <span class="k">if</span> <span class="n">pnet_obj</span><span class="o">.</span><span class="n">plot_figure</span><span class="p">:</span>
+        <span class="n">command</span> <span class="o">+=</span> <span class="s2">&quot; --plot_figure&quot;</span>
+    <span class="k">if</span> <span class="n">pnet_obj</span><span class="o">.</span><span class="n">save_result</span><span class="p">:</span>
+        <span class="n">command</span> <span class="o">+=</span> <span class="s2">&quot; --save_result&quot;</span>
+    
+    <span class="n">printlog</span><span class="p">(</span><span class="s2">&quot;info&quot;</span><span class="p">,</span> <span class="n">msg_author</span><span class="p">,</span> <span class="s2">&quot;Console-&gt; &quot;</span> <span class="o">+</span> <span class="n">command</span><span class="p">)</span>
+    <span class="n">printlog</span><span class="p">(</span><span class="s2">&quot;info&quot;</span><span class="p">,</span> <span class="n">msg_author</span><span class="p">,</span> <span class="s2">&quot;Running...&quot;</span><span class="p">)</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="n">command</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="get_pickframe">
+<a class="viewcode-back" href="../../../../SeisMonitor.monitor.picker.html#SeisMonitor.monitor.picker.utils.get_pickframe">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_pickframe</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">csv_filename</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Collect picks from CSV files in a directory structure.</span>
+<span class="sd">    </span>
+<span class="sd">    Args:</span>
+<span class="sd">        path (str): Root directory containing station folders with picks</span>
+<span class="sd">        csv_filename (str): Name of CSV file containing picks</span>
+<span class="sd">        </span>
+<span class="sd">    Returns:</span>
+<span class="sd">        pandas.DataFrame: Combined picks DataFrame</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">pick_paths</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">dp</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span> <span class="k">for</span> <span class="n">dp</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">filenames</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">walk</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">filenames</span> <span class="k">if</span> <span class="n">f</span> <span class="o">==</span> <span class="n">csv_filename</span>
+    <span class="p">]</span>
+    
+    <span class="n">dfs</span> <span class="o">=</span> <span class="p">[</span><span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">pick_path</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> <span class="k">for</span> <span class="n">pick_path</span> <span class="ow">in</span> <span class="n">pick_paths</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">dfs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">dfs</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span> <span class="k">else</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">dfs</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="merge_picks">
+<a class="viewcode-back" href="../../../../SeisMonitor.monitor.picker.html#SeisMonitor.monitor.picker.utils.merge_picks">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">merge_picks</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">csv_filename</span><span class="p">,</span> <span class="n">output_path</span><span class="p">,</span> <span class="n">sort</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Merge picks from multiple CSV files into one.</span>
+<span class="sd">    </span>
+<span class="sd">    Args:</span>
+<span class="sd">        path (str): Root directory containing station folders with picks</span>
+<span class="sd">        csv_filename (str): Name of CSV file containing picks</span>
+<span class="sd">        output_path (str): Path for output merged CSV</span>
+<span class="sd">        sort (str, optional): Column name to sort by</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">pickframe</span> <span class="o">=</span> <span class="n">get_pickframe</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">csv_filename</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">sort</span><span class="p">:</span>
+        <span class="n">pickframe</span> <span class="o">=</span> <span class="n">pickframe</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">sort</span><span class="p">)</span>
+    
+    <span class="n">output_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">output_path</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="n">output_dir</span><span class="p">):</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">output_dir</span><span class="p">)</span>
+    
+    <span class="n">pickframe</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">output_path</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="rm_phasenet_duplicate_picks">
+<a class="viewcode-back" href="../../../../SeisMonitor.monitor.picker.html#SeisMonitor.monitor.picker.utils.rm_phasenet_duplicate_picks">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">rm_phasenet_duplicate_picks</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">output_path</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Remove duplicate picks from PhaseNet output.</span>
+<span class="sd">    </span>
+<span class="sd">    Args:</span>
+<span class="sd">        path (str): Path to input picks CSV</span>
+<span class="sd">        output_path (str): Path for output cleaned CSV</span>
+<span class="sd">        </span>
+<span class="sd">    Returns:</span>
+<span class="sd">        pandas.DataFrame: Cleaned picks DataFrame</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">select_pick</span><span class="p">(</span><span class="n">df</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Select picks based on segment type and probability.&quot;&quot;&quot;</span>
+        <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s1">&#39;PhaseNet: Select_picks&#39;</span><span class="p">)</span>
+        
+        <span class="n">df_overlap</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;segment_type&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;overlap&#39;</span><span class="p">]</span>
+        <span class="n">df_single</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;segment_type&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;single&#39;</span><span class="p">]</span>
+        
+        <span class="k">if</span> <span class="n">df_overlap</span><span class="o">.</span><span class="n">empty</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Single selected&#39;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">df_single</span>
+        <span class="k">if</span> <span class="n">df_single</span><span class="o">.</span><span class="n">empty</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Overlap selected&#39;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">df_overlap</span>
+        
+        <span class="n">single_prob_avg</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">average</span><span class="p">(</span><span class="n">df_single</span><span class="p">[</span><span class="s1">&#39;probability&#39;</span><span class="p">])</span>
+        <span class="n">overlap_prob_avg</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">average</span><span class="p">(</span><span class="n">df_overlap</span><span class="p">[</span><span class="s1">&#39;probability&#39;</span><span class="p">])</span>
+        
+        <span class="n">choice</span> <span class="o">=</span> <span class="n">df_single</span> <span class="k">if</span> <span class="n">single_prob_avg</span> <span class="o">&gt;=</span> <span class="n">overlap_prob_avg</span> <span class="k">else</span> <span class="n">df_overlap</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="s1">&#39;Single&#39;</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">choice</span><span class="w"> </span><span class="ow">is</span><span class="w"> </span><span class="n">df_single</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="s1">&#39;Overlap&#39;</span><span class="si">}</span><span class="s2"> selected: &quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;Single:</span><span class="si">{</span><span class="n">single_prob_avg</span><span class="si">}</span><span class="s2"> vs Overlap:</span><span class="si">{</span><span class="n">overlap_prob_avg</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">choice</span>
+
+    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;location&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">})</span>
+    <span class="k">if</span> <span class="n">df</span><span class="o">.</span><span class="n">empty</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">df</span>
+
+    <span class="n">timecols</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;arrival_time&#39;</span><span class="p">,</span> <span class="s1">&#39;creation_time&#39;</span><span class="p">,</span> <span class="s1">&#39;mseed_start_time&#39;</span><span class="p">,</span> <span class="s1">&#39;mseed_end_time&#39;</span><span class="p">]</span>
+    <span class="n">df</span><span class="p">[</span><span class="n">timecols</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">timecols</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">)</span>
+    
+    <span class="n">group_cols</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;mseed_start_time&#39;</span><span class="p">,</span> <span class="s1">&#39;mseed_end_time&#39;</span><span class="p">,</span> <span class="s1">&#39;network&#39;</span><span class="p">,</span> <span class="s1">&#39;station&#39;</span><span class="p">,</span> <span class="s1">&#39;instrument_type&#39;</span><span class="p">]</span>
+    <span class="n">mseed_groups</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">group_cols</span><span class="p">,</span> <span class="n">as_index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    
+    <span class="n">picks_ok</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">ind</span> <span class="ow">in</span> <span class="n">mseed_groups</span><span class="o">.</span><span class="n">indices</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+        <span class="n">mseed_df</span> <span class="o">=</span> <span class="n">mseed_groups</span><span class="o">.</span><span class="n">get_group</span><span class="p">(</span><span class="n">ind</span><span class="p">)</span>
+        <span class="n">mseed_starttime</span> <span class="o">=</span> <span class="n">mseed_df</span><span class="p">[</span><span class="s1">&#39;mseed_start_time&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">mseed_endtime</span> <span class="o">=</span> <span class="n">mseed_df</span><span class="p">[</span><span class="s1">&#39;mseed_end_time&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">mseed_sr</span> <span class="o">=</span> <span class="n">mseed_df</span><span class="p">[</span><span class="s1">&#39;sampling_rate&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        
+        <span class="n">overlap_in_sec</span> <span class="o">=</span> <span class="mi">1500</span> <span class="o">/</span> <span class="n">mseed_sr</span>
+        <span class="n">overlap_times</span> <span class="o">=</span> <span class="n">get_chunktimes</span><span class="p">(</span><span class="n">mseed_starttime</span><span class="p">,</span> <span class="n">mseed_endtime</span><span class="p">,</span> <span class="n">overlap_in_sec</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        
+        <span class="k">for</span> <span class="n">ovl_starttime</span><span class="p">,</span> <span class="n">ovl_endtime</span> <span class="ow">in</span> <span class="n">overlap_times</span><span class="p">:</span>
+            <span class="n">ovl_df</span> <span class="o">=</span> <span class="n">mseed_df</span><span class="p">[</span>
+                <span class="p">(</span><span class="n">mseed_df</span><span class="p">[</span><span class="s1">&#39;arrival_time&#39;</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">ovl_endtime</span><span class="p">)</span> <span class="o">&amp;</span>
+                <span class="p">(</span><span class="n">mseed_df</span><span class="p">[</span><span class="s1">&#39;arrival_time&#39;</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">ovl_starttime</span><span class="p">)</span>
+            <span class="p">]</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">ovl_df</span><span class="o">.</span><span class="n">empty</span><span class="p">:</span>
+                <span class="n">picks_ok</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">select_pick</span><span class="p">(</span><span class="n">ovl_df</span><span class="p">))</span>
+    
+    <span class="n">df_picks_ok</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">picks_ok</span><span class="p">,</span> <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">sort</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">df_picks_ok</span> <span class="o">=</span> <span class="n">df_picks_ok</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s1">&#39;arrival_time&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">df_picks_ok</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">output_path</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">df_picks_ok</span></div>
+
+
+
+<div class="viewcode-block" id="picks2df">
+<a class="viewcode-back" href="../../../../SeisMonitor.monitor.picker.html#SeisMonitor.monitor.picker.utils.picks2df">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">picks2df</span><span class="p">(</span><span class="n">picks</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Convert list of Pick objects to DataFrame.</span>
+<span class="sd">    </span>
+<span class="sd">    Args:</span>
+<span class="sd">        picks (list): List of Pick objects</span>
+<span class="sd">        </span>
+<span class="sd">    Returns:</span>
+<span class="sd">        pandas.DataFrame: Converted DataFrame</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">df_data</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">pick</span> <span class="ow">in</span> <span class="n">picks</span><span class="p">:</span>
+        <span class="n">comment</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">pick</span><span class="o">.</span><span class="n">comments</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+        <span class="n">seismonitor</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;pick_id&quot;</span><span class="p">:</span> <span class="n">pick</span><span class="o">.</span><span class="n">resource_id</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+            <span class="s2">&quot;arrival_time&quot;</span><span class="p">:</span> <span class="n">pick</span><span class="o">.</span><span class="n">time</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2"> %H:%M:%S.</span><span class="si">%f</span><span class="s2">&quot;</span><span class="p">),</span>
+            <span class="s2">&quot;probability&quot;</span><span class="p">:</span> <span class="n">pick</span><span class="o">.</span><span class="n">time_errors</span><span class="o">.</span><span class="n">uncertainty</span><span class="p">,</span>
+            <span class="s2">&quot;phasehint&quot;</span><span class="p">:</span> <span class="n">pick</span><span class="o">.</span><span class="n">phase_hint</span><span class="p">,</span>
+            <span class="s2">&quot;network&quot;</span><span class="p">:</span> <span class="n">pick</span><span class="o">.</span><span class="n">waveform_id</span><span class="o">.</span><span class="n">network_code</span><span class="p">,</span>
+            <span class="s2">&quot;station&quot;</span><span class="p">:</span> <span class="n">pick</span><span class="o">.</span><span class="n">waveform_id</span><span class="o">.</span><span class="n">station_code</span><span class="p">,</span>
+            <span class="s2">&quot;instrument_type&quot;</span><span class="p">:</span> <span class="n">pick</span><span class="o">.</span><span class="n">waveform_id</span><span class="o">.</span><span class="n">channel_code</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="p">],</span>
+            <span class="s2">&quot;author&quot;</span><span class="p">:</span> <span class="n">pick</span><span class="o">.</span><span class="n">method_id</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+            <span class="s2">&quot;creation_time&quot;</span><span class="p">:</span> <span class="n">pick</span><span class="o">.</span><span class="n">creation_info</span><span class="o">.</span><span class="n">creation_time</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2"> %H:%M:%S.</span><span class="si">%f</span><span class="s2">&quot;</span><span class="p">),</span>
+            <span class="c1"># &quot;event_start_time&quot;: comment.get(&quot;event_start_time&quot;),</span>
+            <span class="c1"># &quot;event_end_time&quot;: comment.get(&quot;event_end_time&quot;),</span>
+            <span class="c1"># &quot;mseed_start_time&quot;: comment.get(&quot;mseed_start_time&quot;),</span>
+            <span class="c1"># &quot;mseed_end_time&quot;: comment.get(&quot;mseed_end_time&quot;),</span>
+            <span class="c1"># &quot;detection_probability&quot;: comment.get(&quot;detection_probability&quot;),</span>
+            <span class="c1"># &quot;snr&quot;: comment.get(&quot;snr&quot;),</span>
+            <span class="c1"># &quot;sampling_rate&quot;: comment.get(&quot;sampling_rate&quot;),</span>
+            <span class="c1"># &quot;sample&quot;: comment.get(&quot;sample&quot;),</span>
+            <span class="c1"># &quot;segment&quot;: comment.get(&quot;segment&quot;),</span>
+            <span class="c1"># &quot;segment_type&quot;: comment.get(&quot;segment_type&quot;),</span>
+            <span class="c1"># &quot;station_lat&quot;: comment.get(&quot;station_lat&quot;),</span>
+            <span class="c1"># &quot;station_lon&quot;: comment.get(&quot;station_lon&quot;),</span>
+            <span class="c1"># &quot;station_elv&quot;: comment.get(&quot;station_elv&quot;),</span>
+            <span class="c1"># &quot;file_name&quot;: comment.get(&quot;file_name&quot;)</span>
+        <span class="p">}</span>
+        
+        <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">comment</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">seismonitor</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+        
+        <span class="n">loc</span> <span class="o">=</span> <span class="n">pick</span><span class="o">.</span><span class="n">waveform_id</span><span class="o">.</span><span class="n">location_code</span>
+        <span class="n">seismonitor</span><span class="p">[</span><span class="s2">&quot;location&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="s2">&quot;&quot;</span> <span class="k">if</span> <span class="n">loc</span> <span class="ow">in</span> <span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">]</span> <span class="ow">or</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">loc</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">))</span> <span class="ow">and</span> <span class="n">math</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">loc</span><span class="p">))</span>
+            <span class="k">else</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">int</span><span class="p">(</span><span class="n">loc</span><span class="p">)</span><span class="si">:</span><span class="s2">02d</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">loc</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">))</span> <span class="k">else</span> <span class="nb">str</span><span class="p">(</span><span class="n">loc</span><span class="p">)</span>
+        <span class="p">)</span>
+        <span class="n">seismonitor</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">pick</span><span class="o">.</span><span class="n">comments</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="n">df_data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">seismonitor</span><span class="p">)</span>
+    
+    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">df_data</span><span class="p">)</span>
+    <span class="n">df</span><span class="p">[</span><span class="s2">&quot;location&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;location&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span>
+    <span class="n">date_cols</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;arrival_time&quot;</span><span class="p">,</span> <span class="s2">&quot;creation_time&quot;</span><span class="p">,</span> <span class="s2">&quot;event_start_time&quot;</span><span class="p">,</span> <span class="s2">&quot;event_end_time&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;mseed_start_time&quot;</span><span class="p">,</span> <span class="s2">&quot;mseed_end_time&quot;</span><span class="p">]</span>
+    <span class="n">df</span><span class="p">[</span><span class="n">date_cols</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">date_cols</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">df</span></div>
+
+
+
+<div class="viewcode-block" id="get_picks">
+<a class="viewcode-back" href="../../../../SeisMonitor.monitor.picker.html#SeisMonitor.monitor.picker.utils.get_picks">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_picks</span><span class="p">(</span>
+    <span class="n">datapicks</span><span class="p">,</span> <span class="n">datalist</span><span class="p">,</span> <span class="n">min_p_prob</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">min_s_prob</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span>
+    <span class="n">one_single_sampling_rate</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;df_obj&#39;</span><span class="p">,</span> <span class="n">export</span><span class="o">=</span><span class="kc">None</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Read PhaseNet picks and convert to desired format.</span>
+<span class="sd">    </span>
+<span class="sd">    Args:</span>
+<span class="sd">        datapicks (str): Path to PhaseNet picks CSV</span>
+<span class="sd">        datalist (str): Path to datalist CSV</span>
+<span class="sd">        min_p_prob (float): Minimum P-phase probability</span>
+<span class="sd">        min_s_prob (float): Minimum S-phase probability</span>
+<span class="sd">        one_single_sampling_rate (float): Override sampling rate (-1 for auto)</span>
+<span class="sd">        mode (str): Output mode (&#39;pick_obj&#39; or &#39;df_obj&#39;)</span>
+<span class="sd">        export (str, optional): Path to export DataFrame as CSV</span>
+<span class="sd">        </span>
+<span class="sd">    Returns:</span>
+<span class="sd">        list or pandas.DataFrame: Picks in specified format</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">datapicks</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">({</span><span class="s1">&#39;itp&#39;</span><span class="p">:</span> <span class="s1">&#39;string&#39;</span><span class="p">,</span> <span class="s1">&#39;tp_prob&#39;</span><span class="p">:</span> <span class="s1">&#39;string&#39;</span><span class="p">,</span>
+                                       <span class="s1">&#39;its&#39;</span><span class="p">:</span> <span class="s1">&#39;string&#39;</span><span class="p">,</span> <span class="s1">&#39;ts_prob&#39;</span><span class="p">:</span> <span class="s1">&#39;string&#39;</span><span class="p">})</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;[]&quot;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">)</span><span class="o">.</span><span class="n">dropna</span><span class="p">(</span><span class="n">subset</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;itp&#39;</span><span class="p">,</span> <span class="s1">&#39;tp_prob&#39;</span><span class="p">,</span> <span class="s1">&#39;its&#39;</span><span class="p">,</span> <span class="s1">&#39;ts_prob&#39;</span><span class="p">],</span> <span class="n">how</span><span class="o">=</span><span class="s2">&quot;all&quot;</span><span class="p">)</span>
+    
+    <span class="n">picks</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_get_picks</span><span class="p">(</span><span class="n">irow</span><span class="p">):</span>
+        <span class="n">i</span><span class="p">,</span> <span class="n">row</span> <span class="o">=</span> <span class="n">irow</span>
+        <span class="n">wf_name</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="s2">&quot;fname&quot;</span><span class="p">]</span>
+        
+        <span class="n">p_picks</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">pick_constructor</span><span class="p">(</span><span class="n">datalist</span><span class="p">,</span> <span class="n">row</span><span class="p">[</span><span class="s2">&quot;itp&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s1">&#39;[]&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(),</span>
+                           <span class="n">row</span><span class="p">[</span><span class="s2">&quot;tp_prob&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s1">&#39;[]&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(),</span> <span class="n">wf_name</span><span class="p">,</span> <span class="s1">&#39;P&#39;</span><span class="p">,</span>
+                           <span class="n">min_p_prob</span><span class="p">,</span> <span class="n">one_single_sampling_rate</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">pd</span><span class="o">.</span><span class="n">isna</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s2">&quot;itp&quot;</span><span class="p">])</span> <span class="k">else</span> <span class="p">[]</span>
+        <span class="p">)</span>
+        
+        <span class="n">s_picks</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">pick_constructor</span><span class="p">(</span><span class="n">datalist</span><span class="p">,</span> <span class="n">row</span><span class="p">[</span><span class="s2">&quot;its&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s1">&#39;[]&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(),</span>
+                           <span class="n">row</span><span class="p">[</span><span class="s2">&quot;ts_prob&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s1">&#39;[]&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(),</span> <span class="n">wf_name</span><span class="p">,</span> <span class="s1">&#39;S&#39;</span><span class="p">,</span>
+                           <span class="n">min_s_prob</span><span class="p">,</span> <span class="n">one_single_sampling_rate</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">pd</span><span class="o">.</span><span class="n">isna</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s2">&quot;its&quot;</span><span class="p">])</span> <span class="k">else</span> <span class="p">[]</span>
+        <span class="p">)</span>
+        
+        <span class="n">picks</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">p_picks</span> <span class="o">+</span> <span class="n">s_picks</span><span class="p">)</span>
+
+    <span class="k">with</span> <span class="n">cf</span><span class="o">.</span><span class="n">ThreadPoolExecutor</span><span class="p">()</span> <span class="k">as</span> <span class="n">executor</span><span class="p">:</span>
+        <span class="n">executor</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">_get_picks</span><span class="p">,</span> <span class="n">df</span><span class="o">.</span><span class="n">iterrows</span><span class="p">())</span>
+    
+    <span class="n">picks</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">sublist</span> <span class="ow">in</span> <span class="n">picks</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">sublist</span><span class="p">]</span>
+    
+    <span class="k">if</span> <span class="n">mode</span> <span class="o">==</span> <span class="s1">&#39;pick_obj&#39;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">picks</span>
+    <span class="k">if</span> <span class="n">mode</span> <span class="o">==</span> <span class="s1">&#39;df_obj&#39;</span> <span class="ow">or</span> <span class="n">export</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">picks</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
+        <span class="n">picks</span> <span class="o">=</span> <span class="n">picks2df</span><span class="p">(</span><span class="n">picks</span><span class="p">)</span>
+        
+        <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s1">&#39;PhaseNet: picks2df&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">picks</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">):</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s1">&#39;There are no picks to convert.&#39;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
+        <span class="c1"># print(picks)</span>
+        <span class="n">pnet_cols</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;mseed_start_time&quot;</span><span class="p">,</span> <span class="s2">&quot;mseed_end_time&quot;</span><span class="p">,</span> <span class="s2">&quot;sampling_rate&quot;</span><span class="p">,</span> <span class="s2">&quot;sample&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;segment&quot;</span><span class="p">,</span> <span class="s2">&quot;segment_type&quot;</span><span class="p">]</span>
+        <span class="n">picks</span> <span class="o">=</span> <span class="n">picks</span><span class="p">[</span><span class="n">SeisMonitor_columns</span> <span class="o">+</span> <span class="n">pnet_cols</span><span class="p">]</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s1">&#39;arrival_time&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Conversion pick_sample in pick_time ok. See your results in pick_df.csv.&#39;</span><span class="p">)</span>
+        
+        <span class="k">if</span> <span class="n">export</span><span class="p">:</span>
+            <span class="n">picks</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">export</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">date_format</span><span class="o">=</span><span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2"> %H:%M:%S.</span><span class="si">%f</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">picks</span></div>
+
+
+
+<div class="viewcode-block" id="pick_constructor">
+<a class="viewcode-back" href="../../../../SeisMonitor.monitor.picker.html#SeisMonitor.monitor.picker.utils.pick_constructor">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">pick_constructor</span><span class="p">(</span><span class="n">datalist</span><span class="p">,</span> <span class="n">picks</span><span class="p">,</span> <span class="n">prob</span><span class="p">,</span> <span class="n">wf_name</span><span class="p">,</span> <span class="n">ph_type</span><span class="p">,</span> <span class="n">min_prob</span><span class="p">,</span> <span class="n">one_single_sampling_rate</span><span class="o">=-</span><span class="mi">1</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Construct Pick objects from PhaseNet data.</span>
+<span class="sd">    </span>
+<span class="sd">    Args:</span>
+<span class="sd">        datalist (str): Path to datalist CSV</span>
+<span class="sd">        picks (list): Pick sample points</span>
+<span class="sd">        prob (list): Pick probabilities</span>
+<span class="sd">        wf_name (str): Waveform name</span>
+<span class="sd">        ph_type (str): Phase type (&#39;P&#39; or &#39;S&#39;)</span>
+<span class="sd">        min_prob (float): Minimum probability threshold</span>
+<span class="sd">        one_single_sampling_rate (float): Override sampling rate</span>
+<span class="sd">        </span>
+<span class="sd">    Returns:</span>
+<span class="sd">        list: List of Pick objects</span>
+<span class="sd">        </span>
+<span class="sd">    Raises:</span>
+<span class="sd">        Exception: If datalist file is missing</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">datalist</span><span class="p">):</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s2">&quot;Datalist&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;Error in phasenet_pick2date()&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;No datalist&quot;</span><span class="p">)</span>
+
+    <span class="n">datalist_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">datalist</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;location&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">})</span>
+    <span class="n">datalist_df</span><span class="p">[[</span><span class="s1">&#39;mseed_start_time&#39;</span><span class="p">,</span> <span class="s1">&#39;mseed_end_time&#39;</span><span class="p">]]</span> <span class="o">=</span> <span class="n">datalist_df</span><span class="p">[</span>
+        <span class="p">[</span><span class="s1">&#39;mseed_start_time&#39;</span><span class="p">,</span> <span class="s1">&#39;mseed_end_time&#39;</span><span class="p">]</span>
+    <span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">)</span>
+    <span class="n">datalist_df</span> <span class="o">=</span> <span class="n">datalist_df</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s2">&quot;fname&quot;</span><span class="p">)</span>
+
+    <span class="n">picks_list</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">if</span> <span class="n">picks</span> <span class="o">!=</span> <span class="p">[</span><span class="s1">&#39;&#39;</span><span class="p">]:</span>
+        <span class="n">wfpath</span><span class="p">,</span> <span class="n">segment</span> <span class="o">=</span> <span class="n">wf_name</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.mseed_&quot;</span><span class="p">)</span>
+        <span class="n">wfpath</span> <span class="o">+=</span> <span class="s2">&quot;.mseed&quot;</span>
+        <span class="n">segment</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">segment</span><span class="p">)</span>
+        
+        <span class="n">row</span> <span class="o">=</span> <span class="n">datalist_df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">wfpath</span><span class="p">]</span>
+        <span class="n">net</span><span class="p">,</span> <span class="n">sta</span><span class="p">,</span> <span class="n">loc</span><span class="p">,</span> <span class="n">ch</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="s2">&quot;network&quot;</span><span class="p">],</span> <span class="n">row</span><span class="p">[</span><span class="s2">&quot;station&quot;</span><span class="p">],</span> <span class="n">row</span><span class="p">[</span><span class="s2">&quot;location&quot;</span><span class="p">],</span> <span class="n">row</span><span class="p">[</span><span class="s2">&quot;instrument_type&quot;</span><span class="p">]</span>
+        
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">loc</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">))</span> <span class="ow">and</span> <span class="n">math</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">loc</span><span class="p">):</span>
+            <span class="n">loc</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+        <span class="n">sampling_rate</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">one_single_sampling_rate</span> <span class="k">if</span> <span class="n">one_single_sampling_rate</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span> <span class="k">else</span> <span class="n">row</span><span class="p">[</span><span class="s2">&quot;sampling_rate&quot;</span><span class="p">]</span>
+        <span class="p">)</span>
+        
+        <span class="n">mseed_starttime</span><span class="p">,</span> <span class="n">mseed_endtime</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="s1">&#39;mseed_start_time&#39;</span><span class="p">],</span> <span class="n">row</span><span class="p">[</span><span class="s1">&#39;mseed_end_time&#39;</span><span class="p">]</span>
+        <span class="n">sta_lat</span><span class="p">,</span> <span class="n">sta_lon</span><span class="p">,</span> <span class="n">sta_elv</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="s2">&quot;sta_lat&quot;</span><span class="p">],</span> <span class="n">row</span><span class="p">[</span><span class="s2">&quot;sta_lon&quot;</span><span class="p">],</span> <span class="n">row</span><span class="p">[</span><span class="s2">&quot;sta_elv&quot;</span><span class="p">]</span>
+        <span class="n">dtt</span> <span class="o">=</span> <span class="p">(</span><span class="n">mseed_endtime</span> <span class="o">-</span> <span class="n">mseed_starttime</span><span class="p">)</span><span class="o">.</span><span class="n">seconds</span>
+        
+        <span class="k">for</span> <span class="n">pick</span><span class="p">,</span> <span class="n">p_prob</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">picks</span><span class="p">,</span> <span class="n">prob</span><span class="p">):</span>
+            <span class="n">p_prob</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">p_prob</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">p_prob</span> <span class="o">&lt;</span> <span class="n">min_prob</span><span class="p">:</span>
+                <span class="k">continue</span>
+            
+            <span class="n">pick_time</span><span class="p">,</span> <span class="n">creation_time</span><span class="p">,</span> <span class="n">obs</span> <span class="o">=</span> <span class="n">sample2time</span><span class="p">(</span><span class="n">pick</span><span class="p">,</span> <span class="n">mseed_starttime</span><span class="p">,</span> <span class="n">sampling_rate</span><span class="p">,</span> <span class="n">segment</span><span class="p">,</span> <span class="n">dtt</span><span class="p">)</span>
+            <span class="n">pick_id</span> <span class="o">=</span> <span class="n">id_maker</span><span class="p">(</span><span class="n">pick_time</span><span class="p">,</span> <span class="n">net</span><span class="p">,</span> <span class="n">sta</span><span class="p">,</span> <span class="n">loc</span><span class="p">,</span> <span class="n">ch</span><span class="p">,</span> <span class="n">ph_type</span><span class="p">)</span>
+            <span class="n">evaluation_mode</span> <span class="o">=</span> <span class="s1">&#39;manual&#39;</span> <span class="k">if</span> <span class="n">p_prob</span> <span class="o">&gt;=</span> <span class="mf">0.95</span> <span class="k">else</span> <span class="s1">&#39;automatic&#39;</span>
+            
+            <span class="n">pick_obj</span> <span class="o">=</span> <span class="n">Pick</span><span class="p">(</span>
+                <span class="n">resource_id</span><span class="o">=</span><span class="n">ResourceIdentifier</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">pick_id</span><span class="p">),</span>
+                <span class="n">time</span><span class="o">=</span><span class="n">pick_time</span><span class="p">,</span>
+                <span class="n">time_errors</span><span class="o">=</span><span class="n">QuantityError</span><span class="p">(</span><span class="n">uncertainty</span><span class="o">=</span><span class="n">p_prob</span><span class="p">,</span> <span class="n">confidence_level</span><span class="o">=</span><span class="n">p_prob</span> <span class="o">*</span> <span class="mi">100</span><span class="p">),</span>
+                <span class="n">waveform_id</span><span class="o">=</span><span class="n">WaveformStreamID</span><span class="p">(</span>
+                    <span class="n">network_code</span><span class="o">=</span><span class="n">net</span><span class="p">,</span> <span class="n">station_code</span><span class="o">=</span><span class="n">sta</span><span class="p">,</span> <span class="n">location_code</span><span class="o">=</span><span class="n">loc</span><span class="p">,</span>
+                    <span class="n">channel_code</span><span class="o">=</span><span class="n">ch</span><span class="p">,</span> <span class="n">resource_uri</span><span class="o">=</span><span class="n">ResourceIdentifier</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">pick_id</span><span class="p">)</span>
+                <span class="p">),</span>
+                <span class="n">phase_hint</span><span class="o">=</span><span class="n">ph_type</span><span class="p">,</span>
+                <span class="n">evaluation_mode</span><span class="o">=</span><span class="n">evaluation_mode</span><span class="p">,</span>
+                <span class="n">creation_info</span><span class="o">=</span><span class="n">CreationInfo</span><span class="p">(</span><span class="n">author</span><span class="o">=</span><span class="s2">&quot;PhaseNet_picker&quot;</span><span class="p">,</span> <span class="n">creation_time</span><span class="o">=</span><span class="n">UTCDateTime</span><span class="o">.</span><span class="n">now</span><span class="p">()),</span>
+                <span class="n">method_id</span><span class="o">=</span><span class="s2">&quot;PhaseNet&quot;</span><span class="p">,</span>
+                <span class="n">comments</span><span class="o">=</span><span class="p">[</span><span class="n">Comment</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">({</span>
+                    <span class="s2">&quot;event_start_time&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+                    <span class="s2">&quot;event_end_time&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+                    <span class="s2">&quot;detection_probability&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+                    <span class="s2">&quot;snr&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+                    <span class="s2">&quot;station_lat&quot;</span><span class="p">:</span> <span class="n">sta_lat</span><span class="p">,</span>
+                    <span class="s2">&quot;station_lon&quot;</span><span class="p">:</span> <span class="n">sta_lon</span><span class="p">,</span>
+                    <span class="s2">&quot;station_elv&quot;</span><span class="p">:</span> <span class="n">sta_elv</span><span class="p">,</span>
+                    <span class="s2">&quot;sampling_rate&quot;</span><span class="p">:</span> <span class="n">sampling_rate</span><span class="p">,</span>
+                    <span class="s2">&quot;file_name&quot;</span><span class="p">:</span> <span class="n">wf_name</span><span class="p">,</span>
+                    <span class="s2">&quot;mseed_start_time&quot;</span><span class="p">:</span> <span class="n">mseed_starttime</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2"> %H:%M:%S.</span><span class="si">%f</span><span class="s2">&quot;</span><span class="p">),</span>
+                    <span class="s2">&quot;mseed_end_time&quot;</span><span class="p">:</span> <span class="n">mseed_endtime</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2"> %H:%M:%S.</span><span class="si">%f</span><span class="s2">&quot;</span><span class="p">),</span>
+                    <span class="s2">&quot;sample&quot;</span><span class="p">:</span> <span class="n">pick</span><span class="p">,</span>
+                    <span class="s2">&quot;segment&quot;</span><span class="p">:</span> <span class="n">segment</span><span class="p">,</span>
+                    <span class="s2">&quot;segment_type&quot;</span><span class="p">:</span> <span class="n">obs</span>
+                <span class="p">}))]</span>
+            <span class="p">)</span>
+            <span class="n">picks_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pick_obj</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">picks_list</span></div>
+
+
+
+<div class="viewcode-block" id="id_maker">
+<a class="viewcode-back" href="../../../../SeisMonitor.monitor.picker.html#SeisMonitor.monitor.picker.utils.id_maker">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">id_maker</span><span class="p">(</span><span class="n">pick_time</span><span class="p">,</span> <span class="n">net</span><span class="p">,</span> <span class="n">station</span><span class="p">,</span> <span class="n">loc</span><span class="p">,</span> <span class="n">ch</span><span class="p">,</span> <span class="n">phasehint</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Create SeisComP-style pick PublicID.</span>
+<span class="sd">    </span>
+<span class="sd">    Args:</span>
+<span class="sd">        pick_time (UTCDateTime): Pick time</span>
+<span class="sd">        net (str): Network code</span>
+<span class="sd">        station (str): Station code</span>
+<span class="sd">        loc (str): Location code</span>
+<span class="sd">        ch (str): Channel code</span>
+<span class="sd">        phasehint (str): Phase hint (&#39;P&#39; or &#39;S&#39;)</span>
+<span class="sd">        </span>
+<span class="sd">    Returns:</span>
+<span class="sd">        str: SeisComP pick PublicID</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">date_id</span> <span class="o">=</span> <span class="n">pick_time</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;%Y%m</span><span class="si">%d</span><span class="s1">.%H%M%S.</span><span class="si">%f</span><span class="s1">&#39;</span><span class="p">)[:</span><span class="o">-</span><span class="mi">4</span><span class="p">]</span>
+    <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">date_id</span><span class="si">}</span><span class="s2">-</span><span class="si">{</span><span class="s1">&#39;P&#39;</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">phasehint</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s1">&#39;P&#39;</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="s1">&#39;S&#39;</span><span class="si">}</span><span class="s2">-</span><span class="si">{</span><span class="n">net</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="n">station</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="n">loc</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="n">ch</span><span class="si">}</span><span class="s2">&quot;</span></div>
+
+
+
+<div class="viewcode-block" id="sample2time">
+<a class="viewcode-back" href="../../../../SeisMonitor.monitor.picker.html#SeisMonitor.monitor.picker.utils.sample2time">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">sample2time</span><span class="p">(</span><span class="n">sample</span><span class="p">,</span> <span class="n">to</span><span class="p">,</span> <span class="n">df</span><span class="p">,</span> <span class="n">segment</span><span class="p">,</span> <span class="n">dtt</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Convert PhaseNet sample count to time.</span>
+<span class="sd">    </span>
+<span class="sd">    Args:</span>
+<span class="sd">        sample (str): Sample point of pick</span>
+<span class="sd">        to (datetime): Waveform start time</span>
+<span class="sd">        df (float): Sampling rate</span>
+<span class="sd">        segment (int): Segment number</span>
+<span class="sd">        dtt (float): Waveform duration in seconds</span>
+<span class="sd">        </span>
+<span class="sd">    Returns:</span>
+<span class="sd">        tuple: (pick_time, creation_time, observation_type)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">init_time</span> <span class="o">=</span> <span class="n">to</span>
+    <span class="n">obs</span> <span class="o">=</span> <span class="s1">&#39;single&#39;</span>
+    <span class="k">if</span> <span class="n">segment</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">segment</span> <span class="o">&gt;=</span> <span class="n">dtt</span> <span class="o">*</span> <span class="n">df</span><span class="p">:</span>
+            <span class="n">segment</span> <span class="o">-=</span> <span class="n">dtt</span> <span class="o">*</span> <span class="n">df</span>
+            <span class="n">init_time</span> <span class="o">-=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">timedelta</span><span class="p">(</span><span class="n">seconds</span><span class="o">=</span><span class="mi">1500</span> <span class="o">/</span> <span class="n">df</span><span class="p">)</span>
+            <span class="n">obs</span> <span class="o">=</span> <span class="s1">&#39;overlap&#39;</span>
+    
+    <span class="n">add_seconds</span> <span class="o">=</span> <span class="p">(</span><span class="n">segment</span> <span class="o">+</span> <span class="nb">float</span><span class="p">(</span><span class="n">sample</span><span class="p">))</span> <span class="o">/</span> <span class="n">df</span>
+    <span class="n">pick_time</span> <span class="o">=</span> <span class="n">init_time</span> <span class="o">+</span> <span class="n">dt</span><span class="o">.</span><span class="n">timedelta</span><span class="p">(</span><span class="n">seconds</span><span class="o">=</span><span class="n">add_seconds</span><span class="p">)</span>
+    <span class="n">creation_time</span> <span class="o">=</span> <span class="n">UTCDateTime</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">pick_time</span><span class="p">,</span> <span class="n">creation_time</span><span class="p">,</span> <span class="n">obs</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Emmanuel Castillo.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

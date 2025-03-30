@@ -9,21 +9,21 @@ SeisMonitor.plot.picks module
 
 .. automodule:: SeisMonitor.plot.picks
    :members:
-   :show-inheritance:
    :undoc-members:
+   :show-inheritance:
 
 SeisMonitor.plot.utils module
 -----------------------------
 
 .. automodule:: SeisMonitor.plot.utils
    :members:
-   :show-inheritance:
    :undoc-members:
+   :show-inheritance:
 
 Module contents
 ---------------
 
 .. automodule:: SeisMonitor.plot
    :members:
-   :show-inheritance:
    :undoc-members:
+   :show-inheritance:

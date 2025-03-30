@@ -21,13 +21,13 @@ SeisMonitor.monitor.seismonitor module
 
 .. automodule:: SeisMonitor.monitor.seismonitor
    :members:
-   :show-inheritance:
    :undoc-members:
+   :show-inheritance:
 
 Module contents
 ---------------
 
 .. automodule:: SeisMonitor.monitor
    :members:
-   :show-inheritance:
    :undoc-members:
+   :show-inheritance:

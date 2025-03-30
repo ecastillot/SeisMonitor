@@ -19,13 +19,13 @@ SeisMonitor.monitor.locator.utils module
 
 .. automodule:: SeisMonitor.monitor.locator.utils
    :members:
-   :show-inheritance:
    :undoc-members:
+   :show-inheritance:
 
 Module contents
 ---------------
 
 .. automodule:: SeisMonitor.monitor.locator
    :members:
-   :show-inheritance:
    :undoc-members:
+   :show-inheritance:

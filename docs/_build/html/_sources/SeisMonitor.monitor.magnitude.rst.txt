@@ -9,21 +9,21 @@ SeisMonitor.monitor.magnitude.mag module
 
 .. automodule:: SeisMonitor.monitor.magnitude.mag
    :members:
-   :show-inheritance:
    :undoc-members:
+   :show-inheritance:
 
 SeisMonitor.monitor.magnitude.utils module
 ------------------------------------------
 
 .. automodule:: SeisMonitor.monitor.magnitude.utils
    :members:
-   :show-inheritance:
    :undoc-members:
+   :show-inheritance:
 
 Module contents
 ---------------
 
 .. automodule:: SeisMonitor.monitor.magnitude
    :members:
-   :show-inheritance:
    :undoc-members:
+   :show-inheritance:

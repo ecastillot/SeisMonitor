@@ -9,21 +9,21 @@ SeisMonitor.monitor.locator.hypocenter.core module
 
 .. automodule:: SeisMonitor.monitor.locator.hypocenter.core
    :members:
-   :show-inheritance:
    :undoc-members:
+   :show-inheritance:
 
 SeisMonitor.monitor.locator.hypocenter.utils module
 ---------------------------------------------------
 
 .. automodule:: SeisMonitor.monitor.locator.hypocenter.utils
    :members:
-   :show-inheritance:
    :undoc-members:
+   :show-inheritance:
 
 Module contents
 ---------------
 
 .. automodule:: SeisMonitor.monitor.locator.hypocenter
    :members:
-   :show-inheritance:
    :undoc-members:
+   :show-inheritance:

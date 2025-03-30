@@ -1,0 +1,741 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SeisMonitor.monitor.locator.hypocenter.utils &mdash; SeisMonitor 0.0.56 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../../../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../../../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../../../_static/documentation_options.js?v=8f83b1af"></script>
+      <script src="../../../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../../../index.html" class="icon icon-home">
+            SeisMonitor
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../modules.html">SeisMonitor</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../../index.html">SeisMonitor</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">SeisMonitor.monitor.locator.hypocenter.utils</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for SeisMonitor.monitor.locator.hypocenter.utils</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Hypocenter utils. It runs several seisan commands to get hypocenter solutions</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+
+<span class="c1"># # Set up SeisMonitor path</span>
+<span class="c1"># seismopath = &quot;/home/emmanuel/EDCT&quot;</span>
+<span class="c1"># seismonitor = os.path.join(seismopath, &quot;SeisMonitor&quot;)</span>
+<span class="c1"># sys.path.insert(0, seismonitor)</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">datetime</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">tqdm</span><span class="w"> </span><span class="kn">import</span> <span class="n">tqdm</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">glob</span><span class="w"> </span><span class="kn">import</span> <span class="n">glob</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">multiprocessing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Pool</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">obspy</span><span class="w"> </span><span class="kn">import</span> <span class="n">read_inventory</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">obspy.core.event.catalog</span><span class="w"> </span><span class="kn">import</span> <span class="n">Catalog</span><span class="p">,</span> <span class="n">read_events</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pexpect</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">subprocess</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">SeisMonitor.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">printlog</span><span class="p">,</span> <span class="n">isfile</span>
+
+<span class="c1"># Define paths for Seisan software</span>
+<span class="n">libgfortran_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="vm">__file__</span><span class="p">),</span> <span class="s2">&quot;libgfortran.so.3.0.0&quot;</span><span class="p">)</span>
+<span class="n">CORE_SEISAN</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="vm">__file__</span><span class="p">),</span> <span class="s2">&quot;core&quot;</span><span class="p">)</span>
+<span class="n">SEISAN_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">CORE_SEISAN</span><span class="p">,</span> <span class="s2">&quot;seismo&quot;</span><span class="p">)</span>
+<span class="n">COM_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">SEISAN_path</span><span class="p">,</span> <span class="s2">&quot;COM&quot;</span><span class="p">)</span>
+<span class="n">PRO_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">SEISAN_path</span><span class="p">,</span> <span class="s2">&quot;PRO&quot;</span><span class="p">)</span>
+<span class="n">DAT_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">SEISAN_path</span><span class="p">,</span> <span class="s2">&quot;DAT&quot;</span><span class="p">)</span>
+<span class="n">STATION0_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">DAT_path</span><span class="p">,</span> <span class="s2">&quot;STATION0.HYP&quot;</span><span class="p">)</span>
+
+<div class="viewcode-block" id="download_seisan">
+<a class="viewcode-back" href="../../../../../SeisMonitor.monitor.locator.hypocenter.html#SeisMonitor.monitor.locator.hypocenter.utils.download_seisan">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">download_seisan</span><span class="p">(</span><span class="n">libgfortran_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Downloads and installs Seisan earthquake analysis software.</span>
+<span class="sd">    </span>
+<span class="sd">    Args:</span>
+<span class="sd">        libgfortran_path (str): Path to the libgfortran library required for Seisan.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;seisan_v12.0_linux_64.tar.gz&quot;</span>
+    <span class="n">gz_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">CORE_SEISAN</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="n">CORE_SEISAN</span><span class="p">):</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">CORE_SEISAN</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="n">gz_path</span><span class="p">):</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;wget -O </span><span class="si">{</span><span class="n">gz_path</span><span class="si">}</span><span class="s2"> https://www.geo.uib.no/seismo/SOFTWARE/SEISAN/seisan_v12.0_linux_64.tar.gz&quot;</span><span class="p">)</span>
+    
+    <span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s2">&quot;sudo apt-get update&quot;</span><span class="p">)</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s2">&quot;sudo apt-get install gcc g++ gfortran&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="n">SEISAN_path</span><span class="p">):</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">SEISAN_path</span><span class="p">)</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;tar -xf </span><span class="si">{</span><span class="n">gz_path</span><span class="si">}</span><span class="s2"> -C </span><span class="si">{</span><span class="n">SEISAN_path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    
+    <span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;cp </span><span class="si">{</span><span class="n">libgfortran_path</span><span class="si">}</span><span class="s2"> /usr/lib/x86_64-linux-gnu/libgfortran.so.3&quot;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="split">
+<a class="viewcode-back" href="../../../../../SeisMonitor.monitor.locator.hypocenter.html#SeisMonitor.monitor.locator.hypocenter.utils.split">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">split</span><span class="p">(</span><span class="n">sfile_folder</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">sfilename</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Splits an S-file into multiple smaller files.</span>
+<span class="sd">    </span>
+<span class="sd">    Args:</span>
+<span class="sd">        sfile_folder (str): Directory containing the S-file to be split.</span>
+<span class="sd">        sfilename (str): Name of the S-file to be split.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">split_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">PRO_path</span><span class="p">,</span> <span class="s2">&quot;split&quot;</span><span class="p">)</span>
+    <span class="n">Split</span> <span class="o">=</span> <span class="n">pexpect</span><span class="o">.</span><span class="n">spawn</span><span class="p">(</span><span class="n">split_path</span><span class="p">,</span> <span class="n">cwd</span><span class="o">=</span><span class="n">sfile_folder</span><span class="p">)</span>
+    <span class="n">Split</span><span class="o">.</span><span class="n">expect</span><span class="p">(</span><span class="sa">b</span><span class="s1">&#39; NAME&#39;</span><span class="p">)</span>
+    <span class="n">Split</span><span class="o">.</span><span class="n">sendline</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">sfilename</span><span class="si">}</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="n">Split</span><span class="o">.</span><span class="n">expect</span><span class="p">(</span><span class="sa">b</span><span class="s1">&#39;LOCAL DIRECTORY&#39;</span><span class="p">)</span>
+    <span class="n">Split</span><span class="o">.</span><span class="n">sendline</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="n">Split</span><span class="o">.</span><span class="n">expect</span><span class="p">(</span><span class="sa">b</span><span class="s1">&#39;CHARS&#39;</span><span class="p">)</span>
+    <span class="n">Split</span><span class="o">.</span><span class="n">sendline</span><span class="p">(</span><span class="s1">&#39;usr</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="n">Split</span><span class="o">.</span><span class="n">interact</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="collect">
+<a class="viewcode-back" href="../../../../../SeisMonitor.monitor.locator.hypocenter.html#SeisMonitor.monitor.locator.hypocenter.utils.collect">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">collect</span><span class="p">(</span><span class="n">sfile_folder</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Collects multiple S-files into a single collected S-file.</span>
+<span class="sd">    </span>
+<span class="sd">    Args:</span>
+<span class="sd">        sfile_folder (str): Directory containing the S-files to be collected.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">collect_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">PRO_path</span><span class="p">,</span> <span class="s2">&quot;collect&quot;</span><span class="p">)</span>
+    <span class="n">Collect</span> <span class="o">=</span> <span class="n">pexpect</span><span class="o">.</span><span class="n">spawn</span><span class="p">(</span><span class="n">collect_path</span><span class="p">,</span> <span class="n">cwd</span><span class="o">=</span><span class="n">sfile_folder</span><span class="p">)</span>
+    <span class="n">Collect</span><span class="o">.</span><span class="n">expect</span><span class="p">(</span><span class="sa">b</span><span class="s1">&#39; return for default&#39;</span><span class="p">)</span>
+    <span class="n">Collect</span><span class="o">.</span><span class="n">sendline</span><span class="p">(</span><span class="s1">&#39;,,</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="n">Collect</span><span class="o">.</span><span class="n">expect</span><span class="p">(</span><span class="sa">b</span><span class="s2">&quot;:&quot;</span><span class="p">)</span>
+    <span class="n">Collect</span><span class="o">.</span><span class="n">sendline</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="n">Collect</span><span class="o">.</span><span class="n">expect</span><span class="p">(</span><span class="sa">b</span><span class="s2">&quot;:&quot;</span><span class="p">)</span>
+    <span class="n">Collect</span><span class="o">.</span><span class="n">sendline</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="n">Collect</span><span class="o">.</span><span class="n">expect</span><span class="p">(</span><span class="sa">b</span><span class="s2">&quot;(Y/N=default)&quot;</span><span class="p">)</span>
+    <span class="n">Collect</span><span class="o">.</span><span class="n">interact</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="update">
+<a class="viewcode-back" href="../../../../../SeisMonitor.monitor.locator.hypocenter.html#SeisMonitor.monitor.locator.hypocenter.utils.update">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">update</span><span class="p">(</span><span class="n">sfile_folder</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Updates the hypocenter location for each S-file.</span>
+<span class="sd">    </span>
+<span class="sd">    Args:</span>
+<span class="sd">        sfile_folder (str): Directory containing the S-files to be updated.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">update_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">PRO_path</span><span class="p">,</span> <span class="s2">&quot;update&quot;</span><span class="p">)</span>
+    <span class="n">Update</span> <span class="o">=</span> <span class="n">pexpect</span><span class="o">.</span><span class="n">spawn</span><span class="p">(</span><span class="n">update_path</span><span class="p">,</span> <span class="n">cwd</span><span class="o">=</span><span class="n">sfile_folder</span><span class="p">)</span>
+    <span class="n">Update</span><span class="o">.</span><span class="n">expect</span><span class="p">(</span><span class="sa">b</span><span class="s1">&#39; return for default&#39;</span><span class="p">)</span>
+    <span class="n">Update</span><span class="o">.</span><span class="n">sendline</span><span class="p">(</span><span class="s1">&#39;,,</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="n">Update</span><span class="o">.</span><span class="n">expect</span><span class="p">(</span><span class="sa">b</span><span class="s2">&quot;:&quot;</span><span class="p">)</span>
+    <span class="n">Update</span><span class="o">.</span><span class="n">sendline</span><span class="p">(</span><span class="s1">&#39;usr</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="n">Update</span><span class="o">.</span><span class="n">expect</span><span class="p">(</span><span class="sa">b</span><span class="s2">&quot;:&quot;</span><span class="p">)</span>
+    <span class="n">Update</span><span class="o">.</span><span class="n">sendline</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="n">Update</span><span class="o">.</span><span class="n">interact</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="select">
+<a class="viewcode-back" href="../../../../../SeisMonitor.monitor.locator.hypocenter.html#SeisMonitor.monitor.locator.hypocenter.utils.select">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">select</span><span class="p">(</span><span class="n">sfile_folder</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Parameters:</span>
+<span class="sd">    -----------</span>
+<span class="sd">    sfile_folder: str</span>
+<span class="sd">        It is the folder where is located all sfiles.</span>
+<span class="sd">            </span>
+<span class="sd">    Returns: </span>
+<span class="sd">        It executes select command from SEISAN.</span>
+<span class="sd">        select.in: index</span>
+<span class="sd">        select.out: Selected information</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">select_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">PRO_path</span><span class="p">,</span><span class="s2">&quot;select&quot;</span><span class="p">)</span>
+    <span class="n">Select</span> <span class="o">=</span> <span class="n">pexpect</span><span class="o">.</span><span class="n">spawn</span><span class="p">(</span><span class="n">select_path</span><span class="p">,</span> <span class="n">cwd</span><span class="o">=</span><span class="n">sfile_folder</span><span class="p">)</span>
+    <span class="n">Select</span><span class="o">.</span><span class="n">expect</span><span class="p">(</span><span class="s1">&#39;FILENAME FOR ONE FILE, MUST BE 6 OR MORE CHARACTERS OR HAVE A .&#39;</span><span class="p">)</span>
+    <span class="n">Select</span><span class="o">.</span><span class="n">sendline</span><span class="p">(</span><span class="s1">&#39;,,</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="n">Select</span><span class="o">.</span><span class="n">expect</span><span class="p">(</span><span class="s1">&#39; yyyymmddhhmmss:&#39;</span><span class="p">)</span>
+    <span class="n">Select</span><span class="o">.</span><span class="n">sendline</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="n">Select</span><span class="o">.</span><span class="n">expect</span><span class="p">(</span><span class="s1">&#39; :&#39;</span><span class="p">)</span>
+    <span class="n">Select</span><span class="o">.</span><span class="n">sendline</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="n">Select</span><span class="o">.</span><span class="n">expect</span><span class="p">(</span><span class="s1">&#39;RETURN TO SEARCH:&#39;</span><span class="p">)</span>
+    <span class="n">Select</span><span class="o">.</span><span class="n">sendline</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="c1"># print(Select.before)</span>
+    <span class="n">Select</span><span class="o">.</span><span class="n">interact</span><span class="p">()</span>
+
+    <span class="n">out</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">sfile_folder</span><span class="p">,</span><span class="s2">&quot;select.out &quot;</span><span class="p">)</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;head -1 </span><span class="si">{</span><span class="n">out</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="norhead">
+<a class="viewcode-back" href="../../../../../SeisMonitor.monitor.locator.hypocenter.html#SeisMonitor.monitor.locator.hypocenter.utils.norhead">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">norhead</span><span class="p">(</span><span class="n">sfile_folder</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Parameters:</span>
+<span class="sd">    -----------</span>
+<span class="sd">    sfile_folder: str</span>
+<span class="sd">        It is the folder where is located all sfiles.</span>
+<span class="sd">            </span>
+<span class="sd">    Returns:</span>
+<span class="sd">        It select the principal header information of the event in</span>
+<span class="sd">        only one file</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">norhead_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">PRO_path</span><span class="p">,</span><span class="s2">&quot;norhead&quot;</span><span class="p">)</span>
+    <span class="n">select_out</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">sfile_folder</span><span class="p">,</span><span class="s2">&quot;select.out&quot;</span><span class="p">)</span>
+    <span class="n">hypo_out</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">sfile_folder</span><span class="p">,</span><span class="s2">&quot;hypo.out&quot;</span><span class="p">)</span>
+    <span class="n">msg</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">norhead_path</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">select_out</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">hypo_out</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="c1"># print(msg)</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="cp_station0">
+<a class="viewcode-back" href="../../../../../SeisMonitor.monitor.locator.hypocenter.html#SeisMonitor.monitor.locator.hypocenter.utils.cp_station0">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">cp_station0</span><span class="p">(</span><span class="n">station0</span><span class="p">,</span><span class="n">sfile_folder</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Parameters:</span>
+<span class="sd">    -----------</span>
+<span class="sd">    station0: str</span>
+<span class="sd">        Path of the station0 file</span>
+<span class="sd">    sfile_folder: str</span>
+<span class="sd">        It is the folder where is located all sfiles.</span>
+<span class="sd">            </span>
+<span class="sd">    Returns:</span>
+<span class="sd">        Copy the station0 file in the sfile_folder</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">station0_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">DAT_path</span><span class="p">,</span><span class="s2">&quot;STATION0.HYP&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">station0</span><span class="p">)</span> <span class="o">!=</span> <span class="kc">True</span><span class="p">:</span>
+
+        <span class="n">msg</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;cp </span><span class="si">{</span><span class="n">station0</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">sfile_folder</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="c1"># print(msg)</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="resp2df">
+<a class="viewcode-back" href="../../../../../SeisMonitor.monitor.locator.hypocenter.html#SeisMonitor.monitor.locator.hypocenter.utils.resp2df">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">resp2df</span><span class="p">(</span><span class="n">resp</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Converts a RESP file into a DataFrame containing station metadata.</span>
+<span class="sd">    </span>
+<span class="sd">    Args:</span>
+<span class="sd">        resp (str): Path to the RESP file.</span>
+<span class="sd">    </span>
+<span class="sd">    Returns:</span>
+<span class="sd">        pd.DataFrame: DataFrame containing station metadata with columns [&#39;network&#39;, &#39;station&#39;, &#39;latitude&#39;, &#39;longitude&#39;, &#39;elevation&#39;].</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">networks</span><span class="p">,</span> <span class="n">stations</span><span class="p">,</span> <span class="n">longitudes</span><span class="p">,</span> <span class="n">latitudes</span><span class="p">,</span> <span class="n">elevations</span> <span class="o">=</span> <span class="p">[],</span> <span class="p">[],</span> <span class="p">[],</span> <span class="p">[],</span> <span class="p">[]</span>
+    <span class="n">inv</span> <span class="o">=</span> <span class="n">read_inventory</span><span class="p">(</span><span class="n">resp</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">net</span> <span class="ow">in</span> <span class="n">inv</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">sta</span> <span class="ow">in</span> <span class="n">net</span><span class="p">:</span>
+            <span class="n">latitudes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">sta</span><span class="o">.</span><span class="n">latitude</span><span class="p">)</span>
+            <span class="n">longitudes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">sta</span><span class="o">.</span><span class="n">longitude</span><span class="p">)</span>
+            <span class="n">elevations</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">sta</span><span class="o">.</span><span class="n">elevation</span><span class="p">)</span>
+            <span class="n">stations</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">sta</span><span class="o">.</span><span class="n">code</span><span class="p">)</span>
+            <span class="n">networks</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">net</span><span class="o">.</span><span class="n">code</span><span class="p">)</span>
+    
+    <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
+        <span class="s2">&quot;network&quot;</span><span class="p">:</span> <span class="n">networks</span><span class="p">,</span>
+        <span class="s2">&quot;station&quot;</span><span class="p">:</span> <span class="n">stations</span><span class="p">,</span>
+        <span class="s2">&quot;latitude&quot;</span><span class="p">:</span> <span class="n">latitudes</span><span class="p">,</span>
+        <span class="s2">&quot;longitude&quot;</span><span class="p">:</span> <span class="n">longitudes</span><span class="p">,</span>
+        <span class="s2">&quot;elevation&quot;</span><span class="p">:</span> <span class="n">elevations</span>
+    <span class="p">})</span></div>
+
+
+<div class="viewcode-block" id="sta2station0">
+<a class="viewcode-back" href="../../../../../SeisMonitor.monitor.locator.hypocenter.html#SeisMonitor.monitor.locator.hypocenter.utils.sta2station0">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">sta2station0</span><span class="p">(</span><span class="n">df</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Converts station metadata into SEISAN STATION0 format.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    df : pd.DataFrame</span>
+<span class="sd">        Dataframe with columns [&#39;network&#39;, &#39;station&#39;, &#39;latitude&#39;, &#39;longitude&#39;, &#39;elevation&#39;].</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    list</span>
+<span class="sd">        List of each message by station.</span>
+<span class="sd">        The station message contains the following information:</span>
+<span class="sd">        </span>
+<span class="sd">        station lat lon elevation</span>
+<span class="sd">        Example:</span>
+<span class="sd">        CA01A 353.16N 7341.07W 436</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="s2">&quot;station&quot;</span><span class="p">)</span>
+
+    <span class="n">df</span><span class="p">[</span><span class="s2">&quot;lon_dec&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;longitude&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="nb">round</span><span class="p">((</span><span class="nb">abs</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">%</span> <span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="mi">60</span><span class="p">,</span><span class="mi">2</span><span class="p">))</span>
+    <span class="n">df</span><span class="p">[</span><span class="s2">&quot;lat_dec&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;latitude&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="nb">round</span><span class="p">((</span><span class="nb">abs</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">%</span> <span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="mi">60</span><span class="p">,</span><span class="mi">2</span><span class="p">))</span>
+    <span class="n">df</span><span class="p">[</span><span class="s2">&quot;latitude&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;latitude&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="nb">round</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">x</span><span class="p">),</span><span class="mi">2</span><span class="p">))</span>
+    <span class="n">df</span><span class="p">[</span><span class="s2">&quot;longitude&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;longitude&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="nb">round</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">x</span><span class="p">),</span><span class="mi">2</span><span class="p">))</span>
+
+    <span class="n">msgs</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">row</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">iterrows</span><span class="p">():</span>
+        <span class="n">sta</span> <span class="o">=</span> <span class="n">row</span><span class="o">.</span><span class="n">station</span>
+        <span class="n">lat</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">row</span><span class="o">.</span><span class="n">latitude</span><span class="p">))</span><span class="o">.</span><span class="n">zfill</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+        <span class="n">lon</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">row</span><span class="o">.</span><span class="n">longitude</span><span class="p">))</span><span class="o">.</span><span class="n">zfill</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">row</span><span class="o">.</span><span class="n">latitude</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">latcord</span> <span class="o">=</span> <span class="s2">&quot;S&quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">latcord</span> <span class="o">=</span> <span class="s2">&quot;N&quot;</span>
+
+        <span class="k">if</span> <span class="n">row</span><span class="o">.</span><span class="n">longitude</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">loncord</span> <span class="o">=</span> <span class="s2">&quot;W&quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">loncord</span> <span class="o">=</span> <span class="s2">&quot;E&quot;</span>
+
+        <span class="n">fmt</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">%6s%2i%5.2f%1s%3i%5.2f%1s%4i</span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="n">msg</span> <span class="o">=</span> <span class="n">fmt</span> <span class="o">%</span> <span class="p">(</span><span class="n">sta</span><span class="p">,</span><span class="nb">int</span><span class="p">(</span><span class="n">lat</span><span class="p">),</span><span class="nb">float</span><span class="p">(</span><span class="n">row</span><span class="o">.</span><span class="n">lat_dec</span><span class="p">),</span>
+                    <span class="n">latcord</span><span class="p">,</span><span class="nb">int</span><span class="p">(</span><span class="n">lon</span><span class="p">),</span><span class="nb">float</span><span class="p">(</span><span class="n">row</span><span class="o">.</span><span class="n">lon_dec</span><span class="p">),</span>
+                    <span class="n">loncord</span><span class="p">,</span><span class="nb">int</span><span class="p">(</span><span class="n">row</span><span class="o">.</span><span class="n">elevation</span><span class="p">))</span>
+        <span class="n">msgs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+        <span class="c1"># print(msg)</span>
+    <span class="k">return</span> <span class="n">msgs</span></div>
+
+
+<div class="viewcode-block" id="vel2station0">
+<a class="viewcode-back" href="../../../../../SeisMonitor.monitor.locator.hypocenter.html#SeisMonitor.monitor.locator.hypocenter.utils.vel2station0">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">vel2station0</span><span class="p">(</span><span class="n">df</span><span class="p">,</span><span class="n">only_vp</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Parameters:</span>
+<span class="sd">    -----------</span>
+<span class="sd">    df: DataFrame</span>
+<span class="sd">        Dataframe with the next columns</span>
+<span class="sd">        dep,vp,vs,disc</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">    --------</span>
+<span class="sd">    msgs: list</span>
+<span class="sd">        List of each message by discontinuity in the velocity model.</span>
+<span class="sd">        The discontinuity message contains the next information:</span>
+<span class="sd">        </span>
+<span class="sd">        vp dep vs disc</span>
+<span class="sd">        ---example---</span>
+<span class="sd">        7.000 25.000  3.940B</span>
+
+<span class="sd">    Warnings:</span>
+<span class="sd">    ---------</span>
+<span class="sd">        Discontinuities</span>
+<span class="sd">        B: Conrad</span>
+<span class="sd">        N: Moho</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="s2">&quot;vp&quot;</span><span class="p">)</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">notnull</span><span class="p">(</span><span class="n">df</span><span class="p">),</span> <span class="kc">None</span><span class="p">)</span>
+    <span class="n">msgs</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">row</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">iterrows</span><span class="p">():</span>
+        <span class="k">if</span> <span class="n">row</span><span class="o">.</span><span class="n">disc</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">only_vp</span><span class="p">:</span>
+                <span class="n">fmt</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">%7.3f%7.3f%1s</span><span class="se">\n</span><span class="s2">&quot;</span>
+                <span class="n">msg</span> <span class="o">=</span> <span class="n">fmt</span> <span class="o">%</span> <span class="p">(</span><span class="n">row</span><span class="o">.</span><span class="n">vp</span><span class="p">,</span><span class="n">row</span><span class="o">.</span><span class="n">depth</span><span class="p">,</span><span class="n">row</span><span class="o">.</span><span class="n">disc</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">fmt</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">%7.3f%7.3f%7.3f%1s</span><span class="se">\n</span><span class="s2">&quot;</span>
+                <span class="n">msg</span> <span class="o">=</span> <span class="n">fmt</span> <span class="o">%</span> <span class="p">(</span><span class="n">row</span><span class="o">.</span><span class="n">vp</span><span class="p">,</span><span class="n">row</span><span class="o">.</span><span class="n">depth</span><span class="p">,</span><span class="n">row</span><span class="o">.</span><span class="n">vs</span><span class="p">,</span><span class="n">row</span><span class="o">.</span><span class="n">disc</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span> 
+            <span class="k">if</span> <span class="n">only_vp</span><span class="p">:</span>
+                <span class="n">fmt</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">%7.3f%7.3f</span><span class="se">\n</span><span class="s2">&quot;</span>
+                <span class="n">msg</span> <span class="o">=</span> <span class="n">fmt</span> <span class="o">%</span> <span class="p">(</span><span class="n">row</span><span class="o">.</span><span class="n">vp</span><span class="p">,</span><span class="n">row</span><span class="o">.</span><span class="n">depth</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">fmt</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">%7.3f%7.3f%7.3f</span><span class="se">\n</span><span class="s2">&quot;</span>
+                <span class="n">msg</span> <span class="o">=</span> <span class="n">fmt</span> <span class="o">%</span> <span class="p">(</span><span class="n">row</span><span class="o">.</span><span class="n">vp</span><span class="p">,</span><span class="n">row</span><span class="o">.</span><span class="n">depth</span><span class="p">,</span><span class="n">row</span><span class="o">.</span><span class="n">vs</span><span class="p">)</span>
+
+        <span class="c1"># print(msg)</span>
+        <span class="n">msgs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">msgs</span></div>
+
+
+<div class="viewcode-block" id="test2station0">
+<a class="viewcode-back" href="../../../../../SeisMonitor.monitor.locator.hypocenter.html#SeisMonitor.monitor.locator.hypocenter.utils.test2station0">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">test2station0</span><span class="p">(</span><span class="n">test</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Parameters:</span>
+<span class="sd">    -----------</span>
+<span class="sd">    test: dict</span>
+<span class="sd">        key: str</span>
+<span class="sd">            Number of the SEISAN HYPOCENTER test line</span>
+<span class="sd">        value: int</span>
+<span class="sd">            Value of the respective key</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">    --------</span>
+<span class="sd">    msgs: list</span>
+<span class="sd">        List of each message by test line.</span>
+
+<span class="sd">        The test message contains the next information:</span>
+<span class="sd">        RESET TEST(key)=value</span>
+
+<span class="sd">        ------example-------</span>
+<span class="sd">        RESET TEST(02)=500.0</span>
+<span class="sd">        </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">msgs</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">key</span><span class="p">,</span><span class="n">value</span> <span class="ow">in</span> <span class="n">test</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="n">key</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">key</span><span class="p">)</span><span class="o">.</span><span class="n">zfill</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+        <span class="n">msg</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;RESET TEST(</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">)=</span><span class="si">{</span><span class="n">value</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="c1"># print(msg)</span>
+        <span class="n">msgs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">msgs</span></div>
+
+
+<div class="viewcode-block" id="vsp_ratio2station0">
+<a class="viewcode-back" href="../../../../../SeisMonitor.monitor.locator.hypocenter.html#SeisMonitor.monitor.locator.hypocenter.utils.vsp_ratio2station0">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">vsp_ratio2station0</span><span class="p">(</span><span class="n">vsp_ratio</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Parameters:</span>
+<span class="sd">    -----------</span>
+<span class="sd">    vsp_ratio: ordered dict</span>
+<span class="sd">        The key order of the dictionary must be the next:</span>
+<span class="sd">        &quot;starting_depth&quot;,&quot;xnear&quot;,&quot;xfar&quot;,&quot;vps&quot;</span>
+
+<span class="sd">        ---------example--------</span>
+<span class="sd">        {&quot;starting_depth&quot;:2,</span>
+<span class="sd">        &quot;xnear&quot;:100,</span>
+<span class="sd">        &quot;xfar&quot;: 800,</span>
+<span class="sd">        &quot;vps&quot;: 1.84},</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">    --------</span>
+<span class="sd">    msg: str</span>
+<span class="sd">        Represents the last line of the STATION0 file</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">fmts</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">values</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">key</span><span class="p">,</span><span class="n">value</span> <span class="ow">in</span> <span class="n">vsp_ratio</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="k">if</span> <span class="n">key</span> <span class="o">==</span> <span class="s2">&quot;vps&quot;</span><span class="p">:</span>
+            <span class="n">fmt</span> <span class="o">=</span> <span class="s2">&quot;5.2f&quot;</span>   
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">fmt</span> <span class="o">=</span> <span class="s2">&quot;5.0f&quot;</span>
+            
+        <span class="n">fmts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">fmt</span><span class="p">)</span>
+        <span class="n">values</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">value</span><span class="p">))</span>
+
+    <span class="n">fmt</span> <span class="o">=</span> <span class="s2">&quot;%&quot;</span><span class="o">+</span><span class="s2">&quot;%&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">fmts</span><span class="p">)</span>
+    <span class="c1"># print(fmt)</span>
+    <span class="c1"># print(tuple(values))</span>
+    <span class="n">msg</span> <span class="o">=</span> <span class="n">fmt</span> <span class="o">%</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">values</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span>
+    <span class="c1"># print(msg)</span>
+    <span class="k">return</span> <span class="n">msg</span></div>
+
+
+<div class="viewcode-block" id="check_sfile_integrity">
+<a class="viewcode-back" href="../../../../../SeisMonitor.monitor.locator.hypocenter.html#SeisMonitor.monitor.locator.hypocenter.utils.check_sfile_integrity">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">check_sfile_integrity</span><span class="p">(</span><span class="n">sfile_folder</span><span class="p">,</span><span class="n">rm_not_locatable</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    It checks sfile integrity.</span>
+<span class="sd">    We aim that obspy could be read it as catalog.</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">    -----------</span>
+<span class="sd">    sfile_folder: str</span>
+<span class="sd">        It is the folderpath where is located all sfiles.</span>
+<span class="sd">    rm_not_locatable: bool</span>
+<span class="sd">        Removes not locatable events</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">for</span> <span class="n">dp</span><span class="p">,</span> <span class="n">dn</span><span class="p">,</span> <span class="n">filenames</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">walk</span><span class="p">(</span><span class="n">sfile_folder</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">filenames</span><span class="p">:</span>
+            <span class="c1"># print(f)</span>
+            <span class="c1">#check if is an sfile to collect</span>
+            <span class="k">if</span> <span class="n">f</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;S&quot;</span><span class="p">:</span>
+
+                <span class="n">sfilepath</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">dp</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span>
+
+                <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">sfilepath</span><span class="p">,</span><span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">sf</span><span class="p">:</span>
+                    <span class="n">line0</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">readline</span><span class="p">()</span>
+                    <span class="c1"># print(line0[0:10])</span>
+                    
+                    <span class="n">latlondep_col</span> <span class="o">=</span> <span class="n">line0</span><span class="p">[</span><span class="mi">23</span><span class="p">:</span><span class="mi">45</span><span class="p">]</span>
+
+                    <span class="k">if</span> <span class="n">latlondep_col</span><span class="o">.</span><span class="n">isspace</span><span class="p">():</span>
+                        <span class="nb">print</span><span class="p">(</span><span class="n">sfilepath</span><span class="p">,</span><span class="s2">&quot;not_locatable&quot;</span><span class="p">)</span>
+                    
+                        <span class="k">if</span> <span class="n">rm_not_locatable</span><span class="p">:</span>
+                            <span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">sfilepath</span><span class="p">)</span>
+                            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Removed:&quot;</span><span class="p">,</span><span class="n">sfilepath</span><span class="p">,</span><span class="s2">&quot;not_locatable&quot;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="STATION0">
+<a class="viewcode-back" href="../../../../../SeisMonitor.monitor.locator.hypocenter.html#SeisMonitor.monitor.locator.hypocenter.utils.STATION0">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">STATION0</span><span class="p">():</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">xml_path</span><span class="p">,</span> <span class="n">vel_path</span><span class="p">,</span>
+            <span class="n">test</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;02&quot;</span><span class="p">:</span><span class="mf">500.0</span><span class="p">,</span><span class="s2">&quot;11&quot;</span><span class="p">:</span><span class="mf">99.0</span><span class="p">,</span>
+                <span class="s2">&quot;13&quot;</span><span class="p">:</span><span class="mf">1.0</span><span class="p">,</span><span class="s2">&quot;41&quot;</span><span class="p">:</span><span class="mf">20000.0</span><span class="p">,</span>
+                <span class="s2">&quot;43&quot;</span><span class="p">:</span><span class="mf">5.0</span><span class="p">,</span><span class="s2">&quot;56&quot;</span><span class="p">:</span><span class="mf">1.0</span><span class="p">,</span>
+                <span class="s2">&quot;85&quot;</span><span class="p">:</span><span class="mf">0.1</span><span class="p">},</span>
+            <span class="n">vsp_ratio</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;starting_depth&quot;</span><span class="p">:</span><span class="mi">2</span><span class="p">,</span>
+                        <span class="s2">&quot;xnear&quot;</span><span class="p">:</span><span class="mi">100</span><span class="p">,</span>
+                        <span class="s2">&quot;xfar&quot;</span><span class="p">:</span> <span class="mi">800</span><span class="p">,</span>
+                        <span class="s2">&quot;vps&quot;</span><span class="p">:</span> <span class="mf">1.78</span><span class="p">},</span>
+            <span class="n">agency</span> <span class="o">=</span> <span class="s2">&quot;TES&quot;</span><span class="p">,</span>
+            <span class="n">only_vp</span> <span class="o">=</span> <span class="kc">True</span>
+                <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initializes the STATION0 class.</span>
+<span class="sd">        </span>
+<span class="sd">        Args:</span>
+<span class="sd">            xml_path (str): Path to XML metadata file. </span>
+<span class="sd">            vel_path (str): Path to velocity model CSV file. columns:dep,vp,vs,disc</span>
+<span class="sd">            test (dict, optional): SEISAN test parameters. Defaults to standard values.</span>
+<span class="sd">                key: str</span>
+<span class="sd">                    Number of the SEISAN HYPOCENTER test line</span>
+<span class="sd">                value: int</span>
+<span class="sd">                    Value of the respective key</span>
+<span class="sd">            vsp_ratio (dict, optional): Vp/Vs ratio parameters. Defaults to standard values.</span>
+<span class="sd">                The key order of the dictionary must be the next:</span>
+<span class="sd">                &quot;starting_depth&quot;,&quot;xnear&quot;,&quot;xfar&quot;,&quot;vps&quot;</span>
+
+<span class="sd">                ---------example--------</span>
+<span class="sd">                {&quot;starting_depth&quot;:2,</span>
+<span class="sd">                &quot;xnear&quot;:100,</span>
+<span class="sd">                &quot;xfar&quot;: 800,</span>
+<span class="sd">                &quot;vps&quot;: 1.84},</span>
+<span class="sd">            agency (str, optional): Agency name. Defaults to &quot;TES&quot;.</span>
+<span class="sd">            only_vp (bool, optional): If True, only includes P-wave velocity. Defaults to True.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">test</span> <span class="o">=</span> <span class="n">test</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sta_df</span> <span class="o">=</span> <span class="n">resp2df</span><span class="p">(</span><span class="n">xml_path</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">vel_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">vel_path</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">vsp_ratio</span> <span class="o">=</span> <span class="n">vsp_ratio</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">agency</span> <span class="o">=</span> <span class="n">agency</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">only_vp</span> <span class="o">=</span> <span class="n">only_vp</span>
+    
+    <span class="k">def</span><span class="w"> </span><span class="nf">_get_msgs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Generates formatted messages for STATION0 file.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            list: List of formatted STATION0 lines.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">test_msgs</span> <span class="o">=</span> <span class="n">test2station0</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">test</span><span class="p">)</span> 
+        <span class="n">sta_msgs</span> <span class="o">=</span> <span class="n">sta2station0</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sta_df</span><span class="p">)</span>
+        <span class="n">vel_msgs</span> <span class="o">=</span> <span class="n">vel2station0</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">vel_df</span><span class="p">,</span><span class="n">only_vp</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">only_vp</span><span class="p">)</span>
+        <span class="n">vsp_msg</span> <span class="o">=</span> <span class="n">vsp_ratio2station0</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">vsp_ratio</span><span class="p">)</span>
+
+
+        <span class="n">msgs</span> <span class="o">=</span> <span class="n">test_msgs</span> <span class="o">+</span> <span class="p">[</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">]</span> <span class="o">+</span><span class="n">sta_msgs</span> <span class="o">+</span>\
+                <span class="p">[</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="n">vel_msgs</span> <span class="o">+</span> <span class="p">[</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">]</span> <span class="o">+</span>\
+                <span class="p">[</span><span class="n">vsp_msg</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">agency</span><span class="p">]</span>
+        <span class="c1"># print(msgs)</span>
+
+        <span class="k">return</span> <span class="n">msgs</span>
+
+<div class="viewcode-block" id="STATION0.write">
+<a class="viewcode-back" href="../../../../../SeisMonitor.monitor.locator.hypocenter.html#SeisMonitor.monitor.locator.hypocenter.utils.STATION0.write">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">write</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">out</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Writes the STATION0 file to the specified path.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            out (str): Output file path.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># ut.isfile(out)</span>
+        <span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">out</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_msgs</span><span class="p">():</span>
+            <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+        <span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span></div>
+</div>
+
+
+<div class="viewcode-block" id="HypocenterTools">
+<a class="viewcode-back" href="../../../../../SeisMonitor.monitor.locator.hypocenter.html#SeisMonitor.monitor.locator.hypocenter.utils.HypocenterTools">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">HypocenterTools</span><span class="p">():</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">sfile_folder</span><span class="p">,</span><span class="n">from_sfilename</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Parameters:</span>
+<span class="sd">        -----------</span>
+<span class="sd">        sfile_folder: str</span>
+<span class="sd">            It is the folderpath where is located all sfiles.</span>
+<span class="sd">        station0: str</span>
+<span class="sd">            Station0 path</span>
+<span class="sd">        from_sfilename: str</span>
+<span class="sd">            Name of the only one sfile with specific filename</span>
+<span class="sd">            that you want to locate.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sfile_folder</span> <span class="o">=</span> <span class="n">sfile_folder</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sfilename</span> <span class="o">=</span> <span class="n">from_sfilename</span>
+
+<div class="viewcode-block" id="HypocenterTools.remodl_and_setbrn">
+<a class="viewcode-back" href="../../../../../SeisMonitor.monitor.locator.hypocenter.html#SeisMonitor.monitor.locator.hypocenter.utils.HypocenterTools.remodl_and_setbrn">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">remodl_and_setbrn</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Copy station0 in sfiles folder</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">subprocess</span><span class="o">.</span><span class="n">Popen</span><span class="p">([</span><span class="s2">&quot;remodl&quot;</span><span class="p">,</span><span class="s2">&quot;setbrn&quot;</span><span class="p">],</span><span class="n">cwd</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">sfile_folder</span><span class="p">)</span></div>
+
+
+        <span class="c1"># cp_station0(self.station0_base,self.sfile_folder)</span>
+    
+<div class="viewcode-block" id="HypocenterTools.update">
+<a class="viewcode-back" href="../../../../../SeisMonitor.monitor.locator.hypocenter.html#SeisMonitor.monitor.locator.hypocenter.utils.HypocenterTools.update">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Locate the events with the update seisan command</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">update</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sfile_folder</span><span class="p">)</span></div>
+
+    
+<div class="viewcode-block" id="HypocenterTools.collect">
+<a class="viewcode-back" href="../../../../../SeisMonitor.monitor.locator.hypocenter.html#SeisMonitor.monitor.locator.hypocenter.utils.HypocenterTools.collect">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">collect</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Collect all sfiles in only one collect sfile and write it</span>
+<span class="sd">        in {out} path with the {format} specified.</span>
+
+<span class="sd">        Parameters:</span>
+<span class="sd">        -----------</span>
+<span class="sd">        out: str</span>
+<span class="sd">            Output Path of the collected catalog</span>
+<span class="sd">        format: str</span>
+<span class="sd">            Format supported by OBspy catalogs</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">collect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sfile_folder</span><span class="p">)</span>
+        <span class="n">nordic</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sfile_folder</span><span class="p">,</span><span class="s2">&quot;collect.out&quot;</span><span class="p">)</span>
+        <span class="c1">## check if nordic event is ok</span>
+        <span class="n">catalog</span> <span class="o">=</span> <span class="n">read_events</span><span class="p">(</span><span class="n">nordic</span><span class="p">,</span><span class="nb">format</span><span class="o">=</span><span class="s2">&quot;NORDIC&quot;</span><span class="p">)</span>
+        <span class="c1">## put network and channel in catalog</span>
+
+        <span class="c1"># # ut.isfile(out)</span>
+        <span class="c1"># catalog.write(out,format=format)</span>
+        <span class="k">return</span> <span class="n">catalog</span></div>
+
+
+<div class="viewcode-block" id="HypocenterTools.select">
+<a class="viewcode-back" href="../../../../../SeisMonitor.monitor.locator.hypocenter.html#SeisMonitor.monitor.locator.hypocenter.utils.HypocenterTools.select">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">select</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Runs select seisan command</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">select</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sfile_folder</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="HypocenterTools.norhead">
+<a class="viewcode-back" href="../../../../../SeisMonitor.monitor.locator.hypocenter.html#SeisMonitor.monitor.locator.hypocenter.utils.HypocenterTools.norhead">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">norhead</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Runs norhead seisan command</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">norhead</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sfile_folder</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="HypocenterTools.split">
+<a class="viewcode-back" href="../../../../../SeisMonitor.monitor.locator.hypocenter.html#SeisMonitor.monitor.locator.hypocenter.utils.HypocenterTools.split">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">split</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Runs split seisan command</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">split</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sfile_folder</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">sfilename</span><span class="p">)</span></div>
+</div>
+
+
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="c1"># download_seisan()</span>
+
+    <span class="c1"># xml_path = &quot;/home/emmanuel/EDCT/SeisMonitor/data/metadata/CM.xml&quot;</span>
+    <span class="c1"># vel_path = &quot;/home/emmanuel/EDCT/SeisMonitor/data/metadata/vel1d_col.csv&quot;</span>
+
+    <span class="c1"># sta0 = STATION0(xml_path,vel_path)</span>
+    <span class="c1"># sta0.write(&quot;./STATION0.HYP&quot;)</span>
+
+    <span class="c1"># seisan_folder= &quot;/home/emmanuel/EDCT/SeisMonitor/SeisMonitor/monitor/locator/hypocenter/test/&quot;</span>
+    <span class="c1"># sfilename = &quot;12-2223-00L.S202106&quot;</span>
+    <span class="c1"># split(seisan_folder,sfilename )</span>
+    <span class="c1"># update(seisan_folder )</span>
+
+
+    <span class="c1">####### cse</span>
+    <span class="n">xml_path</span> <span class="o">=</span> <span class="s2">&quot;/home/emmanuel/G-Ecopetrol/ecastillo/Avances/2022/cano_sur_datos_iniciales/CSE.xml&quot;</span>
+    <span class="n">vel_path</span> <span class="o">=</span> <span class="s2">&quot;/home/emmanuel/G-Ecopetrol/ecastillo/Avances/2022/cano_sur_datos_iniciales/vel_model.csv&quot;</span>
+
+    <span class="n">sta0</span> <span class="o">=</span> <span class="n">STATION0</span><span class="p">(</span><span class="n">xml_path</span><span class="p">,</span><span class="n">vel_path</span><span class="p">)</span>
+    <span class="n">sta0</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;./STATION0.HYP&quot;</span><span class="p">)</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Emmanuel Castillo.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

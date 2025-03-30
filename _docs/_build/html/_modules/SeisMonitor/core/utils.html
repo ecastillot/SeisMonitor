@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../../../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SeisMonitor.core.utils &#8212; SeisMonitor 0.0.56 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=5ecbeea2" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/basic.css?v=b08954a9" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/alabaster.css?v=27fed22d" />
+    <script src="../../../_static/documentation_options.js?v=8f83b1af"></script>
+    <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+   
+  <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <h1>Source code for SeisMonitor.core.utils</h1><div class="highlight"><pre>
+<span></span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd"> * @author Emmanuel David Castillo Taborda</span>
+<span class="sd"> * @email ecastillot@unal.edu.co</span>
+<span class="sd"> * @create date 2021-03-03 23:51:21</span>
+<span class="sd"> * @modify date 2021-06-02 04:31:09</span>
+<span class="sd"> * @desc [description]</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="c1"># import sys</span>
+<span class="c1"># AIpicker_path = &quot;/home/ecastillo/AIpicker&quot;</span>
+<span class="c1"># sys.path.insert(0,AIpicker_path)</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">dt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">ast</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">concurrent.futures</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">obspy</span><span class="w"> </span><span class="kn">import</span> <span class="n">UTCDateTime</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">obspy.core.event.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">CreationInfo</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">obspy.core.event.resourceid</span><span class="w"> </span><span class="kn">import</span> <span class="n">ResourceIdentifier</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">obspy.core.event.catalog</span><span class="w"> </span><span class="kn">import</span> <span class="n">read_events</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">obspy.core.event</span><span class="w"> </span><span class="kn">import</span> <span class="n">Catalog</span>
+
+
+<div class="viewcode-block" id="add_aditional_origin_info">
+<a class="viewcode-back" href="../../../SeisMonitor.core.html#SeisMonitor.core.utils.add_aditional_origin_info">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">add_aditional_origin_info</span><span class="p">(</span><span class="n">origin</span><span class="p">,</span>
+                <span class="n">agency</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                <span class="n">region</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                <span class="n">method_id</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                <span class="n">earth_model_id</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                <span class="n">evaluation_mode</span> <span class="o">=</span> <span class="s2">&quot;automatic&quot;</span><span class="p">,</span>
+                <span class="n">evaluation_status</span> <span class="o">=</span> <span class="s2">&quot;preliminary&quot;</span><span class="p">):</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Adds additional metadata to a seismic origin object.</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters:</span>
+<span class="sd">    -----------</span>
+<span class="sd">    origin : obspy.core.event.Origin</span>
+<span class="sd">        The seismic origin to update.</span>
+<span class="sd">    agency : str, optional</span>
+<span class="sd">        The agency responsible for the origin.</span>
+<span class="sd">    region : str, optional</span>
+<span class="sd">        The geographic region of the event.</span>
+<span class="sd">    method_id : str, optional</span>
+<span class="sd">        Identifier for the location method used.</span>
+<span class="sd">    earth_model_id : str, optional</span>
+<span class="sd">        Identifier for the Earth model used.</span>
+<span class="sd">    evaluation_mode : str, optional</span>
+<span class="sd">        Mode of evaluation (default is &quot;automatic&quot;).</span>
+<span class="sd">    evaluation_status : str, optional</span>
+<span class="sd">        Status of evaluation (default is &quot;preliminary&quot;).</span>
+<span class="sd">    </span>
+<span class="sd">    Returns:</span>
+<span class="sd">    --------</span>
+<span class="sd">    origin : obspy.core.event.Origin</span>
+<span class="sd">        The updated origin object.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="n">region</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">origin</span><span class="o">.</span><span class="n">region</span> <span class="o">=</span> <span class="n">region</span>
+    <span class="k">if</span> <span class="n">earth_model_id</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">origin</span><span class="o">.</span><span class="n">earth_model_id</span> <span class="o">=</span> <span class="n">ResourceIdentifier</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">earth_model_id</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">method_id</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">origin</span><span class="o">.</span><span class="n">method_id</span> <span class="o">=</span> <span class="n">ResourceIdentifier</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">method_id</span><span class="p">)</span>
+        
+    <span class="n">origin</span><span class="o">.</span><span class="n">evaluation_mode</span> <span class="o">=</span> <span class="n">evaluation_mode</span>
+    <span class="n">origin</span><span class="o">.</span><span class="n">evaluation_status</span> <span class="o">=</span> <span class="n">evaluation_status</span>
+    <span class="n">origin</span><span class="o">.</span><span class="n">creation_info</span> <span class="o">=</span> <span class="n">CreationInfo</span><span class="p">(</span><span class="n">agency_id</span><span class="o">=</span><span class="n">agency</span><span class="p">,</span>
+                                                    <span class="n">agency_uri</span><span class="o">=</span><span class="n">ResourceIdentifier</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">agency</span><span class="p">),</span>
+                                                    <span class="n">author</span><span class="o">=</span><span class="s2">&quot;SeisMonitor&quot;</span><span class="p">,</span>
+                                                    <span class="n">author_uri</span><span class="o">=</span><span class="n">ResourceIdentifier</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="s2">&quot;SeisMonitor&quot;</span><span class="p">),</span>
+                                                    <span class="n">creation_time</span><span class="o">=</span><span class="n">UTCDateTime</span><span class="o">.</span><span class="n">now</span><span class="p">())</span>
+    <span class="k">return</span> <span class="n">origin</span></div>
+
+
+<div class="viewcode-block" id="add_aditional_event_info">
+<a class="viewcode-back" href="../../../SeisMonitor.core.html#SeisMonitor.core.utils.add_aditional_event_info">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">add_aditional_event_info</span><span class="p">(</span><span class="n">event</span><span class="p">,</span>
+                <span class="n">agency</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                <span class="n">event_type</span> <span class="o">=</span> <span class="s2">&quot;earthquake&quot;</span><span class="p">,</span>
+                <span class="n">event_type_certainty</span> <span class="o">=</span> <span class="s2">&quot;suspected&quot;</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Adds additional metadata to a seismic event object.</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters:</span>
+<span class="sd">    -----------</span>
+<span class="sd">    event : obspy.core.event.Event</span>
+<span class="sd">        The seismic event to update.</span>
+<span class="sd">    agency : str, optional</span>
+<span class="sd">        The agency responsible for the event.</span>
+<span class="sd">    event_type : str, optional</span>
+<span class="sd">        The type of seismic event (default is &quot;earthquake&quot;).</span>
+<span class="sd">    event_type_certainty : str, optional</span>
+<span class="sd">        Certainty level of event classification (default is &quot;suspected&quot;).</span>
+<span class="sd">    </span>
+<span class="sd">    Returns:</span>
+<span class="sd">    --------</span>
+<span class="sd">    event : obspy.core.event.Event</span>
+<span class="sd">        The updated event object.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="n">ori_pref</span>  <span class="o">=</span> <span class="n">event</span><span class="o">.</span><span class="n">preferred_origin</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">ori_pref</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">event</span><span class="o">.</span><span class="n">preferred_origin_id</span> <span class="o">=</span> <span class="n">event</span><span class="o">.</span><span class="n">origins</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">resource_id</span><span class="o">.</span><span class="n">id</span>
+
+    <span class="n">event</span><span class="o">.</span><span class="n">event_type</span> <span class="o">=</span> <span class="n">event_type</span>
+    <span class="n">event</span><span class="o">.</span><span class="n">event_type_certainty</span> <span class="o">=</span> <span class="n">event_type_certainty</span>
+    <span class="n">event</span><span class="o">.</span><span class="n">creation_info</span> <span class="o">=</span> <span class="n">CreationInfo</span><span class="p">(</span><span class="n">agency_id</span><span class="o">=</span><span class="n">agency</span><span class="p">,</span>
+                                        <span class="n">agency_uri</span><span class="o">=</span><span class="n">ResourceIdentifier</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">agency</span><span class="p">),</span>
+                                        <span class="n">author</span><span class="o">=</span><span class="s2">&quot;SeisMonitor&quot;</span><span class="p">,</span>
+                                        <span class="n">author_uri</span><span class="o">=</span><span class="n">ResourceIdentifier</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="s2">&quot;SeisMonitor&quot;</span><span class="p">),</span>
+                                        <span class="n">creation_time</span><span class="o">=</span><span class="n">UTCDateTime</span><span class="o">.</span><span class="n">now</span><span class="p">())</span>
+    <span class="k">return</span> <span class="n">event</span></div>
+
+
+<div class="viewcode-block" id="add_aditional_catalog_info">
+<a class="viewcode-back" href="../../../SeisMonitor.core.html#SeisMonitor.core.utils.add_aditional_catalog_info">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">add_aditional_catalog_info</span><span class="p">(</span><span class="n">catalog</span><span class="p">,</span>
+                <span class="n">agency</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Adds additional metadata to a seismic catalog object.</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters:</span>
+<span class="sd">    -----------</span>
+<span class="sd">    catalog : obspy.core.event.Catalog</span>
+<span class="sd">        The seismic catalog to update.</span>
+<span class="sd">    agency : str, optional</span>
+<span class="sd">        The agency responsible for the catalog.</span>
+<span class="sd">    </span>
+<span class="sd">    Returns:</span>
+<span class="sd">    --------</span>
+<span class="sd">    catalog : obspy.core.event.Catalog</span>
+<span class="sd">        The updated catalog object.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">catalog</span><span class="o">.</span><span class="n">creation_info</span> <span class="o">=</span> <span class="n">CreationInfo</span><span class="p">(</span><span class="n">agency_id</span><span class="o">=</span><span class="n">agency</span><span class="p">,</span>
+                                        <span class="n">agency_uri</span><span class="o">=</span><span class="n">ResourceIdentifier</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">agency</span><span class="p">),</span>
+                                        <span class="n">author</span><span class="o">=</span><span class="s2">&quot;SeisMonitor&quot;</span><span class="p">,</span>
+                                        <span class="n">author_uri</span><span class="o">=</span><span class="n">ResourceIdentifier</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="s2">&quot;SeisMonitor&quot;</span><span class="p">),</span>
+                                        <span class="n">creation_time</span><span class="o">=</span><span class="n">UTCDateTime</span><span class="o">.</span><span class="n">now</span><span class="p">())</span>
+    <span class="k">return</span> <span class="n">catalog</span></div>
+
+
+
+<div class="viewcode-block" id="preproc_stream">
+<a class="viewcode-back" href="../../../SeisMonitor.core.html#SeisMonitor.core.utils.preproc_stream">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">preproc_stream</span><span class="p">(</span><span class="n">st</span><span class="p">,</span>
+                <span class="n">order</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;normalize&#39;</span><span class="p">,</span><span class="s1">&#39;merge&#39;</span><span class="p">,</span><span class="s1">&#39;detrend&#39;</span><span class="p">,</span>
+                        <span class="s1">&#39;taper&#39;</span><span class="p">,</span><span class="s2">&quot;filter&quot;</span><span class="p">],</span>
+                <span class="n">decimate</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="n">detrend</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="nb">filter</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                <span class="n">merge</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="n">normalize</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                <span class="n">resample</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="n">taper</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                <span class="n">select_networks</span><span class="o">=</span><span class="p">[],</span> 
+                <span class="n">select_stations</span><span class="o">=</span><span class="p">[],</span>
+                <span class="n">filter_networks</span><span class="o">=</span><span class="p">[],</span> 
+                  <span class="n">filter_stations</span><span class="o">=</span><span class="p">[]):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Preprocesses a seismic stream according to specified operations.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    st : obspy.Stream</span>
+<span class="sd">        The seismic stream object to preprocess.</span>
+<span class="sd">        </span>
+<span class="sd">    order : list of str, optional</span>
+<span class="sd">        A list of preprocessing steps to apply, in order. The options are:</span>
+<span class="sd">        &#39;normalize&#39;, &#39;merge&#39;, &#39;detrend&#39;, &#39;taper&#39;, &#39;filter&#39;. The default </span>
+<span class="sd">        is [&#39;normalize&#39;, &#39;merge&#39;, &#39;detrend&#39;, &#39;taper&#39;, &#39;filter&#39;].</span>
+<span class="sd">        </span>
+<span class="sd">    decimate : dict, optional</span>
+<span class="sd">        Parameters for decimating the stream, passed to `st.decimate()`.</span>
+<span class="sd">        </span>
+<span class="sd">    detrend : dict, optional</span>
+<span class="sd">        Parameters for detrending the stream, passed to `st.detrend()`.</span>
+<span class="sd">        </span>
+<span class="sd">    filter : dict, optional</span>
+<span class="sd">        Parameters for filtering the stream, passed to `st.filter()`.</span>
+<span class="sd">        </span>
+<span class="sd">    merge : dict, optional</span>
+<span class="sd">        Parameters for merging the stream, passed to `st.merge()`.</span>
+<span class="sd">        </span>
+<span class="sd">    normalize : dict, optional</span>
+<span class="sd">        Parameters for normalizing the stream, passed to `st.normalize()`.</span>
+<span class="sd">        </span>
+<span class="sd">    resample : dict, optional</span>
+<span class="sd">        Parameters for resampling the stream, passed to `st.resample()`.</span>
+<span class="sd">        </span>
+<span class="sd">    taper : dict, optional</span>
+<span class="sd">        Parameters for applying a taper to the stream, passed to `st.taper()`.</span>
+<span class="sd">        </span>
+<span class="sd">    select_networks : list of str, optional</span>
+<span class="sd">        A list of networks to include for preprocessing. If empty, all networks </span>
+<span class="sd">        are included. Default is an empty list.</span>
+<span class="sd">        </span>
+<span class="sd">    select_stations : list of str, optional</span>
+<span class="sd">        A list of stations to include for preprocessing. If empty, all stations </span>
+<span class="sd">        are included. Default is an empty list.</span>
+<span class="sd">        </span>
+<span class="sd">    filter_networks : list of str, optional</span>
+<span class="sd">        A list of networks to exclude from preprocessing. Default is an empty list.</span>
+<span class="sd">        </span>
+<span class="sd">    filter_stations : list of str, optional</span>
+<span class="sd">        A list of stations to exclude from preprocessing. Default is an empty list.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    st : obspy.Stream</span>
+<span class="sd">        The preprocessed seismic stream object.</span>
+<span class="sd">        </span>
+<span class="sd">    processed : bool</span>
+<span class="sd">        True if the stream was processed, False if not.</span>
+<span class="sd">        </span>
+<span class="sd">    comment : str</span>
+<span class="sd">        A string containing the result of each preprocessing step, indicating </span>
+<span class="sd">        success or failure.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">tr</span> <span class="o">=</span> <span class="n">st</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">network</span> <span class="o">=</span> <span class="n">tr</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">network</span>
+    <span class="n">station</span> <span class="o">=</span> <span class="n">tr</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">station</span>
+    <span class="n">comment</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">order</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">processed</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="k">return</span> <span class="n">st</span><span class="p">,</span> <span class="n">processed</span><span class="p">,</span> <span class="n">comment</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="n">network</span> <span class="ow">in</span> <span class="n">filter_networks</span><span class="p">)</span> <span class="ow">or</span>\
+        <span class="p">(</span><span class="n">station</span> <span class="ow">in</span> <span class="n">filter_stations</span><span class="p">):</span>
+        <span class="n">processed</span> <span class="o">=</span> <span class="kc">False</span>
+
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">select_networks</span><span class="p">:</span>
+            <span class="n">select_networks</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">network</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">select_stations</span><span class="p">:</span>
+            <span class="n">select_stations</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">station</span><span class="p">)</span>
+        
+        <span class="k">if</span> <span class="p">(</span><span class="n">network</span> <span class="ow">in</span> <span class="n">select_networks</span><span class="p">)</span> <span class="ow">or</span>\
+        <span class="p">(</span><span class="n">station</span> <span class="ow">in</span> <span class="n">select_stations</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">process</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">order</span><span class="p">):</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">process</span> <span class="o">==</span> <span class="s1">&#39;decimate&#39;</span><span class="p">:</span>
+                        <span class="n">st</span><span class="o">.</span><span class="n">decimate</span><span class="p">(</span><span class="o">**</span><span class="n">decimate</span><span class="p">)</span>
+                    <span class="k">elif</span> <span class="n">process</span> <span class="o">==</span> <span class="s1">&#39;detrend&#39;</span><span class="p">:</span>
+                        <span class="n">st</span><span class="o">.</span><span class="n">detrend</span><span class="p">(</span><span class="o">**</span><span class="n">detrend</span><span class="p">)</span>
+                    <span class="k">elif</span> <span class="n">process</span> <span class="o">==</span> <span class="s1">&#39;filter&#39;</span><span class="p">:</span>
+                        <span class="n">st</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="o">**</span><span class="nb">filter</span><span class="p">)</span>
+                        <span class="c1"># print(&quot;filter applied&quot;)</span>
+                    <span class="k">elif</span> <span class="n">process</span> <span class="o">==</span> <span class="s1">&#39;merge&#39;</span><span class="p">:</span>
+                        <span class="n">st</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="o">**</span><span class="n">merge</span><span class="p">)</span>
+                    <span class="k">elif</span> <span class="n">process</span> <span class="o">==</span> <span class="s1">&#39;normalize&#39;</span><span class="p">:</span>
+                        <span class="n">st</span><span class="o">.</span><span class="n">normalize</span><span class="p">(</span><span class="o">**</span><span class="n">normalize</span><span class="p">)</span>
+                    <span class="k">elif</span> <span class="n">process</span> <span class="o">==</span> <span class="s1">&#39;resample&#39;</span><span class="p">:</span>
+                        <span class="n">st</span><span class="o">.</span><span class="n">resample</span><span class="p">(</span><span class="o">**</span><span class="n">resample</span><span class="p">)</span>
+                    <span class="k">elif</span> <span class="n">process</span> <span class="o">==</span> <span class="s1">&#39;taper&#39;</span><span class="p">:</span>
+                        <span class="n">st</span><span class="o">.</span><span class="n">taper</span><span class="p">(</span><span class="o">**</span><span class="n">taper</span><span class="p">)</span>
+
+                    <span class="c1">## only for print comments    </span>
+                    <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">order</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+                        <span class="n">comment</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;(</span><span class="si">{</span><span class="n">process</span><span class="si">}</span><span class="s2">:ok)&quot;</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">comment</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;(</span><span class="si">{</span><span class="n">process</span><span class="si">}</span><span class="s2">:ok)-&gt;&quot;</span>
+                <span class="k">except</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">order</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+                        <span class="n">comment</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;(</span><span class="si">{</span><span class="n">process</span><span class="si">}</span><span class="s2">:Failed)&quot;</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">comment</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;(</span><span class="si">{</span><span class="n">process</span><span class="si">}</span><span class="s2">:Failed)-&gt;&quot;</span>
+                <span class="n">processed</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="n">comment</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;[</span><span class="si">{</span><span class="n">comment</span><span class="si">}</span><span class="s2">]&quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">processed</span> <span class="o">=</span> <span class="kc">False</span>
+
+    <span class="k">return</span> <span class="n">st</span><span class="p">,</span> <span class="n">processed</span><span class="p">,</span> <span class="n">comment</span></div>
+
+
+<div class="viewcode-block" id="get_csv_events">
+<a class="viewcode-back" href="../../../SeisMonitor.core.html#SeisMonitor.core.utils.get_csv_events">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_csv_events</span><span class="p">(</span><span class="n">seiscomp_file</span><span class="p">,</span> <span class="n">version</span><span class="o">=</span><span class="s2">&quot;0.9&quot;</span><span class="p">,</span> <span class="n">with_magnitude</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> 
+                    <span class="n">export</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> 
+                    <span class="n">from_format</span><span class="o">=</span><span class="s2">&quot;SC3ML&quot;</span><span class="p">,</span> <span class="n">inside_polygon</span><span class="o">=</span><span class="kc">False</span> <span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Extracts event and pick data from a SeisComp file and returns it as Pandas DataFrames.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    seiscomp_file : str</span>
+<span class="sd">        Path to the SC3ML SeisComp file that contains information about a single event.</span>
+<span class="sd">        </span>
+<span class="sd">    version : str, optional</span>
+<span class="sd">        The version of the XML schema used in the SeisComp file. Default is &quot;0.9&quot;.</span>
+<span class="sd">        </span>
+<span class="sd">    with_magnitude : bool, optional</span>
+<span class="sd">        If True, the magnitude and magnitude-related information will be included. Default is True.</span>
+<span class="sd">        </span>
+<span class="sd">    export : str, optional</span>
+<span class="sd">        Path to the file where the CSV will be exported. If None, no file is created and only DataFrames are returned. Default is None.</span>
+<span class="sd">        </span>
+<span class="sd">    from_format : str, optional</span>
+<span class="sd">        The format of the SeisComp file. Default is &quot;SC3ML&quot;.</span>
+<span class="sd">        </span>
+<span class="sd">    inside_polygon : bool, optional</span>
+<span class="sd">        If True, only events inside the specified polygon will be considered. Default is False.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    events_df : pandas.DataFrame</span>
+<span class="sd">        DataFrame containing event information such as event ID, time, location, and magnitude.</span>
+<span class="sd">        </span>
+<span class="sd">    picks_df : pandas.DataFrame</span>
+<span class="sd">        DataFrame containing pick information such as pick ID, phase, time, and associated station.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">change_xml_version</span><span class="p">(</span><span class="n">ev_file</span><span class="p">,</span><span class="n">new_version</span><span class="o">=</span><span class="s2">&quot;0.9&quot;</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Changes the XML version in the SeisComp file.</span>
+<span class="sd">        </span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        ev_file : str</span>
+<span class="sd">            Path to the SeisComp event file whose version needs to be updated.</span>
+<span class="sd">            </span>
+<span class="sd">        new_version : str, optional</span>
+<span class="sd">            The new XML version to be set. Default is &quot;0.9&quot;.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">lines</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">ev_file</span><span class="p">)</span><span class="o">.</span><span class="n">readlines</span><span class="p">()</span>
+        <span class="n">lines</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;&lt;seiscomp xmlns=&quot;http://geofon.gfz-potsdam.de/ns/seiscomp3-schema/</span><span class="si">{</span><span class="n">new_version</span><span class="si">}</span><span class="s1">&quot; version=&quot;</span><span class="si">{</span><span class="n">new_version</span><span class="si">}</span><span class="s1">&quot;&gt;</span><span class="se">\n</span><span class="s1">&#39;</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">ev_file</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">lines</span><span class="p">))</span>
+
+    <span class="k">if</span> <span class="n">from_format</span> <span class="o">==</span> <span class="s2">&quot;SC3ML&quot;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">version</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;0.5&quot;</span><span class="p">,</span> <span class="s2">&quot;0.6&quot;</span><span class="p">,</span> <span class="s2">&quot;0.7&quot;</span><span class="p">,</span> <span class="s2">&quot;0.8&quot;</span><span class="p">,</span> <span class="s2">&quot;0.9&quot;</span><span class="p">,</span> <span class="s2">&quot;0.10&quot;</span><span class="p">]:</span>
+            <span class="n">change_xml_version</span><span class="p">(</span><span class="n">seiscomp_file</span><span class="p">,</span><span class="n">new_version</span><span class="o">=</span><span class="s2">&quot;0.10&quot;</span><span class="p">)</span>
+
+    <span class="n">datefmt</span> <span class="o">=</span> <span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2"> %H:%M:%S.</span><span class="si">%f</span><span class="s2">&quot;</span>
+    <span class="n">seiscomp_file_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">seiscomp_file</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">catalog</span> <span class="o">=</span> <span class="n">read_events</span><span class="p">(</span><span class="n">seiscomp_file</span><span class="p">,</span><span class="nb">format</span> <span class="o">=</span> <span class="n">from_format</span><span class="p">)</span>
+    <span class="n">event_list</span> <span class="o">=</span> <span class="n">catalog</span><span class="o">.</span><span class="n">events</span> 
+
+
+    <span class="n">event_colname</span><span class="o">=</span> <span class="p">[</span><span class="s2">&quot;n_event&quot;</span><span class="p">,</span><span class="s2">&quot;event_id&quot;</span><span class="p">,</span><span class="s2">&quot;event_time&quot;</span><span class="p">,</span><span class="s2">&quot;latitude&quot;</span><span class="p">,</span><span class="s2">&quot;latitude_uncertainty&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;longitude&quot;</span><span class="p">,</span><span class="s2">&quot;longitude_uncertainty&quot;</span><span class="p">,</span><span class="s2">&quot;depth&quot;</span><span class="p">,</span><span class="s2">&quot;depth_uncertainty&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;rms&quot;</span><span class="p">,</span><span class="s2">&quot;region&quot;</span><span class="p">,</span><span class="s2">&quot;method&quot;</span><span class="p">,</span><span class="s2">&quot;earth_model&quot;</span><span class="p">,</span><span class="s2">&quot;event_type&quot;</span><span class="p">,</span><span class="s2">&quot;magnitude&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;magnitude_type&quot;</span><span class="p">,</span><span class="s2">&quot;n_P_phases&quot;</span><span class="p">,</span><span class="s2">&quot;n_S_phases&quot;</span><span class="p">]</span>
+    <span class="n">pick_colname</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;n_event&quot;</span><span class="p">,</span><span class="s2">&quot;event_id&quot;</span><span class="p">,</span><span class="s2">&quot;pick_id&quot;</span><span class="p">,</span><span class="s2">&quot;phasehint&quot;</span><span class="p">,</span><span class="s2">&quot;arrival_time&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;probability&quot;</span><span class="p">,</span><span class="s2">&quot;snr&quot;</span><span class="p">,</span><span class="s2">&quot;detection_probability&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;network&quot;</span><span class="p">,</span><span class="s2">&quot;station&quot;</span><span class="p">,</span><span class="s2">&quot;location&quot;</span><span class="p">,</span><span class="s2">&quot;channel&quot;</span><span class="p">,</span><span class="s2">&quot;picker&quot;</span>
+                    <span class="p">]</span>
+    <span class="n">events_df</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">picks_df</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">n_ev</span><span class="p">,</span><span class="n">event</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">event_list</span><span class="p">):</span>
+        <span class="n">loc_id</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">event</span><span class="o">.</span><span class="n">resource_id</span><span class="p">))</span>
+        <span class="n">ev_type</span> <span class="o">=</span> <span class="n">event</span><span class="o">.</span><span class="n">event_type</span>
+        <span class="c1"># if event.creation_info != None:</span>
+        <span class="c1">#     agency = event.creation_info.agency_id</span>
+        <span class="c1"># else:</span>
+        <span class="c1">#     agency = None</span>
+
+        <span class="k">if</span> <span class="n">event</span><span class="o">.</span><span class="n">event_descriptions</span><span class="p">:</span>
+            <span class="n">region</span> <span class="o">=</span> <span class="n">event</span><span class="o">.</span><span class="n">event_descriptions</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">text</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">region</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="c1">## Preferred Origin</span>
+        <span class="n">pref_origin</span> <span class="o">=</span> <span class="n">event</span><span class="o">.</span><span class="n">preferred_origin</span><span class="p">()</span> 
+        <span class="n">time</span> <span class="o">=</span> <span class="n">pref_origin</span><span class="o">.</span><span class="n">time</span>
+        <span class="n">latitude</span> <span class="o">=</span> <span class="n">pref_origin</span><span class="o">.</span><span class="n">latitude</span>
+        <span class="n">latitude_error</span> <span class="o">=</span> <span class="n">pref_origin</span><span class="o">.</span><span class="n">latitude_errors</span><span class="o">.</span><span class="n">uncertainty</span>
+        <span class="n">longitude</span> <span class="o">=</span> <span class="n">pref_origin</span><span class="o">.</span><span class="n">longitude</span>
+        <span class="n">longitude_error</span> <span class="o">=</span> <span class="n">pref_origin</span><span class="o">.</span><span class="n">longitude_errors</span><span class="o">.</span><span class="n">uncertainty</span>
+
+        <span class="n">depth</span> <span class="o">=</span> <span class="n">pref_origin</span><span class="o">.</span><span class="n">depth</span>
+        <span class="n">depth_error</span> <span class="o">=</span> <span class="n">pref_origin</span><span class="o">.</span><span class="n">depth_errors</span>
+        <span class="n">rms</span> <span class="o">=</span> <span class="n">pref_origin</span><span class="o">.</span><span class="n">quality</span><span class="o">.</span><span class="n">standard_error</span>
+        <span class="n">method</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">pref_origin</span><span class="o">.</span><span class="n">method_id</span><span class="p">))</span>
+        <span class="n">earth_model</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">pref_origin</span><span class="o">.</span><span class="n">earth_model_id</span><span class="p">))</span>
+        <span class="n">evaluation_mode</span> <span class="o">=</span> <span class="n">pref_origin</span><span class="o">.</span><span class="n">evaluation_mode</span>
+
+        <span class="k">if</span> <span class="n">depth</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">depth</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">depth</span><span class="p">)</span> <span class="c1">#in km</span>
+        <span class="k">if</span> <span class="n">depth_error</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">depth_error</span><span class="o">.</span><span class="n">uncertainty</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">depth_error</span> <span class="o">=</span> <span class="n">depth_error</span><span class="o">.</span><span class="n">uncertainty</span> <span class="c1">#in km</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">depth_error</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">depth_error</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="c1">## Preferred Magnitude</span>
+        <span class="k">if</span> <span class="n">with_magnitude</span><span class="p">:</span>
+            <span class="n">pref_magnitude</span> <span class="o">=</span> <span class="n">event</span><span class="o">.</span><span class="n">preferred_magnitude</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">pref_magnitude</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">magnitude</span> <span class="o">=</span> <span class="n">pref_magnitude</span><span class="o">.</span><span class="n">mag</span>
+                <span class="n">magnitude_type</span> <span class="o">=</span> <span class="n">pref_magnitude</span><span class="o">.</span><span class="n">magnitude_type</span>
+                <span class="k">if</span> <span class="n">magnitude</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="n">magnitude</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="n">magnitude</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">magnitude</span> <span class="o">=</span> <span class="kc">None</span>
+                <span class="n">magnitude_type</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">magnitude</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="n">magnitude_type</span> <span class="o">=</span> <span class="kc">None</span>
+        
+        
+        <span class="c1">## Dictionary with the picks information</span>
+        <span class="n">picks</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">pick</span> <span class="ow">in</span> <span class="n">event</span><span class="o">.</span><span class="n">picks</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">pick</span><span class="o">.</span><span class="n">resource_id</span><span class="o">.</span><span class="n">id</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">picks</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                
+                <span class="k">if</span> <span class="n">pick</span><span class="o">.</span><span class="n">creation_info</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="n">_author</span> <span class="o">=</span> <span class="kc">None</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">_author</span> <span class="o">=</span> <span class="n">pick</span><span class="o">.</span><span class="n">creation_info</span><span class="o">.</span><span class="n">author</span>
+                
+                <span class="k">if</span> <span class="n">pick</span><span class="o">.</span><span class="n">comments</span><span class="p">:</span>
+                    <span class="n">comment</span> <span class="o">=</span> <span class="n">ast</span><span class="o">.</span><span class="n">literal_eval</span><span class="p">(</span><span class="n">pick</span><span class="o">.</span><span class="n">comments</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+                    <span class="n">prob</span> <span class="o">=</span> <span class="n">comment</span><span class="p">[</span><span class="s2">&quot;probability&quot;</span><span class="p">]</span>
+                    <span class="k">if</span> <span class="n">_author</span> <span class="o">==</span> <span class="s2">&quot;EQTransformer&quot;</span><span class="p">:</span>
+                        <span class="n">snr</span> <span class="o">=</span> <span class="n">comment</span><span class="p">[</span><span class="s2">&quot;snr&quot;</span><span class="p">]</span>
+                        <span class="n">ev_prob</span> <span class="o">=</span> <span class="n">comment</span><span class="p">[</span><span class="s2">&quot;detection_probability&quot;</span><span class="p">]</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">snr</span> <span class="o">=</span> <span class="kc">None</span>
+                        <span class="n">ev_prob</span> <span class="o">=</span> <span class="kc">None</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">prob</span> <span class="o">=</span> <span class="kc">None</span>
+                    <span class="n">snr</span> <span class="o">=</span> <span class="kc">None</span>
+                    <span class="n">ev_prob</span> <span class="o">=</span> <span class="kc">None</span>
+
+
+                
+
+                <span class="n">picks</span><span class="p">[</span><span class="n">pick</span><span class="o">.</span><span class="n">resource_id</span><span class="o">.</span><span class="n">id</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+                                            <span class="s2">&quot;id&quot;</span><span class="p">:</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">pick</span><span class="o">.</span><span class="n">resource_id</span><span class="p">)),</span>
+                                            <span class="s2">&quot;network_code&quot;</span><span class="p">:</span><span class="n">pick</span><span class="o">.</span><span class="n">waveform_id</span><span class="o">.</span><span class="n">network_code</span><span class="p">,</span>
+                                            <span class="s2">&quot;station_code&quot;</span><span class="p">:</span><span class="n">pick</span><span class="o">.</span><span class="n">waveform_id</span><span class="o">.</span><span class="n">station_code</span><span class="p">,</span>
+                                            <span class="s2">&quot;location_code&quot;</span><span class="p">:</span><span class="n">pick</span><span class="o">.</span><span class="n">waveform_id</span><span class="o">.</span><span class="n">location_code</span><span class="p">,</span>
+                                            <span class="s2">&quot;channel_code&quot;</span><span class="p">:</span><span class="n">pick</span><span class="o">.</span><span class="n">waveform_id</span><span class="o">.</span><span class="n">channel_code</span><span class="p">,</span>
+                                            <span class="s2">&quot;phase_hint&quot;</span><span class="p">:</span><span class="n">pick</span><span class="o">.</span><span class="n">phase_hint</span><span class="p">,</span>
+                                            <span class="s2">&quot;time&quot;</span><span class="p">:</span><span class="n">pick</span><span class="o">.</span><span class="n">time</span><span class="p">,</span>
+                                            <span class="s2">&quot;author&quot;</span><span class="p">:</span><span class="n">_author</span><span class="p">,</span>
+                                            <span class="s2">&quot;probability&quot;</span><span class="p">:</span> <span class="n">prob</span><span class="p">,</span>
+                                            <span class="s2">&quot;snr&quot;</span><span class="p">:</span><span class="n">snr</span><span class="p">,</span>
+                                            <span class="s2">&quot;detection_probability&quot;</span><span class="p">:</span><span class="n">ev_prob</span><span class="p">,</span>
+                                            <span class="s2">&quot;time_errors&quot;</span><span class="p">:</span><span class="n">pick</span><span class="o">.</span><span class="n">time_errors</span><span class="p">,</span>
+                                            <span class="s2">&quot;filter_id&quot;</span><span class="p">:</span><span class="n">pick</span><span class="o">.</span><span class="n">filter_id</span><span class="p">,</span>
+                                            <span class="s2">&quot;method_id&quot;</span><span class="p">:</span><span class="n">pick</span><span class="o">.</span><span class="n">method_id</span><span class="p">,</span>
+                                            <span class="s2">&quot;polarity&quot;</span><span class="p">:</span><span class="n">pick</span><span class="o">.</span><span class="n">polarity</span><span class="p">,</span>
+                                            <span class="s2">&quot;evaluation_mode&quot;</span><span class="p">:</span><span class="n">pick</span><span class="o">.</span><span class="n">evaluation_mode</span><span class="p">,</span>
+                                            <span class="s2">&quot;evaluation_status&quot;</span><span class="p">:</span><span class="n">pick</span><span class="o">.</span><span class="n">evaluation_status</span> <span class="p">}</span> 
+        
+        <span class="n">p_count</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">s_count</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">arrival</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">pref_origin</span><span class="o">.</span><span class="n">arrivals</span><span class="p">):</span>
+
+            <span class="n">pick</span> <span class="o">=</span> <span class="n">picks</span><span class="p">[</span><span class="n">arrival</span><span class="o">.</span><span class="n">pick_id</span><span class="o">.</span><span class="n">id</span><span class="p">]</span>
+            <span class="n">pick_row</span> <span class="o">=</span> <span class="p">[</span><span class="n">n_ev</span><span class="p">,</span><span class="n">loc_id</span><span class="p">,</span><span class="n">pick</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">],</span><span class="n">pick</span><span class="p">[</span><span class="s2">&quot;phase_hint&quot;</span><span class="p">],</span>
+                        <span class="n">pick</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">datetime</span><span class="p">,</span><span class="n">pick</span><span class="p">[</span><span class="s2">&quot;probability&quot;</span><span class="p">],</span>
+                        <span class="n">pick</span><span class="p">[</span><span class="s2">&quot;snr&quot;</span><span class="p">],</span><span class="n">pick</span><span class="p">[</span><span class="s2">&quot;detection_probability&quot;</span><span class="p">],</span>
+                        <span class="n">pick</span><span class="p">[</span><span class="s2">&quot;network_code&quot;</span><span class="p">],</span><span class="n">pick</span><span class="p">[</span><span class="s2">&quot;station_code&quot;</span><span class="p">],</span>
+                        <span class="n">pick</span><span class="p">[</span><span class="s2">&quot;location_code&quot;</span><span class="p">],</span><span class="n">pick</span><span class="p">[</span><span class="s2">&quot;channel_code&quot;</span><span class="p">],</span>
+                        <span class="n">pick</span><span class="p">[</span><span class="s2">&quot;author&quot;</span><span class="p">]</span>
+                        <span class="p">]</span>
+            
+            <span class="n">picks_df</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pick_row</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">pick</span><span class="p">[</span><span class="s2">&quot;phase_hint&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;P&quot;</span><span class="p">:</span>
+                <span class="n">p_count</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="k">elif</span> <span class="n">pick</span><span class="p">[</span><span class="s2">&quot;phase_hint&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;S&quot;</span><span class="p">:</span>
+                <span class="n">s_count</span> <span class="o">+=</span> <span class="mi">1</span>
+
+        
+        <span class="n">event_row</span> <span class="o">=</span> <span class="p">[</span><span class="n">n_ev</span><span class="p">,</span><span class="n">loc_id</span><span class="p">,</span><span class="n">time</span><span class="o">.</span><span class="n">datetime</span><span class="p">,</span><span class="n">latitude</span><span class="p">,</span><span class="n">latitude_error</span><span class="p">,</span>\
+                    <span class="n">longitude</span><span class="p">,</span><span class="n">longitude_error</span><span class="p">,</span><span class="n">depth</span><span class="p">,</span><span class="n">depth_error</span><span class="p">,</span><span class="n">rms</span><span class="p">,</span><span class="n">region</span><span class="p">,</span>\
+                    <span class="n">method</span><span class="p">,</span> <span class="n">earth_model</span><span class="p">,</span><span class="n">ev_type</span><span class="p">,</span>  <span class="n">magnitude</span><span class="p">,</span> <span class="n">magnitude_type</span><span class="p">,</span>
+                    <span class="n">p_count</span><span class="p">,</span><span class="n">s_count</span><span class="p">]</span>
+
+        <span class="n">events_df</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">event_row</span><span class="p">)</span>
+
+    <span class="n">events_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">events_df</span><span class="p">,</span><span class="n">columns</span><span class="o">=</span><span class="n">event_colname</span><span class="p">)</span>
+    <span class="n">picks_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">picks_df</span><span class="p">,</span><span class="n">columns</span><span class="o">=</span><span class="n">pick_colname</span><span class="p">)</span>
+
+
+    <span class="n">events_df</span> <span class="o">=</span> <span class="n">events_df</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="s2">&quot;event_time&quot;</span><span class="p">,</span>
+                                        <span class="n">ascending</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                                        <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">picks_df</span> <span class="o">=</span> <span class="n">picks_df</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="s2">&quot;arrival_time&quot;</span><span class="p">,</span>
+                                        <span class="n">ascending</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                                        <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">export</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">export</span><span class="p">))</span> <span class="o">==</span> <span class="kc">False</span><span class="p">:</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">export</span><span class="p">))</span>
+        <span class="n">events_df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">export</span><span class="p">,</span><span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Events_csv_file: </span><span class="si">{</span><span class="n">export</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">events_df</span><span class="p">,</span><span class="n">picks_df</span></div>
+
+</pre></div>
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../../index.html">SeisMonitor</a></h1>
+
+
+
+
+
+
+
+
+
+<search id="searchbox" style="display: none" role="search">
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Search"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script><h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules.html">SeisMonitor</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../../index.html">Documentation overview</a><ul>
+  <li><a href="../../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &#169;2025, Emmanuel Castillo.
+      
+      |
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 8.2.3</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 1.0.0</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

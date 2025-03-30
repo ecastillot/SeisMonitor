@@ -1,7 +1,7 @@
 import os
 from obspy.core.event.catalog import Catalog, read_events
 from SeisMonitor.utils import printlog, isfile
-import utils as ut
+from . import utils as ut
 
 class Hypocenter:
     """

@@ -1,0 +1,192 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SeisMonitor.utils4examples &mdash; SeisMonitor 0.0.56 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=8f83b1af"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            SeisMonitor
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">SeisMonitor</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">SeisMonitor</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">SeisMonitor.utils4examples</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for SeisMonitor.utils4examples</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">shutil</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">git</span><span class="w"> </span><span class="kn">import</span> <span class="n">Repo</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">obspy.core.utcdatetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">UTCDateTime</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">obspy.clients.fdsn</span><span class="w"> </span><span class="kn">import</span> <span class="n">Client</span> <span class="k">as</span> <span class="n">FDSNClient</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">SeisMonitor.core.objects</span><span class="w"> </span><span class="kn">import</span> <span class="n">WaveformRestrictions</span><span class="p">,</span><span class="n">Provider</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">SeisMonitor.monitor.downloader.seismonitor</span><span class="w"> </span><span class="kn">import</span> <span class="n">MseedDownloader</span>
+
+<div class="viewcode-block" id="clone_seismonitor_data">
+<a class="viewcode-back" href="../../SeisMonitor.html#SeisMonitor.utils4examples.clone_seismonitor_data">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">clone_seismonitor_data</span><span class="p">(</span><span class="n">output_folder</span><span class="p">,</span><span class="n">branch</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Clones the SeisMonitor repository from GitHub into a specified folder.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    output_folder : str</span>
+<span class="sd">        The path to the folder where the repository will be cloned.</span>
+<span class="sd">    branch : str</span>
+<span class="sd">        The branch of the repository to clone.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    bool</span>
+<span class="sd">        Returns True if the cloning operation was successful.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    If the target folder already exists, it will be removed before cloning the repository.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">git_url</span> <span class="o">=</span> <span class="s2">&quot;https://github.com/ecastillot/SeisMonitor.git&quot;</span>
+
+    <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="n">output_folder</span><span class="p">):</span>
+        <span class="n">shutil</span><span class="o">.</span><span class="n">rmtree</span><span class="p">(</span><span class="n">output_folder</span><span class="p">)</span>
+
+    <span class="n">Repo</span><span class="o">.</span><span class="n">clone_from</span><span class="p">(</span><span class="n">git_url</span><span class="p">,</span> <span class="n">output_folder</span><span class="p">,</span><span class="n">branch</span><span class="o">=</span><span class="n">branch</span><span class="p">)</span>
+    <span class="k">return</span> <span class="kc">True</span></div>
+
+    
+
+<div class="viewcode-block" id="quick_download">
+<a class="viewcode-back" href="../../SeisMonitor.html#SeisMonitor.utils4examples.quick_download">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">quick_download</span><span class="p">(</span><span class="n">out_download_folder</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Downloads waveform data from the Colombian Seismological Network (SGC) for a predefined time period and location range.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    out_download_folder : str</span>
+<span class="sd">        The path to the folder where the downloaded data will be stored.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    None</span>
+<span class="sd">        This function does not return any values but saves the downloaded data in the specified folder.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    This function defines a specific time window (from 2019-12-24T19:00 to 2019-12-25T01:00) and a set of stations.</span>
+<span class="sd">    The data is downloaded in MiniSEED format, and metadata is also saved as a JSON file.</span>
+
+<span class="sd">    Side Effects</span>
+<span class="sd">    ------------</span>
+<span class="sd">    Downloads waveform data into the given folder, including creating directories if needed.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">sgc_rest</span> <span class="o">=</span> <span class="n">WaveformRestrictions</span><span class="p">(</span><span class="n">network</span><span class="o">=</span><span class="s2">&quot;CM&quot;</span><span class="p">,</span>
+                    <span class="n">station</span><span class="o">=</span><span class="s2">&quot;URMC,VILL,PRA,ORTC,GARC,FLO2,CHI,YOT&quot;</span><span class="p">,</span>
+                    <span class="n">location</span><span class="o">=</span><span class="s2">&quot;*&quot;</span><span class="p">,</span>
+                    <span class="n">channel</span><span class="o">=</span><span class="s2">&quot;*&quot;</span><span class="p">,</span>
+                    <span class="n">starttime</span><span class="o">=</span><span class="n">UTCDateTime</span><span class="p">(</span><span class="s2">&quot;2019-12-24T19:00:00.000000Z&quot;</span><span class="p">),</span>
+                    <span class="n">endtime</span><span class="o">=</span><span class="n">UTCDateTime</span><span class="p">(</span><span class="s2">&quot;2019-12-25T01:00:00.000000Z&quot;</span><span class="p">),</span>
+                    <span class="n">location_preferences</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;&quot;</span><span class="p">,</span><span class="s2">&quot;00&quot;</span><span class="p">,</span><span class="s2">&quot;20&quot;</span><span class="p">,</span><span class="s2">&quot;10&quot;</span><span class="p">,</span><span class="s2">&quot;40&quot;</span><span class="p">],</span>
+                    <span class="n">channel_preferences</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;HH&quot;</span><span class="p">,</span><span class="s2">&quot;BH&quot;</span><span class="p">,</span><span class="s2">&quot;EH&quot;</span><span class="p">,</span><span class="s2">&quot;HN&quot;</span><span class="p">,</span><span class="s2">&quot;HL&quot;</span><span class="p">],</span>
+                    <span class="n">filter_networks</span><span class="o">=</span><span class="p">[],</span> 
+                    <span class="n">filter_stations</span><span class="o">=</span><span class="p">[],</span>
+                    <span class="n">filter_domain</span><span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mf">83.101</span><span class="p">,</span><span class="o">-</span><span class="mf">64.549</span><span class="p">,</span><span class="o">-</span><span class="mf">2.229</span><span class="p">,</span><span class="mf">14.945</span><span class="p">],</span>
+                    <span class="p">)</span>
+    <span class="n">sgc_client</span> <span class="o">=</span> <span class="n">FDSNClient</span><span class="p">(</span><span class="s1">&#39;http://sismo.sgc.gov.co:8080&#39;</span><span class="p">)</span>
+    <span class="n">sgc_provider</span> <span class="o">=</span> <span class="n">Provider</span><span class="p">(</span><span class="n">sgc_client</span><span class="p">,</span><span class="n">sgc_rest</span><span class="p">)</span>
+    <span class="n">md</span> <span class="o">=</span> <span class="n">MseedDownloader</span><span class="p">(</span><span class="n">providers</span><span class="o">=</span><span class="p">[</span><span class="n">sgc_provider</span><span class="p">])</span>
+    <span class="n">json_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">out_download_folder</span><span class="p">,</span><span class="s2">&quot;stations&quot;</span><span class="p">)</span>
+    <span class="n">inv</span><span class="p">,</span><span class="n">json</span> <span class="o">=</span> <span class="n">md</span><span class="o">.</span><span class="n">make_inv_and_json</span><span class="p">(</span><span class="n">json_path</span><span class="p">)</span>
+    <span class="n">mseed_storage</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">out_download_folder</span><span class="p">,</span><span class="s2">&quot;archive&quot;</span><span class="p">,</span><span class="s2">&quot;</span><span class="si">{station}</span><span class="s2">/</span><span class="si">{network}</span><span class="s2">.</span><span class="si">{station}</span><span class="s2">.</span><span class="si">{location}</span><span class="s2">.</span><span class="si">{channel}</span><span class="s2">__</span><span class="si">{starttime}</span><span class="s2">__</span><span class="si">{endtime}</span><span class="s2">.mseed&quot;</span><span class="p">)</span>
+    <span class="n">md</span><span class="o">.</span><span class="n">download</span><span class="p">(</span><span class="n">mseed_storage</span><span class="p">,</span>
+            <span class="n">picker_args</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;batch_size&quot;</span><span class="p">:</span><span class="mi">100</span><span class="p">,</span><span class="s2">&quot;overlap&quot;</span><span class="p">:</span><span class="mf">0.3</span><span class="p">,</span><span class="s2">&quot;length&quot;</span><span class="p">:</span><span class="mi">60</span><span class="p">},</span>
+            <span class="n">chunklength_in_sec</span><span class="o">=</span><span class="mi">7200</span><span class="p">,</span><span class="n">n_processor</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></div>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">clone_seismonitor_data</span><span class="p">(</span><span class="s2">&quot;/home/emmanuel/EDCT/seismonitor_dataset&quot;</span><span class="p">)</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Emmanuel Castillo.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

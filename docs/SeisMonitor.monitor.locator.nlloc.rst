@@ -9,21 +9,21 @@ SeisMonitor.monitor.locator.nlloc.nlloc module
 
 .. automodule:: SeisMonitor.monitor.locator.nlloc.nlloc
    :members:
-   :show-inheritance:
    :undoc-members:
+   :show-inheritance:
 
 SeisMonitor.monitor.locator.nlloc.utils module
 ----------------------------------------------
 
 .. automodule:: SeisMonitor.monitor.locator.nlloc.utils
    :members:
-   :show-inheritance:
    :undoc-members:
+   :show-inheritance:
 
 Module contents
 ---------------
 
 .. automodule:: SeisMonitor.monitor.locator.nlloc
    :members:
-   :show-inheritance:
    :undoc-members:
+   :show-inheritance:

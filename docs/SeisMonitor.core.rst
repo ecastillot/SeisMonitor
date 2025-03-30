@@ -9,29 +9,29 @@ SeisMonitor.core.client module
 
 .. automodule:: SeisMonitor.core.client
    :members:
-   :show-inheritance:
    :undoc-members:
+   :show-inheritance:
 
 SeisMonitor.core.objects module
 -------------------------------
 
 .. automodule:: SeisMonitor.core.objects
    :members:
-   :show-inheritance:
    :undoc-members:
+   :show-inheritance:
 
 SeisMonitor.core.utils module
 -----------------------------
 
 .. automodule:: SeisMonitor.core.utils
    :members:
-   :show-inheritance:
    :undoc-members:
+   :show-inheritance:
 
 Module contents
 ---------------
 
 .. automodule:: SeisMonitor.core
    :members:
-   :show-inheritance:
    :undoc-members:
+   :show-inheritance:

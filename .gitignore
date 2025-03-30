@@ -22,3 +22,4 @@ SeisMonitor.egg-info/
 x.input
 analisis/
 test/out/*
+seismonitor.egg-info

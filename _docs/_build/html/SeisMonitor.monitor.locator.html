@@ -1,0 +1,366 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SeisMonitor.monitor.locator package &mdash; SeisMonitor 0.0.56 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=8f83b1af"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="SeisMonitor.monitor.locator.hypoDD package" href="SeisMonitor.monitor.locator.hypoDD.html" />
+    <link rel="prev" title="SeisMonitor.monitor.downloader package" href="SeisMonitor.monitor.downloader.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            SeisMonitor
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">SeisMonitor</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="SeisMonitor.html">SeisMonitor package</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="SeisMonitor.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="SeisMonitor.core.html">SeisMonitor.core package</a></li>
+<li class="toctree-l4 current"><a class="reference internal" href="SeisMonitor.monitor.html">SeisMonitor.monitor package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="SeisMonitor.plot.html">SeisMonitor.plot package</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="SeisMonitor.html#submodules">Submodules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="SeisMonitor.html#module-SeisMonitor.utils">SeisMonitor.utils module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="SeisMonitor.html#module-SeisMonitor.utils4examples">SeisMonitor.utils4examples module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="SeisMonitor.html#module-SeisMonitor">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">SeisMonitor</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="modules.html">SeisMonitor</a></li>
+          <li class="breadcrumb-item"><a href="SeisMonitor.html">SeisMonitor package</a></li>
+          <li class="breadcrumb-item"><a href="SeisMonitor.monitor.html">SeisMonitor.monitor package</a></li>
+      <li class="breadcrumb-item active">SeisMonitor.monitor.locator package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/SeisMonitor.monitor.locator.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="seismonitor-monitor-locator-package">
+<h1>SeisMonitor.monitor.locator package<a class="headerlink" href="#seismonitor-monitor-locator-package" title="Link to this heading"></a></h1>
+<section id="subpackages">
+<h2>Subpackages<a class="headerlink" href="#subpackages" title="Link to this heading"></a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="SeisMonitor.monitor.locator.hypoDD.html">SeisMonitor.monitor.locator.hypoDD package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="SeisMonitor.monitor.locator.hypoDD.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="SeisMonitor.monitor.locator.hypoDD.html#module-SeisMonitor.monitor.locator.hypoDD.core">SeisMonitor.monitor.locator.hypoDD.core module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="SeisMonitor.monitor.locator.hypoDD.html#SeisMonitor.monitor.locator.hypoDD.core.HypoDD"><code class="docutils literal notranslate"><span class="pre">HypoDD</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="SeisMonitor.monitor.locator.hypoDD.html#SeisMonitor.monitor.locator.hypoDD.core.HypoDD.locate"><code class="docutils literal notranslate"><span class="pre">HypoDD.locate()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="SeisMonitor.monitor.locator.hypoDD.html#module-SeisMonitor.monitor.locator.hypoDD.utils">SeisMonitor.monitor.locator.hypoDD.utils module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="SeisMonitor.monitor.locator.hypoDD.html#SeisMonitor.monitor.locator.hypoDD.utils.HypoDDException"><code class="docutils literal notranslate"><span class="pre">HypoDDException</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="SeisMonitor.monitor.locator.hypoDD.html#SeisMonitor.monitor.locator.hypoDD.utils.download_hypodd"><code class="docutils literal notranslate"><span class="pre">download_hypodd()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="SeisMonitor.monitor.locator.hypoDD.html#SeisMonitor.monitor.locator.hypoDD.utils.get_vel_layers"><code class="docutils literal notranslate"><span class="pre">get_vel_layers()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="SeisMonitor.monitor.locator.hypoDD.html#SeisMonitor.monitor.locator.hypoDD.utils.resp2df"><code class="docutils literal notranslate"><span class="pre">resp2df()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="SeisMonitor.monitor.locator.hypoDD.html#SeisMonitor.monitor.locator.hypoDD.utils.setup_velocity_model"><code class="docutils literal notranslate"><span class="pre">setup_velocity_model()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="SeisMonitor.monitor.locator.hypoDD.html#SeisMonitor.monitor.locator.hypoDD.utils.write_hypoDD_inp_file"><code class="docutils literal notranslate"><span class="pre">write_hypoDD_inp_file()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="SeisMonitor.monitor.locator.hypoDD.html#SeisMonitor.monitor.locator.hypoDD.utils.write_hypoDDstation"><code class="docutils literal notranslate"><span class="pre">write_hypoDDstation()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="SeisMonitor.monitor.locator.hypoDD.html#SeisMonitor.monitor.locator.hypoDD.utils.write_ph2dt_inp_file"><code class="docutils literal notranslate"><span class="pre">write_ph2dt_inp_file()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="SeisMonitor.monitor.locator.hypoDD.html#SeisMonitor.monitor.locator.hypoDD.utils.write_pha"><code class="docutils literal notranslate"><span class="pre">write_pha()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="SeisMonitor.monitor.locator.hypoDD.html#module-SeisMonitor.monitor.locator.hypoDD">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="SeisMonitor.monitor.locator.hypocenter.html">SeisMonitor.monitor.locator.hypocenter package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="SeisMonitor.monitor.locator.hypocenter.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="SeisMonitor.monitor.locator.hypocenter.html#module-SeisMonitor.monitor.locator.hypocenter.core">SeisMonitor.monitor.locator.hypocenter.core module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="SeisMonitor.monitor.locator.hypocenter.html#SeisMonitor.monitor.locator.hypocenter.core.Hypocenter"><code class="docutils literal notranslate"><span class="pre">Hypocenter</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="SeisMonitor.monitor.locator.hypocenter.html#SeisMonitor.monitor.locator.hypocenter.core.Hypocenter.locate"><code class="docutils literal notranslate"><span class="pre">Hypocenter.locate()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="SeisMonitor.monitor.locator.hypocenter.html#module-SeisMonitor.monitor.locator.hypocenter.utils">SeisMonitor.monitor.locator.hypocenter.utils module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="SeisMonitor.monitor.locator.hypocenter.html#SeisMonitor.monitor.locator.hypocenter.utils.HypocenterTools"><code class="docutils literal notranslate"><span class="pre">HypocenterTools</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="SeisMonitor.monitor.locator.hypocenter.html#SeisMonitor.monitor.locator.hypocenter.utils.HypocenterTools.collect"><code class="docutils literal notranslate"><span class="pre">HypocenterTools.collect()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="SeisMonitor.monitor.locator.hypocenter.html#SeisMonitor.monitor.locator.hypocenter.utils.HypocenterTools.norhead"><code class="docutils literal notranslate"><span class="pre">HypocenterTools.norhead()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="SeisMonitor.monitor.locator.hypocenter.html#SeisMonitor.monitor.locator.hypocenter.utils.HypocenterTools.remodl_and_setbrn"><code class="docutils literal notranslate"><span class="pre">HypocenterTools.remodl_and_setbrn()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="SeisMonitor.monitor.locator.hypocenter.html#SeisMonitor.monitor.locator.hypocenter.utils.HypocenterTools.select"><code class="docutils literal notranslate"><span class="pre">HypocenterTools.select()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="SeisMonitor.monitor.locator.hypocenter.html#SeisMonitor.monitor.locator.hypocenter.utils.HypocenterTools.split"><code class="docutils literal notranslate"><span class="pre">HypocenterTools.split()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="SeisMonitor.monitor.locator.hypocenter.html#SeisMonitor.monitor.locator.hypocenter.utils.HypocenterTools.update"><code class="docutils literal notranslate"><span class="pre">HypocenterTools.update()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="SeisMonitor.monitor.locator.hypocenter.html#SeisMonitor.monitor.locator.hypocenter.utils.STATION0"><code class="docutils literal notranslate"><span class="pre">STATION0</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="SeisMonitor.monitor.locator.hypocenter.html#SeisMonitor.monitor.locator.hypocenter.utils.STATION0.write"><code class="docutils literal notranslate"><span class="pre">STATION0.write()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="SeisMonitor.monitor.locator.hypocenter.html#SeisMonitor.monitor.locator.hypocenter.utils.check_sfile_integrity"><code class="docutils literal notranslate"><span class="pre">check_sfile_integrity()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="SeisMonitor.monitor.locator.hypocenter.html#SeisMonitor.monitor.locator.hypocenter.utils.collect"><code class="docutils literal notranslate"><span class="pre">collect()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="SeisMonitor.monitor.locator.hypocenter.html#SeisMonitor.monitor.locator.hypocenter.utils.cp_station0"><code class="docutils literal notranslate"><span class="pre">cp_station0()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="SeisMonitor.monitor.locator.hypocenter.html#SeisMonitor.monitor.locator.hypocenter.utils.download_seisan"><code class="docutils literal notranslate"><span class="pre">download_seisan()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="SeisMonitor.monitor.locator.hypocenter.html#SeisMonitor.monitor.locator.hypocenter.utils.norhead"><code class="docutils literal notranslate"><span class="pre">norhead()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="SeisMonitor.monitor.locator.hypocenter.html#SeisMonitor.monitor.locator.hypocenter.utils.resp2df"><code class="docutils literal notranslate"><span class="pre">resp2df()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="SeisMonitor.monitor.locator.hypocenter.html#SeisMonitor.monitor.locator.hypocenter.utils.select"><code class="docutils literal notranslate"><span class="pre">select()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="SeisMonitor.monitor.locator.hypocenter.html#SeisMonitor.monitor.locator.hypocenter.utils.split"><code class="docutils literal notranslate"><span class="pre">split()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="SeisMonitor.monitor.locator.hypocenter.html#SeisMonitor.monitor.locator.hypocenter.utils.sta2station0"><code class="docutils literal notranslate"><span class="pre">sta2station0()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="SeisMonitor.monitor.locator.hypocenter.html#SeisMonitor.monitor.locator.hypocenter.utils.test2station0"><code class="docutils literal notranslate"><span class="pre">test2station0()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="SeisMonitor.monitor.locator.hypocenter.html#SeisMonitor.monitor.locator.hypocenter.utils.update"><code class="docutils literal notranslate"><span class="pre">update()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="SeisMonitor.monitor.locator.hypocenter.html#SeisMonitor.monitor.locator.hypocenter.utils.vel2station0"><code class="docutils literal notranslate"><span class="pre">vel2station0()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="SeisMonitor.monitor.locator.hypocenter.html#SeisMonitor.monitor.locator.hypocenter.utils.vsp_ratio2station0"><code class="docutils literal notranslate"><span class="pre">vsp_ratio2station0()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="SeisMonitor.monitor.locator.hypocenter.html#module-SeisMonitor.monitor.locator.hypocenter">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="SeisMonitor.monitor.locator.nlloc.html">SeisMonitor.monitor.locator.nlloc package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="SeisMonitor.monitor.locator.nlloc.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="SeisMonitor.monitor.locator.nlloc.html#module-SeisMonitor.monitor.locator.nlloc.nlloc">SeisMonitor.monitor.locator.nlloc.nlloc module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="SeisMonitor.monitor.locator.nlloc.html#SeisMonitor.monitor.locator.nlloc.nlloc.NLLoc"><code class="docutils literal notranslate"><span class="pre">NLLoc</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="SeisMonitor.monitor.locator.nlloc.html#SeisMonitor.monitor.locator.nlloc.nlloc.NLLoc.compute_travel_times"><code class="docutils literal notranslate"><span class="pre">NLLoc.compute_travel_times()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="SeisMonitor.monitor.locator.nlloc.html#SeisMonitor.monitor.locator.nlloc.nlloc.NLLoc.locate"><code class="docutils literal notranslate"><span class="pre">NLLoc.locate()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="SeisMonitor.monitor.locator.nlloc.html#module-SeisMonitor.monitor.locator.nlloc.utils">SeisMonitor.monitor.locator.nlloc.utils module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="SeisMonitor.monitor.locator.nlloc.html#SeisMonitor.monitor.locator.nlloc.utils.GenericControlStatement"><code class="docutils literal notranslate"><span class="pre">GenericControlStatement</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="SeisMonitor.monitor.locator.nlloc.html#SeisMonitor.monitor.locator.nlloc.utils.GenericControlStatement.get_msg"><code class="docutils literal notranslate"><span class="pre">GenericControlStatement.get_msg()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="SeisMonitor.monitor.locator.nlloc.html#SeisMonitor.monitor.locator.nlloc.utils.Grid2Time"><code class="docutils literal notranslate"><span class="pre">Grid2Time</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="SeisMonitor.monitor.locator.nlloc.html#SeisMonitor.monitor.locator.nlloc.utils.Grid2Time.get_msg"><code class="docutils literal notranslate"><span class="pre">Grid2Time.get_msg()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="SeisMonitor.monitor.locator.nlloc.html#SeisMonitor.monitor.locator.nlloc.utils.NLLocControlFile"><code class="docutils literal notranslate"><span class="pre">NLLocControlFile</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="SeisMonitor.monitor.locator.nlloc.html#SeisMonitor.monitor.locator.nlloc.utils.NLLocControlFile.get_msg"><code class="docutils literal notranslate"><span class="pre">NLLocControlFile.get_msg()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="SeisMonitor.monitor.locator.nlloc.html#SeisMonitor.monitor.locator.nlloc.utils.NLLocControlFile.write"><code class="docutils literal notranslate"><span class="pre">NLLocControlFile.write()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="SeisMonitor.monitor.locator.nlloc.html#SeisMonitor.monitor.locator.nlloc.utils.Time2Loc"><code class="docutils literal notranslate"><span class="pre">Time2Loc</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="SeisMonitor.monitor.locator.nlloc.html#SeisMonitor.monitor.locator.nlloc.utils.Time2Loc.get_msg"><code class="docutils literal notranslate"><span class="pre">Time2Loc.get_msg()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="SeisMonitor.monitor.locator.nlloc.html#SeisMonitor.monitor.locator.nlloc.utils.Vel2Grid"><code class="docutils literal notranslate"><span class="pre">Vel2Grid</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="SeisMonitor.monitor.locator.nlloc.html#SeisMonitor.monitor.locator.nlloc.utils.Vel2Grid.get_msg"><code class="docutils literal notranslate"><span class="pre">Vel2Grid.get_msg()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="SeisMonitor.monitor.locator.nlloc.html#SeisMonitor.monitor.locator.nlloc.utils.apt_install"><code class="docutils literal notranslate"><span class="pre">apt_install()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="SeisMonitor.monitor.locator.nlloc.html#SeisMonitor.monitor.locator.nlloc.utils.download_nlloc"><code class="docutils literal notranslate"><span class="pre">download_nlloc()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="SeisMonitor.monitor.locator.nlloc.html#SeisMonitor.monitor.locator.nlloc.utils.get_nlloc_folders"><code class="docutils literal notranslate"><span class="pre">get_nlloc_folders()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="SeisMonitor.monitor.locator.nlloc.html#SeisMonitor.monitor.locator.nlloc.utils.join_args"><code class="docutils literal notranslate"><span class="pre">join_args()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="SeisMonitor.monitor.locator.nlloc.html#SeisMonitor.monitor.locator.nlloc.utils.resp2df"><code class="docutils literal notranslate"><span class="pre">resp2df()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="SeisMonitor.monitor.locator.nlloc.html#SeisMonitor.monitor.locator.nlloc.utils.run_nlloc"><code class="docutils literal notranslate"><span class="pre">run_nlloc()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="SeisMonitor.monitor.locator.nlloc.html#SeisMonitor.monitor.locator.nlloc.utils.testing_nlloc_core_path"><code class="docutils literal notranslate"><span class="pre">testing_nlloc_core_path()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="SeisMonitor.monitor.locator.nlloc.html#SeisMonitor.monitor.locator.nlloc.utils.write_1d_vel_model"><code class="docutils literal notranslate"><span class="pre">write_1d_vel_model()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="SeisMonitor.monitor.locator.nlloc.html#SeisMonitor.monitor.locator.nlloc.utils.write_pref_origin_removing_phaselocinfo"><code class="docutils literal notranslate"><span class="pre">write_pref_origin_removing_phaselocinfo()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="SeisMonitor.monitor.locator.nlloc.html#SeisMonitor.monitor.locator.nlloc.utils.write_station_file"><code class="docutils literal notranslate"><span class="pre">write_station_file()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="SeisMonitor.monitor.locator.nlloc.html#module-SeisMonitor.monitor.locator.nlloc">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading"></a></h2>
+</section>
+<section id="module-SeisMonitor.monitor.locator.utils">
+<span id="seismonitor-monitor-locator-utils-module"></span><h2>SeisMonitor.monitor.locator.utils module<a class="headerlink" href="#module-SeisMonitor.monitor.locator.utils" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="SeisMonitor.monitor.locator.utils.LocatorBasicInputs">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">SeisMonitor.monitor.locator.utils.</span></span><span class="sig-name descname"><span class="pre">LocatorBasicInputs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vel_model</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#SeisMonitor.monitor.locator.utils.VelModel" title="SeisMonitor.monitor.locator.utils.VelModel"><span class="pre">VelModel</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">stations</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#SeisMonitor.monitor.locator.utils.Stations" title="SeisMonitor.monitor.locator.utils.Stations"><span class="pre">Stations</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/SeisMonitor/monitor/locator/utils.html#LocatorBasicInputs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SeisMonitor.monitor.locator.utils.LocatorBasicInputs" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Class holding basic inputs for seismic location.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="SeisMonitor.monitor.locator.utils.Stations">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">SeisMonitor.monitor.locator.utils.</span></span><span class="sig-name descname"><span class="pre">Stations</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">stations</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/SeisMonitor/monitor/locator/utils.html#Stations"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SeisMonitor.monitor.locator.utils.Stations" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Class representing seismic stations.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="SeisMonitor.monitor.locator.utils.Stations.to_nlloc">
+<span class="sig-name descname"><span class="pre">to_nlloc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">out</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/SeisMonitor/monitor/locator/utils.html#Stations.to_nlloc"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SeisMonitor.monitor.locator.utils.Stations.to_nlloc" title="Link to this definition"></a></dt>
+<dd><p>Write stations in NonLinLoc format.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>out (str): Output file path</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="SeisMonitor.monitor.locator.utils.VelModel">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">SeisMonitor.monitor.locator.utils.</span></span><span class="sig-name descname"><span class="pre">VelModel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vel_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vp_vs_ratio</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.78</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">compute_vs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/SeisMonitor/monitor/locator/utils.html#VelModel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SeisMonitor.monitor.locator.utils.VelModel" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Class representing a velocity model.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="SeisMonitor.monitor.locator.utils.VelModel.to_nlloc">
+<span class="sig-name descname"><span class="pre">to_nlloc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">out</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/SeisMonitor/monitor/locator/utils.html#VelModel.to_nlloc"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SeisMonitor.monitor.locator.utils.VelModel.to_nlloc" title="Link to this definition"></a></dt>
+<dd><p>Write velocity model in NonLinLoc format.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>out (str): Output file path</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="SeisMonitor.monitor.locator.utils.changing_picks_info">
+<span class="sig-prename descclassname"><span class="pre">SeisMonitor.monitor.locator.utils.</span></span><span class="sig-name descname"><span class="pre">changing_picks_info</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ev</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ref_picks</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/SeisMonitor/monitor/locator/utils.html#changing_picks_info"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SeisMonitor.monitor.locator.utils.changing_picks_info" title="Link to this definition"></a></dt>
+<dd><p>Update event picks with information from reference picks.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>ev (obspy.core.event.Event): Event object to modify
+ref_picks (dict): Dictionary of reference picks with station_phase_time keys</p>
+</dd>
+<dt>Returns:</dt><dd><p>obspy.core.event.Event: Modified event with updated picks and arrivals</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="SeisMonitor.monitor.locator.utils.filter_arrivals_by_distance">
+<span class="sig-prename descclassname"><span class="pre">SeisMonitor.monitor.locator.utils.</span></span><span class="sig-name descname"><span class="pre">filter_arrivals_by_distance</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">events</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">distance</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_P_phases</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_S_phases</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/SeisMonitor/monitor/locator/utils.html#filter_arrivals_by_distance"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SeisMonitor.monitor.locator.utils.filter_arrivals_by_distance" title="Link to this definition"></a></dt>
+<dd><p>Filter events based on arrival distance and minimum phase counts.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>events (list): List of event objects
+distance (float): Maximum distance for arrivals in degrees
+min_P_phases (int): Minimum number of P phases required
+min_S_phases (int): Minimum number of S phases required</p>
+</dd>
+<dt>Returns:</dt><dd><p>list: Filtered list of events meeting criteria</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="SeisMonitor.monitor.locator.utils.get_bad_and_good_events">
+<span class="sig-prename descclassname"><span class="pre">SeisMonitor.monitor.locator.utils.</span></span><span class="sig-name descname"><span class="pre">get_bad_and_good_events</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">reloc_catalog</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/SeisMonitor/monitor/locator/utils.html#get_bad_and_good_events"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SeisMonitor.monitor.locator.utils.get_bad_and_good_events" title="Link to this definition"></a></dt>
+<dd><p>Separate events based on arrival azimuth uniformity.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>reloc_catalog (obspy.core.event.Catalog): Relocated event catalog</p>
+</dd>
+<dt>Returns:</dt><dd><dl class="simple">
+<dt>tuple: (good_events, bad_events) where good_events have varying azimuths</dt><dd><p>and bad_events have uniform azimuths</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="SeisMonitor.monitor.locator.utils.get_picks">
+<span class="sig-prename descclassname"><span class="pre">SeisMonitor.monitor.locator.utils.</span></span><span class="sig-name descname"><span class="pre">get_picks</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">catalog</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/SeisMonitor/monitor/locator/utils.html#get_picks"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SeisMonitor.monitor.locator.utils.get_picks" title="Link to this definition"></a></dt>
+<dd><p>Extract picks from a catalog into a dictionary.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>catalog (obspy.core.event.Catalog): Catalog containing events with picks</p>
+</dd>
+<dt>Returns:</dt><dd><p>dict: Dictionary of picks keyed by station_phase_time strings</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="SeisMonitor.monitor.locator.utils.resp2df">
+<span class="sig-prename descclassname"><span class="pre">SeisMonitor.monitor.locator.utils.</span></span><span class="sig-name descname"><span class="pre">resp2df</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">resp</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/SeisMonitor/monitor/locator/utils.html#resp2df"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SeisMonitor.monitor.locator.utils.resp2df" title="Link to this definition"></a></dt>
+<dd><p>Convert station response inventory to DataFrame.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>resp (Union[str, Inventory]): Path to RESP file or Inventory object</p>
+</dd>
+<dt>Returns:</dt><dd><dl class="simple">
+<dt>pandas.DataFrame: DataFrame with columns:</dt><dd><p>network, station, latitude, longitude, elevation</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-SeisMonitor.monitor.locator">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-SeisMonitor.monitor.locator" title="Link to this heading"></a></h2>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="SeisMonitor.monitor.downloader.html" class="btn btn-neutral float-left" title="SeisMonitor.monitor.downloader package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="SeisMonitor.monitor.locator.hypoDD.html" class="btn btn-neutral float-right" title="SeisMonitor.monitor.locator.hypoDD package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Emmanuel Castillo.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
