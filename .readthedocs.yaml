@@ -1,22 +1,38 @@
-# Read the Docs configuration file
-# See https://docs.readthedocs.io/en/stable/config-file/v2.html for details
-
-# Required
 version: 2
 
-# Set the OS, Python version, and other tools you might need
+# Specify the build environment
 build:
-  os: ubuntu-24.04
-  tools:
-    python: "3.13"
+  image: "latest"  # Use the latest available image
+  docker_image: "readthedocs/sphinx-build"  # Docker image to use for building
+  # Optionally, you can specify a custom build type (default: 'sphinx')
+  type: "sphinx"
 
-# Build documentation in the "docs/" directory with Sphinx
+# Python version to use for building the docs
+python:
+  version: 3.8  # Ensure this matches the python_requires from setup.py
+
+# Dependencies that Read the Docs needs to install for your project
+install:
+  - method: pip
+    path: .
+    extra_requirements:
+      - docs  # If you have extra requirements for docs like 'sphinx'
+
+# Build configuration for Sphinx
 sphinx:
-   configuration: docs/conf.py
+  configuration: docs/conf.py  # Path to the Sphinx conf.py file
 
-# Optionally, but recommended,
-# declare the Python requirements required to build your documentation
-# See https://docs.readthedocs.io/en/stable/guides/reproducible-builds.html
-# python:
-#    install:
-#    - requirements: docs/requirements.txt
+# Optional: If you need custom steps or scripts before building
+pre_build:
+  - pip install -r requirements.txt  # Ensure dependencies are installed
+  - pip install .  # Install the package locally if needed
+
+# Optional: Cache configuration
+cache:
+  paths:
+    - .tox
+    - .nox
+    - .venv
+    - _build
+    - node_modules
+    - sphinx/.nox
