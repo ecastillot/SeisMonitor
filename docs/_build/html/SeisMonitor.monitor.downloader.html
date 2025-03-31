@@ -18,9 +18,7 @@
       <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Picker" href="SeisMonitor.monitor.picker.html" />
-    <link rel="prev" title="Monitor" href="SeisMonitor.monitor.html" /> 
+    <link rel="search" title="Search" href="search.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -42,12 +40,42 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="SeisMonitor.core.html">Core</a></li>
-<li class="toctree-l1"><a class="reference internal" href="SeisMonitor.monitor.html">Monitor</a></li>
+              <!-- Local TOC -->
+              <div class="local-toc"><ul>
+<li><a class="reference internal" href="#">Downloader</a><ul>
+<li><a class="reference internal" href="#module-SeisMonitor.monitor.downloader.seismonitor">seismonitor</a><ul>
+<li><a class="reference internal" href="#SeisMonitor.monitor.downloader.seismonitor.MseedDownloader"><code class="docutils literal notranslate"><span class="pre">MseedDownloader</span></code></a><ul>
+<li><a class="reference internal" href="#SeisMonitor.monitor.downloader.seismonitor.MseedDownloader.providers"><code class="docutils literal notranslate"><span class="pre">MseedDownloader.providers</span></code></a></li>
+<li><a class="reference internal" href="#SeisMonitor.monitor.downloader.seismonitor.MseedDownloader.providers_are_processed"><code class="docutils literal notranslate"><span class="pre">MseedDownloader.providers_are_processed</span></code></a></li>
+<li><a class="reference internal" href="#SeisMonitor.monitor.downloader.seismonitor.MseedDownloader._stations_outside_domains"><code class="docutils literal notranslate"><span class="pre">MseedDownloader._stations_outside_domains</span></code></a></li>
+<li><a class="reference internal" href="#SeisMonitor.monitor.downloader.seismonitor.MseedDownloader.download"><code class="docutils literal notranslate"><span class="pre">MseedDownloader.download()</span></code></a></li>
+<li><a class="reference internal" href="#SeisMonitor.monitor.downloader.seismonitor.MseedDownloader.make_inv_and_json"><code class="docutils literal notranslate"><span class="pre">MseedDownloader.make_inv_and_json()</span></code></a></li>
 </ul>
-
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-SeisMonitor.monitor.downloader.utils">utils</a><ul>
+<li><a class="reference internal" href="#SeisMonitor.monitor.downloader.utils.DownloadRestrictions"><code class="docutils literal notranslate"><span class="pre">DownloadRestrictions</span></code></a></li>
+<li><a class="reference internal" href="#SeisMonitor.monitor.downloader.utils.get_all_sdswaveforms"><code class="docutils literal notranslate"><span class="pre">get_all_sdswaveforms()</span></code></a></li>
+<li><a class="reference internal" href="#SeisMonitor.monitor.downloader.utils.get_chunktimes"><code class="docutils literal notranslate"><span class="pre">get_chunktimes()</span></code></a></li>
+<li><a class="reference internal" href="#SeisMonitor.monitor.downloader.utils.get_client_waveforms"><code class="docutils literal notranslate"><span class="pre">get_client_waveforms()</span></code></a></li>
+<li><a class="reference internal" href="#SeisMonitor.monitor.downloader.utils.get_filenames"><code class="docutils literal notranslate"><span class="pre">get_filenames()</span></code></a></li>
+<li><a class="reference internal" href="#SeisMonitor.monitor.downloader.utils.get_inv_and_json"><code class="docutils literal notranslate"><span class="pre">get_inv_and_json()</span></code></a></li>
+<li><a class="reference internal" href="#SeisMonitor.monitor.downloader.utils.get_max_allowed_batch_size"><code class="docutils literal notranslate"><span class="pre">get_max_allowed_batch_size()</span></code></a></li>
+<li><a class="reference internal" href="#SeisMonitor.monitor.downloader.utils.get_merged_inv_and_json"><code class="docutils literal notranslate"><span class="pre">get_merged_inv_and_json()</span></code></a></li>
+<li><a class="reference internal" href="#SeisMonitor.monitor.downloader.utils.get_mseed_filename"><code class="docutils literal notranslate"><span class="pre">get_mseed_filename()</span></code></a></li>
+<li><a class="reference internal" href="#SeisMonitor.monitor.downloader.utils.get_st_according2preference"><code class="docutils literal notranslate"><span class="pre">get_st_according2preference()</span></code></a></li>
+<li><a class="reference internal" href="#SeisMonitor.monitor.downloader.utils.inside_the_polygon"><code class="docutils literal notranslate"><span class="pre">inside_the_polygon()</span></code></a></li>
+<li><a class="reference internal" href="#SeisMonitor.monitor.downloader.utils.sanitize_provider_times"><code class="docutils literal notranslate"><span class="pre">sanitize_provider_times()</span></code></a></li>
+<li><a class="reference internal" href="#SeisMonitor.monitor.downloader.utils.select_inventory"><code class="docutils literal notranslate"><span class="pre">select_inventory()</span></code></a></li>
+<li><a class="reference internal" href="#SeisMonitor.monitor.downloader.utils.write_client_waveforms"><code class="docutils literal notranslate"><span class="pre">write_client_waveforms()</span></code></a></li>
+<li><a class="reference internal" href="#SeisMonitor.monitor.downloader.utils.write_stream"><code class="docutils literal notranslate"><span class="pre">write_stream()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
         </div>
       </div>
     </nav>
@@ -62,7 +90,6 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
-          <li class="breadcrumb-item"><a href="SeisMonitor.monitor.html">Monitor</a></li>
       <li class="breadcrumb-item active">Downloader</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/SeisMonitor.monitor.downloader.rst.txt" rel="nofollow"> View page source</a>
@@ -479,10 +506,7 @@ last update: 14-11-2020</p>
 
            </div>
           </div>
-          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="SeisMonitor.monitor.html" class="btn btn-neutral float-left" title="Monitor" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="SeisMonitor.monitor.picker.html" class="btn btn-neutral float-right" title="Picker" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
-    </div>
+          <footer>
 
   <hr/>
 

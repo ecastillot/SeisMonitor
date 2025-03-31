@@ -18,9 +18,7 @@
       <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Downloader" href="SeisMonitor.monitor.downloader.html" />
-    <link rel="prev" title="Core" href="SeisMonitor.core.html" /> 
+    <link rel="search" title="Search" href="search.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -42,36 +40,30 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
-<ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="SeisMonitor.core.html">Core</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Monitor</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="SeisMonitor.monitor.downloader.html">Downloader</a></li>
-<li class="toctree-l2"><a class="reference internal" href="SeisMonitor.monitor.picker.html">Picker</a></li>
-<li class="toctree-l2"><a class="reference internal" href="SeisMonitor.monitor.associator.html">Associator</a></li>
-<li class="toctree-l2"><a class="reference internal" href="SeisMonitor.monitor.locator.html">Locator</a></li>
-<li class="toctree-l2"><a class="reference internal" href="SeisMonitor.monitor.magnitude.html">Magnitude</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#module-SeisMonitor.monitor.seismonitor">SeisMonitor (All in one)</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#SeisMonitor.monitor.seismonitor.SeisMonitor"><code class="docutils literal notranslate"><span class="pre">SeisMonitor</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#SeisMonitor.monitor.seismonitor.SeisMonitor.add_associator"><code class="docutils literal notranslate"><span class="pre">SeisMonitor.add_associator()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#SeisMonitor.monitor.seismonitor.SeisMonitor.add_downloader"><code class="docutils literal notranslate"><span class="pre">SeisMonitor.add_downloader()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#SeisMonitor.monitor.seismonitor.SeisMonitor.add_locator"><code class="docutils literal notranslate"><span class="pre">SeisMonitor.add_locator()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#SeisMonitor.monitor.seismonitor.SeisMonitor.add_magnitude"><code class="docutils literal notranslate"><span class="pre">SeisMonitor.add_magnitude()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#SeisMonitor.monitor.seismonitor.SeisMonitor.add_picker"><code class="docutils literal notranslate"><span class="pre">SeisMonitor.add_picker()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#SeisMonitor.monitor.seismonitor.SeisMonitor.run"><code class="docutils literal notranslate"><span class="pre">SeisMonitor.run()</span></code></a></li>
+              <!-- Local TOC -->
+              <div class="local-toc"><ul>
+<li><a class="reference internal" href="#">Monitor</a><ul>
+<li><a class="reference internal" href="#module-SeisMonitor.monitor.seismonitor">SeisMonitor (All in one)</a><ul>
+<li><a class="reference internal" href="#SeisMonitor.monitor.seismonitor.SeisMonitor"><code class="docutils literal notranslate"><span class="pre">SeisMonitor</span></code></a><ul>
+<li><a class="reference internal" href="#SeisMonitor.monitor.seismonitor.SeisMonitor.add_associator"><code class="docutils literal notranslate"><span class="pre">SeisMonitor.add_associator()</span></code></a></li>
+<li><a class="reference internal" href="#SeisMonitor.monitor.seismonitor.SeisMonitor.add_downloader"><code class="docutils literal notranslate"><span class="pre">SeisMonitor.add_downloader()</span></code></a></li>
+<li><a class="reference internal" href="#SeisMonitor.monitor.seismonitor.SeisMonitor.add_locator"><code class="docutils literal notranslate"><span class="pre">SeisMonitor.add_locator()</span></code></a></li>
+<li><a class="reference internal" href="#SeisMonitor.monitor.seismonitor.SeisMonitor.add_magnitude"><code class="docutils literal notranslate"><span class="pre">SeisMonitor.add_magnitude()</span></code></a></li>
+<li><a class="reference internal" href="#SeisMonitor.monitor.seismonitor.SeisMonitor.add_picker"><code class="docutils literal notranslate"><span class="pre">SeisMonitor.add_picker()</span></code></a></li>
+<li><a class="reference internal" href="#SeisMonitor.monitor.seismonitor.SeisMonitor.run"><code class="docutils literal notranslate"><span class="pre">SeisMonitor.run()</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#SeisMonitor.monitor.seismonitor.get_chunktimes_by_provider"><code class="docutils literal notranslate"><span class="pre">get_chunktimes_by_provider()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#SeisMonitor.monitor.seismonitor.get_folders_by_chunk"><code class="docutils literal notranslate"><span class="pre">get_folders_by_chunk()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#SeisMonitor.monitor.seismonitor.get_preproc_providers"><code class="docutils literal notranslate"><span class="pre">get_preproc_providers()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#SeisMonitor.monitor.seismonitor.sanitize_downloads"><code class="docutils literal notranslate"><span class="pre">sanitize_downloads()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#SeisMonitor.monitor.seismonitor.sanitize_pick_batch_size"><code class="docutils literal notranslate"><span class="pre">sanitize_pick_batch_size()</span></code></a></li>
+<li><a class="reference internal" href="#SeisMonitor.monitor.seismonitor.get_chunktimes_by_provider"><code class="docutils literal notranslate"><span class="pre">get_chunktimes_by_provider()</span></code></a></li>
+<li><a class="reference internal" href="#SeisMonitor.monitor.seismonitor.get_folders_by_chunk"><code class="docutils literal notranslate"><span class="pre">get_folders_by_chunk()</span></code></a></li>
+<li><a class="reference internal" href="#SeisMonitor.monitor.seismonitor.get_preproc_providers"><code class="docutils literal notranslate"><span class="pre">get_preproc_providers()</span></code></a></li>
+<li><a class="reference internal" href="#SeisMonitor.monitor.seismonitor.sanitize_downloads"><code class="docutils literal notranslate"><span class="pre">sanitize_downloads()</span></code></a></li>
+<li><a class="reference internal" href="#SeisMonitor.monitor.seismonitor.sanitize_pick_batch_size"><code class="docutils literal notranslate"><span class="pre">sanitize_pick_batch_size()</span></code></a></li>
 </ul>
 </li>
 </ul>
 </li>
 </ul>
-
+</div>
         </div>
       </div>
     </nav>
@@ -542,10 +534,7 @@
 
            </div>
           </div>
-          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="SeisMonitor.core.html" class="btn btn-neutral float-left" title="Core" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="SeisMonitor.monitor.downloader.html" class="btn btn-neutral float-right" title="Downloader" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
-    </div>
+          <footer>
 
   <hr/>
 

@@ -18,9 +18,7 @@
       <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Magnitude" href="SeisMonitor.monitor.magnitude.html" />
-    <link rel="prev" title="Hypocenter" href="SeisMonitor.monitor.locator.hypocenter.html" /> 
+    <link rel="search" title="Search" href="search.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -42,31 +40,56 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
-<ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="SeisMonitor.core.html">Core</a></li>
-<li class="toctree-l1 current"><a class="reference internal" href="SeisMonitor.monitor.html">Monitor</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="SeisMonitor.monitor.downloader.html">Downloader</a></li>
-<li class="toctree-l2"><a class="reference internal" href="SeisMonitor.monitor.picker.html">Picker</a></li>
-<li class="toctree-l2"><a class="reference internal" href="SeisMonitor.monitor.associator.html">Associator</a></li>
-<li class="toctree-l2 current"><a class="reference internal" href="SeisMonitor.monitor.locator.html">Locator</a><ul class="current">
-<li class="toctree-l3"><a class="reference internal" href="SeisMonitor.monitor.locator.hypoDD.html">HypoDD</a></li>
-<li class="toctree-l3"><a class="reference internal" href="SeisMonitor.monitor.locator.hypocenter.html">Hypocenter</a></li>
-<li class="toctree-l3 current"><a class="current reference internal" href="#">Nlloc</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#submodules">Submodules</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id1">nlloc</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#module-SeisMonitor.monitor.locator.nlloc.utils">utils</a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="SeisMonitor.monitor.locator.html#module-SeisMonitor.monitor.locator.utils">utils</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="SeisMonitor.monitor.magnitude.html">Magnitude</a></li>
-<li class="toctree-l2"><a class="reference internal" href="SeisMonitor.monitor.html#module-SeisMonitor.monitor.seismonitor">SeisMonitor (All in one)</a></li>
+              <!-- Local TOC -->
+              <div class="local-toc"><ul>
+<li><a class="reference internal" href="#">Nlloc</a><ul>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#id1">nlloc</a><ul>
+<li><a class="reference internal" href="#SeisMonitor.monitor.locator.nlloc.nlloc.NLLoc"><code class="docutils literal notranslate"><span class="pre">NLLoc</span></code></a><ul>
+<li><a class="reference internal" href="#SeisMonitor.monitor.locator.nlloc.nlloc.NLLoc.compute_travel_times"><code class="docutils literal notranslate"><span class="pre">NLLoc.compute_travel_times()</span></code></a></li>
+<li><a class="reference internal" href="#SeisMonitor.monitor.locator.nlloc.nlloc.NLLoc.locate"><code class="docutils literal notranslate"><span class="pre">NLLoc.locate()</span></code></a></li>
 </ul>
 </li>
 </ul>
-
+</li>
+<li><a class="reference internal" href="#module-SeisMonitor.monitor.locator.nlloc.utils">utils</a><ul>
+<li><a class="reference internal" href="#SeisMonitor.monitor.locator.nlloc.utils.GenericControlStatement"><code class="docutils literal notranslate"><span class="pre">GenericControlStatement</span></code></a><ul>
+<li><a class="reference internal" href="#SeisMonitor.monitor.locator.nlloc.utils.GenericControlStatement.get_msg"><code class="docutils literal notranslate"><span class="pre">GenericControlStatement.get_msg()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#SeisMonitor.monitor.locator.nlloc.utils.Grid2Time"><code class="docutils literal notranslate"><span class="pre">Grid2Time</span></code></a><ul>
+<li><a class="reference internal" href="#SeisMonitor.monitor.locator.nlloc.utils.Grid2Time.get_msg"><code class="docutils literal notranslate"><span class="pre">Grid2Time.get_msg()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#SeisMonitor.monitor.locator.nlloc.utils.NLLocControlFile"><code class="docutils literal notranslate"><span class="pre">NLLocControlFile</span></code></a><ul>
+<li><a class="reference internal" href="#SeisMonitor.monitor.locator.nlloc.utils.NLLocControlFile.get_msg"><code class="docutils literal notranslate"><span class="pre">NLLocControlFile.get_msg()</span></code></a></li>
+<li><a class="reference internal" href="#SeisMonitor.monitor.locator.nlloc.utils.NLLocControlFile.write"><code class="docutils literal notranslate"><span class="pre">NLLocControlFile.write()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#SeisMonitor.monitor.locator.nlloc.utils.Time2Loc"><code class="docutils literal notranslate"><span class="pre">Time2Loc</span></code></a><ul>
+<li><a class="reference internal" href="#SeisMonitor.monitor.locator.nlloc.utils.Time2Loc.get_msg"><code class="docutils literal notranslate"><span class="pre">Time2Loc.get_msg()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#SeisMonitor.monitor.locator.nlloc.utils.Vel2Grid"><code class="docutils literal notranslate"><span class="pre">Vel2Grid</span></code></a><ul>
+<li><a class="reference internal" href="#SeisMonitor.monitor.locator.nlloc.utils.Vel2Grid.get_msg"><code class="docutils literal notranslate"><span class="pre">Vel2Grid.get_msg()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#SeisMonitor.monitor.locator.nlloc.utils.apt_install"><code class="docutils literal notranslate"><span class="pre">apt_install()</span></code></a></li>
+<li><a class="reference internal" href="#SeisMonitor.monitor.locator.nlloc.utils.download_nlloc"><code class="docutils literal notranslate"><span class="pre">download_nlloc()</span></code></a></li>
+<li><a class="reference internal" href="#SeisMonitor.monitor.locator.nlloc.utils.get_nlloc_folders"><code class="docutils literal notranslate"><span class="pre">get_nlloc_folders()</span></code></a></li>
+<li><a class="reference internal" href="#SeisMonitor.monitor.locator.nlloc.utils.join_args"><code class="docutils literal notranslate"><span class="pre">join_args()</span></code></a></li>
+<li><a class="reference internal" href="#SeisMonitor.monitor.locator.nlloc.utils.resp2df"><code class="docutils literal notranslate"><span class="pre">resp2df()</span></code></a></li>
+<li><a class="reference internal" href="#SeisMonitor.monitor.locator.nlloc.utils.run_nlloc"><code class="docutils literal notranslate"><span class="pre">run_nlloc()</span></code></a></li>
+<li><a class="reference internal" href="#SeisMonitor.monitor.locator.nlloc.utils.testing_nlloc_core_path"><code class="docutils literal notranslate"><span class="pre">testing_nlloc_core_path()</span></code></a></li>
+<li><a class="reference internal" href="#SeisMonitor.monitor.locator.nlloc.utils.write_1d_vel_model"><code class="docutils literal notranslate"><span class="pre">write_1d_vel_model()</span></code></a></li>
+<li><a class="reference internal" href="#SeisMonitor.monitor.locator.nlloc.utils.write_pref_origin_removing_phaselocinfo"><code class="docutils literal notranslate"><span class="pre">write_pref_origin_removing_phaselocinfo()</span></code></a></li>
+<li><a class="reference internal" href="#SeisMonitor.monitor.locator.nlloc.utils.write_station_file"><code class="docutils literal notranslate"><span class="pre">write_station_file()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
         </div>
       </div>
     </nav>
@@ -81,8 +104,6 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
-          <li class="breadcrumb-item"><a href="SeisMonitor.monitor.html">Monitor</a></li>
-          <li class="breadcrumb-item"><a href="SeisMonitor.monitor.locator.html">Locator</a></li>
       <li class="breadcrumb-item active">Nlloc</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/SeisMonitor.monitor.locator.nlloc.rst.txt" rel="nofollow"> View page source</a>
@@ -435,10 +456,7 @@ using velocity models and station information.</p>
 
            </div>
           </div>
-          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="SeisMonitor.monitor.locator.hypocenter.html" class="btn btn-neutral float-left" title="Hypocenter" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="SeisMonitor.monitor.magnitude.html" class="btn btn-neutral float-right" title="Magnitude" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
-    </div>
+          <footer>
 
   <hr/>
 
