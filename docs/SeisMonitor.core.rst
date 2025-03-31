@@ -20,8 +20,10 @@ The data structure is organized as follows:
 
 ``LocalClient`` is designed to upload local data. It inherits the SDS client functionalities.
 
+.. code:: python
+
    root_path = "/home/emmanuel/myarchive"
-   client = LocalClient(root_path, "{field_name}/seedfiles/{year}-{month:02d}/{year}-{month:02d}-{day:02d}/{network}.{station}.{location}.{channel}.{year}.{julianday:03d}")
+   client = LocalClient(root_path, "/seedfiles/{year}-{month:02d}/{year}-{month:02d}-{day:02d}/{network}.{station}.{location}.{channel}.{year}.{julianday:03d}")
    st = client.get_waveforms("YY", "XXXX", "00",
                            channel="HHZ", starttime=UTCDateTime("20220102T000100"),
                            endtime=UTCDateTime("20220102T000200"))
