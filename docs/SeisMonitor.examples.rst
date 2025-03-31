@@ -54,6 +54,7 @@ Picker
    :alt: Open In Colab
 
 `EQTransformerObj Documentation <https://seismonitor.readthedocs.io/en/latest/_modules/SeisMonitor/monitor/picker/ai.html#EQTransformerObj>`_
+
 `EQTransformer.pick Documentation <https://seismonitor.readthedocs.io/en/latest/_modules/SeisMonitor/monitor/picker/ai.html#EQTransformer>`_
 
 .. code:: python
@@ -91,6 +92,7 @@ Associator
    :alt: Open In Colab
 
 `GaMMAObj Documentation <https://seismonitor.readthedocs.io/en/latest/_modules/SeisMonitor/monitor/associator/ai.html#GaMMAObj>`_
+
 `GaMMA.associate Documentation <https://seismonitor.readthedocs.io/en/latest/_modules/SeisMonitor/monitor/associator/ai.html#GaMMA>`_
 
 .. code:: python
@@ -122,7 +124,9 @@ Locator
    :alt: Open In Colab
 
 `NLLoc Documentation <https://seismonitor.readthedocs.io/en/latest/_modules/SeisMonitor/monitor/locator/nlloc/nlloc.html#NLLoc>`_
+
 `VelModel Documentation <https://seismonitor.readthedocs.io/en/latest/_modules/SeisMonitor/monitor/locator/utils.html#VelModel>`_
+
 `Stations Documentation <https://seismonitor.readthedocs.io/en/latest/_modules/SeisMonitor/monitor/locator/utils.html#Stations>`_
 
 .. code:: python
