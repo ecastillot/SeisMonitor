@@ -14,11 +14,11 @@ client
 Example
 -------
 
-The data structure is organized as follows:
+Let's say that the data structure is organized as follows:
 
 ``{root_path}/{field_name}/seedfiles/{year}-{month:02d}/{year}-{month:02d}-{day:02d}/{network}.{station}.{location}.{channel}.{year}.{julianday:03d}``
 
-``LocalClient`` is designed to upload local data. It inherits the SDS client functionalities.
+``LocalClient`` is designed to upload local data.
 
 .. code:: python
 
@@ -27,6 +27,8 @@ The data structure is organized as follows:
    st = client.get_waveforms("YY", "XXXX", "00",
                            channel="HHZ", starttime=UTCDateTime("20220102T000100"),
                            endtime=UTCDateTime("20220102T000200"))
+
+ It inherits the SDS client functionalities.
 
 objects
 -------------------------------
