@@ -22,7 +22,7 @@ class LocalClient(Client):
         root (str): Path where is located the Local structure
         fmt (str): The parameter should name the corresponding keys of the stats object, e.g. ``"{year}-{month:02d}/{year}-{month:02d}-{day:02d}/{network}.{station}.{location}.{channel}.{year}.{julday:03d}"``
 
-        ``**kwargs`` SDS client additional args
+        kwargs: SDS client additional args
         """
         self.root = root
         self.fmt = fmt
