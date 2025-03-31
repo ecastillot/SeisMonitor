@@ -5,6 +5,9 @@
 #### [Downloader->Picker->Associator->Locator->Magnitude]
 For now only supported for linux
 
+# Documentation (In progress)
+
+[Documentation](https://seismonitor.readthedocs.io/en/latest/)
 
 # Examples
 
