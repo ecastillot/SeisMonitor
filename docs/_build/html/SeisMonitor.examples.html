@@ -18,7 +18,9 @@
       <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" /> 
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Core" href="SeisMonitor.core.html" />
+    <link rel="prev" title="SeisMonitor documentation" href="index.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -40,16 +42,23 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <!-- Local TOC -->
-              <div class="local-toc"><ul>
-<li><a class="reference internal" href="#">Examples</a><ul>
-<li><a class="reference internal" href="#waveformrestrictions">WaveformRestrictions</a></li>
-<li><a class="reference internal" href="#provider">Provider</a></li>
-<li><a class="reference internal" href="#downloader">Downloader</a></li>
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#waveformrestrictions">WaveformRestrictions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#provider">Provider</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#downloader">Downloader</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#picker">Picker</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#associator">Associator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#locator">Locator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id1">Locator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#all-in-one">All in one</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="SeisMonitor.core.html">Core</a></li>
+<li class="toctree-l1"><a class="reference internal" href="SeisMonitor.monitor.html">Monitor</a></li>
 </ul>
-</div>
+
         </div>
       </div>
     </nav>
@@ -114,12 +123,124 @@
 </pre></div>
 </div>
 </section>
+<section id="picker">
+<h2>Picker<a class="headerlink" href="#picker" title="Link to this heading"></a></h2>
+<a class="reference external image-reference" href="https://colab.research.google.com/github/ecastillot/SeisMonitor/blob/master/examples/2.picker.ipynb"><img alt="Open In Colab" src="https://colab.research.google.com/assets/colab-badge.svg" />
+</a>
+<p><a class="reference external" href="https://seismonitor.readthedocs.io/en/latest/_modules/SeisMonitor/monitor/picker/ai.html#EQTransformerObj">EQTransformerObj Documentation</a>
+<a class="reference external" href="https://seismonitor.readthedocs.io/en/latest/_modules/SeisMonitor/monitor/picker/ai.html#EQTransformer">EQTransformer.pick Documentation</a></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">SeisMonitor.monitor.picker.ai</span><span class="w"> </span><span class="kn">import</span> <span class="n">EQTransformer</span><span class="p">,</span><span class="n">EQTransformerObj</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">SeisMonitor.monitor.picker</span><span class="w"> </span><span class="kn">import</span> <span class="n">utils</span> <span class="k">as</span> <span class="n">piut</span>
+
+<span class="c1"># Eqtransformer object</span>
+<span class="n">eqtobj</span> <span class="o">=</span> <span class="n">EQTransformerObj</span><span class="p">(</span><span class="n">model_path</span><span class="o">=</span><span class="n">eqt_model</span><span class="p">,</span>
+         <span class="n">n_processor</span> <span class="o">=</span> <span class="mi">6</span><span class="p">,</span>
+         <span class="n">overlap</span> <span class="o">=</span> <span class="mf">0.3</span><span class="p">,</span>
+         <span class="n">detection_threshold</span> <span class="o">=</span><span class="mf">0.1</span><span class="p">,</span>
+         <span class="n">P_threshold</span> <span class="o">=</span> <span class="mf">0.01</span><span class="p">,</span>
+         <span class="n">S_threshold</span> <span class="o">=</span> <span class="mf">0.01</span><span class="p">,</span>
+         <span class="n">batch_size</span> <span class="o">=</span> <span class="mi">20</span><span class="p">,</span>
+         <span class="n">number_of_plots</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+         <span class="n">plot_mode</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">)</span>
+
+<span class="n">out_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">monitor_path</span> <span class="p">,</span><span class="s2">&quot;picks&quot;</span><span class="p">,</span><span class="s2">&quot;eqt&quot;</span><span class="p">)</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">monitor_path</span> <span class="p">,</span><span class="s2">&quot;picks&quot;</span><span class="p">,</span><span class="s2">&quot;eqt&quot;</span><span class="p">,</span><span class="s2">&quot;seismonitor_picks.csv&quot;</span><span class="p">)</span>
+
+<span class="c1">#picker</span>
+<span class="n">eqt</span> <span class="o">=</span> <span class="n">EQTransformer</span><span class="p">(</span><span class="n">eqtobj</span><span class="p">)</span>
+<span class="n">eqt</span><span class="o">.</span><span class="n">pick</span><span class="p">(</span><span class="n">downloads</span><span class="p">,</span><span class="n">stations</span><span class="p">,</span><span class="n">out_dir</span><span class="p">)</span>
+
+<span class="c1"># eqt to seismonitor format</span>
+<span class="n">piut</span><span class="o">.</span><span class="n">eqt_picks_2_seismonitor_fmt</span><span class="p">(</span><span class="n">out_dir</span><span class="p">,</span><span class="n">downloads</span><span class="p">,</span><span class="n">result</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="associator">
+<h2>Associator<a class="headerlink" href="#associator" title="Link to this heading"></a></h2>
+<a class="reference external image-reference" href="https://colab.research.google.com/github/ecastillot/SeisMonitor/blob/master/examples/3.associator.ipynb"><img alt="Open In Colab" src="https://colab.research.google.com/assets/colab-badge.svg" />
+</a>
+<p><a class="reference external" href="https://seismonitor.readthedocs.io/en/latest/_modules/SeisMonitor/monitor/associator/ai.html#GaMMAObj">GaMMAObj Documentation</a>
+<a class="reference external" href="https://seismonitor.readthedocs.io/en/latest/_modules/SeisMonitor/monitor/associator/ai.html#GaMMA">GaMMA.associate Documentation</a></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">SeisMonitor.monitor.associator.ai</span><span class="w"> </span><span class="kn">import</span> <span class="n">GaMMA</span><span class="p">,</span><span class="n">GaMMAObj</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">SeisMonitor.monitor.associator</span><span class="w"> </span><span class="kn">import</span> <span class="n">utils</span> <span class="k">as</span> <span class="n">asut</span>
+
+<span class="c1"># Region   lonw,lone,lats,latn, zmin_km,zmax_km</span>
+<span class="n">region</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mf">76.729</span><span class="p">,</span> <span class="o">-</span><span class="mf">72.315</span><span class="p">,</span><span class="mf">1.55</span><span class="p">,</span> <span class="mf">5.314</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span> <span class="mi">150</span><span class="p">]</span>
+
+<span class="c1"># gamma object</span>
+<span class="n">gc</span> <span class="o">=</span> <span class="n">GaMMAObj</span><span class="p">(</span><span class="n">region</span><span class="p">,</span><span class="s2">&quot;EPSG:3116&quot;</span><span class="p">,</span>
+               <span class="n">use_amplitude</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+               <span class="n">use_dbscan</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+               <span class="n">calculate_amp</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="n">inv</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">stations</span><span class="p">,</span><span class="s2">&quot;inv.xml&quot;</span><span class="p">)</span>
+<span class="n">picks</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">picks</span><span class="p">,</span><span class="s2">&quot;eqt_seismonitor_picks.csv&quot;</span><span class="p">)</span>
+<span class="n">out_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">monitor_path</span><span class="p">,</span><span class="s2">&quot;gamma_asso&quot;</span><span class="p">,</span><span class="s2">&quot;eqt&quot;</span><span class="p">)</span>
+
+<span class="n">g</span> <span class="o">=</span> <span class="n">GaMMA</span><span class="p">(</span><span class="n">gc</span><span class="p">)</span>
+<span class="n">obspy_catalog</span><span class="p">,</span> <span class="n">df_catalog</span><span class="p">,</span><span class="n">df_picks</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">associate</span><span class="p">(</span><span class="n">picks</span><span class="p">,</span><span class="n">inv</span><span class="p">,</span><span class="n">out_dir</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="locator">
+<h2>Locator<a class="headerlink" href="#locator" title="Link to this heading"></a></h2>
+<a class="reference external image-reference" href="https://colab.research.google.com/github/ecastillot/SeisMonitor/blob/master/examples/4.locator.ipynb"><img alt="Open In Colab" src="https://colab.research.google.com/assets/colab-badge.svg" />
+</a>
+<p><a class="reference external" href="https://seismonitor.readthedocs.io/en/latest/_modules/SeisMonitor/monitor/locator/nlloc/nlloc.html#NLLoc">NLLoc Documentation</a>
+<a class="reference external" href="https://seismonitor.readthedocs.io/en/latest/_modules/SeisMonitor/monitor/locator/utils.html#VelModel">VelModel Documentation</a>
+<a class="reference external" href="https://seismonitor.readthedocs.io/en/latest/_modules/SeisMonitor/monitor/locator/utils.html#Stations">Stations Documentation</a></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">SeisMonitor.monitor.locator.nlloc.nlloc</span><span class="w"> </span><span class="kn">import</span> <span class="n">NLLoc</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">SeisMonitor.monitor.locator</span><span class="w"> </span><span class="kn">import</span> <span class="n">utils</span> <span class="k">as</span> <span class="n">lut</span>
+
+<span class="c1"># vel model and stations</span>
+<span class="n">vel_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">velmodel</span><span class="p">,</span><span class="s2">&quot;vel1d_col.csv&quot;</span><span class="p">)</span>
+<span class="n">inv</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">stations</span><span class="p">,</span><span class="s2">&quot;inv.xml&quot;</span><span class="p">)</span>
+
+<span class="n">vel_model</span> <span class="o">=</span> <span class="n">lut</span><span class="o">.</span><span class="n">VelModel</span><span class="p">(</span><span class="n">vel_path</span><span class="p">,</span><span class="n">model_name</span><span class="o">=</span><span class="s2">&quot;Ojeda&amp;Havskov(2004)&quot;</span><span class="p">)</span>
+<span class="n">stations</span> <span class="o">=</span> <span class="n">lut</span><span class="o">.</span><span class="n">Stations</span><span class="p">(</span><span class="n">inv</span><span class="p">)</span>
+
+<span class="c1"># nlloc definition</span>
+<span class="n">nlloc</span> <span class="o">=</span> <span class="n">NLLoc</span><span class="p">(</span>
+     <span class="n">core_path</span> <span class="o">=</span> <span class="n">nlloc_path</span><span class="p">,</span> <span class="c1">### type your NLLoc path,</span>
+     <span class="n">agency</span><span class="o">=</span><span class="s2">&quot;SeisMonitor&quot;</span><span class="p">,</span>
+     <span class="n">region</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mi">85</span><span class="p">,</span> <span class="o">-</span><span class="mi">68</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="mi">205</span><span class="p">],</span> <span class="c1">#lonw,lone,#lats,latn,zmin_km,zmax_km</span>
+     <span class="n">vel_model</span> <span class="o">=</span> <span class="n">vel_model</span><span class="p">,</span>
+     <span class="n">stations</span> <span class="o">=</span> <span class="n">stations</span><span class="p">,</span>
+     <span class="n">delta_in_km</span> <span class="o">=</span> <span class="mf">2.5</span><span class="p">,</span>
+     <span class="n">tmp_folder</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">(),</span><span class="s2">&quot;NLLoc_grid&quot;</span><span class="p">)</span> <span class="c1">### CHANGE PATH TO YOUR OWN PATH AND ALSO TAKE IN MIND THAT CONSUME DISK</span>
+     <span class="p">)</span>
+
+<span class="c1"># travel times (time consuming)</span>
+<span class="n">nlloc</span><span class="o">.</span><span class="n">compute_travel_times</span><span class="p">()</span>
+
+<span class="c1">#earthquake location</span>
+<span class="n">eqt_catalog</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">asso</span><span class="p">,</span><span class="s2">&quot;associations.xml&quot;</span><span class="p">)</span>
+<span class="n">eqt_nlloc_catalog</span> <span class="o">=</span> <span class="n">nlloc</span><span class="o">.</span><span class="n">locate</span><span class="p">(</span><span class="n">catalog</span><span class="o">=</span><span class="n">eqt_catalog</span><span class="p">,</span>
+                           <span class="n">nlloc_out_folder</span><span class="o">=</span> <span class="n">out_dir</span><span class="p">,</span>
+                           <span class="n">out_filename</span> <span class="o">=</span> <span class="s2">&quot;LOC.xml&quot;</span><span class="p">,</span>
+                           <span class="n">out_format</span><span class="o">=</span><span class="s2">&quot;SC3ML&quot;</span> <span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="id1">
+<h2>Locator<a class="headerlink" href="#id1" title="Link to this heading"></a></h2>
+<a class="reference external image-reference" href="https://colab.research.google.com/github/ecastillot/SeisMonitor/blob/master/examples/5.magnitude.ipynb"><img alt="Open In Colab" src="https://colab.research.google.com/assets/colab-badge.svg" />
+</a>
+</section>
+<section id="all-in-one">
+<h2>All in one<a class="headerlink" href="#all-in-one" title="Link to this heading"></a></h2>
+<a class="reference external image-reference" href="https://colab.research.google.com/github/ecastillot/SeisMonitor/blob/master/examples/monitor.ipynb"><img alt="Open In Colab" src="https://colab.research.google.com/assets/colab-badge.svg" />
+</a>
+</section>
 </section>
 
 
            </div>
           </div>
-          <footer>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="SeisMonitor documentation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="SeisMonitor.core.html" class="btn btn-neutral float-right" title="Core" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
 
   <hr/>
 

@@ -53,6 +53,9 @@ Picker
    :target: https://colab.research.google.com/github/ecastillot/SeisMonitor/blob/master/examples/2.picker.ipynb
    :alt: Open In Colab
 
+`EQTransformerObj Documentation <https://seismonitor.readthedocs.io/en/latest/_modules/SeisMonitor/monitor/picker/ai.html#EQTransformerObj>`_
+`EQTransformer.pick Documentation <https://seismonitor.readthedocs.io/en/latest/_modules/SeisMonitor/monitor/picker/ai.html#EQTransformer>`_
+
 .. code:: python
    
    from SeisMonitor.monitor.picker.ai import EQTransformer,EQTransformerObj
@@ -87,6 +90,9 @@ Associator
    :target: https://colab.research.google.com/github/ecastillot/SeisMonitor/blob/master/examples/3.associator.ipynb
    :alt: Open In Colab
 
+`GaMMAObj Documentation <https://seismonitor.readthedocs.io/en/latest/_modules/SeisMonitor/monitor/associator/ai.html#GaMMAObj>`_
+`GaMMA.associate Documentation <https://seismonitor.readthedocs.io/en/latest/_modules/SeisMonitor/monitor/associator/ai.html#GaMMA>`_
+
 .. code:: python
    
    from SeisMonitor.monitor.associator.ai import GaMMA,GaMMAObj
@@ -107,4 +113,75 @@ Associator
 
    g = GaMMA(gc)
    obspy_catalog, df_catalog,df_picks = g.associate(picks,inv,out_dir)
+
+Locator
+-----------
+
+.. image:: https://colab.research.google.com/assets/colab-badge.svg
+   :target: https://colab.research.google.com/github/ecastillot/SeisMonitor/blob/master/examples/4.locator.ipynb
+   :alt: Open In Colab
+
+`NLLoc Documentation <https://seismonitor.readthedocs.io/en/latest/_modules/SeisMonitor/monitor/locator/nlloc/nlloc.html#NLLoc>`_
+`VelModel Documentation <https://seismonitor.readthedocs.io/en/latest/_modules/SeisMonitor/monitor/locator/utils.html#VelModel>`_
+`Stations Documentation <https://seismonitor.readthedocs.io/en/latest/_modules/SeisMonitor/monitor/locator/utils.html#Stations>`_
+
+.. code:: python
    
+   from SeisMonitor.monitor.locator.nlloc.nlloc import NLLoc
+   from SeisMonitor.monitor.locator import utils as lut
+   
+   # vel model and stations
+   vel_path = os.path.join(velmodel,"vel1d_col.csv")
+   inv = os.path.join(stations,"inv.xml")
+
+   vel_model = lut.VelModel(vel_path,model_name="Ojeda&Havskov(2004)")
+   stations = lut.Stations(inv)
+
+   # nlloc definition
+   nlloc = NLLoc(
+        core_path = nlloc_path, ### type your NLLoc path, 
+        agency="SeisMonitor",
+        region = [-85, -68,0, 15,-5, 205], #lonw,lone,#lats,latn,zmin_km,zmax_km
+        vel_model = vel_model,
+        stations = stations,
+        delta_in_km = 2.5,
+        tmp_folder=os.path.join(os.getcwd(),"NLLoc_grid") ### CHANGE PATH TO YOUR OWN PATH AND ALSO TAKE IN MIND THAT CONSUME DISK
+        )
+
+   # travel times (time consuming)
+   nlloc.compute_travel_times()
+
+   #earthquake location
+   eqt_catalog = os.path.join(asso,"associations.xml")
+   eqt_nlloc_catalog = nlloc.locate(catalog=eqt_catalog,
+                              nlloc_out_folder= out_dir,
+                              out_filename = "LOC.xml",
+                              out_format="SC3ML" )
+
+Locator
+-----------
+
+.. image:: https://colab.research.google.com/assets/colab-badge.svg
+   :target: https://colab.research.google.com/github/ecastillot/SeisMonitor/blob/master/examples/5.magnitude.ipynb
+   :alt: Open In Colab
+
+.. code:: python
+   mag = Magnitude([sgc_provider],catalog,out_dir) #catalog,providers,out
+
+   # parameter definitions for local magnitude
+   ml_params = {"a":1.019,"b":0.0016,"r_ref":140} #ojeda
+   k = ml_params["a"]*math.log10(ml_params["r_ref"]/100) +\
+                     ml_params["b"]* (ml_params["r_ref"]-100) +3
+   Ml = lambda ampl,epi_dist : math.log10(ampl * 1e3) + ml_params["a"] * math.log10(epi_dist/ml_params["r_ref"]) +\
+                                 ml_params["b"] * (epi_dist-ml_params["r_ref"]) + k
+
+   cat = mag.get_Ml(mag_type=Ml ,
+            trimmedtime=5, #seconds after pick S to trim the signal
+            out_format="SC3ML")
+
+All in one
+-----------
+
+.. image:: https://colab.research.google.com/assets/colab-badge.svg
+   :target: https://colab.research.google.com/github/ecastillot/SeisMonitor/blob/master/examples/monitor.ipynb
+   :alt: Open In Colab
