@@ -164,12 +164,14 @@ Stations and velocity input data: `here <https://github.com/ecastillot/SeisMonit
                               out_filename = "LOC.xml",
                               out_format="SC3ML" )
 
-Locator
+Magnitude
 -----------
 
 .. image:: https://colab.research.google.com/assets/colab-badge.svg
    :target: https://colab.research.google.com/github/ecastillot/SeisMonitor/blob/master/examples/5.magnitude.ipynb
    :alt: Open In Colab
+
+Local Magnitude calculation
 
 .. code:: python
    mag = Magnitude([sgc_provider],catalog,out_dir) #catalog,providers,out
