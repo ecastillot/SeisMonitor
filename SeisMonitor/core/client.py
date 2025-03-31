@@ -31,20 +31,27 @@ class LocalClient(Client):
     def _get_filenames(self, network, station, location, channel, starttime,
                        endtime, sds_type=None):
         """
-        Get list of filenames for certain waveform and time span.
-        :type network: str
-        :param network: Network code of requested data (e.g. "IU").
-        :type station: str
-        :param station: Station code of requested data (e.g. "ANMO").
-        :type location: str
-        :param location: Location code of requested data (e.g. "").
-        :type channel: str
-        :param channel: Channel code of requested data (e.g. "HHZ").
-        :type time: :class:`~obspy.core.utcdatetime.UTCDateTime`
-        :param time: Time of interest.
-        :type sds_type: str
-        :param sds_type: None
-        :rtype: str
+        Get a list of filenames for a given waveform and time span.
+
+        Parameters
+        ----------
+        network : str
+            Network code of requested data (e.g., "IU").
+        station : str
+            Station code of requested data (e.g., "ANMO").
+        location : str
+            Location code of requested data (e.g., "").
+        channel : str
+            Channel code of requested data (e.g., "HHZ").
+        time : obspy.core.utcdatetime.UTCDateTime
+            Time of interest.
+        sds_type : str
+            SDS type (description not provided).
+
+        Returns
+        -------
+        str
+            The filename corresponding to the given parameters.
         """
         sds_type = sds_type or self.sds_type
         # SDS has data sometimes in adjacent days, so also try to read the
