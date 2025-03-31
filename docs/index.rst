@@ -9,7 +9,7 @@ SeisMonitor documentation
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
-
+   SeisMonitor.examples
    SeisMonitor.core
    SeisMonitor.monitor
 
