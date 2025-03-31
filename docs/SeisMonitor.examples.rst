@@ -174,6 +174,7 @@ Magnitude
 Local Magnitude calculation
 
 .. code:: python
+   
    mag = Magnitude([sgc_provider],catalog,out_dir) #catalog,providers,out
 
    # parameter definitions for local magnitude
