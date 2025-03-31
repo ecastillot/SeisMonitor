@@ -86,17 +86,25 @@ class LocalClient(Client):
 
     def _get_filename(self, network, station, location, channel, time, sds_type=None):
         """
-        Get filename for certain waveform.
-        :type network: str
-        :param network: Network code of requested data (e.g. "IU").
-        :type station: str
-        :param station: Station code of requested data (e.g. "ANMO").
-        :type location: str
-        :param location: Location code of requested data (e.g. "").
-        :type channel: str
-        :param channel: Channel code of requested data (e.g. "HHZ").
-        :type time: :class:`~obspy.core.utcdatetime.UTCDateTime`
-        :param time: Time of interest.
+        Get the filename for a given waveform.
+
+        Parameters
+        ----------
+        network : str
+            Network code of requested data (e.g., "IU").
+        station : str
+            Station code of requested data (e.g., "ANMO").
+        location : str
+            Location code of requested data (e.g., "").
+        channel : str
+            Channel code of requested data (e.g., "HHZ").
+        time : obspy.core.utcdatetime.UTCDateTime
+            Time of interest.
+
+        Returns
+        -------
+        str
+            The filename corresponding to the given parameters.
         """
         sds_type = sds_type or self.sds_type
         filename = self.fmt.format(
