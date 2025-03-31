@@ -13,13 +13,13 @@ class Provider:
 
         Parameters:
         -----------
-        client : object
+        :client: object
             An ObsPy-compatible client to fetch station metadata.
-        waveform_restrictions : WaveformRestrictions
+        :waveform_restrictions: WaveformRestrictions
             Object containing selection criteria for waveform data.
-        processing : Processing, optional
+        :processing: Processing, optional
             Processing steps for waveform data (default is None).
-        xml : str, optional
+        :xml: str, optional
             Path to an XML file containing station metadata (default is None).
         """
         self.client = client
@@ -65,27 +65,27 @@ class WaveformRestrictions:
         
         Parameters:
         -----------
-        network : str
+        :network: str
             Comma-separated list of network codes (wildcards allowed).
-        station : str
+        :station: str
             Comma-separated list of station codes (wildcards allowed).
-        location : str
+        :location: str
             Comma-separated list of location identifiers (wildcards allowed).
-        channel : str
+        :channel: str
             Comma-separated list of channel codes (e.g., "BHZ,HHZ").
-        starttime : obspy.UTCDateTime
+        :starttime: obspy.UTCDateTime
             Start time for waveform selection.
-        endtime : obspy.UTCDateTime
+        :endtime: obspy.UTCDateTime
             End time for waveform selection.
-        location_preferences : list, optional
+        :location_preferences: list, optional
             Ordered list of preferred locations (default is empty list).
-        channel_preferences : list, optional
+        :channel_preferences: list, optional
             Ordered list of preferred channels (default is empty list).
-        filter_networks : list, optional
+        :filter_networks: list, optional
             List of networks to filter out (default is empty list).
-        filter_stations : list, optional
+        :filter_stations: list, optional
             List of stations to filter out (default is empty list).
-        filter_domain : list, optional
+        :filter_domain: list, optional
             Geographic bounding box [lon_west, lon_east, lat_south, lat_north]
             (default is global coverage).
         """
@@ -115,29 +115,29 @@ class Processing:
 
         Parameters:
         -----------
-        order : list of str, optional
+        :order: list of str, optional
             Order of preprocessing steps (default includes 'normalize', 'merge', etc.).
-        decimate : dict, optional
+        :decimate: dict, optional
             Parameters for the decimate method.
-        detrend : dict, optional
+        :detrend: dict, optional
             Parameters for the detrend method.
-        filter : dict, optional
+        :filter: dict, optional
             Parameters for the filter method.
-        merge : dict, optional
+        :merge: dict, optional
             Parameters for the merge method.
-        normalize : dict, optional
+        :normalize: dict, optional
             Parameters for the normalize method.
-        resample : dict, optional
+        :resample: dict, optional
             Parameters for the resample method.
-        taper : dict, optional
+        :taper: dict, optional
             Parameters for the taper method.
-        select_networks : list, optional
+        :select_networks: list, optional
             List of networks to select (default is empty list).
-        select_stations : list, optional
+        :select_stations: list, optional
             List of stations to select (default is empty list).
-        filter_networks : list, optional
+        :filter_networks: list, optional
             List of networks to filter out (default is empty list).
-        filter_stations : list, optional
+        :filter_stations: list, optional
             List of stations to filter out (default is empty list).
         """
         self.order = order or ['normalize', 'merge', 'detrend', 'taper', "filter"]
@@ -159,7 +159,7 @@ class Processing:
 
         Parameters:
         -----------
-        st : obspy.Stream
+        :st: obspy.Stream
             The waveform stream to process.
         
         Returns:
