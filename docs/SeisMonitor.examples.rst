@@ -129,6 +129,8 @@ Locator
 
 `Stations Documentation <https://seismonitor.readthedocs.io/en/latest/_modules/SeisMonitor/monitor/locator/utils.html#Stations>`_
 
+Stations and velocity input data: `here <https://github.com/ecastillot/SeisMonitor/tree/others>`_ 
+
 .. code:: python
    
    from SeisMonitor.monitor.locator.nlloc.nlloc import NLLoc
