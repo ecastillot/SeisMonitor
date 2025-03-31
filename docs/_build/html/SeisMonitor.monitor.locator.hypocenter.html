@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>SeisMonitor.monitor.locator.hypocenter package &mdash; SeisMonitor 0.0.57 documentation</title>
+  <title>Hypocenter &mdash; SeisMonitor 0.0.57 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
 
@@ -19,8 +19,8 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="SeisMonitor.monitor.locator.nlloc package" href="SeisMonitor.monitor.locator.nlloc.html" />
-    <link rel="prev" title="SeisMonitor.monitor.locator.hypoDD package" href="SeisMonitor.monitor.locator.hypoDD.html" /> 
+    <link rel="next" title="Nlloc" href="SeisMonitor.monitor.locator.nlloc.html" />
+    <link rel="prev" title="HypoDD" href="SeisMonitor.monitor.locator.hypoDD.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -44,28 +44,26 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="SeisMonitor.monitor.downloader.html">SeisMonitor.monitor.downloader package</a></li>
-<li class="toctree-l1"><a class="reference internal" href="SeisMonitor.monitor.picker.html">SeisMonitor.monitor.picker package</a></li>
-<li class="toctree-l1"><a class="reference internal" href="SeisMonitor.monitor.associator.html">SeisMonitor.monitor.associator package</a></li>
-<li class="toctree-l1 current"><a class="reference internal" href="SeisMonitor.monitor.locator.html">SeisMonitor.monitor.locator package</a><ul class="current">
-<li class="toctree-l2 current"><a class="reference internal" href="SeisMonitor.monitor.locator.html#subpackages">Subpackages</a><ul class="current">
-<li class="toctree-l3"><a class="reference internal" href="SeisMonitor.monitor.locator.hypoDD.html">SeisMonitor.monitor.locator.hypoDD package</a></li>
-<li class="toctree-l3 current"><a class="current reference internal" href="#">SeisMonitor.monitor.locator.hypocenter package</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#submodules">Submodules</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#module-SeisMonitor.monitor.locator.hypocenter.core">SeisMonitor.monitor.locator.hypocenter.core module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#module-SeisMonitor.monitor.locator.hypocenter.utils">SeisMonitor.monitor.locator.hypocenter.utils module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#module-SeisMonitor.monitor.locator.hypocenter">Module contents</a></li>
+<li class="toctree-l1"><a class="reference internal" href="SeisMonitor.core.html">Core</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="SeisMonitor.monitor.html">Monitor</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="SeisMonitor.monitor.downloader.html">Downloader</a></li>
+<li class="toctree-l2"><a class="reference internal" href="SeisMonitor.monitor.picker.html">Picker</a></li>
+<li class="toctree-l2"><a class="reference internal" href="SeisMonitor.monitor.associator.html">Associator</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="SeisMonitor.monitor.locator.html">Locator</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="SeisMonitor.monitor.locator.hypoDD.html">HypoDD</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Hypocenter</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#module-SeisMonitor.monitor.locator.hypocenter.core">core</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-SeisMonitor.monitor.locator.hypocenter.utils">utils</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="SeisMonitor.monitor.locator.nlloc.html">SeisMonitor.monitor.locator.nlloc package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="SeisMonitor.monitor.locator.nlloc.html">Nlloc</a></li>
+<li class="toctree-l3"><a class="reference internal" href="SeisMonitor.monitor.locator.html#module-SeisMonitor.monitor.locator.utils">utils</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="SeisMonitor.monitor.locator.html#submodules">Submodules</a></li>
-<li class="toctree-l2"><a class="reference internal" href="SeisMonitor.monitor.locator.html#module-SeisMonitor.monitor.locator.utils">SeisMonitor.monitor.locator.utils module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="SeisMonitor.monitor.locator.html#module-SeisMonitor.monitor.locator">Module contents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="SeisMonitor.monitor.magnitude.html">Magnitude</a></li>
+<li class="toctree-l2"><a class="reference internal" href="SeisMonitor.monitor.html#module-SeisMonitor.monitor.seismonitor">SeisMonitor (All in one)</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="SeisMonitor.monitor.magnitude.html">SeisMonitor.monitor.magnitude package</a></li>
 </ul>
 
         </div>
@@ -82,8 +80,9 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
-          <li class="breadcrumb-item"><a href="SeisMonitor.monitor.locator.html">SeisMonitor.monitor.locator package</a></li>
-      <li class="breadcrumb-item active">SeisMonitor.monitor.locator.hypocenter package</li>
+          <li class="breadcrumb-item"><a href="SeisMonitor.monitor.html">Monitor</a></li>
+          <li class="breadcrumb-item"><a href="SeisMonitor.monitor.locator.html">Locator</a></li>
+      <li class="breadcrumb-item active">Hypocenter</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/SeisMonitor.monitor.locator.hypocenter.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -93,38 +92,109 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="seismonitor-monitor-locator-hypocenter-package">
-<h1>SeisMonitor.monitor.locator.hypocenter package<a class="headerlink" href="#seismonitor-monitor-locator-hypocenter-package" title="Link to this heading"></a></h1>
-<section id="submodules">
-<h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading"></a></h2>
-</section>
+  <section id="hypocenter">
+<h1>Hypocenter<a class="headerlink" href="#hypocenter" title="Link to this heading"></a></h1>
 <section id="module-SeisMonitor.monitor.locator.hypocenter.core">
-<span id="seismonitor-monitor-locator-hypocenter-core-module"></span><h2>SeisMonitor.monitor.locator.hypocenter.core module<a class="headerlink" href="#module-SeisMonitor.monitor.locator.hypocenter.core" title="Link to this heading"></a></h2>
+<span id="core"></span><h2>core<a class="headerlink" href="#module-SeisMonitor.monitor.locator.hypocenter.core" title="Link to this heading"></a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="SeisMonitor.monitor.locator.hypocenter.core.Hypocenter">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">SeisMonitor.monitor.locator.hypocenter.core.</span></span><span class="sig-name descname"><span class="pre">Hypocenter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">catalog</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xml_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vel_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">out_dir</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/SeisMonitor/monitor/locator/hypocenter/core.html#Hypocenter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SeisMonitor.monitor.locator.hypocenter.core.Hypocenter" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>A class for handling hypocenter localization using SEISAN format.</p>
-<dl class="simple">
-<dt>Attributes:</dt><dd><p>catalog (Catalog): ObsPy Catalog object containing earthquake events.
-xml_path (str): Path to the station metadata XML file.
-vel_path (str): Path to the velocity model CSV file.
-out_dir (str): Directory where output files will be stored.
-out_file (str): Path to the final relocated earthquake catalog.
-paths (str): Directory for Hypocenter-related intermediate files.
-sta0 (str): Path to the STATION0.HYP file used by SEISAN.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="SeisMonitor.monitor.locator.hypocenter.core.Hypocenter.catalog">
+<span class="sig-name descname"><span class="pre">catalog</span></span><a class="headerlink" href="#SeisMonitor.monitor.locator.hypocenter.core.Hypocenter.catalog" title="Link to this definition"></a></dt>
+<dd><p>ObsPy Catalog object containing earthquake events.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Catalog</p>
 </dd>
 </dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="SeisMonitor.monitor.locator.hypocenter.core.Hypocenter.xml_path">
+<span class="sig-name descname"><span class="pre">xml_path</span></span><a class="headerlink" href="#SeisMonitor.monitor.locator.hypocenter.core.Hypocenter.xml_path" title="Link to this definition"></a></dt>
+<dd><p>Path to the station metadata XML file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="SeisMonitor.monitor.locator.hypocenter.core.Hypocenter.vel_path">
+<span class="sig-name descname"><span class="pre">vel_path</span></span><a class="headerlink" href="#SeisMonitor.monitor.locator.hypocenter.core.Hypocenter.vel_path" title="Link to this definition"></a></dt>
+<dd><p>Path to the velocity model CSV file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="SeisMonitor.monitor.locator.hypocenter.core.Hypocenter.out_dir">
+<span class="sig-name descname"><span class="pre">out_dir</span></span><a class="headerlink" href="#SeisMonitor.monitor.locator.hypocenter.core.Hypocenter.out_dir" title="Link to this definition"></a></dt>
+<dd><p>Directory where output files will be stored.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="SeisMonitor.monitor.locator.hypocenter.core.Hypocenter.out_file">
+<span class="sig-name descname"><span class="pre">out_file</span></span><a class="headerlink" href="#SeisMonitor.monitor.locator.hypocenter.core.Hypocenter.out_file" title="Link to this definition"></a></dt>
+<dd><p>Path to the final relocated earthquake catalog.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="SeisMonitor.monitor.locator.hypocenter.core.Hypocenter.paths">
+<span class="sig-name descname"><span class="pre">paths</span></span><a class="headerlink" href="#SeisMonitor.monitor.locator.hypocenter.core.Hypocenter.paths" title="Link to this definition"></a></dt>
+<dd><p>Directory for Hypocenter-related intermediate files.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="SeisMonitor.monitor.locator.hypocenter.core.Hypocenter.sta0">
+<span class="sig-name descname"><span class="pre">sta0</span></span><a class="headerlink" href="#SeisMonitor.monitor.locator.hypocenter.core.Hypocenter.sta0" title="Link to this definition"></a></dt>
+<dd><p>Path to the STATION0.HYP file used by SEISAN.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="SeisMonitor.monitor.locator.hypocenter.core.Hypocenter.locate">
 <span class="sig-name descname"><span class="pre">locate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sfilename</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'catalog.sfile'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">out_format</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'QUAKEML'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rm_not_locatable</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Catalog</span></span></span><a class="reference internal" href="_modules/SeisMonitor/monitor/locator/hypocenter/core.html#Hypocenter.locate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SeisMonitor.monitor.locator.hypocenter.core.Hypocenter.locate" title="Link to this definition"></a></dt>
 <dd><p>Runs the hypocenter localization process.</p>
-<dl class="simple">
-<dt>Args:</dt><dd><p>sfilename (str, optional): Name of the S-file to be used. Defaults to “catalog.sfile”.
-out_format (str, optional): Output format for the relocated catalog. Defaults to “QUAKEML”.
-rm_not_locatable (bool, optional): Whether to remove events that cannot be relocated. Defaults to True.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>sfilename</strong> (<em>str</em><em>, </em><em>optional</em>) – Name of the S-file to be used. Defaults to “catalog.sfile”.</p></li>
+<li><p><strong>out_format</strong> (<em>str</em><em>, </em><em>optional</em>) – Output format for the relocated catalog. Defaults to “QUAKEML”.</p></li>
+<li><p><strong>rm_not_locatable</strong> (<em>bool</em><em>, </em><em>optional</em>) – Whether to remove events that cannot be relocated. Defaults to True.</p></li>
+</ul>
 </dd>
-<dt>Returns:</dt><dd><p>Catalog: The relocated earthquake catalog.</p>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The relocated earthquake catalog.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Catalog</p>
 </dd>
 </dl>
 </dd></dl>
@@ -133,7 +203,7 @@ rm_not_locatable (bool, optional): Whether to remove events that cannot be reloc
 
 </section>
 <section id="module-SeisMonitor.monitor.locator.hypocenter.utils">
-<span id="seismonitor-monitor-locator-hypocenter-utils-module"></span><h2>SeisMonitor.monitor.locator.hypocenter.utils module<a class="headerlink" href="#module-SeisMonitor.monitor.locator.hypocenter.utils" title="Link to this heading"></a></h2>
+<span id="utils"></span><h2>utils<a class="headerlink" href="#module-SeisMonitor.monitor.locator.hypocenter.utils" title="Link to this heading"></a></h2>
 <p>Hypocenter utils. It runs several seisan commands to get hypocenter solutions</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="SeisMonitor.monitor.locator.hypocenter.utils.HypocenterTools">
@@ -195,8 +265,9 @@ in {out} path with the {format} specified.</p>
 <dt class="sig sig-object py" id="SeisMonitor.monitor.locator.hypocenter.utils.STATION0.write">
 <span class="sig-name descname"><span class="pre">write</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">out</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/SeisMonitor/monitor/locator/hypocenter/utils.html#STATION0.write"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SeisMonitor.monitor.locator.hypocenter.utils.STATION0.write" title="Link to this definition"></a></dt>
 <dd><p>Writes the STATION0 file to the specified path.</p>
-<dl class="simple">
-<dt>Args:</dt><dd><p>out (str): Output file path.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>out</strong> (<em>str</em>) – Output file path.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -223,8 +294,9 @@ We aim that obspy could be read it as catalog.</p>
 <dt class="sig sig-object py" id="SeisMonitor.monitor.locator.hypocenter.utils.collect">
 <span class="sig-prename descclassname"><span class="pre">SeisMonitor.monitor.locator.hypocenter.utils.</span></span><span class="sig-name descname"><span class="pre">collect</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sfile_folder</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/SeisMonitor/monitor/locator/hypocenter/utils.html#collect"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SeisMonitor.monitor.locator.hypocenter.utils.collect" title="Link to this definition"></a></dt>
 <dd><p>Collects multiple S-files into a single collected S-file.</p>
-<dl class="simple">
-<dt>Args:</dt><dd><p>sfile_folder (str): Directory containing the S-files to be collected.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>sfile_folder</strong> (<em>str</em>) – Directory containing the S-files to be collected.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -239,7 +311,10 @@ We aim that obspy could be read it as catalog.</p>
 </dd>
 <dt>sfile_folder: str</dt><dd><p>It is the folder where is located all sfiles.</p>
 </dd>
-<dt>Returns:</dt><dd><p>Copy the station0 file in the sfile_folder</p>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Copy the station0 file in the sfile_folder</p>
 </dd>
 </dl>
 </section>
@@ -249,8 +324,9 @@ We aim that obspy could be read it as catalog.</p>
 <dt class="sig sig-object py" id="SeisMonitor.monitor.locator.hypocenter.utils.download_seisan">
 <span class="sig-prename descclassname"><span class="pre">SeisMonitor.monitor.locator.hypocenter.utils.</span></span><span class="sig-name descname"><span class="pre">download_seisan</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">libgfortran_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/SeisMonitor/monitor/locator/hypocenter/utils.html#download_seisan"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SeisMonitor.monitor.locator.hypocenter.utils.download_seisan" title="Link to this definition"></a></dt>
 <dd><p>Downloads and installs Seisan earthquake analysis software.</p>
-<dl class="simple">
-<dt>Args:</dt><dd><p>libgfortran_path (str): Path to the libgfortran library required for Seisan.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>libgfortran_path</strong> (<em>str</em>) – Path to the libgfortran library required for Seisan.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -263,7 +339,10 @@ We aim that obspy could be read it as catalog.</p>
 <dl class="simple">
 <dt>sfile_folder: str</dt><dd><p>It is the folder where is located all sfiles.</p>
 </dd>
-<dt>Returns:</dt><dd><p>It select the principal header information of the event in
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>It select the principal header information of the event in
 only one file</p>
 </dd>
 </dl>
@@ -274,10 +353,15 @@ only one file</p>
 <dt class="sig sig-object py" id="SeisMonitor.monitor.locator.hypocenter.utils.resp2df">
 <span class="sig-prename descclassname"><span class="pre">SeisMonitor.monitor.locator.hypocenter.utils.</span></span><span class="sig-name descname"><span class="pre">resp2df</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">resp</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span><a class="reference internal" href="_modules/SeisMonitor/monitor/locator/hypocenter/utils.html#resp2df"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SeisMonitor.monitor.locator.hypocenter.utils.resp2df" title="Link to this definition"></a></dt>
 <dd><p>Converts a RESP file into a DataFrame containing station metadata.</p>
-<dl class="simple">
-<dt>Args:</dt><dd><p>resp (str): Path to the RESP file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>resp</strong> (<em>str</em>) – Path to the RESP file.</p>
 </dd>
-<dt>Returns:</dt><dd><p>pd.DataFrame: DataFrame containing station metadata with columns [‘network’, ‘station’, ‘latitude’, ‘longitude’, ‘elevation’].</p>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>DataFrame containing station metadata with columns [‘network’, ‘station’, ‘latitude’, ‘longitude’, ‘elevation’].</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>pd.DataFrame</p>
 </dd>
 </dl>
 </dd></dl>
@@ -290,7 +374,10 @@ only one file</p>
 <dl class="simple">
 <dt>sfile_folder: str</dt><dd><p>It is the folder where is located all sfiles.</p>
 </dd>
-<dt>Returns: </dt><dd><p>It executes select command from SEISAN.
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>It executes select command from SEISAN.
 select.in: index
 select.out: Selected information</p>
 </dd>
@@ -302,9 +389,12 @@ select.out: Selected information</p>
 <dt class="sig sig-object py" id="SeisMonitor.monitor.locator.hypocenter.utils.split">
 <span class="sig-prename descclassname"><span class="pre">SeisMonitor.monitor.locator.hypocenter.utils.</span></span><span class="sig-name descname"><span class="pre">split</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sfile_folder</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sfilename</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/SeisMonitor/monitor/locator/hypocenter/utils.html#split"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SeisMonitor.monitor.locator.hypocenter.utils.split" title="Link to this definition"></a></dt>
 <dd><p>Splits an S-file into multiple smaller files.</p>
-<dl class="simple">
-<dt>Args:</dt><dd><p>sfile_folder (str): Directory containing the S-file to be split.
-sfilename (str): Name of the S-file to be split.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>sfile_folder</strong> (<em>str</em>) – Directory containing the S-file to be split.</p></li>
+<li><p><strong>sfilename</strong> (<em>str</em>) – Name of the S-file to be split.</p></li>
+</ul>
 </dd>
 </dl>
 </dd></dl>
@@ -313,31 +403,29 @@ sfilename (str): Name of the S-file to be split.</p>
 <dt class="sig sig-object py" id="SeisMonitor.monitor.locator.hypocenter.utils.sta2station0">
 <span class="sig-prename descclassname"><span class="pre">SeisMonitor.monitor.locator.hypocenter.utils.</span></span><span class="sig-name descname"><span class="pre">sta2station0</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/SeisMonitor/monitor/locator/hypocenter/utils.html#sta2station0"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SeisMonitor.monitor.locator.hypocenter.utils.sta2station0" title="Link to this definition"></a></dt>
 <dd><p>Converts station metadata into SEISAN STATION0 format.</p>
-<section id="id5">
-<h3>Parameters<a class="headerlink" href="#id5" title="Link to this heading"></a></h3>
-<dl class="simple">
-<dt>df<span class="classifier">pd.DataFrame</span></dt><dd><p>Dataframe with columns [‘network’, ‘station’, ‘latitude’, ‘longitude’, ‘elevation’].</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>df</strong> (<em>pd.DataFrame</em>) – Dataframe with columns [‘network’, ‘station’, ‘latitude’, ‘longitude’, ‘elevation’].</p>
 </dd>
-</dl>
-</section>
-<section id="returns">
-<h3>Returns<a class="headerlink" href="#returns" title="Link to this heading"></a></h3>
-<dl>
-<dt>list</dt><dd><p>List of each message by station.
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><p>List of each message by station.
 The station message contains the following information:</p>
 <p>station lat lon elevation
 Example:
 CA01A 353.16N 7341.07W 436</p>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list</p>
 </dd>
 </dl>
-</section>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="SeisMonitor.monitor.locator.hypocenter.utils.test2station0">
 <span class="sig-prename descclassname"><span class="pre">SeisMonitor.monitor.locator.hypocenter.utils.</span></span><span class="sig-name descname"><span class="pre">test2station0</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">test</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/SeisMonitor/monitor/locator/hypocenter/utils.html#test2station0"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SeisMonitor.monitor.locator.hypocenter.utils.test2station0" title="Link to this definition"></a></dt>
-<dd><section id="id6">
-<h3>Parameters:<a class="headerlink" href="#id6" title="Link to this heading"></a></h3>
+<dd><section id="id5">
+<h3>Parameters:<a class="headerlink" href="#id5" title="Link to this heading"></a></h3>
 <dl class="simple">
 <dt>test: dict</dt><dd><dl class="simple">
 <dt>key: str</dt><dd><p>Number of the SEISAN HYPOCENTER test line</p>
@@ -348,8 +436,8 @@ CA01A 353.16N 7341.07W 436</p>
 </dd>
 </dl>
 </section>
-<section id="id7">
-<h3>Returns:<a class="headerlink" href="#id7" title="Link to this heading"></a></h3>
+<section id="returns">
+<h3>Returns:<a class="headerlink" href="#returns" title="Link to this heading"></a></h3>
 <dl>
 <dt>msgs: list</dt><dd><p>List of each message by test line.</p>
 <p>The test message contains the next information:
@@ -365,8 +453,9 @@ RESET TEST(02)=500.0</p>
 <dt class="sig sig-object py" id="SeisMonitor.monitor.locator.hypocenter.utils.update">
 <span class="sig-prename descclassname"><span class="pre">SeisMonitor.monitor.locator.hypocenter.utils.</span></span><span class="sig-name descname"><span class="pre">update</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sfile_folder</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/SeisMonitor/monitor/locator/hypocenter/utils.html#update"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SeisMonitor.monitor.locator.hypocenter.utils.update" title="Link to this definition"></a></dt>
 <dd><p>Updates the hypocenter location for each S-file.</p>
-<dl class="simple">
-<dt>Args:</dt><dd><p>sfile_folder (str): Directory containing the S-files to be updated.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>sfile_folder</strong> (<em>str</em>) – Directory containing the S-files to be updated.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -374,16 +463,16 @@ RESET TEST(02)=500.0</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="SeisMonitor.monitor.locator.hypocenter.utils.vel2station0">
 <span class="sig-prename descclassname"><span class="pre">SeisMonitor.monitor.locator.hypocenter.utils.</span></span><span class="sig-name descname"><span class="pre">vel2station0</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">only_vp</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/SeisMonitor/monitor/locator/hypocenter/utils.html#vel2station0"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SeisMonitor.monitor.locator.hypocenter.utils.vel2station0" title="Link to this definition"></a></dt>
-<dd><section id="id8">
-<h3>Parameters:<a class="headerlink" href="#id8" title="Link to this heading"></a></h3>
+<dd><section id="id6">
+<h3>Parameters:<a class="headerlink" href="#id6" title="Link to this heading"></a></h3>
 <dl class="simple">
 <dt>df: DataFrame</dt><dd><p>Dataframe with the next columns
 dep,vp,vs,disc</p>
 </dd>
 </dl>
 </section>
-<section id="id9">
-<h3>Returns:<a class="headerlink" href="#id9" title="Link to this heading"></a></h3>
+<section id="id7">
+<h3>Returns:<a class="headerlink" href="#id7" title="Link to this heading"></a></h3>
 <dl>
 <dt>msgs: list</dt><dd><p>List of each message by discontinuity in the velocity model.
 The discontinuity message contains the next information:</p>
@@ -406,8 +495,8 @@ N: Moho</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="SeisMonitor.monitor.locator.hypocenter.utils.vsp_ratio2station0">
 <span class="sig-prename descclassname"><span class="pre">SeisMonitor.monitor.locator.hypocenter.utils.</span></span><span class="sig-name descname"><span class="pre">vsp_ratio2station0</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vsp_ratio</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/SeisMonitor/monitor/locator/hypocenter/utils.html#vsp_ratio2station0"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SeisMonitor.monitor.locator.hypocenter.utils.vsp_ratio2station0" title="Link to this definition"></a></dt>
-<dd><section id="id10">
-<h3>Parameters:<a class="headerlink" href="#id10" title="Link to this heading"></a></h3>
+<dd><section id="id8">
+<h3>Parameters:<a class="headerlink" href="#id8" title="Link to this heading"></a></h3>
 <dl>
 <dt>vsp_ratio: ordered dict</dt><dd><p>The key order of the dictionary must be the next:
 “starting_depth”,”xnear”,”xfar”,”vps”</p>
@@ -419,8 +508,8 @@ N: Moho</p>
 </dd>
 </dl>
 </section>
-<section id="id11">
-<h3>Returns:<a class="headerlink" href="#id11" title="Link to this heading"></a></h3>
+<section id="id9">
+<h3>Returns:<a class="headerlink" href="#id9" title="Link to this heading"></a></h3>
 <dl class="simple">
 <dt>msg: str</dt><dd><p>Represents the last line of the STATION0 file</p>
 </dd>
@@ -429,17 +518,14 @@ N: Moho</p>
 </dd></dl>
 
 </section>
-<section id="module-SeisMonitor.monitor.locator.hypocenter">
-<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-SeisMonitor.monitor.locator.hypocenter" title="Link to this heading"></a></h2>
-</section>
 </section>
 
 
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="SeisMonitor.monitor.locator.hypoDD.html" class="btn btn-neutral float-left" title="SeisMonitor.monitor.locator.hypoDD package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="SeisMonitor.monitor.locator.nlloc.html" class="btn btn-neutral float-right" title="SeisMonitor.monitor.locator.nlloc package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="SeisMonitor.monitor.locator.hypoDD.html" class="btn btn-neutral float-left" title="HypoDD" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="SeisMonitor.monitor.locator.nlloc.html" class="btn btn-neutral float-right" title="Nlloc" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

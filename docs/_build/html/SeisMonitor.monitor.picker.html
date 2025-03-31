@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>SeisMonitor.monitor.picker package &mdash; SeisMonitor 0.0.57 documentation</title>
+  <title>Picker &mdash; SeisMonitor 0.0.57 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
 
@@ -19,8 +19,8 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="SeisMonitor.monitor.associator package" href="SeisMonitor.monitor.associator.html" />
-    <link rel="prev" title="SeisMonitor.monitor.downloader package" href="SeisMonitor.monitor.downloader.html" /> 
+    <link rel="next" title="Associator" href="SeisMonitor.monitor.associator.html" />
+    <link rel="prev" title="Downloader" href="SeisMonitor.monitor.downloader.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -44,48 +44,45 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="SeisMonitor.monitor.downloader.html">SeisMonitor.monitor.downloader package</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">SeisMonitor.monitor.picker package</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#submodules">Submodules</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#module-SeisMonitor.monitor.picker.ai">SeisMonitor.monitor.picker.ai module</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#SeisMonitor.monitor.picker.ai.EQTransformer"><code class="docutils literal notranslate"><span class="pre">EQTransformer</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#SeisMonitor.monitor.picker.ai.EQTransformer.pick"><code class="docutils literal notranslate"><span class="pre">EQTransformer.pick()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="SeisMonitor.core.html">Core</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="SeisMonitor.monitor.html">Monitor</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="SeisMonitor.monitor.downloader.html">Downloader</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Picker</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#module-SeisMonitor.monitor.picker.ai">ai</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#SeisMonitor.monitor.picker.ai.EQTransformer"><code class="docutils literal notranslate"><span class="pre">EQTransformer</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#SeisMonitor.monitor.picker.ai.EQTransformerObj"><code class="docutils literal notranslate"><span class="pre">EQTransformerObj</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#SeisMonitor.monitor.picker.ai.PhaseNet"><code class="docutils literal notranslate"><span class="pre">PhaseNet</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#SeisMonitor.monitor.picker.ai.PhaseNetObj"><code class="docutils literal notranslate"><span class="pre">PhaseNetObj</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#SeisMonitor.monitor.picker.ai.EQTransformerObj"><code class="docutils literal notranslate"><span class="pre">EQTransformerObj</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#SeisMonitor.monitor.picker.ai.PhaseNet"><code class="docutils literal notranslate"><span class="pre">PhaseNet</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#SeisMonitor.monitor.picker.ai.PhaseNet.pick"><code class="docutils literal notranslate"><span class="pre">PhaseNet.pick()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-SeisMonitor.monitor.picker.utils">utils</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#SeisMonitor.monitor.picker.utils.clone_aipicker"><code class="docutils literal notranslate"><span class="pre">clone_aipicker()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#SeisMonitor.monitor.picker.utils.create_datalist"><code class="docutils literal notranslate"><span class="pre">create_datalist()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#SeisMonitor.monitor.picker.utils.eqt_picks_2_seismonitor_fmt"><code class="docutils literal notranslate"><span class="pre">eqt_picks_2_seismonitor_fmt()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#SeisMonitor.monitor.picker.utils.get_filenames"><code class="docutils literal notranslate"><span class="pre">get_filenames()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#SeisMonitor.monitor.picker.utils.get_pickframe"><code class="docutils literal notranslate"><span class="pre">get_pickframe()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#SeisMonitor.monitor.picker.utils.get_picks"><code class="docutils literal notranslate"><span class="pre">get_picks()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#SeisMonitor.monitor.picker.utils.id_maker"><code class="docutils literal notranslate"><span class="pre">id_maker()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#SeisMonitor.monitor.picker.utils.make_dataframe"><code class="docutils literal notranslate"><span class="pre">make_dataframe()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#SeisMonitor.monitor.picker.utils.make_phasenet_datalist"><code class="docutils literal notranslate"><span class="pre">make_phasenet_datalist()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#SeisMonitor.monitor.picker.utils.merge_picks"><code class="docutils literal notranslate"><span class="pre">merge_picks()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#SeisMonitor.monitor.picker.utils.mv_mseed2onefolder"><code class="docutils literal notranslate"><span class="pre">mv_mseed2onefolder()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#SeisMonitor.monitor.picker.utils.mv_mseed2stationfolder"><code class="docutils literal notranslate"><span class="pre">mv_mseed2stationfolder()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#SeisMonitor.monitor.picker.utils.phasenet_from_console"><code class="docutils literal notranslate"><span class="pre">phasenet_from_console()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#SeisMonitor.monitor.picker.utils.pick_constructor"><code class="docutils literal notranslate"><span class="pre">pick_constructor()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#SeisMonitor.monitor.picker.utils.picks2df"><code class="docutils literal notranslate"><span class="pre">picks2df()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#SeisMonitor.monitor.picker.utils.rm_phasenet_duplicate_picks"><code class="docutils literal notranslate"><span class="pre">rm_phasenet_duplicate_picks()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#SeisMonitor.monitor.picker.utils.sample2time"><code class="docutils literal notranslate"><span class="pre">sample2time()</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#SeisMonitor.monitor.picker.ai.PhaseNetObj"><code class="docutils literal notranslate"><span class="pre">PhaseNetObj</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#module-SeisMonitor.monitor.picker.utils">SeisMonitor.monitor.picker.utils module</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#SeisMonitor.monitor.picker.utils.clone_aipicker"><code class="docutils literal notranslate"><span class="pre">clone_aipicker()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#SeisMonitor.monitor.picker.utils.create_datalist"><code class="docutils literal notranslate"><span class="pre">create_datalist()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#SeisMonitor.monitor.picker.utils.eqt_picks_2_seismonitor_fmt"><code class="docutils literal notranslate"><span class="pre">eqt_picks_2_seismonitor_fmt()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#SeisMonitor.monitor.picker.utils.get_filenames"><code class="docutils literal notranslate"><span class="pre">get_filenames()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#SeisMonitor.monitor.picker.utils.get_pickframe"><code class="docutils literal notranslate"><span class="pre">get_pickframe()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#SeisMonitor.monitor.picker.utils.get_picks"><code class="docutils literal notranslate"><span class="pre">get_picks()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#SeisMonitor.monitor.picker.utils.id_maker"><code class="docutils literal notranslate"><span class="pre">id_maker()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#SeisMonitor.monitor.picker.utils.make_dataframe"><code class="docutils literal notranslate"><span class="pre">make_dataframe()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#SeisMonitor.monitor.picker.utils.make_phasenet_datalist"><code class="docutils literal notranslate"><span class="pre">make_phasenet_datalist()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#SeisMonitor.monitor.picker.utils.merge_picks"><code class="docutils literal notranslate"><span class="pre">merge_picks()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#SeisMonitor.monitor.picker.utils.mv_mseed2onefolder"><code class="docutils literal notranslate"><span class="pre">mv_mseed2onefolder()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#SeisMonitor.monitor.picker.utils.mv_mseed2stationfolder"><code class="docutils literal notranslate"><span class="pre">mv_mseed2stationfolder()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#SeisMonitor.monitor.picker.utils.phasenet_from_console"><code class="docutils literal notranslate"><span class="pre">phasenet_from_console()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#SeisMonitor.monitor.picker.utils.pick_constructor"><code class="docutils literal notranslate"><span class="pre">pick_constructor()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#SeisMonitor.monitor.picker.utils.picks2df"><code class="docutils literal notranslate"><span class="pre">picks2df()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#SeisMonitor.monitor.picker.utils.rm_phasenet_duplicate_picks"><code class="docutils literal notranslate"><span class="pre">rm_phasenet_duplicate_picks()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#SeisMonitor.monitor.picker.utils.sample2time"><code class="docutils literal notranslate"><span class="pre">sample2time()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="SeisMonitor.monitor.associator.html">Associator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="SeisMonitor.monitor.locator.html">Locator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="SeisMonitor.monitor.magnitude.html">Magnitude</a></li>
+<li class="toctree-l2"><a class="reference internal" href="SeisMonitor.monitor.html#module-SeisMonitor.monitor.seismonitor">SeisMonitor (All in one)</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#module-SeisMonitor.monitor.picker">Module contents</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="SeisMonitor.monitor.associator.html">SeisMonitor.monitor.associator package</a></li>
-<li class="toctree-l1"><a class="reference internal" href="SeisMonitor.monitor.locator.html">SeisMonitor.monitor.locator package</a></li>
-<li class="toctree-l1"><a class="reference internal" href="SeisMonitor.monitor.magnitude.html">SeisMonitor.monitor.magnitude package</a></li>
 </ul>
 
         </div>
@@ -102,7 +99,8 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
-      <li class="breadcrumb-item active">SeisMonitor.monitor.picker package</li>
+          <li class="breadcrumb-item"><a href="SeisMonitor.monitor.html">Monitor</a></li>
+      <li class="breadcrumb-item active">Picker</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/SeisMonitor.monitor.picker.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -112,13 +110,10 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="seismonitor-monitor-picker-package">
-<h1>SeisMonitor.monitor.picker package<a class="headerlink" href="#seismonitor-monitor-picker-package" title="Link to this heading"></a></h1>
-<section id="submodules">
-<h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading"></a></h2>
-</section>
+  <section id="picker">
+<h1>Picker<a class="headerlink" href="#picker" title="Link to this heading"></a></h1>
 <section id="module-SeisMonitor.monitor.picker.ai">
-<span id="seismonitor-monitor-picker-ai-module"></span><h2>SeisMonitor.monitor.picker.ai module<a class="headerlink" href="#module-SeisMonitor.monitor.picker.ai" title="Link to this heading"></a></h2>
+<span id="ai"></span><h2>ai<a class="headerlink" href="#module-SeisMonitor.monitor.picker.ai" title="Link to this heading"></a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="SeisMonitor.monitor.picker.ai.EQTransformer">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">SeisMonitor.monitor.picker.ai.</span></span><span class="sig-name descname"><span class="pre">EQTransformer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">eqt_obj</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/SeisMonitor/monitor/picker/ai.html#EQTransformer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SeisMonitor.monitor.picker.ai.EQTransformer" title="Link to this definition"></a></dt>
@@ -128,16 +123,23 @@
 <dt class="sig sig-object py" id="SeisMonitor.monitor.picker.ai.EQTransformer.pick">
 <span class="sig-name descname"><span class="pre">pick</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mseed_storage</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metadata_dir</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">out_dir</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/SeisMonitor/monitor/picker/ai.html#EQTransformer.pick"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SeisMonitor.monitor.picker.ai.EQTransformer.pick" title="Link to this definition"></a></dt>
 <dd><p>Run EQTransformer picking on MSEED files.</p>
-<dl class="simple">
-<dt>Args:</dt><dd><p>mseed_storage (str): Directory containing MSEED files
-metadata_dir (str): Directory containing station metadata
-out_dir (str): Output directory for results</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mseed_storage</strong> (<em>str</em>) – Directory containing MSEED files</p></li>
+<li><p><strong>metadata_dir</strong> (<em>str</em>) – Directory containing station metadata</p></li>
+<li><p><strong>out_dir</strong> (<em>str</em>) – Output directory for results</p></li>
+</ul>
 </dd>
-<dt>Returns:</dt><dd><p>pandas.DataFrame: DataFrame of picks in SeisMonitor format</p>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>DataFrame of picks in SeisMonitor format</p>
 </dd>
-<dt>Notes:</dt><dd><p>Saves results to {out_dir}/results/seismonitor_picks.csv</p>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>pandas.DataFrame</p>
 </dd>
 </dl>
+<p class="rubric">Notes</p>
+<p>Saves results to {out_dir}/results/seismonitor_picks.csv</p>
 </dd></dl>
 
 </dd></dl>
@@ -158,16 +160,23 @@ out_dir (str): Output directory for results</p>
 <dt class="sig sig-object py" id="SeisMonitor.monitor.picker.ai.PhaseNet.pick">
 <span class="sig-name descname"><span class="pre">pick</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mseed_storage</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metadata_dir</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">out_dir</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/SeisMonitor/monitor/picker/ai.html#PhaseNet.pick"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SeisMonitor.monitor.picker.ai.PhaseNet.pick" title="Link to this definition"></a></dt>
 <dd><p>Run PhaseNet picking on MSEED files.</p>
-<dl class="simple">
-<dt>Args:</dt><dd><p>mseed_storage (str): Directory containing MSEED files
-metadata_dir (str): Directory containing station metadata
-out_dir (str): Output directory for results</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mseed_storage</strong> (<em>str</em>) – Directory containing MSEED files</p></li>
+<li><p><strong>metadata_dir</strong> (<em>str</em>) – Directory containing station metadata</p></li>
+<li><p><strong>out_dir</strong> (<em>str</em>) – Output directory for results</p></li>
+</ul>
 </dd>
-<dt>Returns:</dt><dd><p>pandas.DataFrame: DataFrame of picks in SeisMonitor format</p>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>DataFrame of picks in SeisMonitor format</p>
 </dd>
-<dt>Notes:</dt><dd><p>Saves results to {out_dir}/results/seismonitor_picks.csv</p>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>pandas.DataFrame</p>
 </dd>
 </dl>
+<p class="rubric">Notes</p>
+<p>Saves results to {out_dir}/results/seismonitor_picks.csv</p>
 </dd></dl>
 
 </dd></dl>
@@ -181,18 +190,26 @@ out_dir (str): Output directory for results</p>
 
 </section>
 <section id="module-SeisMonitor.monitor.picker.utils">
-<span id="seismonitor-monitor-picker-utils-module"></span><h2>SeisMonitor.monitor.picker.utils module<a class="headerlink" href="#module-SeisMonitor.monitor.picker.utils" title="Link to this heading"></a></h2>
+<span id="utils"></span><h2>utils<a class="headerlink" href="#module-SeisMonitor.monitor.picker.utils" title="Link to this heading"></a></h2>
 <dl class="py function">
 <dt class="sig sig-object py" id="SeisMonitor.monitor.picker.utils.clone_aipicker">
 <span class="sig-prename descclassname"><span class="pre">SeisMonitor.monitor.picker.utils.</span></span><span class="sig-name descname"><span class="pre">clone_aipicker</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_folder</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/SeisMonitor/monitor/picker/utils.html#clone_aipicker"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SeisMonitor.monitor.picker.utils.clone_aipicker" title="Link to this definition"></a></dt>
 <dd><p>Clone AI picker repository from GitHub.</p>
-<dl class="simple">
-<dt>Args:</dt><dd><p>name (str): Name of the AI picker (‘EQTransformer’ or ‘PhaseNet’)
-output_folder (str): Directory path to store the cloned repository</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<em>str</em>) – Name of the AI picker (‘EQTransformer’ or ‘PhaseNet’)</p></li>
+<li><p><strong>output_folder</strong> (<em>str</em>) – Directory path to store the cloned repository</p></li>
+</ul>
 </dd>
-<dt>Returns:</dt><dd><p>bool: True if successful</p>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>True if successful</p>
 </dd>
-<dt>Raises:</dt><dd><p>Exception: If invalid picker name is provided</p>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>Exception</strong> – If invalid picker name is provided</p>
 </dd>
 </dl>
 </dd></dl>
@@ -201,9 +218,12 @@ output_folder (str): Directory path to store the cloned repository</p>
 <dt class="sig sig-object py" id="SeisMonitor.monitor.picker.utils.create_datalist">
 <span class="sig-prename descclassname"><span class="pre">SeisMonitor.monitor.picker.utils.</span></span><span class="sig-name descname"><span class="pre">create_datalist</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">all_in_folder</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/SeisMonitor/monitor/picker/utils.html#create_datalist"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SeisMonitor.monitor.picker.utils.create_datalist" title="Link to this definition"></a></dt>
 <dd><p>Create PhaseNet datalist(s) for processing.</p>
-<dl class="simple">
-<dt>Args:</dt><dd><p>self: Object with datalist_dir and mseed_storage attributes
-all_in_folder (bool): If True, create single datalist; otherwise, per station</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>self</strong> – Object with datalist_dir and mseed_storage attributes</p></li>
+<li><p><strong>all_in_folder</strong> (<em>bool</em>) – If True, create single datalist; otherwise, per station</p></li>
+</ul>
 </dd>
 </dl>
 </dd></dl>
@@ -212,12 +232,19 @@ all_in_folder (bool): If True, create single datalist; otherwise, per station</p
 <dt class="sig sig-object py" id="SeisMonitor.monitor.picker.utils.eqt_picks_2_seismonitor_fmt">
 <span class="sig-prename descclassname"><span class="pre">SeisMonitor.monitor.picker.utils.</span></span><span class="sig-name descname"><span class="pre">eqt_picks_2_seismonitor_fmt</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">eqt_folder</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mseed_folder</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">out_path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/SeisMonitor/monitor/picker/utils.html#eqt_picks_2_seismonitor_fmt"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SeisMonitor.monitor.picker.utils.eqt_picks_2_seismonitor_fmt" title="Link to this definition"></a></dt>
 <dd><p>Convert EQTransformer picks to SeisMonitor format.</p>
-<dl class="simple">
-<dt>Args:</dt><dd><p>eqt_folder (str): Directory containing EQTransformer pick files
-mseed_folder (str): Directory containing MSEED files
-out_path (str): Output path for the converted CSV file</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>eqt_folder</strong> (<em>str</em>) – Directory containing EQTransformer pick files</p></li>
+<li><p><strong>mseed_folder</strong> (<em>str</em>) – Directory containing MSEED files</p></li>
+<li><p><strong>out_path</strong> (<em>str</em>) – Output path for the converted CSV file</p></li>
+</ul>
 </dd>
-<dt>Returns:</dt><dd><p>pandas.DataFrame: Converted picks DataFrame</p>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Converted picks DataFrame</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>pandas.DataFrame</p>
 </dd>
 </dl>
 </dd></dl>
@@ -226,15 +253,23 @@ out_path (str): Output path for the converted CSV file</p>
 <dt class="sig sig-object py" id="SeisMonitor.monitor.picker.utils.get_filenames">
 <span class="sig-prename descclassname"><span class="pre">SeisMonitor.monitor.picker.utils.</span></span><span class="sig-name descname"><span class="pre">get_filenames</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mseed</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter_net</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter_sta</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter_cha</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/SeisMonitor/monitor/picker/utils.html#get_filenames"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SeisMonitor.monitor.picker.utils.get_filenames" title="Link to this definition"></a></dt>
 <dd><p>Retrieve MSEED filenames with optional filtering.</p>
-<dl class="simple">
-<dt>Args:</dt><dd><p>mseed (str): Path to MSEED files directory
-filter_net (list, optional): Networks to exclude
-filter_sta (list, optional): Stations to exclude
-filter_cha (list, optional): Channels to include (if specified)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mseed</strong> (<em>str</em>) – Path to MSEED files directory</p></li>
+<li><p><strong>filter_net</strong> (<em>list</em><em>, </em><em>optional</em>) – Networks to exclude</p></li>
+<li><p><strong>filter_sta</strong> (<em>list</em><em>, </em><em>optional</em>) – Stations to exclude</p></li>
+<li><p><strong>filter_cha</strong> (<em>list</em><em>, </em><em>optional</em>) – Channels to include (if specified)</p></li>
+</ul>
 </dd>
-<dt>Returns:</dt><dd><p>list: Filtered filenames</p>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Filtered filenames</p>
 </dd>
-<dt>Raises:</dt><dd><p>Exception: If filter parameters are not lists</p>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>Exception</strong> – If filter parameters are not lists</p>
 </dd>
 </dl>
 </dd></dl>
@@ -243,11 +278,18 @@ filter_cha (list, optional): Channels to include (if specified)</p>
 <dt class="sig sig-object py" id="SeisMonitor.monitor.picker.utils.get_pickframe">
 <span class="sig-prename descclassname"><span class="pre">SeisMonitor.monitor.picker.utils.</span></span><span class="sig-name descname"><span class="pre">get_pickframe</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">csv_filename</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/SeisMonitor/monitor/picker/utils.html#get_pickframe"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SeisMonitor.monitor.picker.utils.get_pickframe" title="Link to this definition"></a></dt>
 <dd><p>Collect picks from CSV files in a directory structure.</p>
-<dl class="simple">
-<dt>Args:</dt><dd><p>path (str): Root directory containing station folders with picks
-csv_filename (str): Name of CSV file containing picks</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>path</strong> (<em>str</em>) – Root directory containing station folders with picks</p></li>
+<li><p><strong>csv_filename</strong> (<em>str</em>) – Name of CSV file containing picks</p></li>
+</ul>
 </dd>
-<dt>Returns:</dt><dd><p>pandas.DataFrame: Combined picks DataFrame</p>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Combined picks DataFrame</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>pandas.DataFrame</p>
 </dd>
 </dl>
 </dd></dl>
@@ -256,16 +298,23 @@ csv_filename (str): Name of CSV file containing picks</p>
 <dt class="sig sig-object py" id="SeisMonitor.monitor.picker.utils.get_picks">
 <span class="sig-prename descclassname"><span class="pre">SeisMonitor.monitor.picker.utils.</span></span><span class="sig-name descname"><span class="pre">get_picks</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">datapicks</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">datalist</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_p_prob</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_s_prob</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">one_single_sampling_rate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">-1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'df_obj'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">export</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/SeisMonitor/monitor/picker/utils.html#get_picks"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SeisMonitor.monitor.picker.utils.get_picks" title="Link to this definition"></a></dt>
 <dd><p>Read PhaseNet picks and convert to desired format.</p>
-<dl class="simple">
-<dt>Args:</dt><dd><p>datapicks (str): Path to PhaseNet picks CSV
-datalist (str): Path to datalist CSV
-min_p_prob (float): Minimum P-phase probability
-min_s_prob (float): Minimum S-phase probability
-one_single_sampling_rate (float): Override sampling rate (-1 for auto)
-mode (str): Output mode (‘pick_obj’ or ‘df_obj’)
-export (str, optional): Path to export DataFrame as CSV</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>datapicks</strong> (<em>str</em>) – Path to PhaseNet picks CSV</p></li>
+<li><p><strong>datalist</strong> (<em>str</em>) – Path to datalist CSV</p></li>
+<li><p><strong>min_p_prob</strong> (<em>float</em>) – Minimum P-phase probability</p></li>
+<li><p><strong>min_s_prob</strong> (<em>float</em>) – Minimum S-phase probability</p></li>
+<li><p><strong>one_single_sampling_rate</strong> (<em>float</em>) – Override sampling rate (-1 for auto)</p></li>
+<li><p><strong>mode</strong> (<em>str</em>) – Output mode (‘pick_obj’ or ‘df_obj’)</p></li>
+<li><p><strong>export</strong> (<em>str</em><em>, </em><em>optional</em>) – Path to export DataFrame as CSV</p></li>
+</ul>
 </dd>
-<dt>Returns:</dt><dd><p>list or pandas.DataFrame: Picks in specified format</p>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Picks in specified format</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list or pandas.DataFrame</p>
 </dd>
 </dl>
 </dd></dl>
@@ -274,15 +323,22 @@ export (str, optional): Path to export DataFrame as CSV</p>
 <dt class="sig sig-object py" id="SeisMonitor.monitor.picker.utils.id_maker">
 <span class="sig-prename descclassname"><span class="pre">SeisMonitor.monitor.picker.utils.</span></span><span class="sig-name descname"><span class="pre">id_maker</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pick_time</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">net</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">station</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">loc</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ch</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">phasehint</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/SeisMonitor/monitor/picker/utils.html#id_maker"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SeisMonitor.monitor.picker.utils.id_maker" title="Link to this definition"></a></dt>
 <dd><p>Create SeisComP-style pick PublicID.</p>
-<dl class="simple">
-<dt>Args:</dt><dd><p>pick_time (UTCDateTime): Pick time
-net (str): Network code
-station (str): Station code
-loc (str): Location code
-ch (str): Channel code
-phasehint (str): Phase hint (‘P’ or ‘S’)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>pick_time</strong> (<em>UTCDateTime</em>) – Pick time</p></li>
+<li><p><strong>net</strong> (<em>str</em>) – Network code</p></li>
+<li><p><strong>station</strong> (<em>str</em>) – Station code</p></li>
+<li><p><strong>loc</strong> (<em>str</em>) – Location code</p></li>
+<li><p><strong>ch</strong> (<em>str</em>) – Channel code</p></li>
+<li><p><strong>phasehint</strong> (<em>str</em>) – Phase hint (‘P’ or ‘S’)</p></li>
+</ul>
 </dd>
-<dt>Returns:</dt><dd><p>str: SeisComP pick PublicID</p>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>SeisComP pick PublicID</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
 </dd>
 </dl>
 </dd></dl>
@@ -291,14 +347,21 @@ phasehint (str): Phase hint (‘P’ or ‘S’)</p>
 <dt class="sig sig-object py" id="SeisMonitor.monitor.picker.utils.make_dataframe">
 <span class="sig-prename descclassname"><span class="pre">SeisMonitor.monitor.picker.utils.</span></span><span class="sig-name descname"><span class="pre">make_dataframe</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mseed</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">json_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter_net</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter_sta</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter_cha</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/SeisMonitor/monitor/picker/utils.html#make_dataframe"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SeisMonitor.monitor.picker.utils.make_dataframe" title="Link to this definition"></a></dt>
 <dd><p>Create DataFrame from MSEED files and JSON metadata.</p>
-<dl class="simple">
-<dt>Args:</dt><dd><p>mseed (str): Directory containing MSEED files
-json_path (str): Path to JSON metadata file
-filter_net (list, optional): Networks to exclude
-filter_sta (list, optional): Stations to exclude
-filter_cha (list, optional): Channels to include</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mseed</strong> (<em>str</em>) – Directory containing MSEED files</p></li>
+<li><p><strong>json_path</strong> (<em>str</em>) – Path to JSON metadata file</p></li>
+<li><p><strong>filter_net</strong> (<em>list</em><em>, </em><em>optional</em>) – Networks to exclude</p></li>
+<li><p><strong>filter_sta</strong> (<em>list</em><em>, </em><em>optional</em>) – Stations to exclude</p></li>
+<li><p><strong>filter_cha</strong> (<em>list</em><em>, </em><em>optional</em>) – Channels to include</p></li>
+</ul>
 </dd>
-<dt>Returns:</dt><dd><p>pandas.DataFrame: DataFrame with waveform metadata</p>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>DataFrame with waveform metadata</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>pandas.DataFrame</p>
 </dd>
 </dl>
 </dd></dl>
@@ -307,16 +370,23 @@ filter_cha (list, optional): Channels to include</p>
 <dt class="sig sig-object py" id="SeisMonitor.monitor.picker.utils.make_phasenet_datalist">
 <span class="sig-prename descclassname"><span class="pre">SeisMonitor.monitor.picker.utils.</span></span><span class="sig-name descname"><span class="pre">make_phasenet_datalist</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">datadir</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">json_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">datalist_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">channel_list</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter_network</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter_station</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/SeisMonitor/monitor/picker/utils.html#make_phasenet_datalist"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SeisMonitor.monitor.picker.utils.make_phasenet_datalist" title="Link to this definition"></a></dt>
 <dd><p>Create PhaseNet datalist CSV file.</p>
-<dl class="simple">
-<dt>Args:</dt><dd><p>datadir (str): Directory with MSEED files
-json_path (str): Path to JSON metadata
-datalist_path (str): Output path for datalist CSV
-channel_list (list, optional): Channels to include
-filter_network (list, optional): Networks to exclude
-filter_station (list, optional): Stations to exclude
-kwargs: Additional keyword arguments</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>datadir</strong> (<em>str</em>) – Directory with MSEED files</p></li>
+<li><p><strong>json_path</strong> (<em>str</em>) – Path to JSON metadata</p></li>
+<li><p><strong>datalist_path</strong> (<em>str</em>) – Output path for datalist CSV</p></li>
+<li><p><strong>channel_list</strong> (<em>list</em><em>, </em><em>optional</em>) – Channels to include</p></li>
+<li><p><strong>filter_network</strong> (<em>list</em><em>, </em><em>optional</em>) – Networks to exclude</p></li>
+<li><p><strong>filter_station</strong> (<em>list</em><em>, </em><em>optional</em>) – Stations to exclude</p></li>
+<li><p><strong>kwargs</strong> – Additional keyword arguments</p></li>
+</ul>
 </dd>
-<dt>Returns:</dt><dd><p>str: Directory containing the datalist</p>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Directory containing the datalist</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
 </dd>
 </dl>
 </dd></dl>
@@ -325,11 +395,14 @@ kwargs: Additional keyword arguments</p>
 <dt class="sig sig-object py" id="SeisMonitor.monitor.picker.utils.merge_picks">
 <span class="sig-prename descclassname"><span class="pre">SeisMonitor.monitor.picker.utils.</span></span><span class="sig-name descname"><span class="pre">merge_picks</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">csv_filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sort</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/SeisMonitor/monitor/picker/utils.html#merge_picks"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SeisMonitor.monitor.picker.utils.merge_picks" title="Link to this definition"></a></dt>
 <dd><p>Merge picks from multiple CSV files into one.</p>
-<dl class="simple">
-<dt>Args:</dt><dd><p>path (str): Root directory containing station folders with picks
-csv_filename (str): Name of CSV file containing picks
-output_path (str): Path for output merged CSV
-sort (str, optional): Column name to sort by</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>path</strong> (<em>str</em>) – Root directory containing station folders with picks</p></li>
+<li><p><strong>csv_filename</strong> (<em>str</em>) – Name of CSV file containing picks</p></li>
+<li><p><strong>output_path</strong> (<em>str</em>) – Path for output merged CSV</p></li>
+<li><p><strong>sort</strong> (<em>str</em><em>, </em><em>optional</em>) – Column name to sort by</p></li>
+</ul>
 </dd>
 </dl>
 </dd></dl>
@@ -338,9 +411,12 @@ sort (str, optional): Column name to sort by</p>
 <dt class="sig sig-object py" id="SeisMonitor.monitor.picker.utils.mv_mseed2onefolder">
 <span class="sig-prename descclassname"><span class="pre">SeisMonitor.monitor.picker.utils.</span></span><span class="sig-name descname"><span class="pre">mv_mseed2onefolder</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mseed_folder</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">one_folder</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/SeisMonitor/monitor/picker/utils.html#mv_mseed2onefolder"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SeisMonitor.monitor.picker.utils.mv_mseed2onefolder" title="Link to this definition"></a></dt>
 <dd><p>Move MSEED files from subfolders to a single folder.</p>
-<dl class="simple">
-<dt>Args:</dt><dd><p>mseed_folder (str): Source directory with MSEED files
-one_folder (str): Destination directory</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mseed_folder</strong> (<em>str</em>) – Source directory with MSEED files</p></li>
+<li><p><strong>one_folder</strong> (<em>str</em>) – Destination directory</p></li>
+</ul>
 </dd>
 </dl>
 </dd></dl>
@@ -349,9 +425,12 @@ one_folder (str): Destination directory</p>
 <dt class="sig sig-object py" id="SeisMonitor.monitor.picker.utils.mv_mseed2stationfolder">
 <span class="sig-prename descclassname"><span class="pre">SeisMonitor.monitor.picker.utils.</span></span><span class="sig-name descname"><span class="pre">mv_mseed2stationfolder</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">one_folder</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mseed_folder</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/SeisMonitor/monitor/picker/utils.html#mv_mseed2stationfolder"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SeisMonitor.monitor.picker.utils.mv_mseed2stationfolder" title="Link to this definition"></a></dt>
 <dd><p>Move MSEED files to station-specific subfolders.</p>
-<dl class="simple">
-<dt>Args:</dt><dd><p>one_folder (str): Source directory with MSEED files
-mseed_folder (str): Destination base directory</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>one_folder</strong> (<em>str</em>) – Source directory with MSEED files</p></li>
+<li><p><strong>mseed_folder</strong> (<em>str</em>) – Destination base directory</p></li>
+</ul>
 </dd>
 </dl>
 </dd></dl>
@@ -360,9 +439,12 @@ mseed_folder (str): Destination base directory</p>
 <dt class="sig sig-object py" id="SeisMonitor.monitor.picker.utils.phasenet_from_console">
 <span class="sig-prename descclassname"><span class="pre">SeisMonitor.monitor.picker.utils.</span></span><span class="sig-name descname"><span class="pre">phasenet_from_console</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pnet_obj</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg_author</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/SeisMonitor/monitor/picker/utils.html#phasenet_from_console"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SeisMonitor.monitor.picker.utils.phasenet_from_console" title="Link to this definition"></a></dt>
 <dd><p>Run PhaseNet from console with specified parameters.</p>
-<dl class="simple">
-<dt>Args:</dt><dd><p>pnet_obj: Object with PhaseNet configuration attributes
-msg_author (str): Author identifier for logging</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>pnet_obj</strong> – Object with PhaseNet configuration attributes</p></li>
+<li><p><strong>msg_author</strong> (<em>str</em>) – Author identifier for logging</p></li>
+</ul>
 </dd>
 </dl>
 </dd></dl>
@@ -371,18 +453,26 @@ msg_author (str): Author identifier for logging</p>
 <dt class="sig sig-object py" id="SeisMonitor.monitor.picker.utils.pick_constructor">
 <span class="sig-prename descclassname"><span class="pre">SeisMonitor.monitor.picker.utils.</span></span><span class="sig-name descname"><span class="pre">pick_constructor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">datalist</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">picks</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prob</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">wf_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ph_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_prob</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">one_single_sampling_rate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">-1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/SeisMonitor/monitor/picker/utils.html#pick_constructor"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SeisMonitor.monitor.picker.utils.pick_constructor" title="Link to this definition"></a></dt>
 <dd><p>Construct Pick objects from PhaseNet data.</p>
-<dl class="simple">
-<dt>Args:</dt><dd><p>datalist (str): Path to datalist CSV
-picks (list): Pick sample points
-prob (list): Pick probabilities
-wf_name (str): Waveform name
-ph_type (str): Phase type (‘P’ or ‘S’)
-min_prob (float): Minimum probability threshold
-one_single_sampling_rate (float): Override sampling rate</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>datalist</strong> (<em>str</em>) – Path to datalist CSV</p></li>
+<li><p><strong>picks</strong> (<em>list</em>) – Pick sample points</p></li>
+<li><p><strong>prob</strong> (<em>list</em>) – Pick probabilities</p></li>
+<li><p><strong>wf_name</strong> (<em>str</em>) – Waveform name</p></li>
+<li><p><strong>ph_type</strong> (<em>str</em>) – Phase type (‘P’ or ‘S’)</p></li>
+<li><p><strong>min_prob</strong> (<em>float</em>) – Minimum probability threshold</p></li>
+<li><p><strong>one_single_sampling_rate</strong> (<em>float</em>) – Override sampling rate</p></li>
+</ul>
 </dd>
-<dt>Returns:</dt><dd><p>list: List of Pick objects</p>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>List of Pick objects</p>
 </dd>
-<dt>Raises:</dt><dd><p>Exception: If datalist file is missing</p>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>Exception</strong> – If datalist file is missing</p>
 </dd>
 </dl>
 </dd></dl>
@@ -391,10 +481,15 @@ one_single_sampling_rate (float): Override sampling rate</p>
 <dt class="sig sig-object py" id="SeisMonitor.monitor.picker.utils.picks2df">
 <span class="sig-prename descclassname"><span class="pre">SeisMonitor.monitor.picker.utils.</span></span><span class="sig-name descname"><span class="pre">picks2df</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">picks</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/SeisMonitor/monitor/picker/utils.html#picks2df"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SeisMonitor.monitor.picker.utils.picks2df" title="Link to this definition"></a></dt>
 <dd><p>Convert list of Pick objects to DataFrame.</p>
-<dl class="simple">
-<dt>Args:</dt><dd><p>picks (list): List of Pick objects</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>picks</strong> (<em>list</em>) – List of Pick objects</p>
 </dd>
-<dt>Returns:</dt><dd><p>pandas.DataFrame: Converted DataFrame</p>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Converted DataFrame</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>pandas.DataFrame</p>
 </dd>
 </dl>
 </dd></dl>
@@ -403,11 +498,18 @@ one_single_sampling_rate (float): Override sampling rate</p>
 <dt class="sig sig-object py" id="SeisMonitor.monitor.picker.utils.rm_phasenet_duplicate_picks">
 <span class="sig-prename descclassname"><span class="pre">SeisMonitor.monitor.picker.utils.</span></span><span class="sig-name descname"><span class="pre">rm_phasenet_duplicate_picks</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/SeisMonitor/monitor/picker/utils.html#rm_phasenet_duplicate_picks"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SeisMonitor.monitor.picker.utils.rm_phasenet_duplicate_picks" title="Link to this definition"></a></dt>
 <dd><p>Remove duplicate picks from PhaseNet output.</p>
-<dl class="simple">
-<dt>Args:</dt><dd><p>path (str): Path to input picks CSV
-output_path (str): Path for output cleaned CSV</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>path</strong> (<em>str</em>) – Path to input picks CSV</p></li>
+<li><p><strong>output_path</strong> (<em>str</em>) – Path for output cleaned CSV</p></li>
+</ul>
 </dd>
-<dt>Returns:</dt><dd><p>pandas.DataFrame: Cleaned picks DataFrame</p>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Cleaned picks DataFrame</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>pandas.DataFrame</p>
 </dd>
 </dl>
 </dd></dl>
@@ -416,21 +518,25 @@ output_path (str): Path for output cleaned CSV</p>
 <dt class="sig sig-object py" id="SeisMonitor.monitor.picker.utils.sample2time">
 <span class="sig-prename descclassname"><span class="pre">SeisMonitor.monitor.picker.utils.</span></span><span class="sig-name descname"><span class="pre">sample2time</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sample</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">to</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">segment</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtt</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/SeisMonitor/monitor/picker/utils.html#sample2time"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SeisMonitor.monitor.picker.utils.sample2time" title="Link to this definition"></a></dt>
 <dd><p>Convert PhaseNet sample count to time.</p>
-<dl class="simple">
-<dt>Args:</dt><dd><p>sample (str): Sample point of pick
-to (datetime): Waveform start time
-df (float): Sampling rate
-segment (int): Segment number
-dtt (float): Waveform duration in seconds</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>sample</strong> (<em>str</em>) – Sample point of pick</p></li>
+<li><p><strong>to</strong> (<em>datetime</em>) – Waveform start time</p></li>
+<li><p><strong>df</strong> (<em>float</em>) – Sampling rate</p></li>
+<li><p><strong>segment</strong> (<em>int</em>) – Segment number</p></li>
+<li><p><strong>dtt</strong> (<em>float</em>) – Waveform duration in seconds</p></li>
+</ul>
 </dd>
-<dt>Returns:</dt><dd><p>tuple: (pick_time, creation_time, observation_type)</p>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>(pick_time, creation_time, observation_type)</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>tuple</p>
 </dd>
 </dl>
 </dd></dl>
 
-</section>
-<section id="module-SeisMonitor.monitor.picker">
-<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-SeisMonitor.monitor.picker" title="Link to this heading"></a></h2>
 </section>
 </section>
 
@@ -438,8 +544,8 @@ dtt (float): Waveform duration in seconds</p>
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="SeisMonitor.monitor.downloader.html" class="btn btn-neutral float-left" title="SeisMonitor.monitor.downloader package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="SeisMonitor.monitor.associator.html" class="btn btn-neutral float-right" title="SeisMonitor.monitor.associator package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="SeisMonitor.monitor.downloader.html" class="btn btn-neutral float-left" title="Downloader" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="SeisMonitor.monitor.associator.html" class="btn btn-neutral float-right" title="Associator" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

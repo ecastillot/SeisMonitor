@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>SeisMonitor.monitor.associator package &mdash; SeisMonitor 0.0.57 documentation</title>
+  <title>Associator &mdash; SeisMonitor 0.0.57 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
 
@@ -19,8 +19,8 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="SeisMonitor.monitor.locator package" href="SeisMonitor.monitor.locator.html" />
-    <link rel="prev" title="SeisMonitor.monitor.picker package" href="SeisMonitor.monitor.picker.html" /> 
+    <link rel="next" title="Locator" href="SeisMonitor.monitor.locator.html" />
+    <link rel="prev" title="Picker" href="SeisMonitor.monitor.picker.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -44,45 +44,41 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="SeisMonitor.monitor.downloader.html">SeisMonitor.monitor.downloader package</a></li>
-<li class="toctree-l1"><a class="reference internal" href="SeisMonitor.monitor.picker.html">SeisMonitor.monitor.picker package</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">SeisMonitor.monitor.associator package</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#submodules">Submodules</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#module-SeisMonitor.monitor.associator.ai">SeisMonitor.monitor.associator.ai module</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#SeisMonitor.monitor.associator.ai.GaMMA"><code class="docutils literal notranslate"><span class="pre">GaMMA</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#SeisMonitor.monitor.associator.ai.GaMMA.associate"><code class="docutils literal notranslate"><span class="pre">GaMMA.associate()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="SeisMonitor.core.html">Core</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="SeisMonitor.monitor.html">Monitor</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="SeisMonitor.monitor.downloader.html">Downloader</a></li>
+<li class="toctree-l2"><a class="reference internal" href="SeisMonitor.monitor.picker.html">Picker</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Associator</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#module-SeisMonitor.monitor.associator.ai">ai</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#SeisMonitor.monitor.associator.ai.GaMMA"><code class="docutils literal notranslate"><span class="pre">GaMMA</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#SeisMonitor.monitor.associator.ai.GaMMAObj"><code class="docutils literal notranslate"><span class="pre">GaMMAObj</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#SeisMonitor.monitor.associator.ai.get_gamma_catalog"><code class="docutils literal notranslate"><span class="pre">get_gamma_catalog()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#SeisMonitor.monitor.associator.ai.get_gamma_origin"><code class="docutils literal notranslate"><span class="pre">get_gamma_origin()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#SeisMonitor.monitor.associator.ai.get_gamma_picks"><code class="docutils literal notranslate"><span class="pre">get_gamma_picks()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#SeisMonitor.monitor.associator.ai.picks2arrivals"><code class="docutils literal notranslate"><span class="pre">picks2arrivals()</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#SeisMonitor.monitor.associator.ai.GaMMAObj"><code class="docutils literal notranslate"><span class="pre">GaMMAObj</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#SeisMonitor.monitor.associator.ai.GaMMAObj.add_response"><code class="docutils literal notranslate"><span class="pre">GaMMAObj.add_response()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#SeisMonitor.monitor.associator.ai.GaMMAObj.stations"><code class="docutils literal notranslate"><span class="pre">GaMMAObj.stations</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-SeisMonitor.monitor.associator.utils">utils</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#SeisMonitor.monitor.associator.utils.get_amplitudes_from_local_st"><code class="docutils literal notranslate"><span class="pre">get_amplitudes_from_local_st()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#SeisMonitor.monitor.associator.utils.get_amplitudes_from_pick"><code class="docutils literal notranslate"><span class="pre">get_amplitudes_from_pick()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#SeisMonitor.monitor.associator.utils.get_paz_from_response"><code class="docutils literal notranslate"><span class="pre">get_paz_from_response()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#SeisMonitor.monitor.associator.utils.get_picks_gamma_df"><code class="docutils literal notranslate"><span class="pre">get_picks_gamma_df()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#SeisMonitor.monitor.associator.utils.get_seismonitor_amplitudes"><code class="docutils literal notranslate"><span class="pre">get_seismonitor_amplitudes()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#SeisMonitor.monitor.associator.utils.get_stations_gamma_df"><code class="docutils literal notranslate"><span class="pre">get_stations_gamma_df()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#SeisMonitor.monitor.associator.utils.link"><code class="docutils literal notranslate"><span class="pre">link()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#SeisMonitor.monitor.associator.utils.link_eqt_phases"><code class="docutils literal notranslate"><span class="pre">link_eqt_phases()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#SeisMonitor.monitor.associator.utils.link_seismonitor_phases"><code class="docutils literal notranslate"><span class="pre">link_seismonitor_phases()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#SeisMonitor.monitor.associator.utils.make_eqt_dirs"><code class="docutils literal notranslate"><span class="pre">make_eqt_dirs()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#SeisMonitor.monitor.associator.utils.seismonitor_picks_to_eqt_fmt"><code class="docutils literal notranslate"><span class="pre">seismonitor_picks_to_eqt_fmt()</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#SeisMonitor.monitor.associator.ai.get_gamma_catalog"><code class="docutils literal notranslate"><span class="pre">get_gamma_catalog()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#SeisMonitor.monitor.associator.ai.get_gamma_origin"><code class="docutils literal notranslate"><span class="pre">get_gamma_origin()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#SeisMonitor.monitor.associator.ai.get_gamma_picks"><code class="docutils literal notranslate"><span class="pre">get_gamma_picks()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#SeisMonitor.monitor.associator.ai.picks2arrivals"><code class="docutils literal notranslate"><span class="pre">picks2arrivals()</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#module-SeisMonitor.monitor.associator.utils">SeisMonitor.monitor.associator.utils module</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#SeisMonitor.monitor.associator.utils.get_amplitudes_from_local_st"><code class="docutils literal notranslate"><span class="pre">get_amplitudes_from_local_st()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#SeisMonitor.monitor.associator.utils.get_amplitudes_from_pick"><code class="docutils literal notranslate"><span class="pre">get_amplitudes_from_pick()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#SeisMonitor.monitor.associator.utils.get_paz_from_response"><code class="docutils literal notranslate"><span class="pre">get_paz_from_response()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#SeisMonitor.monitor.associator.utils.get_picks_gamma_df"><code class="docutils literal notranslate"><span class="pre">get_picks_gamma_df()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#SeisMonitor.monitor.associator.utils.get_seismonitor_amplitudes"><code class="docutils literal notranslate"><span class="pre">get_seismonitor_amplitudes()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#SeisMonitor.monitor.associator.utils.get_stations_gamma_df"><code class="docutils literal notranslate"><span class="pre">get_stations_gamma_df()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#SeisMonitor.monitor.associator.utils.link"><code class="docutils literal notranslate"><span class="pre">link()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#SeisMonitor.monitor.associator.utils.link_eqt_phases"><code class="docutils literal notranslate"><span class="pre">link_eqt_phases()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#SeisMonitor.monitor.associator.utils.link_seismonitor_phases"><code class="docutils literal notranslate"><span class="pre">link_seismonitor_phases()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#SeisMonitor.monitor.associator.utils.make_eqt_dirs"><code class="docutils literal notranslate"><span class="pre">make_eqt_dirs()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#SeisMonitor.monitor.associator.utils.seismonitor_picks_to_eqt_fmt"><code class="docutils literal notranslate"><span class="pre">seismonitor_picks_to_eqt_fmt()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="SeisMonitor.monitor.locator.html">Locator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="SeisMonitor.monitor.magnitude.html">Magnitude</a></li>
+<li class="toctree-l2"><a class="reference internal" href="SeisMonitor.monitor.html#module-SeisMonitor.monitor.seismonitor">SeisMonitor (All in one)</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#module-SeisMonitor.monitor.associator">Module contents</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="SeisMonitor.monitor.locator.html">SeisMonitor.monitor.locator package</a></li>
-<li class="toctree-l1"><a class="reference internal" href="SeisMonitor.monitor.magnitude.html">SeisMonitor.monitor.magnitude package</a></li>
 </ul>
 
         </div>
@@ -99,7 +95,8 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
-      <li class="breadcrumb-item active">SeisMonitor.monitor.associator package</li>
+          <li class="breadcrumb-item"><a href="SeisMonitor.monitor.html">Monitor</a></li>
+      <li class="breadcrumb-item active">Associator</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/SeisMonitor.monitor.associator.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -109,13 +106,10 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="seismonitor-monitor-associator-package">
-<h1>SeisMonitor.monitor.associator package<a class="headerlink" href="#seismonitor-monitor-associator-package" title="Link to this heading"></a></h1>
-<section id="submodules">
-<h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading"></a></h2>
-</section>
+  <section id="associator">
+<h1>Associator<a class="headerlink" href="#associator" title="Link to this heading"></a></h1>
 <section id="module-SeisMonitor.monitor.associator.ai">
-<span id="seismonitor-monitor-associator-ai-module"></span><h2>SeisMonitor.monitor.associator.ai module<a class="headerlink" href="#module-SeisMonitor.monitor.associator.ai" title="Link to this heading"></a></h2>
+<span id="ai"></span><h2>ai<a class="headerlink" href="#module-SeisMonitor.monitor.associator.ai" title="Link to this heading"></a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="SeisMonitor.monitor.associator.ai.GaMMA">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">SeisMonitor.monitor.associator.ai.</span></span><span class="sig-name descname"><span class="pre">GaMMA</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">gamma_obj</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/SeisMonitor/monitor/associator/ai.html#GaMMA"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SeisMonitor.monitor.associator.ai.GaMMA" title="Link to this definition"></a></dt>
@@ -125,15 +119,23 @@
 <dt class="sig sig-object py" id="SeisMonitor.monitor.associator.ai.GaMMA.associate">
 <span class="sig-name descname"><span class="pre">associate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">picks_csv</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xml_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">out_dir</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/SeisMonitor/monitor/associator/ai.html#GaMMA.associate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SeisMonitor.monitor.associator.ai.GaMMA.associate" title="Link to this definition"></a></dt>
 <dd><p>Associate picks and create catalog.</p>
-<dl class="simple">
-<dt>Args:</dt><dd><p>picks_csv (str): Path to picks CSV file
-xml_path (str): Path to station XML file
-out_dir (str): Output directory path</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>picks_csv</strong> (<em>str</em>) – Path to picks CSV file</p></li>
+<li><p><strong>xml_path</strong> (<em>str</em>) – Path to station XML file</p></li>
+<li><p><strong>out_dir</strong> (<em>str</em>) – Output directory path</p></li>
+</ul>
 </dd>
-<dt>Returns:</dt><dd><dl class="simple">
-<dt>tuple: (Catalog, pandas.DataFrame, pandas.DataFrame) containing</dt><dd><p>catalog, catalog DataFrame, and picks DataFrame</p>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><dl class="simple">
+<dt>(Catalog, pandas.DataFrame, pandas.DataFrame) containing</dt><dd><p>catalog, catalog DataFrame, and picks DataFrame</p>
 </dd>
 </dl>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>tuple</p>
 </dd>
 </dl>
 </dd></dl>
@@ -149,8 +151,9 @@ out_dir (str): Output directory path</p>
 <dt class="sig sig-object py" id="SeisMonitor.monitor.associator.ai.GaMMAObj.add_response">
 <span class="sig-name descname"><span class="pre">add_response</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">response</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/SeisMonitor/monitor/associator/ai.html#GaMMAObj.add_response"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SeisMonitor.monitor.associator.ai.GaMMAObj.add_response" title="Link to this definition"></a></dt>
 <dd><p>Add response inventory to the GaMMA object.</p>
-<dl class="simple">
-<dt>Args:</dt><dd><p>response (Inventory or str): Either an Inventory object or path to inventory file</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>response</strong> (<em>Inventory</em><em> or </em><em>str</em>) – Either an Inventory object or path to inventory file</p>
 </dd>
 </dl>
 </dd></dl>
@@ -159,10 +162,15 @@ out_dir (str): Output directory path</p>
 <dt class="sig sig-object py" id="SeisMonitor.monitor.associator.ai.GaMMAObj.stations">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">stations</span></span><a class="headerlink" href="#SeisMonitor.monitor.associator.ai.GaMMAObj.stations" title="Link to this definition"></a></dt>
 <dd><p>Get station information with transformed coordinates.</p>
-<dl class="simple">
-<dt>Returns:</dt><dd><p>pandas.DataFrame: Station information with projected coordinates</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Station information with projected coordinates</p>
 </dd>
-<dt>Raises:</dt><dd><p>Exception: If response inventory hasn’t been added</p>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>pandas.DataFrame</p>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>Exception</strong> – If response inventory hasn’t been added</p>
 </dd>
 </dl>
 </dd></dl>
@@ -173,13 +181,20 @@ out_dir (str): Output directory path</p>
 <dt class="sig sig-object py" id="SeisMonitor.monitor.associator.ai.get_gamma_catalog">
 <span class="sig-prename descclassname"><span class="pre">SeisMonitor.monitor.associator.ai.</span></span><span class="sig-name descname"><span class="pre">get_gamma_catalog</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">picks_df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">catalog_df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">in_proj</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">out_proj</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/SeisMonitor/monitor/associator/ai.html#get_gamma_catalog"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SeisMonitor.monitor.associator.ai.get_gamma_catalog" title="Link to this definition"></a></dt>
 <dd><p>Create a Catalog object from picks and catalog dataframes.</p>
-<dl class="simple">
-<dt>Args:</dt><dd><p>picks_df (pandas.DataFrame): DataFrame containing pick information
-catalog_df (pandas.DataFrame): DataFrame containing catalog information
-in_proj (str): Input projection EPSG code
-out_proj (str): Output projection EPSG code</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>picks_df</strong> (<em>pandas.DataFrame</em>) – DataFrame containing pick information</p></li>
+<li><p><strong>catalog_df</strong> (<em>pandas.DataFrame</em>) – DataFrame containing catalog information</p></li>
+<li><p><strong>in_proj</strong> (<em>str</em>) – Input projection EPSG code</p></li>
+<li><p><strong>out_proj</strong> (<em>str</em>) – Output projection EPSG code</p></li>
+</ul>
 </dd>
-<dt>Returns:</dt><dd><p>Catalog: Obspy Catalog object</p>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Obspy Catalog object</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Catalog</p>
 </dd>
 </dl>
 </dd></dl>
@@ -188,13 +203,20 @@ out_proj (str): Output projection EPSG code</p>
 <dt class="sig sig-object py" id="SeisMonitor.monitor.associator.ai.get_gamma_origin">
 <span class="sig-prename descclassname"><span class="pre">SeisMonitor.monitor.associator.ai.</span></span><span class="sig-name descname"><span class="pre">get_gamma_origin</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">catalog_info</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">event_picks</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">in_proj</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'EPSG:3116'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">out_proj</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'EPSG:4326'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/SeisMonitor/monitor/associator/ai.html#get_gamma_origin"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SeisMonitor.monitor.associator.ai.get_gamma_origin" title="Link to this definition"></a></dt>
 <dd><p>Create an Origin object from catalog information and picks.</p>
-<dl class="simple">
-<dt>Args:</dt><dd><p>catalog_info (pandas.Series): Catalog information for the event
-event_picks (list): List of Pick objects
-in_proj (str): Input projection EPSG code
-out_proj (str): Output projection EPSG code</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>catalog_info</strong> (<em>pandas.Series</em>) – Catalog information for the event</p></li>
+<li><p><strong>event_picks</strong> (<em>list</em>) – List of Pick objects</p></li>
+<li><p><strong>in_proj</strong> (<em>str</em>) – Input projection EPSG code</p></li>
+<li><p><strong>out_proj</strong> (<em>str</em>) – Output projection EPSG code</p></li>
+</ul>
 </dd>
-<dt>Returns:</dt><dd><p>Origin: Obspy Origin object</p>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Obspy Origin object</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Origin</p>
 </dd>
 </dl>
 </dd></dl>
@@ -203,10 +225,15 @@ out_proj (str): Output projection EPSG code</p>
 <dt class="sig sig-object py" id="SeisMonitor.monitor.associator.ai.get_gamma_picks">
 <span class="sig-prename descclassname"><span class="pre">SeisMonitor.monitor.associator.ai.</span></span><span class="sig-name descname"><span class="pre">get_gamma_picks</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event_picks</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/SeisMonitor/monitor/associator/ai.html#get_gamma_picks"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SeisMonitor.monitor.associator.ai.get_gamma_picks" title="Link to this definition"></a></dt>
 <dd><p>Convert event picks to Obspy Pick objects.</p>
-<dl class="simple">
-<dt>Args:</dt><dd><p>event_picks (pandas.DataFrame): DataFrame containing pick information</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>event_picks</strong> (<em>pandas.DataFrame</em>) – DataFrame containing pick information</p>
 </dd>
-<dt>Returns:</dt><dd><p>list: List of Obspy Pick objects</p>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>List of Obspy Pick objects</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list</p>
 </dd>
 </dl>
 </dd></dl>
@@ -215,30 +242,42 @@ out_proj (str): Output projection EPSG code</p>
 <dt class="sig sig-object py" id="SeisMonitor.monitor.associator.ai.picks2arrivals">
 <span class="sig-prename descclassname"><span class="pre">SeisMonitor.monitor.associator.ai.</span></span><span class="sig-name descname"><span class="pre">picks2arrivals</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">picks</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/SeisMonitor/monitor/associator/ai.html#picks2arrivals"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SeisMonitor.monitor.associator.ai.picks2arrivals" title="Link to this definition"></a></dt>
 <dd><p>Convert picks to arrivals.</p>
-<dl class="simple">
-<dt>Args:</dt><dd><p>picks (list): List of Pick objects</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>picks</strong> (<em>list</em>) – List of Pick objects</p>
 </dd>
-<dt>Returns:</dt><dd><p>list: List of Arrival objects</p>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>List of Arrival objects</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list</p>
 </dd>
 </dl>
 </dd></dl>
 
 </section>
 <section id="module-SeisMonitor.monitor.associator.utils">
-<span id="seismonitor-monitor-associator-utils-module"></span><h2>SeisMonitor.monitor.associator.utils module<a class="headerlink" href="#module-SeisMonitor.monitor.associator.utils" title="Link to this heading"></a></h2>
+<span id="utils"></span><h2>utils<a class="headerlink" href="#module-SeisMonitor.monitor.associator.utils" title="Link to this heading"></a></h2>
 <dl class="py function">
 <dt class="sig sig-object py" id="SeisMonitor.monitor.associator.utils.get_amplitudes_from_local_st">
 <span class="sig-prename descclassname"><span class="pre">SeisMonitor.monitor.associator.utils.</span></span><span class="sig-name descname"><span class="pre">get_amplitudes_from_local_st</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">response</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">p_window</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">s_window</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">waterlevel</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/SeisMonitor/monitor/associator/utils.html#get_amplitudes_from_local_st"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SeisMonitor.monitor.associator.utils.get_amplitudes_from_local_st" title="Link to this definition"></a></dt>
 <dd><p>Calculate amplitudes from local seismic data file.</p>
-<dl class="simple">
-<dt>Args:</dt><dd><p>file_name (str): Path to seismic data file
-df (pandas.DataFrame): Picks DataFrame
-response (Inventory or Parser): Response information
-p_window (int): P-wave window length in seconds
-s_window (int): S-wave window length in seconds
-waterlevel (int): Waterlevel for simulation</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>file_name</strong> (<em>str</em>) – Path to seismic data file</p></li>
+<li><p><strong>df</strong> (<em>pandas.DataFrame</em>) – Picks DataFrame</p></li>
+<li><p><strong>response</strong> (<em>Inventory</em><em> or </em><em>Parser</em>) – Response information</p></li>
+<li><p><strong>p_window</strong> (<em>int</em>) – P-wave window length in seconds</p></li>
+<li><p><strong>s_window</strong> (<em>int</em>) – S-wave window length in seconds</p></li>
+<li><p><strong>waterlevel</strong> (<em>int</em>) – Waterlevel for simulation</p></li>
+</ul>
 </dd>
-<dt>Returns:</dt><dd><p>pandas.DataFrame: DataFrame with added amplitudes</p>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>DataFrame with added amplitudes</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>pandas.DataFrame</p>
 </dd>
 </dl>
 </dd></dl>
@@ -247,14 +286,21 @@ waterlevel (int): Waterlevel for simulation</p>
 <dt class="sig sig-object py" id="SeisMonitor.monitor.associator.utils.get_amplitudes_from_pick">
 <span class="sig-prename descclassname"><span class="pre">SeisMonitor.monitor.associator.utils.</span></span><span class="sig-name descname"><span class="pre">get_amplitudes_from_pick</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">st</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">picktime</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">phasehint</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">p_window</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">s_window</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/SeisMonitor/monitor/associator/utils.html#get_amplitudes_from_pick"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SeisMonitor.monitor.associator.utils.get_amplitudes_from_pick" title="Link to this definition"></a></dt>
 <dd><p>Calculate amplitude from a seismic trace for a given pick.</p>
-<dl class="simple">
-<dt>Args:</dt><dd><p>st (Stream): Obspy Stream object
-picktime (datetime): Pick time
-phasehint (str): Phase type (‘P’ or ‘S’)
-p_window (int): P-wave window length in seconds
-s_window (int): S-wave window length in seconds</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>st</strong> (<em>Stream</em>) – Obspy Stream object</p></li>
+<li><p><strong>picktime</strong> (<em>datetime</em>) – Pick time</p></li>
+<li><p><strong>phasehint</strong> (<em>str</em>) – Phase type (‘P’ or ‘S’)</p></li>
+<li><p><strong>p_window</strong> (<em>int</em>) – P-wave window length in seconds</p></li>
+<li><p><strong>s_window</strong> (<em>int</em>) – S-wave window length in seconds</p></li>
+</ul>
 </dd>
-<dt>Returns:</dt><dd><p>float: Maximum amplitude value</p>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Maximum amplitude value</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
 </dd>
 </dl>
 </dd></dl>
@@ -263,12 +309,19 @@ s_window (int): S-wave window length in seconds</p>
 <dt class="sig sig-object py" id="SeisMonitor.monitor.associator.utils.get_paz_from_response">
 <span class="sig-prename descclassname"><span class="pre">SeisMonitor.monitor.associator.utils.</span></span><span class="sig-name descname"><span class="pre">get_paz_from_response</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">seed_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">response</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">datetime</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/SeisMonitor/monitor/associator/utils.html#get_paz_from_response"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SeisMonitor.monitor.associator.utils.get_paz_from_response" title="Link to this definition"></a></dt>
 <dd><p>Extract Poles and Zeros (PAZ) information from response.</p>
-<dl class="simple">
-<dt>Args:</dt><dd><p>seed_id (str): SEED identifier
-response (Inventory or Parser): Response information
-datetime (UTCDateTime, optional): Specific time for response</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>seed_id</strong> (<em>str</em>) – SEED identifier</p></li>
+<li><p><strong>response</strong> (<em>Inventory</em><em> or </em><em>Parser</em>) – Response information</p></li>
+<li><p><strong>datetime</strong> (<em>UTCDateTime</em><em>, </em><em>optional</em>) – Specific time for response</p></li>
+</ul>
 </dd>
-<dt>Returns:</dt><dd><p>dict: PAZ dictionary or None if not found</p>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>PAZ dictionary or None if not found</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
 </dd>
 </dl>
 </dd></dl>
@@ -277,15 +330,22 @@ datetime (UTCDateTime, optional): Specific time for response</p>
 <dt class="sig sig-object py" id="SeisMonitor.monitor.associator.utils.get_picks_gamma_df">
 <span class="sig-prename descclassname"><span class="pre">SeisMonitor.monitor.associator.utils.</span></span><span class="sig-name descname"><span class="pre">get_picks_gamma_df</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">picks</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">response</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">compute_amplitudes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">p_window</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">s_window</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">waterlevel</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/SeisMonitor/monitor/associator/utils.html#get_picks_gamma_df"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SeisMonitor.monitor.associator.utils.get_picks_gamma_df" title="Link to this definition"></a></dt>
 <dd><p>Convert picks to GaMMA-compatible DataFrame format.</p>
-<dl class="simple">
-<dt>Args:</dt><dd><p>picks (str): Path to picks CSV file
-response (Inventory or Parser): Station response information
-compute_amplitudes (bool): Whether to compute amplitudes
-p_window (int): P-wave window length in seconds
-s_window (int): S-wave window length in seconds
-waterlevel (int): Waterlevel for amplitude calculation</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>picks</strong> (<em>str</em>) – Path to picks CSV file</p></li>
+<li><p><strong>response</strong> (<em>Inventory</em><em> or </em><em>Parser</em>) – Station response information</p></li>
+<li><p><strong>compute_amplitudes</strong> (<em>bool</em>) – Whether to compute amplitudes</p></li>
+<li><p><strong>p_window</strong> (<em>int</em>) – P-wave window length in seconds</p></li>
+<li><p><strong>s_window</strong> (<em>int</em>) – S-wave window length in seconds</p></li>
+<li><p><strong>waterlevel</strong> (<em>int</em>) – Waterlevel for amplitude calculation</p></li>
+</ul>
 </dd>
-<dt>Returns:</dt><dd><p>pandas.DataFrame: Formatted picks DataFrame</p>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Formatted picks DataFrame</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>pandas.DataFrame</p>
 </dd>
 </dl>
 </dd></dl>
@@ -294,15 +354,22 @@ waterlevel (int): Waterlevel for amplitude calculation</p>
 <dt class="sig sig-object py" id="SeisMonitor.monitor.associator.utils.get_seismonitor_amplitudes">
 <span class="sig-prename descclassname"><span class="pre">SeisMonitor.monitor.associator.utils.</span></span><span class="sig-name descname"><span class="pre">get_seismonitor_amplitudes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">response</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">out</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">p_window</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">s_window</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">waterlevel</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/SeisMonitor/monitor/associator/utils.html#get_seismonitor_amplitudes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SeisMonitor.monitor.associator.utils.get_seismonitor_amplitudes" title="Link to this definition"></a></dt>
 <dd><p>Add amplitude calculations to SeisMonitor picks.</p>
-<dl class="simple">
-<dt>Args:</dt><dd><p>df (pandas.DataFrame): Input picks DataFrame
-response (Inventory or Parser): Response information
-out (str, optional): Output CSV file path
-p_window (int): P-wave window length in seconds
-s_window (int): S-wave window length in seconds
-waterlevel (int): Waterlevel for simulation</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>df</strong> (<em>pandas.DataFrame</em>) – Input picks DataFrame</p></li>
+<li><p><strong>response</strong> (<em>Inventory</em><em> or </em><em>Parser</em>) – Response information</p></li>
+<li><p><strong>out</strong> (<em>str</em><em>, </em><em>optional</em>) – Output CSV file path</p></li>
+<li><p><strong>p_window</strong> (<em>int</em>) – P-wave window length in seconds</p></li>
+<li><p><strong>s_window</strong> (<em>int</em>) – S-wave window length in seconds</p></li>
+<li><p><strong>waterlevel</strong> (<em>int</em>) – Waterlevel for simulation</p></li>
+</ul>
 </dd>
-<dt>Returns:</dt><dd><p>pandas.DataFrame: DataFrame with amplitudes</p>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>DataFrame with amplitudes</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>pandas.DataFrame</p>
 </dd>
 </dl>
 </dd></dl>
@@ -311,10 +378,15 @@ waterlevel (int): Waterlevel for simulation</p>
 <dt class="sig sig-object py" id="SeisMonitor.monitor.associator.utils.get_stations_gamma_df">
 <span class="sig-prename descclassname"><span class="pre">SeisMonitor.monitor.associator.utils.</span></span><span class="sig-name descname"><span class="pre">get_stations_gamma_df</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">response</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/SeisMonitor/monitor/associator/utils.html#get_stations_gamma_df"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SeisMonitor.monitor.associator.utils.get_stations_gamma_df" title="Link to this definition"></a></dt>
 <dd><p>Convert station response to GaMMA-compatible DataFrame format.</p>
-<dl class="simple">
-<dt>Args:</dt><dd><p>response (Inventory): Station response inventory</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>response</strong> (<em>Inventory</em>) – Station response inventory</p>
 </dd>
-<dt>Returns:</dt><dd><p>pandas.DataFrame: Formatted stations DataFrame</p>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Formatted stations DataFrame</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>pandas.DataFrame</p>
 </dd>
 </dl>
 </dd></dl>
@@ -323,14 +395,21 @@ waterlevel (int): Waterlevel for simulation</p>
 <dt class="sig sig-object py" id="SeisMonitor.monitor.associator.utils.link">
 <span class="sig-prename descclassname"><span class="pre">SeisMonitor.monitor.associator.utils.</span></span><span class="sig-name descname"><span class="pre">link</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">p_row</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">s_df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tt</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">st</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">et</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">4</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/SeisMonitor/monitor/associator/utils.html#link"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SeisMonitor.monitor.associator.utils.link" title="Link to this definition"></a></dt>
 <dd><p>Link P and S phases for a given pick.</p>
-<dl class="simple">
-<dt>Args:</dt><dd><p>p_row (pandas.Series): P pick row
-s_df (pandas.DataFrame): S picks DataFrame
-tt (float): Time threshold in seconds
-st (float): Start time offset in seconds
-et (float): End time offset in seconds</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>p_row</strong> (<em>pandas.Series</em>) – P pick row</p></li>
+<li><p><strong>s_df</strong> (<em>pandas.DataFrame</em>) – S picks DataFrame</p></li>
+<li><p><strong>tt</strong> (<em>float</em>) – Time threshold in seconds</p></li>
+<li><p><strong>st</strong> (<em>float</em>) – Start time offset in seconds</p></li>
+<li><p><strong>et</strong> (<em>float</em>) – End time offset in seconds</p></li>
+</ul>
 </dd>
-<dt>Returns:</dt><dd><p>pandas.Series: Updated pick row with linked phases</p>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Updated pick row with linked phases</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>pandas.Series</p>
 </dd>
 </dl>
 </dd></dl>
@@ -339,10 +418,15 @@ et (float): End time offset in seconds</p>
 <dt class="sig sig-object py" id="SeisMonitor.monitor.associator.utils.link_eqt_phases">
 <span class="sig-prename descclassname"><span class="pre">SeisMonitor.monitor.associator.utils.</span></span><span class="sig-name descname"><span class="pre">link_eqt_phases</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/SeisMonitor/monitor/associator/utils.html#link_eqt_phases"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SeisMonitor.monitor.associator.utils.link_eqt_phases" title="Link to this definition"></a></dt>
 <dd><p>Link P and S phases in EQTransformer format.</p>
-<dl class="simple">
-<dt>Args:</dt><dd><p>df (pandas.DataFrame): Input picks DataFrame</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>df</strong> (<em>pandas.DataFrame</em>) – Input picks DataFrame</p>
 </dd>
-<dt>Returns:</dt><dd><p>pandas.DataFrame: EQTransformer formatted DataFrame</p>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>EQTransformer formatted DataFrame</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>pandas.DataFrame</p>
 </dd>
 </dl>
 </dd></dl>
@@ -351,13 +435,20 @@ et (float): End time offset in seconds</p>
 <dt class="sig sig-object py" id="SeisMonitor.monitor.associator.utils.link_seismonitor_phases">
 <span class="sig-prename descclassname"><span class="pre">SeisMonitor.monitor.associator.utils.</span></span><span class="sig-name descname"><span class="pre">link_seismonitor_phases</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tt</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">30</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">st</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">et</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">4</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/SeisMonitor/monitor/associator/utils.html#link_seismonitor_phases"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SeisMonitor.monitor.associator.utils.link_seismonitor_phases" title="Link to this definition"></a></dt>
 <dd><p>Link P and S phases in SeisMonitor format.</p>
-<dl class="simple">
-<dt>Args:</dt><dd><p>df (pandas.DataFrame): SeisMonitor picks DataFrame
-tt (float): Time threshold in seconds for S pick search
-st (float): Start time offset in seconds
-et (float): End time offset in seconds</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>df</strong> (<em>pandas.DataFrame</em>) – SeisMonitor picks DataFrame</p></li>
+<li><p><strong>tt</strong> (<em>float</em>) – Time threshold in seconds for S pick search</p></li>
+<li><p><strong>st</strong> (<em>float</em>) – Start time offset in seconds</p></li>
+<li><p><strong>et</strong> (<em>float</em>) – End time offset in seconds</p></li>
+</ul>
 </dd>
-<dt>Returns:</dt><dd><p>pandas.DataFrame: EQTransformer formatted DataFrame</p>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>EQTransformer formatted DataFrame</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>pandas.DataFrame</p>
 </dd>
 </dl>
 </dd></dl>
@@ -366,9 +457,12 @@ et (float): End time offset in seconds</p>
 <dt class="sig sig-object py" id="SeisMonitor.monitor.associator.utils.make_eqt_dirs">
 <span class="sig-prename descclassname"><span class="pre">SeisMonitor.monitor.associator.utils.</span></span><span class="sig-name descname"><span class="pre">make_eqt_dirs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">eqt_df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">folder</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/SeisMonitor/monitor/associator/utils.html#make_eqt_dirs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SeisMonitor.monitor.associator.utils.make_eqt_dirs" title="Link to this definition"></a></dt>
 <dd><p>Create EQTransformer-style directory structure and files.</p>
-<dl class="simple">
-<dt>Args:</dt><dd><p>eqt_df (pandas.DataFrame): EQTransformer formatted DataFrame
-folder (str): Output directory path</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>eqt_df</strong> (<em>pandas.DataFrame</em>) – EQTransformer formatted DataFrame</p></li>
+<li><p><strong>folder</strong> (<em>str</em>) – Output directory path</p></li>
+</ul>
 </dd>
 </dl>
 </dd></dl>
@@ -377,19 +471,19 @@ folder (str): Output directory path</p>
 <dt class="sig sig-object py" id="SeisMonitor.monitor.associator.utils.seismonitor_picks_to_eqt_fmt">
 <span class="sig-prename descclassname"><span class="pre">SeisMonitor.monitor.associator.utils.</span></span><span class="sig-name descname"><span class="pre">seismonitor_picks_to_eqt_fmt</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">seismonitor_picks</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eqt_folder</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tt</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">30</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">st</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">et</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">4</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/SeisMonitor/monitor/associator/utils.html#seismonitor_picks_to_eqt_fmt"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SeisMonitor.monitor.associator.utils.seismonitor_picks_to_eqt_fmt" title="Link to this definition"></a></dt>
 <dd><p>Convert SeisMonitor picks to EQTransformer format.</p>
-<dl class="simple">
-<dt>Args:</dt><dd><p>seismonitor_picks (str): Path to SeisMonitor picks CSV
-eqt_folder (str): Output directory for EQTransformer files
-tt (float): Time threshold in seconds
-st (float): Start time offset in seconds
-et (float): End time offset in seconds</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>seismonitor_picks</strong> (<em>str</em>) – Path to SeisMonitor picks CSV</p></li>
+<li><p><strong>eqt_folder</strong> (<em>str</em>) – Output directory for EQTransformer files</p></li>
+<li><p><strong>tt</strong> (<em>float</em>) – Time threshold in seconds</p></li>
+<li><p><strong>st</strong> (<em>float</em>) – Start time offset in seconds</p></li>
+<li><p><strong>et</strong> (<em>float</em>) – End time offset in seconds</p></li>
+</ul>
 </dd>
 </dl>
 </dd></dl>
 
-</section>
-<section id="module-SeisMonitor.monitor.associator">
-<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-SeisMonitor.monitor.associator" title="Link to this heading"></a></h2>
 </section>
 </section>
 
@@ -397,8 +491,8 @@ et (float): End time offset in seconds</p>
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="SeisMonitor.monitor.picker.html" class="btn btn-neutral float-left" title="SeisMonitor.monitor.picker package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="SeisMonitor.monitor.locator.html" class="btn btn-neutral float-right" title="SeisMonitor.monitor.locator package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="SeisMonitor.monitor.picker.html" class="btn btn-neutral float-left" title="Picker" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="SeisMonitor.monitor.locator.html" class="btn btn-neutral float-right" title="Locator" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

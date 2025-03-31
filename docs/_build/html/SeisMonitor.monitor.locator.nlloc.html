@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>SeisMonitor.monitor.locator.nlloc package &mdash; SeisMonitor 0.0.57 documentation</title>
+  <title>Nlloc &mdash; SeisMonitor 0.0.57 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
 
@@ -19,8 +19,8 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="SeisMonitor.monitor.magnitude package" href="SeisMonitor.monitor.magnitude.html" />
-    <link rel="prev" title="SeisMonitor.monitor.locator.hypocenter package" href="SeisMonitor.monitor.locator.hypocenter.html" /> 
+    <link rel="next" title="Magnitude" href="SeisMonitor.monitor.magnitude.html" />
+    <link rel="prev" title="Hypocenter" href="SeisMonitor.monitor.locator.hypocenter.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -44,28 +44,27 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="SeisMonitor.monitor.downloader.html">SeisMonitor.monitor.downloader package</a></li>
-<li class="toctree-l1"><a class="reference internal" href="SeisMonitor.monitor.picker.html">SeisMonitor.monitor.picker package</a></li>
-<li class="toctree-l1"><a class="reference internal" href="SeisMonitor.monitor.associator.html">SeisMonitor.monitor.associator package</a></li>
-<li class="toctree-l1 current"><a class="reference internal" href="SeisMonitor.monitor.locator.html">SeisMonitor.monitor.locator package</a><ul class="current">
-<li class="toctree-l2 current"><a class="reference internal" href="SeisMonitor.monitor.locator.html#subpackages">Subpackages</a><ul class="current">
-<li class="toctree-l3"><a class="reference internal" href="SeisMonitor.monitor.locator.hypoDD.html">SeisMonitor.monitor.locator.hypoDD package</a></li>
-<li class="toctree-l3"><a class="reference internal" href="SeisMonitor.monitor.locator.hypocenter.html">SeisMonitor.monitor.locator.hypocenter package</a></li>
-<li class="toctree-l3 current"><a class="current reference internal" href="#">SeisMonitor.monitor.locator.nlloc package</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="SeisMonitor.core.html">Core</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="SeisMonitor.monitor.html">Monitor</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="SeisMonitor.monitor.downloader.html">Downloader</a></li>
+<li class="toctree-l2"><a class="reference internal" href="SeisMonitor.monitor.picker.html">Picker</a></li>
+<li class="toctree-l2"><a class="reference internal" href="SeisMonitor.monitor.associator.html">Associator</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="SeisMonitor.monitor.locator.html">Locator</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="SeisMonitor.monitor.locator.hypoDD.html">HypoDD</a></li>
+<li class="toctree-l3"><a class="reference internal" href="SeisMonitor.monitor.locator.hypocenter.html">Hypocenter</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Nlloc</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#submodules">Submodules</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#module-SeisMonitor.monitor.locator.nlloc.nlloc">SeisMonitor.monitor.locator.nlloc.nlloc module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#module-SeisMonitor.monitor.locator.nlloc.utils">SeisMonitor.monitor.locator.nlloc.utils module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#module-SeisMonitor.monitor.locator.nlloc">Module contents</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id1">nlloc</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-SeisMonitor.monitor.locator.nlloc.utils">utils</a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="SeisMonitor.monitor.locator.html#module-SeisMonitor.monitor.locator.utils">utils</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="SeisMonitor.monitor.locator.html#submodules">Submodules</a></li>
-<li class="toctree-l2"><a class="reference internal" href="SeisMonitor.monitor.locator.html#module-SeisMonitor.monitor.locator.utils">SeisMonitor.monitor.locator.utils module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="SeisMonitor.monitor.locator.html#module-SeisMonitor.monitor.locator">Module contents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="SeisMonitor.monitor.magnitude.html">Magnitude</a></li>
+<li class="toctree-l2"><a class="reference internal" href="SeisMonitor.monitor.html#module-SeisMonitor.monitor.seismonitor">SeisMonitor (All in one)</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="SeisMonitor.monitor.magnitude.html">SeisMonitor.monitor.magnitude package</a></li>
 </ul>
 
         </div>
@@ -82,8 +81,9 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
-          <li class="breadcrumb-item"><a href="SeisMonitor.monitor.locator.html">SeisMonitor.monitor.locator package</a></li>
-      <li class="breadcrumb-item active">SeisMonitor.monitor.locator.nlloc package</li>
+          <li class="breadcrumb-item"><a href="SeisMonitor.monitor.html">Monitor</a></li>
+          <li class="breadcrumb-item"><a href="SeisMonitor.monitor.locator.html">Locator</a></li>
+      <li class="breadcrumb-item active">Nlloc</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/SeisMonitor.monitor.locator.nlloc.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -93,14 +93,14 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="seismonitor-monitor-locator-nlloc-package">
-<h1>SeisMonitor.monitor.locator.nlloc package<a class="headerlink" href="#seismonitor-monitor-locator-nlloc-package" title="Link to this heading"></a></h1>
+  <section id="nlloc">
+<h1>Nlloc<a class="headerlink" href="#nlloc" title="Link to this heading"></a></h1>
 <section id="submodules">
 <h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading"></a></h2>
 </section>
-<section id="module-SeisMonitor.monitor.locator.nlloc.nlloc">
-<span id="seismonitor-monitor-locator-nlloc-nlloc-module"></span><h2>SeisMonitor.monitor.locator.nlloc.nlloc module<a class="headerlink" href="#module-SeisMonitor.monitor.locator.nlloc.nlloc" title="Link to this heading"></a></h2>
-<dl class="py class">
+<section id="id1">
+<h2>nlloc<a class="headerlink" href="#id1" title="Link to this heading"></a></h2>
+<dl class="py class" id="module-SeisMonitor.monitor.locator.nlloc.nlloc">
 <dt class="sig sig-object py" id="SeisMonitor.monitor.locator.nlloc.nlloc.NLLoc">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">SeisMonitor.monitor.locator.nlloc.nlloc.</span></span><span class="sig-name descname"><span class="pre">NLLoc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">core_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">agency</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">region</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vel_model</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="SeisMonitor.monitor.locator.html#SeisMonitor.monitor.locator.utils.VelModel" title="SeisMonitor.monitor.locator.utils.VelModel"><span class="pre">VelModel</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">stations</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="SeisMonitor.monitor.locator.html#SeisMonitor.monitor.locator.utils.Stations" title="SeisMonitor.monitor.locator.utils.Stations"><span class="pre">Stations</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">delta_in_km</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kwargs_for_trans</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kwargs_for_vel2grid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kwargs_for_grid2time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kwargs_for_time2loc</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tmp_folder</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'/home/edc240000/SeisMonitor/docs'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">exhaustively</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">search_in_degrees</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rm_attempts</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/SeisMonitor/monitor/locator/nlloc/nlloc.html#NLLoc"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SeisMonitor.monitor.locator.nlloc.nlloc.NLLoc" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
@@ -117,13 +117,17 @@ using velocity models and station information.</p>
 <dt class="sig sig-object py" id="SeisMonitor.monitor.locator.nlloc.nlloc.NLLoc.locate">
 <span class="sig-name descname"><span class="pre">locate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">catalog</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Catalog</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nlloc_out_folder</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">out_filename</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'locations.xml'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">out_format</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'SC3ML'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Catalog</span></span></span><a class="reference internal" href="_modules/SeisMonitor/monitor/locator/nlloc/nlloc.html#NLLoc.locate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SeisMonitor.monitor.locator.nlloc.nlloc.NLLoc.locate" title="Link to this definition"></a></dt>
 <dd><p>Main location method with optional exhaustive search.</p>
-<dl class="simple">
-<dt>Args:</dt><dd><p>catalog: Input catalog or path
-nlloc_out_folder: Output directory
-out_filename: Output filename
-out_format: Output format</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>catalog</strong> – Input catalog or path</p></li>
+<li><p><strong>nlloc_out_folder</strong> – Output directory</p></li>
+<li><p><strong>out_filename</strong> – Output filename</p></li>
+<li><p><strong>out_format</strong> – Output format</p></li>
+</ul>
 </dd>
-<dt>Returns:</dt><dd><p>Located event catalog</p>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Located event catalog</p>
 </dd>
 </dl>
 </dd></dl>
@@ -132,7 +136,7 @@ out_format: Output format</p>
 
 </section>
 <section id="module-SeisMonitor.monitor.locator.nlloc.utils">
-<span id="seismonitor-monitor-locator-nlloc-utils-module"></span><h2>SeisMonitor.monitor.locator.nlloc.utils module<a class="headerlink" href="#module-SeisMonitor.monitor.locator.nlloc.utils" title="Link to this heading"></a></h2>
+<span id="utils"></span><h2>utils<a class="headerlink" href="#module-SeisMonitor.monitor.locator.nlloc.utils" title="Link to this heading"></a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="SeisMonitor.monitor.locator.nlloc.utils.GenericControlStatement">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">SeisMonitor.monitor.locator.nlloc.utils.</span></span><span class="sig-name descname"><span class="pre">GenericControlStatement</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">trans</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">control</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[1,</span> <span class="pre">54321]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/SeisMonitor/monitor/locator/nlloc/utils.html#GenericControlStatement"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SeisMonitor.monitor.locator.nlloc.utils.GenericControlStatement" title="Link to this definition"></a></dt>
@@ -142,8 +146,12 @@ out_format: Output format</p>
 <dt class="sig sig-object py" id="SeisMonitor.monitor.locator.nlloc.utils.GenericControlStatement.get_msg">
 <span class="sig-name descname"><span class="pre">get_msg</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/SeisMonitor/monitor/locator/nlloc/utils.html#GenericControlStatement.get_msg"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SeisMonitor.monitor.locator.nlloc.utils.GenericControlStatement.get_msg" title="Link to this definition"></a></dt>
 <dd><p>Generate formatted control statement string.</p>
-<dl class="simple">
-<dt>Returns:</dt><dd><p>str: Formatted control statement</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Formatted control statement</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>str</p>
 </dd>
 </dl>
 </dd></dl>
@@ -159,8 +167,12 @@ out_format: Output format</p>
 <dt class="sig sig-object py" id="SeisMonitor.monitor.locator.nlloc.utils.Grid2Time.get_msg">
 <span class="sig-name descname"><span class="pre">get_msg</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/SeisMonitor/monitor/locator/nlloc/utils.html#Grid2Time.get_msg"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SeisMonitor.monitor.locator.nlloc.utils.Grid2Time.get_msg" title="Link to this definition"></a></dt>
 <dd><p>Generate formatted travel time grid statement string.</p>
-<dl class="simple">
-<dt>Returns:</dt><dd><p>str: Formatted travel time grid statement</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Formatted travel time grid statement</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>str</p>
 </dd>
 </dl>
 </dd></dl>
@@ -176,12 +188,19 @@ out_format: Output format</p>
 <dt class="sig sig-object py" id="SeisMonitor.monitor.locator.nlloc.utils.NLLocControlFile.get_msg">
 <span class="sig-name descname"><span class="pre">get_msg</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vel2grid</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">grid2time</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time2loc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/SeisMonitor/monitor/locator/nlloc/utils.html#NLLocControlFile.get_msg"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SeisMonitor.monitor.locator.nlloc.utils.NLLocControlFile.get_msg" title="Link to this definition"></a></dt>
 <dd><p>Generate complete control file message.</p>
-<dl class="simple">
-<dt>Args:</dt><dd><p>vel2grid (bool): Include velocity grid section (default: True)
-grid2time (bool): Include travel time grid section (default: True)
-time2loc (bool): Include location section (default: True)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>vel2grid</strong> (<em>bool</em>) – Include velocity grid section (default: True)</p></li>
+<li><p><strong>grid2time</strong> (<em>bool</em>) – Include travel time grid section (default: True)</p></li>
+<li><p><strong>time2loc</strong> (<em>bool</em>) – Include location section (default: True)</p></li>
+</ul>
 </dd>
-<dt>Returns:</dt><dd><p>str: Complete control file content</p>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Complete control file content</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
 </dd>
 </dl>
 </dd></dl>
@@ -190,11 +209,14 @@ time2loc (bool): Include location section (default: True)</p>
 <dt class="sig sig-object py" id="SeisMonitor.monitor.locator.nlloc.utils.NLLocControlFile.write">
 <span class="sig-name descname"><span class="pre">write</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">out</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vel2grid</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">grid2time</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time2loc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/SeisMonitor/monitor/locator/nlloc/utils.html#NLLocControlFile.write"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SeisMonitor.monitor.locator.nlloc.utils.NLLocControlFile.write" title="Link to this definition"></a></dt>
 <dd><p>Write control file to disk.</p>
-<dl class="simple">
-<dt>Args:</dt><dd><p>out (str): Output file path
-vel2grid (bool): Include velocity grid section (default: True)
-grid2time (bool): Include travel time grid section (default: True)
-time2loc (bool): Include location section (default: True)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>out</strong> (<em>str</em>) – Output file path</p></li>
+<li><p><strong>vel2grid</strong> (<em>bool</em>) – Include velocity grid section (default: True)</p></li>
+<li><p><strong>grid2time</strong> (<em>bool</em>) – Include travel time grid section (default: True)</p></li>
+<li><p><strong>time2loc</strong> (<em>bool</em>) – Include location section (default: True)</p></li>
+</ul>
 </dd>
 </dl>
 </dd></dl>
@@ -210,8 +232,12 @@ time2loc (bool): Include location section (default: True)</p>
 <dt class="sig sig-object py" id="SeisMonitor.monitor.locator.nlloc.utils.Time2Loc.get_msg">
 <span class="sig-name descname"><span class="pre">get_msg</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/SeisMonitor/monitor/locator/nlloc/utils.html#Time2Loc.get_msg"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SeisMonitor.monitor.locator.nlloc.utils.Time2Loc.get_msg" title="Link to this definition"></a></dt>
 <dd><p>Generate formatted location statement string.</p>
-<dl class="simple">
-<dt>Returns:</dt><dd><p>str: Formatted location statement</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Formatted location statement</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>str</p>
 </dd>
 </dl>
 </dd></dl>
@@ -227,8 +253,12 @@ time2loc (bool): Include location section (default: True)</p>
 <dt class="sig sig-object py" id="SeisMonitor.monitor.locator.nlloc.utils.Vel2Grid.get_msg">
 <span class="sig-name descname"><span class="pre">get_msg</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/SeisMonitor/monitor/locator/nlloc/utils.html#Vel2Grid.get_msg"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SeisMonitor.monitor.locator.nlloc.utils.Vel2Grid.get_msg" title="Link to this definition"></a></dt>
 <dd><p>Generate formatted velocity grid statement string.</p>
-<dl class="simple">
-<dt>Returns:</dt><dd><p>str: Formatted velocity grid statement</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Formatted velocity grid statement</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>str</p>
 </dd>
 </dl>
 </dd></dl>
@@ -239,8 +269,9 @@ time2loc (bool): Include location section (default: True)</p>
 <dt class="sig sig-object py" id="SeisMonitor.monitor.locator.nlloc.utils.apt_install">
 <span class="sig-prename descclassname"><span class="pre">SeisMonitor.monitor.locator.nlloc.utils.</span></span><span class="sig-name descname"><span class="pre">apt_install</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pkgs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/SeisMonitor/monitor/locator/nlloc/utils.html#apt_install"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SeisMonitor.monitor.locator.nlloc.utils.apt_install" title="Link to this definition"></a></dt>
 <dd><p>Install packages using apt-get with sudo privileges.</p>
-<dl class="simple">
-<dt>Args:</dt><dd><p>pkgs (list): List of package names to install</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>pkgs</strong> (<em>list</em>) – List of package names to install</p>
 </dd>
 </dl>
 </dd></dl>
@@ -249,11 +280,18 @@ time2loc (bool): Include location section (default: True)</p>
 <dt class="sig sig-object py" id="SeisMonitor.monitor.locator.nlloc.utils.download_nlloc">
 <span class="sig-prename descclassname"><span class="pre">SeisMonitor.monitor.locator.nlloc.utils.</span></span><span class="sig-name descname"><span class="pre">download_nlloc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nlloc_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">forced</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/SeisMonitor/monitor/locator/nlloc/utils.html#download_nlloc"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SeisMonitor.monitor.locator.nlloc.utils.download_nlloc" title="Link to this definition"></a></dt>
 <dd><p>Download and compile NonLinLoc from Git repository.</p>
-<dl class="simple">
-<dt>Args:</dt><dd><p>nlloc_path (str): Destination path for NonLinLoc
-forced (bool): Force re-download even if exists (default: False)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>nlloc_path</strong> (<em>str</em>) – Destination path for NonLinLoc</p></li>
+<li><p><strong>forced</strong> (<em>bool</em>) – Force re-download even if exists (default: False)</p></li>
+</ul>
 </dd>
-<dt>Returns:</dt><dd><p>bool: True if already installed and not forced</p>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>True if already installed and not forced</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
 </dd>
 </dl>
 </dd></dl>
@@ -262,10 +300,15 @@ forced (bool): Force re-download even if exists (default: False)</p>
 <dt class="sig sig-object py" id="SeisMonitor.monitor.locator.nlloc.utils.get_nlloc_folders">
 <span class="sig-prename descclassname"><span class="pre">SeisMonitor.monitor.locator.nlloc.utils.</span></span><span class="sig-name descname"><span class="pre">get_nlloc_folders</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">core_path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/SeisMonitor/monitor/locator/nlloc/utils.html#get_nlloc_folders"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SeisMonitor.monitor.locator.nlloc.utils.get_nlloc_folders" title="Link to this definition"></a></dt>
 <dd><p>Generate dictionary of NonLinLoc folder paths.</p>
-<dl class="simple">
-<dt>Args:</dt><dd><p>core_path (str): Base path to NonLinLoc core directory</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>core_path</strong> (<em>str</em>) – Base path to NonLinLoc core directory</p>
 </dd>
-<dt>Returns:</dt><dd><p>dict: Dictionary containing all relevant NonLinLoc paths</p>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Dictionary containing all relevant NonLinLoc paths</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
 </dd>
 </dl>
 </dd></dl>
@@ -274,10 +317,15 @@ forced (bool): Force re-download even if exists (default: False)</p>
 <dt class="sig sig-object py" id="SeisMonitor.monitor.locator.nlloc.utils.join_args">
 <span class="sig-prename descclassname"><span class="pre">SeisMonitor.monitor.locator.nlloc.utils.</span></span><span class="sig-name descname"><span class="pre">join_args</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/SeisMonitor/monitor/locator/nlloc/utils.html#join_args"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SeisMonitor.monitor.locator.nlloc.utils.join_args" title="Link to this definition"></a></dt>
 <dd><p>Convert list of arguments to space-separated string.</p>
-<dl class="simple">
-<dt>Args:</dt><dd><p>args (list): List of arguments</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>args</strong> (<em>list</em>) – List of arguments</p>
 </dd>
-<dt>Returns:</dt><dd><p>str: Space-separated string of arguments</p>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Space-separated string of arguments</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
 </dd>
 </dl>
 </dd></dl>
@@ -286,10 +334,15 @@ forced (bool): Force re-download even if exists (default: False)</p>
 <dt class="sig sig-object py" id="SeisMonitor.monitor.locator.nlloc.utils.resp2df">
 <span class="sig-prename descclassname"><span class="pre">SeisMonitor.monitor.locator.nlloc.utils.</span></span><span class="sig-name descname"><span class="pre">resp2df</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">resp</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/SeisMonitor/monitor/locator/nlloc/utils.html#resp2df"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SeisMonitor.monitor.locator.nlloc.utils.resp2df" title="Link to this definition"></a></dt>
 <dd><p>Convert RESP file to DataFrame with station information.</p>
-<dl class="simple">
-<dt>Args:</dt><dd><p>resp (str): Path to RESP file</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>resp</strong> (<em>str</em>) – Path to RESP file</p>
 </dd>
-<dt>Returns:</dt><dd><p>pd.DataFrame: DataFrame with network, station, lat, lon, elevation</p>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>DataFrame with network, station, lat, lon, elevation</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>pd.DataFrame</p>
 </dd>
 </dl>
 </dd></dl>
@@ -298,10 +351,13 @@ forced (bool): Force re-download even if exists (default: False)</p>
 <dt class="sig sig-object py" id="SeisMonitor.monitor.locator.nlloc.utils.run_nlloc">
 <span class="sig-prename descclassname"><span class="pre">SeisMonitor.monitor.locator.nlloc.utils.</span></span><span class="sig-name descname"><span class="pre">run_nlloc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nlloc_paths</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">p_control_file_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">s_control_file_path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/SeisMonitor/monitor/locator/nlloc/utils.html#run_nlloc"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SeisMonitor.monitor.locator.nlloc.utils.run_nlloc" title="Link to this definition"></a></dt>
 <dd><p>Execute NonLinLoc processing steps using system commands.</p>
-<dl class="simple">
-<dt>Args:</dt><dd><p>nlloc_paths (dict): Dictionary of NonLinLoc executable paths
-p_control_file_path (str): Path to P-wave control file
-s_control_file_path (str): Path to S-wave control file</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>nlloc_paths</strong> (<em>dict</em>) – Dictionary of NonLinLoc executable paths</p></li>
+<li><p><strong>p_control_file_path</strong> (<em>str</em>) – Path to P-wave control file</p></li>
+<li><p><strong>s_control_file_path</strong> (<em>str</em>) – Path to S-wave control file</p></li>
+</ul>
 </dd>
 </dl>
 </dd></dl>
@@ -310,12 +366,18 @@ s_control_file_path (str): Path to S-wave control file</p>
 <dt class="sig sig-object py" id="SeisMonitor.monitor.locator.nlloc.utils.testing_nlloc_core_path">
 <span class="sig-prename descclassname"><span class="pre">SeisMonitor.monitor.locator.nlloc.utils.</span></span><span class="sig-name descname"><span class="pre">testing_nlloc_core_path</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nlloc_core_path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/SeisMonitor/monitor/locator/nlloc/utils.html#testing_nlloc_core_path"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SeisMonitor.monitor.locator.nlloc.utils.testing_nlloc_core_path" title="Link to this definition"></a></dt>
 <dd><p>Validate existence of essential NonLinLoc directories.</p>
-<dl class="simple">
-<dt>Args:</dt><dd><p>nlloc_core_path (str): Path to NonLinLoc core directory</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>nlloc_core_path</strong> (<em>str</em>) – Path to NonLinLoc core directory</p>
 </dd>
-<dt>Returns:</dt><dd><p>dict: Validated paths dictionary</p>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Validated paths dictionary</p>
 </dd>
-<dt>Raises:</dt><dd><p>Exception: If mandatory paths are missing</p>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>Exception</strong> – If mandatory paths are missing</p>
 </dd>
 </dl>
 </dd></dl>
@@ -324,11 +386,14 @@ s_control_file_path (str): Path to S-wave control file</p>
 <dt class="sig sig-object py" id="SeisMonitor.monitor.locator.nlloc.utils.write_1d_vel_model">
 <span class="sig-prename descclassname"><span class="pre">SeisMonitor.monitor.locator.nlloc.utils.</span></span><span class="sig-name descname"><span class="pre">write_1d_vel_model</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vel_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">out</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">compute_vs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vp_vs_ratio</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.78</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/SeisMonitor/monitor/locator/nlloc/utils.html#write_1d_vel_model"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SeisMonitor.monitor.locator.nlloc.utils.write_1d_vel_model" title="Link to this definition"></a></dt>
 <dd><p>Write 1D velocity model file from CSV data.</p>
-<dl class="simple">
-<dt>Args:</dt><dd><p>vel_path (str): Path to input velocity CSV file
-out (str): Output file path
-compute_vs (bool): Calculate Vs from Vp if True (default: True)
-vp_vs_ratio (float): Vp/Vs ratio for Vs calculation (default: 1.78)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>vel_path</strong> (<em>str</em>) – Path to input velocity CSV file</p></li>
+<li><p><strong>out</strong> (<em>str</em>) – Output file path</p></li>
+<li><p><strong>compute_vs</strong> (<em>bool</em>) – Calculate Vs from Vp if True (default: True)</p></li>
+<li><p><strong>vp_vs_ratio</strong> (<em>float</em>) – Vp/Vs ratio for Vs calculation (default: 1.78)</p></li>
+</ul>
 </dd>
 </dl>
 </dd></dl>
@@ -337,10 +402,15 @@ vp_vs_ratio (float): Vp/Vs ratio for Vs calculation (default: 1.78)</p>
 <dt class="sig sig-object py" id="SeisMonitor.monitor.locator.nlloc.utils.write_pref_origin_removing_phaselocinfo">
 <span class="sig-prename descclassname"><span class="pre">SeisMonitor.monitor.locator.nlloc.utils.</span></span><span class="sig-name descname"><span class="pre">write_pref_origin_removing_phaselocinfo</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">catalog</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/SeisMonitor/monitor/locator/nlloc/utils.html#write_pref_origin_removing_phaselocinfo"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SeisMonitor.monitor.locator.nlloc.utils.write_pref_origin_removing_phaselocinfo" title="Link to this definition"></a></dt>
 <dd><p>Process seismic catalog to keep only preferred origins.</p>
-<dl class="simple">
-<dt>Args:</dt><dd><p>catalog (obspy.Catalog): Input seismic catalog</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>catalog</strong> (<em>obspy.Catalog</em>) – Input seismic catalog</p>
 </dd>
-<dt>Returns:</dt><dd><p>obspy.Catalog: Modified catalog with cleaned origins</p>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Modified catalog with cleaned origins</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>obspy.Catalog</p>
 </dd>
 </dl>
 </dd></dl>
@@ -349,16 +419,16 @@ vp_vs_ratio (float): Vp/Vs ratio for Vs calculation (default: 1.78)</p>
 <dt class="sig sig-object py" id="SeisMonitor.monitor.locator.nlloc.utils.write_station_file">
 <span class="sig-prename descclassname"><span class="pre">SeisMonitor.monitor.locator.nlloc.utils.</span></span><span class="sig-name descname"><span class="pre">write_station_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sta_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">out</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/SeisMonitor/monitor/locator/nlloc/utils.html#write_station_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SeisMonitor.monitor.locator.nlloc.utils.write_station_file" title="Link to this definition"></a></dt>
 <dd><p>Write station file from RESP data.</p>
-<dl class="simple">
-<dt>Args:</dt><dd><p>sta_path (str): Path to RESP file
-out (str): Output file path</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>sta_path</strong> (<em>str</em>) – Path to RESP file</p></li>
+<li><p><strong>out</strong> (<em>str</em>) – Output file path</p></li>
+</ul>
 </dd>
 </dl>
 </dd></dl>
 
-</section>
-<section id="module-SeisMonitor.monitor.locator.nlloc">
-<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-SeisMonitor.monitor.locator.nlloc" title="Link to this heading"></a></h2>
 </section>
 </section>
 
@@ -366,8 +436,8 @@ out (str): Output file path</p>
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="SeisMonitor.monitor.locator.hypocenter.html" class="btn btn-neutral float-left" title="SeisMonitor.monitor.locator.hypocenter package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="SeisMonitor.monitor.magnitude.html" class="btn btn-neutral float-right" title="SeisMonitor.monitor.magnitude package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="SeisMonitor.monitor.locator.hypocenter.html" class="btn btn-neutral float-left" title="Hypocenter" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="SeisMonitor.monitor.magnitude.html" class="btn btn-neutral float-right" title="Magnitude" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

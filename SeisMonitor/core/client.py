@@ -1,12 +1,3 @@
-# /**
-#  * @author [Emmanuel Castillo]
-#  * @email [ecastillot@unal.edu.co]
-#  * @create date 2022-03-17 08:53:23
-#  * @modify date 2022-03-17 08:53:23
-#  * @desc [description]
-#  */
-
-
 import os 
 import glob
 from datetime import timedelta
@@ -19,10 +10,14 @@ class LocalClient(Client):
         """
         Parameters:
         -----------
-        root (str): Path where is located the Local structure
-        fmt (str): The parameter should name the corresponding keys of the stats object, e.g. '{year}-{month:02d}/{year}-{month:02d}-{day:02d}/{network}.{station}.{location}.{channel}.{year}.{julday:03d}'
-
-        kwargs: SDS client additional args
+        root: str 
+            Path where is located the Local structure
+        
+        fmt: str 
+            The parameter should name the corresponding keys of the stats object, e.g. "{year}-{month:02d}/{year}-{month:02d}-{day:02d}/{network}.{station}.{location}.{channel}.{year}.{julday:03d}"
+        
+        kwargs: 
+            SDS client additional args
         """
         self.root = root
         self.fmt = fmt
@@ -35,23 +30,23 @@ class LocalClient(Client):
 
         Parameters
         ----------
-        network : str
+        network: str
             Network code of requested data (e.g., "IU").
-        station : str
+        
+        station: str
             Station code of requested data (e.g., "ANMO").
-        location : str
+        
+        location: str
             Location code of requested data (e.g., "").
-        channel : str
+        
+        channel: str
             Channel code of requested data (e.g., "HHZ").
-        time : obspy.core.utcdatetime.UTCDateTime
+        
+        time: obspy.core.utcdatetime.UTCDateTime
             Time of interest.
-        sds_type : str
+        
+        sds_type: str
             SDS type (description not provided).
-
-        Returns
-        -------
-        str
-            The filename corresponding to the given parameters.
         """
         sds_type = sds_type or self.sds_type
         # SDS has data sometimes in adjacent days, so also try to read the
@@ -90,15 +85,19 @@ class LocalClient(Client):
 
         Parameters
         ----------
-        network : str
+        network: str
             Network code of requested data (e.g., "IU").
-        station : str
+        
+        station: str
             Station code of requested data (e.g., "ANMO").
-        location : str
+        
+        location: str
             Location code of requested data (e.g., "").
-        channel : str
+        
+        channel: str
             Channel code of requested data (e.g., "HHZ").
-        time : obspy.core.utcdatetime.UTCDateTime
+        
+        time: obspy.core.utcdatetime.UTCDateTime
             Time of interest.
 
         Returns
@@ -112,30 +111,3 @@ class LocalClient(Client):
                     channel=channel, year=time.year, month=time.month, 
                     day=time.day, doy=time.julday,sds_type=sds_type)
         return os.path.join(self.sds_root, filename)
-
-if __name__ == "__main__":
-    from obspy import UTCDateTime
-
-    # ### RSNC
-    # root = "/home/emmanuel/RSNC-2016"
-    # fmt = '{year}/{station}/{channel}.{sds_type}/{network}.{station}.{location}.{channel}.{sds_type}.{year}.{doy:03d}'
-    # client = LocalClient(root,fmt)
-    # st = client.get_waveforms("CM","BAR2","*",
-    #                     channel="*Z",starttime = UTCDateTime("20160627T235400"),
-    #                     endtime = UTCDateTime("20160627T235600"))
-
-    archive = "/home/emmanuel/Descargas/SeisMonitor_dataset/archive/mseed"
-    my_local_fmt = os.path.join("{year}-{month:02d}", 
-                    "{year}-{month:02d}-{day:02d}", 
-                    "{network}.{station}.{location}.{channel}.{year}.{julday:03d}")
-    carma_client = LocalClient(archive,my_local_fmt)
-    st = carma_client.get_waveforms(network="YU",
-                        station="GJ*",
-                        location="*",
-                        channel="*",
-                        starttime=UTCDateTime("2017-12-24T00:00:00.000000Z"),
-                        endtime=UTCDateTime("2017-12-24T00:10:00.000000Z"))
-    print(st)
-
-
-

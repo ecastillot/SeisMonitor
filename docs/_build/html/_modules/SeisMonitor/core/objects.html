@@ -41,11 +41,8 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../SeisMonitor.monitor.downloader.html">SeisMonitor.monitor.downloader package</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../SeisMonitor.monitor.picker.html">SeisMonitor.monitor.picker package</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../SeisMonitor.monitor.associator.html">SeisMonitor.monitor.associator package</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../SeisMonitor.monitor.locator.html">SeisMonitor.monitor.locator package</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../SeisMonitor.monitor.magnitude.html">SeisMonitor.monitor.magnitude package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../SeisMonitor.core.html">Core</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../SeisMonitor.monitor.html">Monitor</a></li>
 </ul>
 
         </div>
@@ -86,18 +83,13 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">client</span><span class="p">,</span> <span class="n">waveform_restrictions</span><span class="p">,</span> <span class="n">processing</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">xml</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Initializes the Provider class.</span>
+<span class="sd">        Initialize the Provider class.</span>
 
-<span class="sd">        Parameters:</span>
-<span class="sd">        -----------</span>
-<span class="sd">        client : object</span>
-<span class="sd">            An ObsPy-compatible client to fetch station metadata.</span>
-<span class="sd">        waveform_restrictions : WaveformRestrictions</span>
-<span class="sd">            Object containing selection criteria for waveform data.</span>
-<span class="sd">        processing : Processing, optional</span>
-<span class="sd">            Processing steps for waveform data (default is None).</span>
-<span class="sd">        xml : str, optional</span>
-<span class="sd">            Path to an XML file containing station metadata (default is None).</span>
+<span class="sd">        Args:</span>
+<span class="sd">            client (object): An ObsPy-compatible client to fetch station metadata.</span>
+<span class="sd">            waveform_restrictions (WaveformRestrictions): Object containing selection criteria for waveform data.</span>
+<span class="sd">            processing (Processing, optional): Processing steps for waveform data (default is None).</span>
+<span class="sd">            xml (str, optional): Path to an XML file containing station metadata (default is None).</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">client</span> <span class="o">=</span> <span class="n">client</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">waveform_restrictions</span> <span class="o">=</span> <span class="n">waveform_restrictions</span>
@@ -144,33 +136,25 @@
                  <span class="n">filter_networks</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">filter_stations</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                  <span class="n">filter_domain</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Initializes the waveform selection criteria.</span>
-<span class="sd">        </span>
-<span class="sd">        Parameters:</span>
-<span class="sd">        -----------</span>
-<span class="sd">        network : str</span>
-<span class="sd">            Comma-separated list of network codes (wildcards allowed).</span>
-<span class="sd">        station : str</span>
-<span class="sd">            Comma-separated list of station codes (wildcards allowed).</span>
-<span class="sd">        location : str</span>
-<span class="sd">            Comma-separated list of location identifiers (wildcards allowed).</span>
-<span class="sd">        channel : str</span>
-<span class="sd">            Comma-separated list of channel codes (e.g., &quot;BHZ,HHZ&quot;).</span>
-<span class="sd">        starttime : obspy.UTCDateTime</span>
-<span class="sd">            Start time for waveform selection.</span>
-<span class="sd">        endtime : obspy.UTCDateTime</span>
-<span class="sd">            End time for waveform selection.</span>
-<span class="sd">        location_preferences : list, optional</span>
-<span class="sd">            Ordered list of preferred locations (default is empty list).</span>
-<span class="sd">        channel_preferences : list, optional</span>
-<span class="sd">            Ordered list of preferred channels (default is empty list).</span>
-<span class="sd">        filter_networks : list, optional</span>
-<span class="sd">            List of networks to filter out (default is empty list).</span>
-<span class="sd">        filter_stations : list, optional</span>
-<span class="sd">            List of stations to filter out (default is empty list).</span>
-<span class="sd">        filter_domain : list, optional</span>
-<span class="sd">            Geographic bounding box [lon_west, lon_east, lat_south, lat_north]</span>
-<span class="sd">            (default is global coverage).</span>
+<span class="sd">        Initialize the waveform selection criteria.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            network (str): Comma-separated list of network codes (wildcards allowed).</span>
+<span class="sd">            station (str): Comma-separated list of station codes (wildcards allowed).</span>
+<span class="sd">            location (str): Comma-separated list of location identifiers (wildcards allowed).</span>
+<span class="sd">            channel (str): Comma-separated list of channel codes (e.g., &quot;BHZ,HHZ&quot;).</span>
+<span class="sd">            starttime (obspy.UTCDateTime): Start time for waveform selection.</span>
+<span class="sd">            endtime (obspy.UTCDateTime): End time for waveform selection.</span>
+<span class="sd">            location_preferences (list, optional): Ordered list of preferred locations </span>
+<span class="sd">                (default is an empty list).</span>
+<span class="sd">            channel_preferences (list, optional): Ordered list of preferred channels </span>
+<span class="sd">                (default is an empty list).</span>
+<span class="sd">            filter_networks (list, optional): List of networks to filter out </span>
+<span class="sd">                (default is an empty list).</span>
+<span class="sd">            filter_stations (list, optional): List of stations to filter out </span>
+<span class="sd">                (default is an empty list).</span>
+<span class="sd">            filter_domain (list, optional): Geographic bounding box </span>
+<span class="sd">                [lon_west, lon_east, lat_south, lat_north] (default is global coverage).</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">network</span> <span class="o">=</span> <span class="n">network</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">station</span> <span class="o">=</span> <span class="n">station</span>
@@ -201,29 +185,29 @@
 
 <span class="sd">        Parameters:</span>
 <span class="sd">        -----------</span>
-<span class="sd">        order : list of str, optional</span>
+<span class="sd">        :order: list of str, optional</span>
 <span class="sd">            Order of preprocessing steps (default includes &#39;normalize&#39;, &#39;merge&#39;, etc.).</span>
-<span class="sd">        decimate : dict, optional</span>
+<span class="sd">        :decimate: dict, optional</span>
 <span class="sd">            Parameters for the decimate method.</span>
-<span class="sd">        detrend : dict, optional</span>
+<span class="sd">        :detrend: dict, optional</span>
 <span class="sd">            Parameters for the detrend method.</span>
-<span class="sd">        filter : dict, optional</span>
+<span class="sd">        :filter: dict, optional</span>
 <span class="sd">            Parameters for the filter method.</span>
-<span class="sd">        merge : dict, optional</span>
+<span class="sd">        :merge: dict, optional</span>
 <span class="sd">            Parameters for the merge method.</span>
-<span class="sd">        normalize : dict, optional</span>
+<span class="sd">        :normalize: dict, optional</span>
 <span class="sd">            Parameters for the normalize method.</span>
-<span class="sd">        resample : dict, optional</span>
+<span class="sd">        :resample: dict, optional</span>
 <span class="sd">            Parameters for the resample method.</span>
-<span class="sd">        taper : dict, optional</span>
+<span class="sd">        :taper: dict, optional</span>
 <span class="sd">            Parameters for the taper method.</span>
-<span class="sd">        select_networks : list, optional</span>
+<span class="sd">        :select_networks: list, optional</span>
 <span class="sd">            List of networks to select (default is empty list).</span>
-<span class="sd">        select_stations : list, optional</span>
+<span class="sd">        :select_stations: list, optional</span>
 <span class="sd">            List of stations to select (default is empty list).</span>
-<span class="sd">        filter_networks : list, optional</span>
+<span class="sd">        :filter_networks: list, optional</span>
 <span class="sd">            List of networks to filter out (default is empty list).</span>
-<span class="sd">        filter_stations : list, optional</span>
+<span class="sd">        :filter_stations: list, optional</span>
 <span class="sd">            List of stations to filter out (default is empty list).</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">order</span> <span class="o">=</span> <span class="n">order</span> <span class="ow">or</span> <span class="p">[</span><span class="s1">&#39;normalize&#39;</span><span class="p">,</span> <span class="s1">&#39;merge&#39;</span><span class="p">,</span> <span class="s1">&#39;detrend&#39;</span><span class="p">,</span> <span class="s1">&#39;taper&#39;</span><span class="p">,</span> <span class="s2">&quot;filter&quot;</span><span class="p">]</span>
@@ -247,7 +231,7 @@
 
 <span class="sd">        Parameters:</span>
 <span class="sd">        -----------</span>
-<span class="sd">        st : obspy.Stream</span>
+<span class="sd">        :st: obspy.Stream</span>
 <span class="sd">            The waveform stream to process.</span>
 <span class="sd">        </span>
 <span class="sd">        Returns:</span>

@@ -9,18 +9,13 @@ class Provider:
     """
     def __init__(self, client, waveform_restrictions, processing=None, xml=None) -> None:
         """
-        Initializes the Provider class.
+        Initialize the Provider class.
 
-        Parameters:
-        -----------
-        :client: object
-            An ObsPy-compatible client to fetch station metadata.
-        :waveform_restrictions: WaveformRestrictions
-            Object containing selection criteria for waveform data.
-        :processing: Processing, optional
-            Processing steps for waveform data (default is None).
-        :xml: str, optional
-            Path to an XML file containing station metadata (default is None).
+        Args:
+            client (object): An ObsPy-compatible client to fetch station metadata.
+            waveform_restrictions (WaveformRestrictions): Object containing selection criteria for waveform data.
+            processing (Processing, optional): Processing steps for waveform data (default is None).
+            xml (str, optional): Path to an XML file containing station metadata (default is None).
         """
         self.client = client
         self.waveform_restrictions = waveform_restrictions
@@ -61,33 +56,25 @@ class WaveformRestrictions:
                  filter_networks=None, filter_stations=None,
                  filter_domain=None):
         """
-        Initializes the waveform selection criteria.
-        
-        Parameters:
-        -----------
-        :network: str
-            Comma-separated list of network codes (wildcards allowed).
-        :station: str
-            Comma-separated list of station codes (wildcards allowed).
-        :location: str
-            Comma-separated list of location identifiers (wildcards allowed).
-        :channel: str
-            Comma-separated list of channel codes (e.g., "BHZ,HHZ").
-        :starttime: obspy.UTCDateTime
-            Start time for waveform selection.
-        :endtime: obspy.UTCDateTime
-            End time for waveform selection.
-        :location_preferences: list, optional
-            Ordered list of preferred locations (default is empty list).
-        :channel_preferences: list, optional
-            Ordered list of preferred channels (default is empty list).
-        :filter_networks: list, optional
-            List of networks to filter out (default is empty list).
-        :filter_stations: list, optional
-            List of stations to filter out (default is empty list).
-        :filter_domain: list, optional
-            Geographic bounding box [lon_west, lon_east, lat_south, lat_north]
-            (default is global coverage).
+        Initialize the waveform selection criteria.
+
+        Args:
+            network (str): Comma-separated list of network codes (wildcards allowed).
+            station (str): Comma-separated list of station codes (wildcards allowed).
+            location (str): Comma-separated list of location identifiers (wildcards allowed).
+            channel (str): Comma-separated list of channel codes (e.g., "BHZ,HHZ").
+            starttime (obspy.UTCDateTime): Start time for waveform selection.
+            endtime (obspy.UTCDateTime): End time for waveform selection.
+            location_preferences (list, optional): Ordered list of preferred locations 
+                (default is an empty list).
+            channel_preferences (list, optional): Ordered list of preferred channels 
+                (default is an empty list).
+            filter_networks (list, optional): List of networks to filter out 
+                (default is an empty list).
+            filter_stations (list, optional): List of stations to filter out 
+                (default is an empty list).
+            filter_domain (list, optional): Geographic bounding box 
+                [lon_west, lon_east, lat_south, lat_north] (default is global coverage).
         """
         self.network = network
         self.station = station

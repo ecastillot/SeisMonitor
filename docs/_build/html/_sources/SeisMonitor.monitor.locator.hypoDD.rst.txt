@@ -1,10 +1,7 @@
-SeisMonitor.monitor.locator.hypoDD package
+HypoDD
 ==========================================
 
-Submodules
-----------
-
-SeisMonitor.monitor.locator.hypoDD.core module
+core 
 ----------------------------------------------
 
 .. automodule:: SeisMonitor.monitor.locator.hypoDD.core
@@ -12,7 +9,7 @@ SeisMonitor.monitor.locator.hypoDD.core module
    :undoc-members:
    :show-inheritance:
 
-SeisMonitor.monitor.locator.hypoDD.utils module
+utils
 -----------------------------------------------
 
 .. automodule:: SeisMonitor.monitor.locator.hypoDD.utils
@@ -20,10 +17,4 @@ SeisMonitor.monitor.locator.hypoDD.utils module
    :undoc-members:
    :show-inheritance:
 
-Module contents
----------------
 
-.. automodule:: SeisMonitor.monitor.locator.hypoDD
-   :members:
-   :undoc-members:
-   :show-inheritance:

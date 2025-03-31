@@ -1,12 +1,4 @@
 
-"""
- * @author Emmanuel David Castillo Taborda
- * @email ecastillot@unal.edu.co
- * @create date 2021-03-03 23:51:21
- * @modify date 2021-06-02 04:31:09
- * @desc [description]
-"""
-
 # import sys
 # AIpicker_path = "/home/ecastillo/AIpicker"
 # sys.path.insert(0,AIpicker_path)

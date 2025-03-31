@@ -1,8 +1,5 @@
-SeisMonitor.monitor.magnitude package
-=====================================
-
-Submodules
-----------
+Magnitude
+=========
 
 SeisMonitor.monitor.magnitude.mag module
 ----------------------------------------
@@ -16,14 +13,6 @@ SeisMonitor.monitor.magnitude.utils module
 ------------------------------------------
 
 .. automodule:: SeisMonitor.monitor.magnitude.utils
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-Module contents
----------------
-
-.. automodule:: SeisMonitor.monitor.magnitude
    :members:
    :undoc-members:
    :show-inheritance:

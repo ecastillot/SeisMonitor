@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>SeisMonitor.monitor.locator.hypoDD package &mdash; SeisMonitor 0.0.57 documentation</title>
+  <title>HypoDD &mdash; SeisMonitor 0.0.57 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
 
@@ -19,8 +19,8 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="SeisMonitor.monitor.locator.hypocenter package" href="SeisMonitor.monitor.locator.hypocenter.html" />
-    <link rel="prev" title="SeisMonitor.monitor.locator package" href="SeisMonitor.monitor.locator.html" /> 
+    <link rel="next" title="Hypocenter" href="SeisMonitor.monitor.locator.hypocenter.html" />
+    <link rel="prev" title="Locator" href="SeisMonitor.monitor.locator.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -44,28 +44,26 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="SeisMonitor.monitor.downloader.html">SeisMonitor.monitor.downloader package</a></li>
-<li class="toctree-l1"><a class="reference internal" href="SeisMonitor.monitor.picker.html">SeisMonitor.monitor.picker package</a></li>
-<li class="toctree-l1"><a class="reference internal" href="SeisMonitor.monitor.associator.html">SeisMonitor.monitor.associator package</a></li>
-<li class="toctree-l1 current"><a class="reference internal" href="SeisMonitor.monitor.locator.html">SeisMonitor.monitor.locator package</a><ul class="current">
-<li class="toctree-l2 current"><a class="reference internal" href="SeisMonitor.monitor.locator.html#subpackages">Subpackages</a><ul class="current">
-<li class="toctree-l3 current"><a class="current reference internal" href="#">SeisMonitor.monitor.locator.hypoDD package</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#submodules">Submodules</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#module-SeisMonitor.monitor.locator.hypoDD.core">SeisMonitor.monitor.locator.hypoDD.core module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#module-SeisMonitor.monitor.locator.hypoDD.utils">SeisMonitor.monitor.locator.hypoDD.utils module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#module-SeisMonitor.monitor.locator.hypoDD">Module contents</a></li>
+<li class="toctree-l1"><a class="reference internal" href="SeisMonitor.core.html">Core</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="SeisMonitor.monitor.html">Monitor</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="SeisMonitor.monitor.downloader.html">Downloader</a></li>
+<li class="toctree-l2"><a class="reference internal" href="SeisMonitor.monitor.picker.html">Picker</a></li>
+<li class="toctree-l2"><a class="reference internal" href="SeisMonitor.monitor.associator.html">Associator</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="SeisMonitor.monitor.locator.html">Locator</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">HypoDD</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#module-SeisMonitor.monitor.locator.hypoDD.core">core</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-SeisMonitor.monitor.locator.hypoDD.utils">utils</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="SeisMonitor.monitor.locator.hypocenter.html">SeisMonitor.monitor.locator.hypocenter package</a></li>
-<li class="toctree-l3"><a class="reference internal" href="SeisMonitor.monitor.locator.nlloc.html">SeisMonitor.monitor.locator.nlloc package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="SeisMonitor.monitor.locator.hypocenter.html">Hypocenter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="SeisMonitor.monitor.locator.nlloc.html">Nlloc</a></li>
+<li class="toctree-l3"><a class="reference internal" href="SeisMonitor.monitor.locator.html#module-SeisMonitor.monitor.locator.utils">utils</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="SeisMonitor.monitor.locator.html#submodules">Submodules</a></li>
-<li class="toctree-l2"><a class="reference internal" href="SeisMonitor.monitor.locator.html#module-SeisMonitor.monitor.locator.utils">SeisMonitor.monitor.locator.utils module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="SeisMonitor.monitor.locator.html#module-SeisMonitor.monitor.locator">Module contents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="SeisMonitor.monitor.magnitude.html">Magnitude</a></li>
+<li class="toctree-l2"><a class="reference internal" href="SeisMonitor.monitor.html#module-SeisMonitor.monitor.seismonitor">SeisMonitor (All in one)</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="SeisMonitor.monitor.magnitude.html">SeisMonitor.monitor.magnitude package</a></li>
 </ul>
 
         </div>
@@ -82,8 +80,9 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
-          <li class="breadcrumb-item"><a href="SeisMonitor.monitor.locator.html">SeisMonitor.monitor.locator package</a></li>
-      <li class="breadcrumb-item active">SeisMonitor.monitor.locator.hypoDD package</li>
+          <li class="breadcrumb-item"><a href="SeisMonitor.monitor.html">Monitor</a></li>
+          <li class="breadcrumb-item"><a href="SeisMonitor.monitor.locator.html">Locator</a></li>
+      <li class="breadcrumb-item active">HypoDD</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/SeisMonitor.monitor.locator.hypoDD.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -93,37 +92,114 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="seismonitor-monitor-locator-hypodd-package">
-<h1>SeisMonitor.monitor.locator.hypoDD package<a class="headerlink" href="#seismonitor-monitor-locator-hypodd-package" title="Link to this heading"></a></h1>
-<section id="submodules">
-<h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading"></a></h2>
-</section>
+  <section id="hypodd">
+<h1>HypoDD<a class="headerlink" href="#hypodd" title="Link to this heading"></a></h1>
 <section id="module-SeisMonitor.monitor.locator.hypoDD.core">
-<span id="seismonitor-monitor-locator-hypodd-core-module"></span><h2>SeisMonitor.monitor.locator.hypoDD.core module<a class="headerlink" href="#module-SeisMonitor.monitor.locator.hypoDD.core" title="Link to this heading"></a></h2>
+<span id="core"></span><h2>core<a class="headerlink" href="#module-SeisMonitor.monitor.locator.hypoDD.core" title="Link to this heading"></a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="SeisMonitor.monitor.locator.hypoDD.core.HypoDD">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">SeisMonitor.monitor.locator.hypoDD.core.</span></span><span class="sig-name descname"><span class="pre">HypoDD</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">catalog</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xml_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vel_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">out_dir</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/SeisMonitor/monitor/locator/hypoDD/core.html#HypoDD"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SeisMonitor.monitor.locator.hypoDD.core.HypoDD" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>A class to handle HypoDD earthquake relocation.</p>
-<dl class="simple">
-<dt>Attributes:</dt><dd><p>catalog (Catalog): ObsPy Catalog object containing earthquake events.
-xml_path (str): Path to the station metadata file in XML format.
-vel_path (str): Path to the velocity model file (CSV format).
-out_dir (str): Directory where output files will be stored.
-out_file (str): Path to the final relocated earthquake catalog.
-paths (str): Directory for HypoDD-related intermediate files.
-pha (str): Path to the phase file for HypoDD.
-vel_df (DataFrame): Pandas DataFrame containing velocity model information.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="SeisMonitor.monitor.locator.hypoDD.core.HypoDD.catalog">
+<span class="sig-name descname"><span class="pre">catalog</span></span><a class="headerlink" href="#SeisMonitor.monitor.locator.hypoDD.core.HypoDD.catalog" title="Link to this definition"></a></dt>
+<dd><p>ObsPy Catalog object containing earthquake events.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Catalog</p>
 </dd>
 </dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="SeisMonitor.monitor.locator.hypoDD.core.HypoDD.xml_path">
+<span class="sig-name descname"><span class="pre">xml_path</span></span><a class="headerlink" href="#SeisMonitor.monitor.locator.hypoDD.core.HypoDD.xml_path" title="Link to this definition"></a></dt>
+<dd><p>Path to the station metadata file in XML format.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="SeisMonitor.monitor.locator.hypoDD.core.HypoDD.vel_path">
+<span class="sig-name descname"><span class="pre">vel_path</span></span><a class="headerlink" href="#SeisMonitor.monitor.locator.hypoDD.core.HypoDD.vel_path" title="Link to this definition"></a></dt>
+<dd><p>Path to the velocity model file (CSV format).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="SeisMonitor.monitor.locator.hypoDD.core.HypoDD.out_dir">
+<span class="sig-name descname"><span class="pre">out_dir</span></span><a class="headerlink" href="#SeisMonitor.monitor.locator.hypoDD.core.HypoDD.out_dir" title="Link to this definition"></a></dt>
+<dd><p>Directory where output files will be stored.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="SeisMonitor.monitor.locator.hypoDD.core.HypoDD.out_file">
+<span class="sig-name descname"><span class="pre">out_file</span></span><a class="headerlink" href="#SeisMonitor.monitor.locator.hypoDD.core.HypoDD.out_file" title="Link to this definition"></a></dt>
+<dd><p>Path to the final relocated earthquake catalog.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="SeisMonitor.monitor.locator.hypoDD.core.HypoDD.paths">
+<span class="sig-name descname"><span class="pre">paths</span></span><a class="headerlink" href="#SeisMonitor.monitor.locator.hypoDD.core.HypoDD.paths" title="Link to this definition"></a></dt>
+<dd><p>Directory for HypoDD-related intermediate files.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="SeisMonitor.monitor.locator.hypoDD.core.HypoDD.pha">
+<span class="sig-name descname"><span class="pre">pha</span></span><a class="headerlink" href="#SeisMonitor.monitor.locator.hypoDD.core.HypoDD.pha" title="Link to this definition"></a></dt>
+<dd><p>Path to the phase file for HypoDD.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="SeisMonitor.monitor.locator.hypoDD.core.HypoDD.vel_df">
+<span class="sig-name descname"><span class="pre">vel_df</span></span><a class="headerlink" href="#SeisMonitor.monitor.locator.hypoDD.core.HypoDD.vel_df" title="Link to this definition"></a></dt>
+<dd><p>Pandas DataFrame containing velocity model information.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="SeisMonitor.monitor.locator.hypoDD.core.HypoDD.locate">
 <span class="sig-name descname"><span class="pre">locate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vp_vs_ratio</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.84</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">out_format</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'QUAKEML'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rm_not_locatable</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/SeisMonitor/monitor/locator/hypoDD/core.html#HypoDD.locate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SeisMonitor.monitor.locator.hypoDD.core.HypoDD.locate" title="Link to this definition"></a></dt>
 <dd><p>Runs the HypoDD relocation process.</p>
-<dl class="simple">
-<dt>Args:</dt><dd><p>vp_vs_ratio (float, optional): The Vp/Vs ratio used in velocity modeling. Default is 1.84.
-out_format (str, optional): Output format for the relocated catalog (e.g., “QUAKEML”). Default is “QUAKEML”.
-rm_not_locatable (bool, optional): Whether to remove events that cannot be relocated. Default is True.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>vp_vs_ratio</strong> (<em>float</em><em>, </em><em>optional</em>) – The Vp/Vs ratio used in velocity modeling. Default is 1.84.</p></li>
+<li><p><strong>out_format</strong> (<em>str</em><em>, </em><em>optional</em>) – Output format for the relocated catalog (e.g., “QUAKEML”). Default is “QUAKEML”.</p></li>
+<li><p><strong>rm_not_locatable</strong> (<em>bool</em><em>, </em><em>optional</em>) – Whether to remove events that cannot be relocated. Default is True.</p></li>
+</ul>
 </dd>
 </dl>
 </dd></dl>
@@ -132,7 +208,7 @@ rm_not_locatable (bool, optional): Whether to remove events that cannot be reloc
 
 </section>
 <section id="module-SeisMonitor.monitor.locator.hypoDD.utils">
-<span id="seismonitor-monitor-locator-hypodd-utils-module"></span><h2>SeisMonitor.monitor.locator.hypoDD.utils module<a class="headerlink" href="#module-SeisMonitor.monitor.locator.hypoDD.utils" title="Link to this heading"></a></h2>
+<span id="utils"></span><h2>utils<a class="headerlink" href="#module-SeisMonitor.monitor.locator.hypoDD.utils" title="Link to this heading"></a></h2>
 <dl class="py exception">
 <dt class="sig sig-object py" id="SeisMonitor.monitor.locator.hypoDD.utils.HypoDDException">
 <em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">SeisMonitor.monitor.locator.hypoDD.utils.</span></span><span class="sig-name descname"><span class="pre">HypoDDException</span></span><a class="reference internal" href="_modules/SeisMonitor/monitor/locator/hypoDD/utils.html#HypoDDException"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SeisMonitor.monitor.locator.hypoDD.utils.HypoDDException" title="Link to this definition"></a></dt>
@@ -151,16 +227,17 @@ Helpful compiling flags: FFLAGS = -O -I${INCLDIR} -mcmodel=large</p>
 <dt class="sig sig-object py" id="SeisMonitor.monitor.locator.hypoDD.utils.get_vel_layers">
 <span class="sig-prename descclassname"><span class="pre">SeisMonitor.monitor.locator.hypoDD.utils.</span></span><span class="sig-name descname"><span class="pre">get_vel_layers</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/SeisMonitor/monitor/locator/hypoDD/utils.html#get_vel_layers"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SeisMonitor.monitor.locator.hypoDD.utils.get_vel_layers" title="Link to this definition"></a></dt>
 <dd><p>Extract velocity layers from a DataFrame with depth and vp columns.</p>
-<dl class="simple">
-<dt>Args:</dt><dd><dl class="simple">
-<dt>df (pandas.DataFrame): DataFrame containing ‘depth’ and ‘vp’ columns.</dt><dd><ul class="simple">
-<li><p>‘depth’: Column with depth values (e.g., in meters).</p></li>
-<li><p>‘vp’: Column with P-wave velocity values (e.g., in km/s).</p></li>
-</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>df</strong> (<em>pandas.DataFrame</em>) – DataFrame containing ‘depth’ and ‘vp’ columns.
+- ‘depth’: Column with depth values (e.g., in meters).
+- ‘vp’: Column with P-wave velocity values (e.g., in km/s).</p>
 </dd>
-</dl>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>List of tuples, where each tuple contains (depth, vp) pairs.</p>
 </dd>
-<dt>Returns:</dt><dd><p>list: List of tuples, where each tuple contains (depth, vp) pairs.</p>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list</p>
 </dd>
 </dl>
 </dd></dl>
@@ -192,17 +269,14 @@ Helpful compiling flags: FFLAGS = -O -I${INCLDIR} -mcmodel=large</p>
 <p>Modified from <a class="reference external" href="https://github.com/krischer/hypoDDpy/blob/master/hypoddpy/hypodd_relocator.py">hypoDDpy</a>.</p>
 <p>The chosen <cite>model_type</cite> determines the available keyword arguments (<cite>kwargs</cite>).
 Supported model types include layered models with constant or variable VP/VS ratios.</p>
-<dl>
-<dt>Args:</dt><dd><dl class="simple">
-<dt>model_type (str): Type of velocity model to use. Supported options:</dt><dd><ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">layered_p_velocity_with_constant_vp_vs_ratio</span></code>: Layered model with a constant <code class="docutils literal notranslate"><span class="pre">VP/VS</span></code> ratio.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">layered_variable_vp_vs_ratio</span></code>: Layered model with variable <code class="docutils literal notranslate"><span class="pre">VP/VS</span></code> ratios (IMOD 1 in HypoDD 2.1).</p></li>
-</ul>
-</dd>
-</dl>
-<p>kwargs: Model-specific parameters, depending on <cite>model_type</cite>.</p>
-<dl class="simple">
-<dt>For <code class="docutils literal notranslate"><span class="pre">layered_p_velocity_with_constant_vp_vs_ratio</span></code>:</dt><dd><ul class="simple">
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>model_type</strong> (<em>str</em>) – Type of velocity model to use. Supported options:
+- <code class="docutils literal notranslate"><span class="pre">layered_p_velocity_with_constant_vp_vs_ratio</span></code>: Layered model with a constant <code class="docutils literal notranslate"><span class="pre">VP/VS</span></code> ratio.
+- <code class="docutils literal notranslate"><span class="pre">layered_variable_vp_vs_ratio</span></code>: Layered model with variable <code class="docutils literal notranslate"><span class="pre">VP/VS</span></code> ratios (IMOD 1 in HypoDD 2.1).</p></li>
+<li><p><strong>kwargs</strong> – Model-specific parameters, depending on <cite>model_type</cite>.</p></li>
+<li><p><strong>layered_p_velocity_with_constant_vp_vs_ratio</strong> (<em>For</em>) – <ul>
 <li><p>vp_vs_ratio (float): Constant VP/VS ratio applied to all layers.</p></li>
 <li><dl class="simple">
 <dt>layer_tops (list): List of tuples defining layer boundaries and velocities.</dt><dd><p>Each tuple is <code class="docutils literal notranslate"><span class="pre">(depth_of_top_of_layer,</span> <span class="pre">layer_velocity_km_s)</span></code>.
@@ -212,8 +286,8 @@ Defines five layers with depths in km and velocities in km/s.</p>
 </dl>
 </li>
 </ul>
-</dd>
-<dt>For <code class="docutils literal notranslate"><span class="pre">layered_variable_vp_vs_ratio</span></code>:</dt><dd><ul class="simple">
+</p></li>
+<li><p><strong>layered_variable_vp_vs_ratio</strong> (<em>For</em>) – <ul>
 <li><dl class="simple">
 <dt>layer_tops (list): List of tuples defining layer boundaries, velocities, and ratios.</dt><dd><p>Each tuple is <code class="docutils literal notranslate"><span class="pre">(depth_of_top_of_layer,</span> <span class="pre">layer_velocity_km_s,</span> <span class="pre">layer_vp_vs_ratio)</span></code>.
 Example: <code class="docutils literal notranslate"><span class="pre">[(-3.0,</span> <span class="pre">3.42,</span> <span class="pre">2.38),</span> <span class="pre">(0.5,</span> <span class="pre">4.6,</span> <span class="pre">1.75),</span> <span class="pre">(1.0,</span> <span class="pre">5.42,</span> <span class="pre">1.74),</span> <span class="pre">(1.5,</span> <span class="pre">5.52,</span> <span class="pre">1.75),</span> <span class="pre">(2.13,</span> <span class="pre">5.67,</span> <span class="pre">1.77)]</span></code>.
@@ -222,18 +296,20 @@ Defines five layers with depths in km, velocities in km/s, and VP/VS ratios.</p>
 </dl>
 </li>
 </ul>
+</p></li>
+</ul>
 </dd>
 </dl>
-</dd>
-<dt>Notes:</dt><dd><ul class="simple">
+<p class="rubric">Notes</p>
+<ul class="simple">
 <li><p>Depths are typically in kilometers, with negative values indicating above sea level.</p></li>
 <li><p>Velocities are in kilometers per second (km/s).</p></li>
 <li><p>The <cite>layer_tops</cite> list must be ordered by increasing depth.</p></li>
 </ul>
-</dd>
-<dt>See Also:</dt><dd><p><code class="xref py py-class docutils literal notranslate"><span class="pre">hypoddpy.hypodd_relocator</span></code>: Original implementation source.</p>
-</dd>
-</dl>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><code class="xref py py-class docutils literal notranslate"><span class="pre">hypoddpy.hypodd_relocator</span></code>: Original implementation source.</p>
+</div>
 </dd></dl>
 
 <dl class="py function">
@@ -247,23 +323,24 @@ Writes the hypoDD.inp file.</p>
 <dt class="sig sig-object py" id="SeisMonitor.monitor.locator.hypoDD.utils.write_hypoDDstation">
 <span class="sig-prename descclassname"><span class="pre">SeisMonitor.monitor.locator.hypoDD.utils.</span></span><span class="sig-name descname"><span class="pre">write_hypoDDstation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">out_folder</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/SeisMonitor/monitor/locator/hypoDD/utils.html#write_hypoDDstation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SeisMonitor.monitor.locator.hypoDD.utils.write_hypoDDstation" title="Link to this definition"></a></dt>
 <dd><p>Generate station messages from a DataFrame with seismic station data.</p>
-<dl class="simple">
-<dt>Parameters:</dt><dd><dl class="simple">
-<dt>df (pandas.DataFrame): DataFrame containing station information. See resp2df for details on generating this DataFrame.</dt><dd><dl class="simple">
-<dt>Required columns:</dt><dd><ul class="simple">
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>df</strong> (<em>pandas.DataFrame</em>) – <p>DataFrame containing station information. See resp2df for details on generating this DataFrame.
+Required columns:</p>
+<blockquote>
+<div><ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">network</span></code>: Network code (e.g., ‘CA’).</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">station</span></code>: Station code (e.g., ‘CA01A’).</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">latitude</span></code>: Station latitude in degrees.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">longitude</span></code>: Station longitude in degrees.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">elevation</span></code>: Station elevation in meters.</p></li>
 </ul>
+</div></blockquote>
+</p>
 </dd>
-</dl>
-</dd>
-</dl>
-</dd>
-<dt>Returns:</dt><dd><dl class="simple">
-<dt>list: List of strings, each representing a station message.</dt><dd><dl class="simple">
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><dl class="simple">
+<dt>List of strings, each representing a station message.</dt><dd><dl class="simple">
 <dt>Each message contains:</dt><dd><ul class="simple">
 <li><p>Station code</p></li>
 <li><p>Latitude (e.g., ‘353.16N’)</p></li>
@@ -276,6 +353,10 @@ Writes the hypoDD.inp file.</p>
 </dl>
 </dd>
 </dl>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list</p>
 </dd>
 </dl>
 </dd></dl>
@@ -312,17 +393,14 @@ Create the ph2dt.inp file.</p>
 </dd></dl>
 
 </section>
-<section id="module-SeisMonitor.monitor.locator.hypoDD">
-<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-SeisMonitor.monitor.locator.hypoDD" title="Link to this heading"></a></h2>
-</section>
 </section>
 
 
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="SeisMonitor.monitor.locator.html" class="btn btn-neutral float-left" title="SeisMonitor.monitor.locator package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="SeisMonitor.monitor.locator.hypocenter.html" class="btn btn-neutral float-right" title="SeisMonitor.monitor.locator.hypocenter package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="SeisMonitor.monitor.locator.html" class="btn btn-neutral float-left" title="Locator" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="SeisMonitor.monitor.locator.hypocenter.html" class="btn btn-neutral float-right" title="Hypocenter" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

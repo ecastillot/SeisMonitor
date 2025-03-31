@@ -1,10 +1,7 @@
-SeisMonitor.monitor.associator package
-======================================
+Associator
+==========
 
-Submodules
-----------
-
-SeisMonitor.monitor.associator.ai module
+ai 
 ----------------------------------------
 
 .. automodule:: SeisMonitor.monitor.associator.ai
@@ -12,7 +9,7 @@ SeisMonitor.monitor.associator.ai module
    :undoc-members:
    :show-inheritance:
 
-SeisMonitor.monitor.associator.utils module
+utils
 -------------------------------------------
 
 .. automodule:: SeisMonitor.monitor.associator.utils
@@ -20,10 +17,4 @@ SeisMonitor.monitor.associator.utils module
    :undoc-members:
    :show-inheritance:
 
-Module contents
----------------
 
-.. automodule:: SeisMonitor.monitor.associator
-   :members:
-   :undoc-members:
-   :show-inheritance:

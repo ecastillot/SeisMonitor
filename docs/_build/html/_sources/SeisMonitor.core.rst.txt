@@ -1,10 +1,7 @@
-SeisMonitor.core package
+Core
 ========================
 
-Submodules
-----------
-
-SeisMonitor.core.client module
+client
 ------------------------------
 
 .. automodule:: SeisMonitor.core.client
@@ -12,7 +9,28 @@ SeisMonitor.core.client module
    :undoc-members:
    :show-inheritance:
 
-SeisMonitor.core.objects module
+
+
+Example
+-------
+
+Let's say that the data structure is organized as follows:
+
+``{root_path}/{field_name}/seedfiles/{year}-{month:02d}/{year}-{month:02d}-{day:02d}/{network}.{station}.{location}.{channel}.{year}.{julianday:03d}``
+
+``LocalClient`` is designed to upload local data.
+
+.. code:: python
+
+   root_path = "/home/emmanuel/myarchive"
+   client = LocalClient(root_path, "/seedfiles/{year}-{month:02d}/{year}-{month:02d}-{day:02d}/{network}.{station}.{location}.{channel}.{year}.{julianday:03d}")
+   st = client.get_waveforms("YY", "XXXX", "00",
+                           channel="HHZ", starttime=UTCDateTime("20220102T000100"),
+                           endtime=UTCDateTime("20220102T000200"))
+
+ It inherits the SDS client functionalities.
+
+objects
 -------------------------------
 
 .. automodule:: SeisMonitor.core.objects
@@ -20,7 +38,7 @@ SeisMonitor.core.objects module
    :undoc-members:
    :show-inheritance:
 
-SeisMonitor.core.utils module
+utils
 -----------------------------
 
 .. automodule:: SeisMonitor.core.utils
@@ -28,10 +46,3 @@ SeisMonitor.core.utils module
    :undoc-members:
    :show-inheritance:
 
-Module contents
----------------
-
-.. automodule:: SeisMonitor.core
-   :members:
-   :undoc-members:
-   :show-inheritance:

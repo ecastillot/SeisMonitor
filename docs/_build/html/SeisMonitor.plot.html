@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>SeisMonitor.plot package &mdash; SeisMonitor 0.0.57 documentation</title>
+  <title>Plot &mdash; SeisMonitor 0.0.57 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
 
@@ -42,11 +42,8 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="SeisMonitor.monitor.downloader.html">SeisMonitor.monitor.downloader package</a></li>
-<li class="toctree-l1"><a class="reference internal" href="SeisMonitor.monitor.picker.html">SeisMonitor.monitor.picker package</a></li>
-<li class="toctree-l1"><a class="reference internal" href="SeisMonitor.monitor.associator.html">SeisMonitor.monitor.associator package</a></li>
-<li class="toctree-l1"><a class="reference internal" href="SeisMonitor.monitor.locator.html">SeisMonitor.monitor.locator package</a></li>
-<li class="toctree-l1"><a class="reference internal" href="SeisMonitor.monitor.magnitude.html">SeisMonitor.monitor.magnitude package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="SeisMonitor.core.html">Core</a></li>
+<li class="toctree-l1"><a class="reference internal" href="SeisMonitor.monitor.html">Monitor</a></li>
 </ul>
 
         </div>
@@ -63,7 +60,7 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
-      <li class="breadcrumb-item active">SeisMonitor.plot package</li>
+      <li class="breadcrumb-item active">Plot</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/SeisMonitor.plot.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -73,13 +70,10 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="seismonitor-plot-package">
-<h1>SeisMonitor.plot package<a class="headerlink" href="#seismonitor-plot-package" title="Link to this heading"></a></h1>
-<section id="submodules">
-<h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading"></a></h2>
-</section>
+  <section id="plot">
+<h1>Plot<a class="headerlink" href="#plot" title="Link to this heading"></a></h1>
 <section id="module-SeisMonitor.plot.picks">
-<span id="seismonitor-plot-picks-module"></span><h2>SeisMonitor.plot.picks module<a class="headerlink" href="#module-SeisMonitor.plot.picks" title="Link to this heading"></a></h2>
+<span id="picks-in-progress"></span><h2>Picks (In progress)<a class="headerlink" href="#module-SeisMonitor.plot.picks" title="Link to this heading"></a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="SeisMonitor.plot.picks.Streamer">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">SeisMonitor.plot.picks.</span></span><span class="sig-name descname"><span class="pre">Streamer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">providers</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">picks</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/SeisMonitor/plot/picks.html#Streamer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SeisMonitor.plot.picks.Streamer" title="Link to this definition"></a></dt>
@@ -109,7 +103,7 @@
 
 </section>
 <section id="module-SeisMonitor.plot.utils">
-<span id="seismonitor-plot-utils-module"></span><h2>SeisMonitor.plot.utils module<a class="headerlink" href="#module-SeisMonitor.plot.utils" title="Link to this heading"></a></h2>
+<span id="utils"></span><h2>utils<a class="headerlink" href="#module-SeisMonitor.plot.utils" title="Link to this heading"></a></h2>
 <dl class="py function">
 <dt class="sig sig-object py" id="SeisMonitor.plot.utils.get_multiple_picker_figure">
 <span class="sig-prename descclassname"><span class="pre">SeisMonitor.plot.utils.</span></span><span class="sig-name descname"><span class="pre">get_multiple_picker_figure</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_pickers</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tr_h</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.7</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/SeisMonitor/plot/utils.html#get_multiple_picker_figure"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SeisMonitor.plot.utils.get_multiple_picker_figure" title="Link to this definition"></a></dt>
@@ -152,9 +146,6 @@
 <span class="sig-prename descclassname"><span class="pre">SeisMonitor.plot.utils.</span></span><span class="sig-name descname"><span class="pre">plot_multiple_picker</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">st</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">info</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">processing</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tr_h</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.7</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/SeisMonitor/plot/utils.html#plot_multiple_picker"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SeisMonitor.plot.utils.plot_multiple_picker" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
-</section>
-<section id="module-SeisMonitor.plot">
-<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-SeisMonitor.plot" title="Link to this heading"></a></h2>
 </section>
 </section>
 

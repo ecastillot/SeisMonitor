@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>SeisMonitor.monitor.magnitude package &mdash; SeisMonitor 0.0.57 documentation</title>
+  <title>Magnitude &mdash; SeisMonitor 0.0.57 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
 
@@ -19,7 +19,7 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="prev" title="SeisMonitor.monitor.locator.nlloc package" href="SeisMonitor.monitor.locator.nlloc.html" /> 
+    <link rel="prev" title="Nlloc" href="SeisMonitor.monitor.locator.nlloc.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -43,37 +43,36 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="SeisMonitor.monitor.downloader.html">SeisMonitor.monitor.downloader package</a></li>
-<li class="toctree-l1"><a class="reference internal" href="SeisMonitor.monitor.picker.html">SeisMonitor.monitor.picker package</a></li>
-<li class="toctree-l1"><a class="reference internal" href="SeisMonitor.monitor.associator.html">SeisMonitor.monitor.associator package</a></li>
-<li class="toctree-l1"><a class="reference internal" href="SeisMonitor.monitor.locator.html">SeisMonitor.monitor.locator package</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">SeisMonitor.monitor.magnitude package</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#submodules">Submodules</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#module-SeisMonitor.monitor.magnitude.mag">SeisMonitor.monitor.magnitude.mag module</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#SeisMonitor.monitor.magnitude.mag.Magnitude"><code class="docutils literal notranslate"><span class="pre">Magnitude</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#SeisMonitor.monitor.magnitude.mag.Magnitude.get_Ml"><code class="docutils literal notranslate"><span class="pre">Magnitude.get_Ml()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#SeisMonitor.monitor.magnitude.mag.Magnitude.get_Mw"><code class="docutils literal notranslate"><span class="pre">Magnitude.get_Mw()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="SeisMonitor.core.html">Core</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="SeisMonitor.monitor.html">Monitor</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="SeisMonitor.monitor.downloader.html">Downloader</a></li>
+<li class="toctree-l2"><a class="reference internal" href="SeisMonitor.monitor.picker.html">Picker</a></li>
+<li class="toctree-l2"><a class="reference internal" href="SeisMonitor.monitor.associator.html">Associator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="SeisMonitor.monitor.locator.html">Locator</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Magnitude</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#module-SeisMonitor.monitor.magnitude.mag">SeisMonitor.monitor.magnitude.mag module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#SeisMonitor.monitor.magnitude.mag.Magnitude"><code class="docutils literal notranslate"><span class="pre">Magnitude</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#SeisMonitor.monitor.magnitude.mag.MwPhysicalMagParams"><code class="docutils literal notranslate"><span class="pre">MwPhysicalMagParams</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#SeisMonitor.monitor.magnitude.mag.MwProcessingMagParams"><code class="docutils literal notranslate"><span class="pre">MwProcessingMagParams</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#SeisMonitor.monitor.magnitude.mag.get_st_according2preference"><code class="docutils literal notranslate"><span class="pre">get_st_according2preference()</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#SeisMonitor.monitor.magnitude.mag.MwPhysicalMagParams"><code class="docutils literal notranslate"><span class="pre">MwPhysicalMagParams</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#SeisMonitor.monitor.magnitude.mag.MwProcessingMagParams"><code class="docutils literal notranslate"><span class="pre">MwProcessingMagParams</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#SeisMonitor.monitor.magnitude.mag.get_st_according2preference"><code class="docutils literal notranslate"><span class="pre">get_st_according2preference()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-SeisMonitor.monitor.magnitude.utils">SeisMonitor.monitor.magnitude.utils module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#SeisMonitor.monitor.magnitude.utils.Mw_st_processing"><code class="docutils literal notranslate"><span class="pre">Mw_st_processing()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#SeisMonitor.monitor.magnitude.utils.calculate_source_spectrum"><code class="docutils literal notranslate"><span class="pre">calculate_source_spectrum()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#SeisMonitor.monitor.magnitude.utils.fit_spectrum"><code class="docutils literal notranslate"><span class="pre">fit_spectrum()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#SeisMonitor.monitor.magnitude.utils.get_M0_magnitude_by_pick"><code class="docutils literal notranslate"><span class="pre">get_M0_magnitude_by_pick()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#SeisMonitor.monitor.magnitude.utils.get_Ml"><code class="docutils literal notranslate"><span class="pre">get_Ml()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#SeisMonitor.monitor.magnitude.utils.get_Ml_magparams_by_station"><code class="docutils literal notranslate"><span class="pre">get_Ml_magparams_by_station()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#SeisMonitor.monitor.magnitude.utils.get_paz_from_response"><code class="docutils literal notranslate"><span class="pre">get_paz_from_response()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#SeisMonitor.monitor.magnitude.utils.write_amplitude_values"><code class="docutils literal notranslate"><span class="pre">write_amplitude_values()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#SeisMonitor.monitor.magnitude.utils.write_magnitude_values"><code class="docutils literal notranslate"><span class="pre">write_magnitude_values()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#SeisMonitor.monitor.magnitude.utils.write_magsta_values"><code class="docutils literal notranslate"><span class="pre">write_magsta_values()</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#module-SeisMonitor.monitor.magnitude.utils">SeisMonitor.monitor.magnitude.utils module</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#SeisMonitor.monitor.magnitude.utils.Mw_st_processing"><code class="docutils literal notranslate"><span class="pre">Mw_st_processing()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#SeisMonitor.monitor.magnitude.utils.calculate_source_spectrum"><code class="docutils literal notranslate"><span class="pre">calculate_source_spectrum()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#SeisMonitor.monitor.magnitude.utils.fit_spectrum"><code class="docutils literal notranslate"><span class="pre">fit_spectrum()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#SeisMonitor.monitor.magnitude.utils.get_M0_magnitude_by_pick"><code class="docutils literal notranslate"><span class="pre">get_M0_magnitude_by_pick()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#SeisMonitor.monitor.magnitude.utils.get_Ml"><code class="docutils literal notranslate"><span class="pre">get_Ml()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#SeisMonitor.monitor.magnitude.utils.get_Ml_magparams_by_station"><code class="docutils literal notranslate"><span class="pre">get_Ml_magparams_by_station()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#SeisMonitor.monitor.magnitude.utils.get_paz_from_response"><code class="docutils literal notranslate"><span class="pre">get_paz_from_response()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#SeisMonitor.monitor.magnitude.utils.write_amplitude_values"><code class="docutils literal notranslate"><span class="pre">write_amplitude_values()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#SeisMonitor.monitor.magnitude.utils.write_magnitude_values"><code class="docutils literal notranslate"><span class="pre">write_magnitude_values()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#SeisMonitor.monitor.magnitude.utils.write_magsta_values"><code class="docutils literal notranslate"><span class="pre">write_magsta_values()</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#module-SeisMonitor.monitor.magnitude">Module contents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="SeisMonitor.monitor.html#module-SeisMonitor.monitor.seismonitor">SeisMonitor (All in one)</a></li>
 </ul>
 </li>
 </ul>
@@ -92,7 +91,8 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
-      <li class="breadcrumb-item active">SeisMonitor.monitor.magnitude package</li>
+          <li class="breadcrumb-item"><a href="SeisMonitor.monitor.html">Monitor</a></li>
+      <li class="breadcrumb-item active">Magnitude</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/SeisMonitor.monitor.magnitude.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -102,11 +102,8 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="seismonitor-monitor-magnitude-package">
-<h1>SeisMonitor.monitor.magnitude package<a class="headerlink" href="#seismonitor-monitor-magnitude-package" title="Link to this heading"></a></h1>
-<section id="submodules">
-<h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading"></a></h2>
-</section>
+  <section id="magnitude">
+<h1>Magnitude<a class="headerlink" href="#magnitude" title="Link to this heading"></a></h1>
 <section id="module-SeisMonitor.monitor.magnitude.mag">
 <span id="seismonitor-monitor-magnitude-mag-module"></span><h2>SeisMonitor.monitor.magnitude.mag module<a class="headerlink" href="#module-SeisMonitor.monitor.magnitude.mag" title="Link to this heading"></a></h2>
 <dl class="py class">
@@ -140,13 +137,13 @@
 <dl class="py function">
 <dt class="sig sig-object py" id="SeisMonitor.monitor.magnitude.mag.get_st_according2preference">
 <span class="sig-prename descclassname"><span class="pre">SeisMonitor.monitor.magnitude.mag.</span></span><span class="sig-name descname"><span class="pre">get_st_according2preference</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">st</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">location_list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">channel_list</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/SeisMonitor/monitor/magnitude/mag.html#get_st_according2preference"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SeisMonitor.monitor.magnitude.mag.get_st_according2preference" title="Link to this definition"></a></dt>
-<dd><p>Suppose that your preference_type is “location” and your 
+<dd><p>Suppose that your preference_type is “location” and your
 location_list is [“00”,”20”,”10”], then this function first
 filter the stream according to location and returns
-a  new stream only with location “00”, if no exist “00” will 
-continue with the next preference “20”, and otherwise, “10”. 
-After that, it is going to take new stream and it will go to 
-filter according to channel_list preference if the new stream 
+a  new stream only with location “00”, if no exist “00” will
+continue with the next preference “20”, and otherwise, “10”.
+After that, it is going to take new stream and it will go to
+filter according to channel_list preference if the new stream
 has more than one channel type (“HH or BH).</p>
 <section id="parameters">
 <h3>Parameters:<a class="headerlink" href="#parameters" title="Link to this heading"></a></h3>
@@ -251,22 +248,19 @@ Returns None, if the fit failed.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="SeisMonitor.monitor.magnitude.utils.write_amplitude_values">
-<span class="sig-prename descclassname"><span class="pre">SeisMonitor.monitor.magnitude.utils.</span></span><span class="sig-name descname"><span class="pre">write_amplitude_values</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">amp_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'A'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">category</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'duration'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">unit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'m/s'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'https://docs.obspy.org/tutorial/advanced_exercise/advanced_exercise_solution_3b.html'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time_window</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">TimeWindow()</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pick_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">ResourceIdentifier(id='smi:local/a145eadd-5ccc-4d63-b091-00c973678ac3')</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">waveform_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">WaveformStreamID()</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">magnitude_hint</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'M'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">evaluation_mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'automatic'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">evaluation_status</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'preliminary'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">agency</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/SeisMonitor/monitor/magnitude/utils.html#write_amplitude_values"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SeisMonitor.monitor.magnitude.utils.write_amplitude_values" title="Link to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">SeisMonitor.monitor.magnitude.utils.</span></span><span class="sig-name descname"><span class="pre">write_amplitude_values</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">amp_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'A'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">category</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'duration'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">unit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'m/s'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'https://docs.obspy.org/tutorial/advanced_exercise/advanced_exercise_solution_3b.html'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time_window</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">TimeWindow()</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pick_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">ResourceIdentifier(id='smi:local/e5254643-487a-4ad7-9b83-007710034fb7')</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">waveform_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">WaveformStreamID()</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">magnitude_hint</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'M'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">evaluation_mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'automatic'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">evaluation_status</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'preliminary'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">agency</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/SeisMonitor/monitor/magnitude/utils.html#write_amplitude_values"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SeisMonitor.monitor.magnitude.utils.write_amplitude_values" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="SeisMonitor.monitor.magnitude.utils.write_magnitude_values">
-<span class="sig-prename descclassname"><span class="pre">SeisMonitor.monitor.magnitude.utils.</span></span><span class="sig-name descname"><span class="pre">write_magnitude_values</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">uncertainty</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">station_count</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mag_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">evaluation_mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'automatic'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">evaluation_status</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'preliminary'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">ResourceIdentifier(id='smi:local/91154a8c-5296-4d5d-a48f-215e12e4051c')</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">agency</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">origin_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">ResourceIdentifier(id='smi:local/f47392e6-1c98-4a62-a79f-fdac52b02722')</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">comments</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/SeisMonitor/monitor/magnitude/utils.html#write_magnitude_values"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SeisMonitor.monitor.magnitude.utils.write_magnitude_values" title="Link to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">SeisMonitor.monitor.magnitude.utils.</span></span><span class="sig-name descname"><span class="pre">write_magnitude_values</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">uncertainty</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">station_count</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mag_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">evaluation_mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'automatic'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">evaluation_status</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'preliminary'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">ResourceIdentifier(id='smi:local/3a0d6ef8-435c-47eb-8dc2-4d8ec89f3f96')</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">agency</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">origin_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">ResourceIdentifier(id='smi:local/c1d9dd24-f001-40e1-903f-dcd446aad36c')</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">comments</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/SeisMonitor/monitor/magnitude/utils.html#write_magnitude_values"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SeisMonitor.monitor.magnitude.utils.write_magnitude_values" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="SeisMonitor.monitor.magnitude.utils.write_magsta_values">
-<span class="sig-prename descclassname"><span class="pre">SeisMonitor.monitor.magnitude.utils.</span></span><span class="sig-name descname"><span class="pre">write_magsta_values</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">uncertainty</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mag_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">origin_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">ResourceIdentifier(id='smi:local/fc660f50-bdc9-46f1-8ff8-944915efd5ae')</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">amplitude_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">ResourceIdentifier(id='smi:local/e584cf9a-b648-42eb-b1c5-3666b278031a')</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">ResourceIdentifier(id='smi:local/d381983a-124e-4717-959c-01fbff95535a')</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">waveform_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">WaveformStreamID()</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">agency</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/SeisMonitor/monitor/magnitude/utils.html#write_magsta_values"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SeisMonitor.monitor.magnitude.utils.write_magsta_values" title="Link to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">SeisMonitor.monitor.magnitude.utils.</span></span><span class="sig-name descname"><span class="pre">write_magsta_values</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">uncertainty</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mag_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">origin_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">ResourceIdentifier(id='smi:local/58afc18d-fda3-4eac-a9c8-323d64d7445f')</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">amplitude_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">ResourceIdentifier(id='smi:local/491cc667-8956-49a4-bff3-dc92270e4da7')</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">ResourceIdentifier(id='smi:local/8075490f-6673-4ca6-8162-6bf77e9589f0')</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">waveform_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">WaveformStreamID()</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">agency</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/SeisMonitor/monitor/magnitude/utils.html#write_magsta_values"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SeisMonitor.monitor.magnitude.utils.write_magsta_values" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
-</section>
-<section id="module-SeisMonitor.monitor.magnitude">
-<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-SeisMonitor.monitor.magnitude" title="Link to this heading"></a></h2>
 </section>
 </section>
 
@@ -274,7 +268,7 @@ Returns None, if the fit failed.</p>
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="SeisMonitor.monitor.locator.nlloc.html" class="btn btn-neutral float-left" title="SeisMonitor.monitor.locator.nlloc package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="SeisMonitor.monitor.locator.nlloc.html" class="btn btn-neutral float-left" title="Nlloc" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
     </div>
 
   <hr/>
