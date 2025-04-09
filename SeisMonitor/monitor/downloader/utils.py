@@ -207,51 +207,104 @@ def get_chunktimes(starttime, endtime, chunklength_in_sec, overlap_in_sec=0):
     return times
 
 
-def get_st_according2preference(st, location_list, channel_list):
-    """Filter stream based on location and channel preferences.
-    
-    Args:
-        st (Stream): Input stream
-        location_list (list): Preferred locations in order
-        channel_list (list): Preferred channel prefixes in order
-        
-    Returns:
-        Stream: Filtered stream
+def get_st_according2preference(st,location_list,channel_list):
     """
-    logger = logging.getLogger('Downloader: preference')
+    Suppose that your preference_type is "location" and your 
+    location_list is ["00","20","10"], then this function first
+    filter the stream according to location and returns
+    a  new stream only with location "00", if no exist "00" will 
+    continue with the next preference "20", and otherwise, "10". 
+    After that, it is going to take new stream and it will go to 
+    filter according to channel_list preference if the new stream 
+    has more than one channel type ("HH or BH). 
+ 
+    Parameters:
+    -----------
+    st: stream object
+        stream 
+    location_list: list
+        locations in order of the preference ["00","20","10"]
+    channel_list: list
+        channels in order of the preference ["HH","BH"]
+ 
+    results:
+    --------
+    new_st : stream object
+        stream according to the preference
+    """
+    logger =logging.getLogger(f'Downloader: preference')
     if len(st) >= 1000:
         stats = st[0].stats
-        printlog(
-            "error", "Downloader: preference",
-            f"{stats.network}-{stats.station} No filter by preference. gaps: {len(st)}"
-        )
+        # logger.error(f"{stats.network}-{stats.station}: "+
+        # f"No filter by preference. gaps: {len(st)}  ")
+ 
+        printlog("error",'Downloader: preference',
+                f"{stats.network}-{stats.station}"+
+                f"No filter by preference. gaps: {len(st)}")
         return st
-
+ 
+    preference = list(map(lambda x: (x[2],x[3]),st._get_common_channels_info().keys() ))
+ 
     if not location_list:
+        stats = st[0].stats
         new_st = st
     else:
-        locations = [x[2] for x in st._get_common_channels_info().keys()]
-        loc_pref = next((loc for loc in location_list if loc in locations), None)
+        locations = list(map(lambda x: x[2],st._get_common_channels_info().keys() ))
+    
+        index = 0
+        loc_pref = None
+        # print(len(location_list))
+        while index < len(location_list):
+            loc_pref = location_list[index]
+            if loc_pref in locations:
+                index = len(location_list)
+            else:
+                loc_pref = None
+                index += 1
+ 
+        if loc_pref == None:
+            return st
+ 
         stats = st[0].stats
-        new_st = st if loc_pref is None else st.select(
-            network=stats.network, station=stats.station, location=loc_pref
-        )
-
-    if channel_list:
-        common_channels = [x[3][:2] for x in new_st._get_common_channels_info().keys()]
-        cha_pref = next((cha for cha in channel_list if cha in common_channels), None)
-        if cha_pref:
-            new_st = new_st.select(
-                network=stats.network, station=stats.station,
-                location=loc_pref, channel=f'{cha_pref}?'
-            )
-
-    preference = [(x[2], x[3]) for x in st._get_common_channels_info().keys()]
-    selected = [(x[2], x[3]) for x in new_st._get_common_channels_info().keys()]
-    printlog(
-        "debug", f"Downloader: {stats.network}-{stats.station}: ",
-        f"available:{preference}, selected {selected} according to preference"
-    )
+        new_st = st.select(network=stats.network, station = stats.station,
+                            location=loc_pref)
+ 
+    if not channel_list:
+        pass
+    else:
+        ## If the same location has two differents sensor
+        ## example : 00.HH? or 00.BH?, then choose 
+        common_channels = new_st._get_common_channels_info().keys()
+ 
+        common_channels = list(common_channels)
+        common_channels = list(map(lambda x: x[3][:2],common_channels))
+        index = 0
+        cha_pref = None
+        while index < len(channel_list):
+            cha_pref = channel_list[index]
+            if cha_pref in common_channels:
+                index = len(channel_list)
+            else:
+                cha_pref = None
+                index += 1
+ 
+        if cha_pref == None:
+            return st
+        else:
+            cha_pref = f'{cha_pref}?'
+        
+ 
+        new_st = new_st.select(network=stats.network, station = stats.station,
+                                location=loc_pref, channel=cha_pref)
+ 
+    common_channels = list(map(lambda x: (x[2],x[3]),new_st._get_common_channels_info().keys()))
+ 
+    printlog("debug",f"Downloader: {stats.network}-{stats.station}: ",
+                f"available:{preference},"+
+                f" selected {common_channels} according to preference")
+    # logger.info(f"{stats.network}-{stats.station}: "+
+    #    f"available:{preference},"+
+    #    f" selected {common_channels} according to preference")
     return new_st
 
 
@@ -546,59 +599,59 @@ def get_inv_and_json(inventory, filter_networks=[], filter_stations=[], filter_d
     return inventory, station_list, stations_outside_domain
 
 if __name__ == "__main__":
-	from obspy.clients.fdsn import Client as FDSN_Client
-	from obspy.core.utcdatetime import UTCDateTime
-	# from .restrictions import PreprocRestrictions
+    from obspy.clients.fdsn import Client as FDSN_Client
+    from obspy.core.utcdatetime import UTCDateTime
+    # from .restrictions import PreprocRestrictions
 
-	# IRIS_client = FDSN_Client(base_url="IRIS", user='gaprietogo@unal.edu.co',password="DaCgmn3hNjg")
-	# st = IRIS_client.get_waveforms(network="YU",station="FC04,FC01",location="",channel="*",starttime=UTCDateTime("2016-04-22T00:00:00.0"),endtime=UTCDateTime("2016-04-23T00:00:00.0"))
-	# st = get_st_according2preference(st,["","00","20","10"],["HH","BH"])
-	# prove = get_all_sdswaveforms(client=IRIS_client,network="YU",station="FC04,FC01",location="",channel="HH?",starttime=UTCDateTime("2016-04-22T00:00:00.0"),endtime=UTCDateTime("2016-04-23T00:00:00.0"))
-	# print(prove)
+    # IRIS_client = FDSN_Client(base_url="IRIS", user='gaprietogo@unal.edu.co',password="DaCgmn3hNjg")
+    # st = IRIS_client.get_waveforms(network="YU",station="FC04,FC01",location="",channel="*",starttime=UTCDateTime("2016-04-22T00:00:00.0"),endtime=UTCDateTime("2016-04-23T00:00:00.0"))
+    # st = get_st_according2preference(st,["","00","20","10"],["HH","BH"])
+    # prove = get_all_sdswaveforms(client=IRIS_client,network="YU",station="FC04,FC01",location="",channel="HH?",starttime=UTCDateTime("2016-04-22T00:00:00.0"),endtime=UTCDateTime("2016-04-23T00:00:00.0"))
+    # print(prove)
 
 
-	# client = FDSN_Client('http://sismo.sgc.gov.co:8080')
-	# inv = client.get_stations(network="CM",
-	# 					  station="BAR2",
-	# 					  location="*",
-	# 					  channel="*",
-	# 					  starttime=UTCDateTime("2019-04-23T00:00:00.0"),
-	# 					  endtime=UTCDateTime("2019-04-23T00:02:00.0"))
-	# st = client.get_waveforms(network="CM",
-	# 					  station="BAR2",
-	# 					  location="*",
-	# 					  channel="*",
-	# 					  starttime=UTCDateTime("2019-04-23T00:00:00.0"),
-	# 					  endtime=UTCDateTime("2019-04-23T00:02:00.0"))
-	# ppc_restrictions = PreprocRestrictions(["CM.BAR2"],detrend={'type':'simple'})
-	# preproc_stream(st,ppc_restrictions)
-	######### inventory
-	# json_path = "/home/ecastillo/repositories/AIpicker_modules/onejson.json"
-	# client_baseurl = "http://sismo.sgc.gov.co:8080"
+    # client = FDSN_Client('http://sismo.sgc.gov.co:8080')
+    # inv = client.get_stations(network="CM",
+    #                     station="BAR2",
+    #                     location="*",
+    #                     channel="*",
+    #                     starttime=UTCDateTime("2019-04-23T00:00:00.0"),
+    #                     endtime=UTCDateTime("2019-04-23T00:02:00.0"))
+    # st = client.get_waveforms(network="CM",
+    #                     station="BAR2",
+    #                     location="*",
+    #                     channel="*",
+    #                     starttime=UTCDateTime("2019-04-23T00:00:00.0"),
+    #                     endtime=UTCDateTime("2019-04-23T00:02:00.0"))
+    # ppc_restrictions = PreprocRestrictions(["CM.BAR2"],detrend={'type':'simple'})
+    # preproc_stream(st,ppc_restrictions)
+    ######### inventory
+    # json_path = "/home/ecastillo/repositories/AIpicker_modules/onejson.json"
+    # client_baseurl = "http://sismo.sgc.gov.co:8080"
 
-	# restrictions = DownloadRestrictions(network="CM",
-	#					   station="BAR2",
-	#					   location="*",
-	#					   channel="*",
-	#					   starttime=UTCDateTime("2019-04-23T00:22:34.5"),
-	#					   endtime=UTCDateTime("2019-04-25T00:23:39.5"),
-	#					   chunklength_in_sec=5000,
-	#					   overlap_in_sec=None,
-	#					   groupby='{network}.{station}.{channel}')
-	# xml = "/home/ecastillo/repositories/AIpicker_modules/CM.xml"
+    # restrictions = DownloadRestrictions(network="CM",
+    #                       station="BAR2",
+    #                       location="*",
+    #                       channel="*",
+    #                       starttime=UTCDateTime("2019-04-23T00:22:34.5"),
+    #                       endtime=UTCDateTime("2019-04-25T00:23:39.5"),
+    #                       chunklength_in_sec=5000,
+    #                       overlap_in_sec=None,
+    #                       groupby='{network}.{station}.{channel}')
+    # xml = "/home/ecastillo/repositories/AIpicker_modules/CM.xml"
 
-	# makeStationList(json_path,client_baseurl,restrictions,from_xml=xml)
+    # makeStationList(json_path,client_baseurl,restrictions,from_xml=xml)
 
-	######## get stations
-	# json_path = "/home/ecastillo/repositories/AIpicker_modules/onejson.json"
-	# client_baseurl = "IRIS"
-	# restrictions = DownloadRestrictions(network="CI",
-	#				   station="BAK,ARV",
-	#				   location="*",
-	#				   channel="BH*",
-	#				   starttime=UTCDateTime("2020-09-01 00:00:00.00"),
-	#				   endtime=UTCDateTime("2020-09-02 00:00:00.00"),
-	#				   chunklength_in_sec=3600,
-	#				   overlap_in_sec=None,
-	#				   groupby='{network}.{station}.{channel}')
-	# makeStationList(json_path=json_path,client_baseurl="IRIS",restrictions=restrictions)
+    ######## get stations
+    # json_path = "/home/ecastillo/repositories/AIpicker_modules/onejson.json"
+    # client_baseurl = "IRIS"
+    # restrictions = DownloadRestrictions(network="CI",
+    #                   station="BAK,ARV",
+    #                   location="*",
+    #                   channel="BH*",
+    #                   starttime=UTCDateTime("2020-09-01 00:00:00.00"),
+    #                   endtime=UTCDateTime("2020-09-02 00:00:00.00"),
+    #                   chunklength_in_sec=3600,
+    #                   overlap_in_sec=None,
+    #                   groupby='{network}.{station}.{channel}')
+    # makeStationList(json_path=json_path,client_baseurl="IRIS",restrictions=restrictions)
