@@ -52,7 +52,7 @@ def changing_picks_info(ev, ref_picks):
             arrival.comments = picks_dict[arrival.pick_id.id].comments
             arrival.pick_id.id = picks_dict[arrival.pick_id.id].resource_id.id
             true_arrivals.append(arrival)
-        except (KeyError, json.JSONDecodeError):
+        except (KeyError, IndexError, json.JSONDecodeError):
             print("Picks don't have probability information")
         
     ori_pref.arrivals = true_arrivals
