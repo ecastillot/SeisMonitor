@@ -23,6 +23,7 @@ x.input
 analisis/
 test/out/*
 examples/TX/sm
+examples/TX/sm3
 examples/TX/*.sh
 examples/TX/*.out
 seismonitor.egg-info

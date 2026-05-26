@@ -13,6 +13,9 @@
 .. image:: https://img.shields.io/badge/GitHub-SeisMonitor-black?style=for-the-badge&logo=github
    :target: https://github.com/ecastillot/SeisMonitor/tree/master
    :alt: GitHub Repository
+.. image:: https://img.shields.io/pypi/v/SeisMonitor?
+   :target: https://pypi.org/project/SeisMonitor/
+   :alt: PyPI version
 
 .. raw:: html
 

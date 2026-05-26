@@ -5,7 +5,7 @@ from SeisMonitor.core.objects import WaveformRestrictions,Provider
 from SeisMonitor.monitor.downloader.seismonitor import MseedDownloader
 
 
-monitor_path = Path(__file__).parent / "sm"
+monitor_path = Path(__file__).parent / "sm2"
 
 
 downloads_path = monitor_path / "downloads"

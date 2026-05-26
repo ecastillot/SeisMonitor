@@ -9,8 +9,8 @@ tqdm
 scipy
 pexpect
 setuptools==80.10.2
-tensorflow==2.21
-keras==3.12.2
+tensorflow==2.15.0
+keras==2.15.0
 numpy==1.26.4
 keyring ==25.7
 h5py==3.14.0 

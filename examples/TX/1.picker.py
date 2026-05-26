@@ -3,7 +3,7 @@ from pathlib import Path
 from SeisMonitor.monitor.picker.ai import EQTransformer,EQTransformerObj
 from SeisMonitor.monitor.picker import utils as piut
 
-monitor_path = Path(__file__).parent / "sm"
+monitor_path = Path(__file__).parent / "sm2"
 downloads_path = monitor_path / "downloads"
 stations_path = monitor_path / "stations"
 picks_path = monitor_path / "picks"

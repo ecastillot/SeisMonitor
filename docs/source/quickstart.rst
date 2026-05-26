@@ -12,8 +12,7 @@ This guide provides a **basic overview of SeisMonitor** and demonstrates its app
 
 .. warning::
 
-   Make sure to use the latest stable version of SeisMonitor.
-
+   Make sure to use the latest stable version of SeisMonitor.:
    .. image:: https://img.shields.io/pypi/v/SeisMonitor?style=plastic
       :target: https://pypi.org/project/SeisMonitor/
       :alt: PyPI version
@@ -164,8 +163,9 @@ Phase Association
    obspy_catalog, df_catalog,df_picks = g.associate(picks_csv=sm_picks_path,
                                        xml_path=inv_stations_path,
                                        out_dir=asso_path)
-   print(obspy_catalog)
-
+   print("Catalog\n",obspy_catalog)
+   print("Events\n",obspy_catalog.to_df())
+   print("Picks\n",obspy_catalog.picks_to_df())
 
 .. _location-section:
 Earthquake Location
@@ -235,7 +235,9 @@ Earthquake Location
                               nlloc_out_folder= str(nlloc_output_path),
                               out_filename = str(xml_nlloc_path.name),
                               out_format="QUAKEML" )
-   print(eqt_nlloc_catalog )
+   print("Catalog\n",eqt_nlloc_catalog )
+   print("Events\n",eqt_nlloc_catalog.to_df())
+   print("Picks\n",eqt_nlloc_catalog.picks_to_df())
 
 .. _magnitude-section:
 Local Magnitude
