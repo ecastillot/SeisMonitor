@@ -144,12 +144,10 @@ are not officially tested and may fail due to system-level dependencies.</p>
 earthquake location using a 1D/3D velocity model and station geometry.</p>
 <p>It wraps the full workflow including travel-time computation,
 grid building, and event location.</p>
-<p>Args:
-core_path: str</p>
-<blockquote>
-<div><p>Path to the NonLinLoc installation directory.</p>
-</div></blockquote>
+<p>Args:</p>
 <dl>
+<dt>core_path: str</dt><dd><p>Path to the NonLinLoc installation directory.</p>
+</dd>
 <dt>agency: str</dt><dd><p>Agency name used in output event metadata.</p>
 </dd>
 <dt>region: list of float</dt><dd><p>Spatial search region defined as:
@@ -184,12 +182,10 @@ Defaults to current working directory.</p>
 <dt>rm_attempts: bool, optional</dt><dd><p>If True, removes intermediate attempt files after processing.</p>
 </dd>
 </dl>
-<p>Attributes:
-core_path: str</p>
-<blockquote>
-<div><p>Path to the NonLinLoc core installation directory.</p>
-</div></blockquote>
+<p>Attributes:</p>
 <dl class="simple">
+<dt>core_path: str</dt><dd><p>Path to the NonLinLoc core installation directory.</p>
+</dd>
 <dt>nlloc_paths: dict</dt><dd><p>Dictionary containing resolved executable paths for NLLoc components.</p>
 </dd>
 <dt>basic_inputs: LocatorBasicInputs</dt><dd><p>Container holding velocity model and station information used for location.</p>
@@ -197,20 +193,20 @@ core_path: str</p>
 <dt>tmp_folder: str</dt><dd><p>Working directory used for temporary files and intermediate outputs.</p>
 </dd>
 </dl>
-<p>Warnings:
-- Ensure that the <code class="docutils literal notranslate"><span class="pre">region</span></code> fully covers all stations, expected earthquake</p>
-<blockquote>
-<div><p>locations, and the velocity model extent. Pay special attention to the
-elevation range: 0 corresponds to sea level, negative values indicate
-below sea level, and positive values indicate above sea level.</p>
-</div></blockquote>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
 <ul class="simple">
+<li><p>Ensure that the <code class="docutils literal notranslate"><span class="pre">region</span></code> fully covers all stations, expected earthquake
+locations, and the velocity model extent. Pay special attention to the
+elevation range: 0 corresponds to sea level, negative values indicate
+below sea level, and positive values indicate above sea level.</p></li>
 <li><p>The <code class="docutils literal notranslate"><span class="pre">compute_travel_times</span></code> method can be computationally expensive
 depending on grid resolution, spatial extent of the model, and number
 of stations. Large grids may also require significant memory and disk
 usage. Ensure adequate computational resources are available before
 execution.</p></li>
 </ul>
+</div>
 <dl class="py method">
 <dt class="sig sig-object py" id="SeisMonitor.monitor.locator.nlloc.nlloc.NLLoc.compute_travel_times">
 <span class="sig-name descname"><span class="pre">compute_travel_times</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/SeisMonitor/monitor/locator/nlloc/nlloc.html#NLLoc.compute_travel_times"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SeisMonitor.monitor.locator.nlloc.nlloc.NLLoc.compute_travel_times" title="Link to this definition"></a></dt>

@@ -95,7 +95,8 @@ class NLLoc:
     tmp_folder: str
         Working directory used for temporary files and intermediate outputs.
 
-    Warnings:
+    Warnings
+    --------
     
     - Ensure that the ``region`` fully covers all stations, expected earthquake
       locations, and the velocity model extent. Pay special attention to the
