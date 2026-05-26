@@ -163,7 +163,7 @@ Phase Association
 Earthquake Location
 -------
 
-:red:`Key Classes:` :class:`~SeisMonitor.monitor.locator.nlloc.nlloc.NLLoc`
+:red:`Key Classes:` :class:`~SeisMonitor.monitor.locator.nlloc.nlloc.NLLoc`, :class:`~SeisMonitor.monitor.locator.utils.VelModel`, :class:`~SeisMonitor.monitor.locator.utils.Stations`
 
 :red:`Key Funcs:` :func:`~SeisMonitor.monitor.locator.nlloc.nlloc.NLLoc.compute_travel_times`, :func:`~SeisMonitor.monitor.locator.nlloc.nlloc.NLLoc.locate`
 

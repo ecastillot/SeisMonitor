@@ -61,7 +61,18 @@
 <li class="toctree-l4"><a class="reference internal" href="#SeisMonitor.monitor.locator.nlloc.nlloc.NLLoc"><code class="docutils literal notranslate"><span class="pre">NLLoc</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#module-SeisMonitor.monitor.locator.nlloc.utils">utils</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#loc-utils">loc utils</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#SeisMonitor.monitor.locator.utils.LocatorBasicInputs"><code class="docutils literal notranslate"><span class="pre">LocatorBasicInputs</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#SeisMonitor.monitor.locator.utils.Stations"><code class="docutils literal notranslate"><span class="pre">Stations</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#SeisMonitor.monitor.locator.utils.VelModel"><code class="docutils literal notranslate"><span class="pre">VelModel</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#SeisMonitor.monitor.locator.utils.changing_picks_info"><code class="docutils literal notranslate"><span class="pre">changing_picks_info()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#SeisMonitor.monitor.locator.utils.filter_arrivals_by_distance"><code class="docutils literal notranslate"><span class="pre">filter_arrivals_by_distance()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#SeisMonitor.monitor.locator.utils.get_bad_and_good_events"><code class="docutils literal notranslate"><span class="pre">get_bad_and_good_events()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#SeisMonitor.monitor.locator.utils.get_picks"><code class="docutils literal notranslate"><span class="pre">get_picks()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#SeisMonitor.monitor.locator.utils.resp2df"><code class="docutils literal notranslate"><span class="pre">resp2df()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#nlloc-utils">nlloc utils</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#SeisMonitor.monitor.locator.nlloc.utils.GenericControlStatement"><code class="docutils literal notranslate"><span class="pre">GenericControlStatement</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#SeisMonitor.monitor.locator.nlloc.utils.Grid2Time"><code class="docutils literal notranslate"><span class="pre">Grid2Time</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#SeisMonitor.monitor.locator.nlloc.utils.NLLocControlFile"><code class="docutils literal notranslate"><span class="pre">NLLocControlFile</span></code></a></li>
@@ -131,8 +142,8 @@ using velocity models and station information. Avaialble in Ubuntu 22.04 and lat
 <li><p><strong>core_path</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></span>) – Path to NonLinLoc core directory</p></li>
 <li><p><strong>agency</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></span>) – Agency identifier string</p></li>
 <li><p><strong>region</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></span>) – List of [lon_w, lon_e, lat_s, lat_n, z_min, z_max]. See the Warnings section below for details.</p></li>
-<li><p><strong>vel_model</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">VelModel</span></code></span>) – Velocity model object</p></li>
-<li><p><strong>stations</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">Stations</span></code></span>) – Station information object</p></li>
+<li><p><strong>vel_model</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="#SeisMonitor.monitor.locator.utils.VelModel" title="SeisMonitor.monitor.locator.utils.VelModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">VelModel</span></code></a></span>) – Velocity model object</p></li>
+<li><p><strong>stations</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="#SeisMonitor.monitor.locator.utils.Stations" title="SeisMonitor.monitor.locator.utils.Stations"><code class="xref py py-class docutils literal notranslate"><span class="pre">Stations</span></code></a></span>) – Station information object</p></li>
 <li><p><strong>delta_in_km</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></span>) – Grid spacing in kilometers</p></li>
 <li><p><strong>kwargs_for_trans</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></span>) – Transformation parameters</p></li>
 <li><p><strong>kwargs_for_vel2grid</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></span>) – Vel2Grid parameters</p></li>
@@ -203,9 +214,377 @@ or dense station networks.</p>
 </dd></dl>
 
 </section>
-<section id="module-SeisMonitor.monitor.locator.nlloc.utils">
-<span id="utils"></span><h2>utils<a class="headerlink" href="#module-SeisMonitor.monitor.locator.nlloc.utils" title="Link to this heading"></a></h2>
+<section id="loc-utils">
+<h2>loc utils<a class="headerlink" href="#loc-utils" title="Link to this heading"></a></h2>
+<p>Useful functions for earthquake location.</p>
+<dl class="py class" id="module-SeisMonitor.monitor.locator.utils">
+<dt class="sig sig-object py" id="SeisMonitor.monitor.locator.utils.LocatorBasicInputs">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">SeisMonitor.monitor.locator.utils.</span></span><span class="sig-name descname"><span class="pre">LocatorBasicInputs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vel_model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stations</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/SeisMonitor/monitor/locator/utils.html#LocatorBasicInputs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SeisMonitor.monitor.locator.utils.LocatorBasicInputs" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Container for basic inputs required by seismic location algorithms.</p>
+<p>This class groups the minimum required components for a locator,
+including a velocity model and station metadata.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>vel_model</strong> (<a class="reference internal" href="#SeisMonitor.monitor.locator.utils.VelModel" title="SeisMonitor.monitor.locator.utils.VelModel"><em>VelModel</em></a>) – Velocity model used for travel-time calculations.</p></li>
+<li><p><strong>stations</strong> (<a class="reference internal" href="#SeisMonitor.monitor.locator.utils.Stations" title="SeisMonitor.monitor.locator.utils.Stations"><em>Stations</em></a>) – Station metadata container.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="SeisMonitor.monitor.locator.utils.LocatorBasicInputs.vel_model">
+<span class="sig-name descname"><span class="pre">vel_model</span></span><a class="headerlink" href="#SeisMonitor.monitor.locator.utils.LocatorBasicInputs.vel_model" title="Link to this definition"></a></dt>
+<dd><p>Stored velocity model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#SeisMonitor.monitor.locator.utils.VelModel" title="SeisMonitor.monitor.locator.utils.VelModel">VelModel</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="SeisMonitor.monitor.locator.utils.LocatorBasicInputs.stations">
+<span class="sig-name descname"><span class="pre">stations</span></span><a class="headerlink" href="#SeisMonitor.monitor.locator.utils.LocatorBasicInputs.stations" title="Link to this definition"></a></dt>
+<dd><p>Stored station inventory.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#SeisMonitor.monitor.locator.utils.Stations" title="SeisMonitor.monitor.locator.utils.Stations">Stations</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
 <dl class="py class">
+<dt class="sig sig-object py" id="SeisMonitor.monitor.locator.utils.Stations">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">SeisMonitor.monitor.locator.utils.</span></span><span class="sig-name descname"><span class="pre">Stations</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">stations</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/SeisMonitor/monitor/locator/utils.html#Stations"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SeisMonitor.monitor.locator.utils.Stations" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Container for seismic station metadata.</p>
+<p>This class standardizes station information from different sources
+such as pandas DataFrames or ObsPy inventories, and provides
+utilities for exporting to seismic location formats (e.g. NonLinLoc).</p>
+<section id="expected-station-table-format">
+<h3>Expected station table format<a class="headerlink" href="#expected-station-table-format" title="Link to this heading"></a></h3>
+<p>The internal DataFrame is expected to contain at least:</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Column</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>station</p></td>
+<td><p>Station code</p></td>
+</tr>
+<tr class="row-odd"><td><p>latitude</p></td>
+<td><p>Station latitude (degrees)</p></td>
+</tr>
+<tr class="row-even"><td><p>longitude</p></td>
+<td><p>Station longitude (degrees)</p></td>
+</tr>
+<tr class="row-odd"><td><p>elevation</p></td>
+<td><p>Elevation (meters)</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="field-list simple">
+<dt class="field-odd">type stations<span class="colon">:</span></dt>
+<dd class="field-odd"><p></p></dd>
+<dt class="field-even">param stations<span class="colon">:</span></dt>
+<dd class="field-even"><p>Station data source. Can be:</p>
+<ul class="simple">
+<li><p>pandas DataFrame with station metadata</p></li>
+<li><p>ObsPy Inventory object</p></li>
+<li><p>path or other format supported by <code class="docutils literal notranslate"><span class="pre">resp2df</span></code></p></li>
+</ul>
+</dd>
+<dt class="field-odd">type stations<span class="colon">:</span></dt>
+<dd class="field-odd"><p>pandas.DataFrame or str or Inventory</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="SeisMonitor.monitor.locator.utils.Stations.to_nlloc">
+<span class="sig-name descname"><span class="pre">to_nlloc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">out</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/SeisMonitor/monitor/locator/utils.html#Stations.to_nlloc"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SeisMonitor.monitor.locator.utils.Stations.to_nlloc" title="Link to this definition"></a></dt>
+<dd><p>Export velocity model in NonLinLoc (NLLoc) layer format.</p>
+<p>This method writes the velocity model into a format compatible with
+NonLinLoc, where each row represents a layered 1D velocity structure.</p>
+<p>If S-wave velocity (Vs) is not provided, it can be computed from Vp
+using the <code class="docutils literal notranslate"><span class="pre">vp_vs_ratio</span></code> parameter.</p>
+<section id="output-format">
+<h4>Output format<a class="headerlink" href="#output-format" title="Link to this heading"></a></h4>
+<p>Each line follows the NLLoc “LAYER” specification:</p>
+<p><code class="docutils literal notranslate"><span class="pre">LAYER</span> <span class="pre">depth</span> <span class="pre">Vp_top</span> <span class="pre">Vp_grad</span> <span class="pre">Vs_top</span> <span class="pre">Vs_grad</span> <span class="pre">rho_top</span> <span class="pre">rho_grad</span></code></p>
+<p>where gradients are assumed to be zero (constant velocity per layer).</p>
+<dl class="field-list simple">
+<dt class="field-odd">type out<span class="colon">:</span></dt>
+<dd class="field-odd"><p></p></dd>
+<dt class="field-even">param out<span class="colon">:</span></dt>
+<dd class="field-even"><p>Output file path where the velocity model will be written.</p>
+</dd>
+<dt class="field-odd">type out<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<ul class="simple">
+<li><p>Depth is expected in kilometers.</p></li>
+<li><p>Velocities are in km/s.</p></li>
+<li><p>Density is in g/cm³.</p></li>
+<li><p>Vs is computed as Vp / vp_vs_ratio if <code class="docutils literal notranslate"><span class="pre">compute_vs=True</span></code>.</p></li>
+<li><p>Gradients are currently set to zero (constant layers).</p></li>
+</ul>
+</section>
+<section id="example-output-line">
+<h4>Example output line<a class="headerlink" href="#example-output-line" title="Link to this heading"></a></h4>
+<p><code class="docutils literal notranslate"><span class="pre">LAYER</span>&#160;&#160; <span class="pre">10.00</span>&#160;&#160; <span class="pre">6.06</span>&#160;&#160; <span class="pre">0.00</span>&#160;&#160; <span class="pre">3.46</span>&#160;&#160; <span class="pre">0.00</span>&#160;&#160; <span class="pre">2.60</span>&#160;&#160; <span class="pre">0.00</span></code></p>
+</section>
+</dd></dl>
+
+</section>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="SeisMonitor.monitor.locator.utils.VelModel">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">SeisMonitor.monitor.locator.utils.</span></span><span class="sig-name descname"><span class="pre">VelModel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vel_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vp_vs_ratio</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.78</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">compute_vs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/SeisMonitor/monitor/locator/utils.html#VelModel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SeisMonitor.monitor.locator.utils.VelModel" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Velocity model container for seismic travel-time and wave propagation calculations.</p>
+<p>The model is typically loaded from a CSV file or a pandas DataFrame
+containing a 1D depth-dependent velocity structure.</p>
+<section id="expected-data-format">
+<h3>Expected data format<a class="headerlink" href="#expected-data-format" title="Link to this heading"></a></h3>
+<p>The input velocity model must contain the following columns:</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Column</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>depth</p></td>
+<td><p>Depth in km (positive downward)</p></td>
+</tr>
+<tr class="row-odd"><td><p>vp</p></td>
+<td><p>P-wave velocity (km/s)</p></td>
+</tr>
+<tr class="row-even"><td><p>vs</p></td>
+<td><p>S-wave velocity (km/s)</p></td>
+</tr>
+<tr class="row-odd"><td><p>rho</p></td>
+<td><p>Density (g/cm³)</p></td>
+</tr>
+</tbody>
+</table>
+<p>Example (Texas model):</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>depth,vp,vs,rho
+-1,3.500,2.000,2.6
+0,4.405,2.517,2.6
+2,5.525,3.157,2.6
+6,5.917,3.381,2.6
+10,6.061,3.463,2.6
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">type vel_path<span class="colon">:</span></dt>
+<dd class="field-odd"><p></p></dd>
+<dt class="field-even">param vel_path<span class="colon">:</span></dt>
+<dd class="field-even"><p>Path to a CSV file containing the velocity model, or a DataFrame
+already loaded in memory.</p>
+</dd>
+<dt class="field-odd">type vel_path<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str or pandas.DataFrame</p>
+</dd>
+<dt class="field-even">type model_name<span class="colon">:</span></dt>
+<dd class="field-even"><p></p></dd>
+<dt class="field-odd">param model_name<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Name identifier for the velocity model.</p>
+</dd>
+<dt class="field-even">type model_name<span class="colon">:</span></dt>
+<dd class="field-even"><p>str, optional</p>
+</dd>
+<dt class="field-odd">type vp_vs_ratio<span class="colon">:</span></dt>
+<dd class="field-odd"><p></p></dd>
+<dt class="field-even">param vp_vs_ratio<span class="colon">:</span></dt>
+<dd class="field-even"><p>Ratio used to compute S-wave velocity (Vs) if it is missing.</p>
+</dd>
+<dt class="field-odd">type vp_vs_ratio<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float, default=1.78</p>
+</dd>
+<dt class="field-even">type compute_vs<span class="colon">:</span></dt>
+<dd class="field-even"><p></p></dd>
+<dt class="field-odd">param compute_vs<span class="colon">:</span></dt>
+<dd class="field-odd"><p>If True, compute Vs from Vp using <code class="docutils literal notranslate"><span class="pre">vp_vs_ratio</span></code> when Vs is not provided.</p>
+</dd>
+<dt class="field-even">type compute_vs<span class="colon">:</span></dt>
+<dd class="field-even"><p>bool, default=True</p>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="SeisMonitor.monitor.locator.utils.VelModel.vel">
+<span class="sig-name descname"><span class="pre">vel</span></span><a class="headerlink" href="#SeisMonitor.monitor.locator.utils.VelModel.vel" title="Link to this definition"></a></dt>
+<dd><p>Loaded velocity model with columns: depth, vp, vs, rho.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>pandas.DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="SeisMonitor.monitor.locator.utils.VelModel.model_name">
+<span class="sig-name descname"><span class="pre">model_name</span></span><a class="headerlink" href="#SeisMonitor.monitor.locator.utils.VelModel.model_name" title="Link to this definition"></a></dt>
+<dd><p>Name of the velocity model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="SeisMonitor.monitor.locator.utils.VelModel.vp_vs_ratio">
+<span class="sig-name descname"><span class="pre">vp_vs_ratio</span></span><a class="headerlink" href="#SeisMonitor.monitor.locator.utils.VelModel.vp_vs_ratio" title="Link to this definition"></a></dt>
+<dd><p>Vp/Vs ratio used for conversion.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="SeisMonitor.monitor.locator.utils.VelModel.compute_vs">
+<span class="sig-name descname"><span class="pre">compute_vs</span></span><a class="headerlink" href="#SeisMonitor.monitor.locator.utils.VelModel.compute_vs" title="Link to this definition"></a></dt>
+<dd><p>Flag indicating whether Vs is computed from Vp.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<p class="rubric">Notes</p>
+<p>If <code class="docutils literal notranslate"><span class="pre">vel_path</span></code> is a DataFrame, it is used directly without copying.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="SeisMonitor.monitor.locator.utils.VelModel.to_nlloc">
+<span class="sig-name descname"><span class="pre">to_nlloc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">out</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/SeisMonitor/monitor/locator/utils.html#VelModel.to_nlloc"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SeisMonitor.monitor.locator.utils.VelModel.to_nlloc" title="Link to this definition"></a></dt>
+<dd><p>Write velocity model in NonLinLoc format.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>out</strong> (<em>str</em>) – Output file path</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="SeisMonitor.monitor.locator.utils.changing_picks_info">
+<span class="sig-prename descclassname"><span class="pre">SeisMonitor.monitor.locator.utils.</span></span><span class="sig-name descname"><span class="pre">changing_picks_info</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ev</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ref_picks</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/SeisMonitor/monitor/locator/utils.html#changing_picks_info"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SeisMonitor.monitor.locator.utils.changing_picks_info" title="Link to this definition"></a></dt>
+<dd><p>Update event picks with information from reference picks.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ev</strong> (<em>obspy.core.event.Event</em>) – Event object to modify</p></li>
+<li><p><strong>ref_picks</strong> (<em>dict</em>) – Dictionary of reference picks with station_phase_time keys</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Modified event with updated picks and arrivals</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>obspy.core.event.Event</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="SeisMonitor.monitor.locator.utils.filter_arrivals_by_distance">
+<span class="sig-prename descclassname"><span class="pre">SeisMonitor.monitor.locator.utils.</span></span><span class="sig-name descname"><span class="pre">filter_arrivals_by_distance</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">events</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">distance</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_P_phases</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_S_phases</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/SeisMonitor/monitor/locator/utils.html#filter_arrivals_by_distance"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SeisMonitor.monitor.locator.utils.filter_arrivals_by_distance" title="Link to this definition"></a></dt>
+<dd><p>Filter events based on arrival distance and minimum phase counts.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>events</strong> (<em>list</em>) – List of event objects</p></li>
+<li><p><strong>distance</strong> (<em>float</em>) – Maximum distance for arrivals in degrees</p></li>
+<li><p><strong>min_P_phases</strong> (<em>int</em>) – Minimum number of P phases required</p></li>
+<li><p><strong>min_S_phases</strong> (<em>int</em>) – Minimum number of S phases required</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Filtered list of events meeting criteria</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="SeisMonitor.monitor.locator.utils.get_bad_and_good_events">
+<span class="sig-prename descclassname"><span class="pre">SeisMonitor.monitor.locator.utils.</span></span><span class="sig-name descname"><span class="pre">get_bad_and_good_events</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">reloc_catalog</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/SeisMonitor/monitor/locator/utils.html#get_bad_and_good_events"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SeisMonitor.monitor.locator.utils.get_bad_and_good_events" title="Link to this definition"></a></dt>
+<dd><p>Separate events based on arrival azimuth uniformity.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>reloc_catalog</strong> (<em>obspy.core.event.Catalog</em>) – Relocated event catalog</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><dl class="simple">
+<dt>(good_events, bad_events) where good_events have varying azimuths</dt><dd><p>and bad_events have uniform azimuths</p>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>tuple</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="SeisMonitor.monitor.locator.utils.get_picks">
+<span class="sig-prename descclassname"><span class="pre">SeisMonitor.monitor.locator.utils.</span></span><span class="sig-name descname"><span class="pre">get_picks</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">catalog</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/SeisMonitor/monitor/locator/utils.html#get_picks"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SeisMonitor.monitor.locator.utils.get_picks" title="Link to this definition"></a></dt>
+<dd><p>Extract picks from a catalog into a dictionary.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>catalog</strong> (<em>obspy.core.event.Catalog</em>) – Catalog containing events with picks</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Dictionary of picks keyed by station_phase_time strings</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="SeisMonitor.monitor.locator.utils.resp2df">
+<span class="sig-prename descclassname"><span class="pre">SeisMonitor.monitor.locator.utils.</span></span><span class="sig-name descname"><span class="pre">resp2df</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">resp</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/SeisMonitor/monitor/locator/utils.html#resp2df"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SeisMonitor.monitor.locator.utils.resp2df" title="Link to this definition"></a></dt>
+<dd><p>Convert station response inventory to DataFrame.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>resp</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><em>Inventory</em><em>]</em>) – Path to RESP file or Inventory object</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><dl class="simple">
+<dt>DataFrame with columns:</dt><dd><p>network, station, latitude, longitude, elevation</p>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>pandas.DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="nlloc-utils">
+<h2>nlloc utils<a class="headerlink" href="#nlloc-utils" title="Link to this heading"></a></h2>
+<p>Useful functions for earthquake location using NonLinLoc.</p>
+<dl class="py class" id="module-SeisMonitor.monitor.locator.nlloc.utils">
 <dt class="sig sig-object py" id="SeisMonitor.monitor.locator.nlloc.utils.GenericControlStatement">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">SeisMonitor.monitor.locator.nlloc.utils.</span></span><span class="sig-name descname"><span class="pre">GenericControlStatement</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">trans</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">control</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[1,</span> <span class="pre">54321]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/SeisMonitor/monitor/locator/nlloc/utils.html#GenericControlStatement"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SeisMonitor.monitor.locator.nlloc.utils.GenericControlStatement" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>

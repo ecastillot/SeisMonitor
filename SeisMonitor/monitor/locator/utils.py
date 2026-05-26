@@ -190,17 +190,73 @@ def resp2df(resp):
 
 
 class VelModel:
-    """Class representing a velocity model."""
+    """
+    Velocity model container for seismic travel-time and wave propagation calculations.
+
+    The model is typically loaded from a CSV file or a pandas DataFrame
+    containing a 1D depth-dependent velocity structure.
+
+    Expected data format
+    --------------------
+    The input velocity model must contain the following columns:
+
+    ==========  ==========================================
+    Column      Description
+    ==========  ==========================================
+    depth       Depth in km (positive downward)
+    vp          P-wave velocity (km/s)
+    vs          S-wave velocity (km/s)
+    rho         Density (g/cm³)
+    ==========  ==========================================
+
+    Example (Texas model):
+
+    .. code-block:: text
+
+        depth,vp,vs,rho
+        -1,3.500,2.000,2.6
+        0,4.405,2.517,2.6
+        2,5.525,3.157,2.6
+        6,5.917,3.381,2.6
+        10,6.061,3.463,2.6
+
+    Parameters
+    ----------
+    vel_path : str or pandas.DataFrame
+        Path to a CSV file containing the velocity model, or a DataFrame
+        already loaded in memory.
+
+    model_name : str, optional
+        Name identifier for the velocity model.
+
+    vp_vs_ratio : float, default=1.78
+        Ratio used to compute S-wave velocity (Vs) if it is missing.
+
+    compute_vs : bool, default=True
+        If True, compute Vs from Vp using ``vp_vs_ratio`` when Vs is not provided.
+
+    Attributes
+    ----------
+    vel : pandas.DataFrame
+        Loaded velocity model with columns: depth, vp, vs, rho.
+
+    model_name : str
+        Name of the velocity model.
+
+    vp_vs_ratio : float
+        Vp/Vs ratio used for conversion.
+
+    compute_vs : bool
+        Flag indicating whether Vs is computed from Vp.
+
+    Notes
+    -----
+    If ``vel_path`` is a DataFrame, it is used directly without copying.
+
+    """
 
     def __init__(self, vel_path, model_name=None, vp_vs_ratio=1.78, compute_vs=True):
-        """Initialize velocity model.
-
-        Args:
-            vel_path (Union[str, pandas.DataFrame]): Path to velocity CSV or DataFrame
-            model_name (str, optional): Name of the velocity model
-            vp_vs_ratio (float): Vp/Vs ratio for computing Vs if not provided
-            compute_vs (bool): Whether to compute Vs from Vp
-        """
+        """Initialize velocity model."""
         self.model_name = model_name
         self.vel_path = vel_path
         self.vp_vs_ratio = vp_vs_ratio
@@ -226,27 +282,78 @@ class VelModel:
 
 
 class Stations:
-    """Class representing seismic stations."""
+    """
+    Container for seismic station metadata.
+
+    This class standardizes station information from different sources
+    such as pandas DataFrames or ObsPy inventories, and provides
+    utilities for exporting to seismic location formats (e.g. NonLinLoc).
+
+    Expected station table format
+    -----------------------------
+    The internal DataFrame is expected to contain at least:
+
+    ==========  ==========================================
+    Column      Description
+    ==========  ==========================================
+    station     Station code
+    latitude    Station latitude (degrees)
+    longitude   Station longitude (degrees)
+    elevation   Elevation (meters)
+    ==========  ==========================================
+
+    Parameters
+    ----------
+    stations : pandas.DataFrame or str or Inventory
+        Station data source. Can be:
+
+        - pandas DataFrame with station metadata
+        - ObsPy Inventory object
+        - path or other format supported by ``resp2df``
+
+    """
 
     def __init__(self, stations):
-        """Initialize stations from DataFrame or inventory.
-
-        Args:
-            stations (Union[pandas.DataFrame, str, Inventory]): Station data source
-
-        Raises:
-            Exception: If stations parameter is invalid (commented out in original)
-        """
+        """Initialize stations from DataFrame or inventory."""
         if isinstance(stations, pd.DataFrame):
             self.stations = stations
         else:
             self.stations = resp2df(stations)
 
     def to_nlloc(self, out):
-        """Write stations in NonLinLoc format.
+        """
+        Export velocity model in NonLinLoc (NLLoc) layer format.
 
-        Args:
-            out (str): Output file path
+        This method writes the velocity model into a format compatible with
+        NonLinLoc, where each row represents a layered 1D velocity structure.
+
+        If S-wave velocity (Vs) is not provided, it can be computed from Vp
+        using the ``vp_vs_ratio`` parameter.
+
+        Output format
+        -------------
+        Each line follows the NLLoc "LAYER" specification:
+
+        ``LAYER depth Vp_top Vp_grad Vs_top Vs_grad rho_top rho_grad``
+
+        where gradients are assumed to be zero (constant velocity per layer).
+
+        Parameters
+        ----------
+        out : str
+            Output file path where the velocity model will be written.
+
+        Notes
+        -----
+        - Depth is expected in kilometers.
+        - Velocities are in km/s.
+        - Density is in g/cm³.
+        - Vs is computed as Vp / vp_vs_ratio if ``compute_vs=True``.
+        - Gradients are currently set to zero (constant layers).
+
+        Example output line
+        -------------------
+        ``LAYER   10.00   6.06   0.00   3.46   0.00   2.60   0.00``
         """
         with open(out, 'w') as vs:
             vs.write("# GTSRCE label LATLON latSrce longSrce zSrce elev\n")
@@ -260,14 +367,30 @@ class Stations:
 
 
 class LocatorBasicInputs:
-    """Class holding basic inputs for seismic location."""
+    """
+    Container for basic inputs required by seismic location algorithms.
+
+    This class groups the minimum required components for a locator,
+    including a velocity model and station metadata.
+
+    Parameters
+    ----------
+    vel_model : VelModel
+        Velocity model used for travel-time calculations.
+
+    stations : Stations
+        Station metadata container.
+
+    Attributes
+    ----------
+    vel_model : VelModel
+        Stored velocity model.
+
+    stations : Stations
+        Stored station inventory.
+    """
 
     def __init__(self, vel_model: VelModel, stations: Stations):
-        """Initialize locator inputs.
-
-        Args:
-            vel_model (VelModel): Velocity model object
-            stations (Stations): Stations object
-        """
+        """Initialize locator inputs."""
         self.vel_model = vel_model
         self.stations = stations

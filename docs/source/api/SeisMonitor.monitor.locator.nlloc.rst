@@ -10,8 +10,18 @@ nlloc
    :undoc-members:
    :show-inheritance:
 
-utils
+loc utils
+--------------------------------
+Useful functions for earthquake location.
+
+.. automodule:: SeisMonitor.monitor.locator.utils
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+nlloc utils
 ----------------------------------------------
+Useful functions for earthquake location using NonLinLoc.
 
 .. automodule:: SeisMonitor.monitor.locator.nlloc.utils
    :members:
