@@ -69,6 +69,7 @@ Download Earthquake Data
                            "length":60},
                chunklength_in_sec=chunklength_in_sec,
                n_processor=1)
+   print("Downloaded files in ",downloads_path)
 
 .. _detection-section:
 Earthquake Detection & Phase Picking
@@ -81,6 +82,7 @@ Earthquake Detection & Phase Picking
 .. code-block:: python
 
    import logging
+   import pandas as pd
    from pathlib import Path
    from SeisMonitor.monitor.picker.ai import EQTransformer,EQTransformerObj
    from SeisMonitor.monitor.picker import utils as piut
@@ -117,6 +119,7 @@ Earthquake Detection & Phase Picking
    piut.eqt_picks_2_seismonitor_fmt(eqt_folder=str(picks_path),
                                  mseed_folder=str(downloads_path),
                                  out_path=str(sm_picks_path))
+   print("Picks", pd.read_csv(str(sm_picks_path)))
 
 .. _asso-section:
 Phase Association

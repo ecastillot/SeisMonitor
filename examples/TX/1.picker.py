@@ -1,4 +1,5 @@
 import logging
+import pandas as pd
 from pathlib import Path
 from SeisMonitor.monitor.picker.ai import EQTransformer,EQTransformerObj
 from SeisMonitor.monitor.picker import utils as piut
@@ -35,3 +36,5 @@ eqt.pick(mseed_storage=str(downloads_path),
 piut.eqt_picks_2_seismonitor_fmt(eqt_folder=str(picks_path),
                                 mseed_folder=str(downloads_path),
                                 out_path=str(sm_picks_path))
+
+print("Picks", pd.read_csv(str(sm_picks_path)))
