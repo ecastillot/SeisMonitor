@@ -13,7 +13,7 @@ Welcome to `SeisMonitor <index.html>`_
 .. image:: https://img.shields.io/badge/GitHub-SeisMonitor-black?style=for-the-badge&logo=github
    :target: https://github.com/ecastillot/SeisMonitor/tree/master
    :alt: GitHub Repository
-.. image:: https://img.shields.io/pypi/v/SeisMonitor?
+.. image:: https://img.shields.io/pypi/v/SeisMonitor?label=pypi
    :target: https://pypi.org/project/SeisMonitor/
    :alt: PyPI version
 

@@ -8,8 +8,8 @@ tensorflow==2.15.0
 keras==2.15.0
 h5py==3.14.0
 
-obspy
-obsplus
+obspy==1.4.1
+obsplus==0.3.1
 pyproj
 
 GitPython

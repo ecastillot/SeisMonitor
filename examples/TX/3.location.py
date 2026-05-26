@@ -1,4 +1,5 @@
 import os
+import obsplus # To convert into pandas dataframe .to_df()
 from pathlib import Path
 from SeisMonitor.monitor.locator.nlloc.nlloc import NLLoc
 from SeisMonitor.monitor.locator import utils as lut
@@ -12,7 +13,7 @@ vel_path = "/groups/igonin/ecastillo/SeisMonitor/examples/TX/sm/vel_model/DB_mod
 region = [-104.17816, -103.80355, 31.48921, 31.72133,-2, 12] 
 delta_in_km = 0.5 # grid spacing for nlloc, smaller means more precise but also more computationally expensive.
 
-monitor_path = Path(__file__).parent / "sm"
+monitor_path = Path(__file__).parent / "sm2"
 stations_path = monitor_path / "stations"
 picks_path = monitor_path / "picks"
 asso_path = monitor_path / "associations"
@@ -50,4 +51,6 @@ eqt_nlloc_catalog = nlloc.locate(catalog=str(xml_asso_path),
                             nlloc_out_folder= str(nlloc_output_path),
                             out_filename = str(xml_nlloc_path.name),
                             out_format="QUAKEML" )
-print(eqt_nlloc_catalog )
+print("Catalog\n",eqt_nlloc_catalog )
+print("Events\n",eqt_nlloc_catalog.to_df())
+print("Picks\n",eqt_nlloc_catalog.picks_to_df())

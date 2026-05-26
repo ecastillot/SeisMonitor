@@ -1,11 +1,12 @@
 import math
+import obsplus # To convert into pandas dataframe .to_df()
 from pathlib import Path
 from obspy.clients.fdsn import Client as FDSNClient
 from obspy.core.utcdatetime import UTCDateTime
 from SeisMonitor.monitor.magnitude.mag import Magnitude
 from SeisMonitor.core.objects import WaveformRestrictions,Provider
 
-monitor_path = Path(__file__).parent / "sm"
+monitor_path = Path(__file__).parent / "sm2"
 
 loc_path = monitor_path / "locations"
 mag_path = monitor_path / "magnitude"
@@ -37,4 +38,5 @@ Ml = lambda ampl,epi_dist : math.log10(ampl*1e3 ) + 1.54 * math.log10(epi_dist) 
 cat = mag.get_Ml(mag_type=Ml ,
             trimmedtime=5, #seconds after pick S to trim the signal
             out_format="SC3ML")
-print(cat)
+print("Catalog\n",cat )
+print("Events\n",cat.to_df())

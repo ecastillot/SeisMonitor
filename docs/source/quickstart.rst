@@ -12,8 +12,9 @@ This guide provides a **basic overview of SeisMonitor** and demonstrates its app
 
 .. warning::
 
-   Make sure to use the latest stable version of SeisMonitor.:
-   .. image:: https://img.shields.io/pypi/v/SeisMonitor?style=plastic
+   Make sure to use the latest stable version of SeisMonitor.
+
+   .. image:: https://img.shields.io/pypi/v/SeisMonitor?label=pypi
       :target: https://pypi.org/project/SeisMonitor/
       :alt: PyPI version
 
@@ -128,6 +129,7 @@ Phase Association
 .. code-block:: python
 
    import os
+   import obsplus # To convert into pandas dataframe .to_df()
    from pathlib import Path
    from SeisMonitor.monitor.associator.ai import GaMMA,GaMMAObj
    from SeisMonitor.monitor.associator import utils as asut
@@ -184,6 +186,7 @@ Earthquake Location
 .. code-block:: python
 
    import os
+   import obsplus # To convert into pandas dataframe .to_df()
    from pathlib import Path
    from SeisMonitor.monitor.locator.nlloc.nlloc import NLLoc
    from SeisMonitor.monitor.locator import utils as lut
@@ -250,6 +253,7 @@ Local Magnitude
 .. code-block:: python
 
    import math
+   import obsplus # To convert into pandas dataframe .to_df()
    from pathlib import Path
    from obspy.clients.fdsn import Client as FDSNClient
    from obspy.core.utcdatetime import UTCDateTime
@@ -288,4 +292,5 @@ Local Magnitude
    cat = mag.get_Ml(mag_type=Ml ,
                trimmedtime=5, #seconds after pick S to trim the signal
                out_format="SC3ML")
-   print(cat)
+   print("Catalog\n",cat )
+   print("Events\n",cat.to_df())

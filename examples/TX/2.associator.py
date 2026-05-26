@@ -1,10 +1,11 @@
 import os
+import obsplus # To convert into pandas dataframe .to_df()
 from pathlib import Path
 from SeisMonitor.monitor.associator.ai import GaMMA,GaMMAObj
 from SeisMonitor.monitor.associator import utils as asut
 import matplotlib.pyplot as plt
 
-monitor_path = Path(__file__).parent / "sm"
+monitor_path = Path(__file__).parent / "sm2"
 stations_path = monitor_path / "stations"
 picks_path = monitor_path / "picks"
 asso_path = monitor_path / "associations"
@@ -34,4 +35,6 @@ g = GaMMA(gc)
 obspy_catalog, df_catalog,df_picks = g.associate(picks_csv=sm_picks_path,
                                     xml_path=inv_stations_path,
                                     out_dir=asso_path)
-print(obspy_catalog)
+print("Catalog\n",obspy_catalog)
+print("Events\n",obspy_catalog.to_df())
+print("Picks\n",obspy_catalog.picks_to_df())

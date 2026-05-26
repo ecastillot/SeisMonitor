@@ -1,5 +1,5 @@
 ![seismonitor](docs/source/_static/logo/seismonitor.PNG)   
-![PyPI](https://img.shields.io/pypi/v/SeisMonitor?)
+![PyPI](https://img.shields.io/pypi/v/SeisMonitor?label=pypi)
 ![Twitter Follow](https://img.shields.io/twitter/follow/manuavid?style=social)![GitHub followers](https://img.shields.io/github/followers/ecastillot?style=social)![GitHub stars](https://img.shields.io/github/stars/ecastillot/SeisMonitor?style=social)![GitHub forks](https://img.shields.io/github/forks/ecastillot/SeisMonitor?style=social)  
 
 Python package for seismological monitoring. 
