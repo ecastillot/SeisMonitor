@@ -1,20 +1,24 @@
-obspy
-obsplus
-pytest 
-pyproj
-GitPython
-matplotlib 
-pandas
-tqdm
+numpy==1.26.4
 scipy
-pexpect
-setuptools==80.10.2
+pandas
+matplotlib
+tqdm
+
 tensorflow==2.15.0
 keras==2.15.0
-numpy==1.26.4
-keyring ==25.7
-h5py==3.14.0 
+h5py==3.14.0
+
+obspy
+obsplus
+pyproj
+
+GitPython
+pexpect
+pytest
+
+keyring==25.7
 pkginfo>=1.4.2
+setuptools==80.10.2
 # gmma
 # EQTransformer
 
