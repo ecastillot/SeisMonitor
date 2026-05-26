@@ -163,6 +163,12 @@ Phase Association
 Earthquake Location
 -------
 
+.. warning::
+
+   The NonLinLoc (NLLoc) workflow in SeisMonitor is currently supported
+   only on **Ubuntu Linux systems**. Other operating systems (Windows/macOS)
+   are not officially tested and may fail due to system-level dependencies.
+
 :red:`Key Classes:` :class:`~SeisMonitor.monitor.locator.nlloc.nlloc.NLLoc`, :class:`~SeisMonitor.monitor.locator.utils.VelModel`, :class:`~SeisMonitor.monitor.locator.utils.Stations`
 
 :red:`Key Funcs:` :func:`~SeisMonitor.monitor.locator.nlloc.nlloc.NLLoc.compute_travel_times`, :func:`~SeisMonitor.monitor.locator.nlloc.nlloc.NLLoc.locate`

@@ -2,6 +2,12 @@ Nlloc
 =========================================
 Earthquake location tools using NonLinLoc.
 
+.. warning::
+
+   The NonLinLoc (NLLoc) workflow in SeisMonitor is currently supported
+   only on **Ubuntu Linux systems**. Other operating systems (Windows/macOS)
+   are not officially tested and may fail due to system-level dependencies.
+
 nlloc
 ----------------------------------------------
 

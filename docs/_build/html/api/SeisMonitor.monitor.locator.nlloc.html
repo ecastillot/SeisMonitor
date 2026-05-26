@@ -127,42 +127,90 @@
   <section id="nlloc">
 <h1>Nlloc<a class="headerlink" href="#nlloc" title="Link to this heading"></a></h1>
 <p>Earthquake location tools using NonLinLoc.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>The NonLinLoc (NLLoc) workflow in SeisMonitor is currently supported
+only on <strong>Ubuntu Linux systems</strong>. Other operating systems (Windows/macOS)
+are not officially tested and may fail due to system-level dependencies.</p>
+</div>
 <section id="id1">
 <h2>nlloc<a class="headerlink" href="#id1" title="Link to this heading"></a></h2>
 <dl class="py class" id="module-SeisMonitor.monitor.locator.nlloc.nlloc">
 <dt class="sig sig-object py" id="SeisMonitor.monitor.locator.nlloc.nlloc.NLLoc">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">SeisMonitor.monitor.locator.nlloc.nlloc.</span></span><span class="sig-name descname"><span class="pre">NLLoc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">core_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">agency</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">region</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vel_model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stations</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">delta_in_km</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kwargs_for_trans</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kwargs_for_vel2grid</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kwargs_for_grid2time</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kwargs_for_time2loc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tmp_folder</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'/groups/igonin/ecastillo/SeisMonitor/docs'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">exhaustively</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">search_in_degrees</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rm_attempts</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/SeisMonitor/monitor/locator/nlloc/nlloc.html#NLLoc"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SeisMonitor.monitor.locator.nlloc.nlloc.NLLoc" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>NonLinLoc seismic event locator class.</p>
-<p>This class implements the NonLinLoc algorithm for locating seismic events
-using velocity models and station information. Avaialble in Ubuntu 22.04 and later.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>core_path</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></span>) – Path to NonLinLoc core directory</p></li>
-<li><p><strong>agency</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></span>) – Agency identifier string</p></li>
-<li><p><strong>region</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></span>) – List of [lon_w, lon_e, lat_s, lat_n, z_min, z_max]. See the Warnings section below for details.</p></li>
-<li><p><strong>vel_model</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="#SeisMonitor.monitor.locator.utils.VelModel" title="SeisMonitor.monitor.locator.utils.VelModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">VelModel</span></code></a></span>) – Velocity model object</p></li>
-<li><p><strong>stations</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="#SeisMonitor.monitor.locator.utils.Stations" title="SeisMonitor.monitor.locator.utils.Stations"><code class="xref py py-class docutils literal notranslate"><span class="pre">Stations</span></code></a></span>) – Station information object</p></li>
-<li><p><strong>delta_in_km</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></span>) – Grid spacing in kilometers</p></li>
-<li><p><strong>kwargs_for_trans</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></span>) – Transformation parameters</p></li>
-<li><p><strong>kwargs_for_vel2grid</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></span>) – Vel2Grid parameters</p></li>
-<li><p><strong>kwargs_for_grid2time</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></span>) – Grid2Time parameters</p></li>
-<li><p><strong>kwargs_for_time2loc</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></span>) – Time2Loc parameters</p></li>
-<li><p><strong>tmp_folder</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></span>) – Temporary working directory</p></li>
-<li><p><strong>exhaustively</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></span>) – Whether to perform exhaustive search</p></li>
-<li><p><strong>search_in_degrees</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></span>) – Degrees for exhaustive search</p></li>
-<li><p><strong>rm_attempts</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></span>) – Remove temporary attempt files</p></li>
-</ul>
+<p>NonLinLoc (NLLoc) seismic event locator.</p>
+<p>This class provides an interface to the NonLinLoc algorithm for
+earthquake location using a 1D/3D velocity model and station geometry.</p>
+<p>It wraps the full workflow including travel-time computation,
+grid building, and event location.</p>
+<p>Args:
+core_path: str</p>
+<blockquote>
+<div><p>Path to the NonLinLoc installation directory.</p>
+</div></blockquote>
+<dl>
+<dt>agency: str</dt><dd><p>Agency name used in output event metadata.</p>
+</dd>
+<dt>region: list of float</dt><dd><p>Spatial search region defined as:
+<code class="docutils literal notranslate"><span class="pre">[lon_min,</span> <span class="pre">lon_max,</span> <span class="pre">lat_min,</span> <span class="pre">lat_max,</span> <span class="pre">z_min,</span> <span class="pre">z_max]</span></code></p>
+<p>Notes:
+- Longitude and latitude are in degrees
+- Depth (z) is in kilometers
+- Positive z corresponds to depth below sea level</p>
+</dd>
+<dt>vel_model: VelModel</dt><dd><p>Velocity model used for travel-time computation.</p>
+</dd>
+<dt>stations: Stations</dt><dd><p>Station metadata container.</p>
+</dd>
+<dt>delta_in_km: float, optional</dt><dd><p>Grid spacing in kilometers (default: 2).</p>
+</dd>
+<dt>kwargs_for_trans: dict, optional</dt><dd><p>Parameters for coordinate transformation.</p>
+</dd>
+<dt>kwargs_for_vel2grid: dict, optional</dt><dd><p>Parameters for Vel2Grid execution.</p>
+</dd>
+<dt>kwargs_for_grid2time: dict, optional</dt><dd><p>Parameters for Grid2Time execution.</p>
+</dd>
+<dt>kwargs_for_time2loc: dict, optional</dt><dd><p>Parameters for Time2Loc execution.</p>
+</dd>
+<dt>tmp_folder: str, optional</dt><dd><p>Directory used for temporary files and travel-time grids.
+Defaults to current working directory.</p>
+</dd>
+<dt>exhaustively: bool, optional</dt><dd><p>If True, performs multi-resolution grid search.</p>
+</dd>
+<dt>search_in_degrees: list, optional</dt><dd><p>Grid refinement levels in degrees (used when
+<code class="docutils literal notranslate"><span class="pre">exhaustively=True</span></code>).</p>
+</dd>
+<dt>rm_attempts: bool, optional</dt><dd><p>If True, removes intermediate attempt files after processing.</p>
 </dd>
 </dl>
-<div class="admonition warning">
-<p class="admonition-title">Warning</p>
+<p>Attributes:
+core_path: str</p>
+<blockquote>
+<div><p>Path to the NonLinLoc core installation directory.</p>
+</div></blockquote>
+<dl class="simple">
+<dt>nlloc_paths: dict</dt><dd><p>Dictionary containing resolved executable paths for NLLoc components.</p>
+</dd>
+<dt>basic_inputs: LocatorBasicInputs</dt><dd><p>Container holding velocity model and station information used for location.</p>
+</dd>
+<dt>tmp_folder: str</dt><dd><p>Working directory used for temporary files and intermediate outputs.</p>
+</dd>
+</dl>
+<p>Warnings:
+- Ensure that the <code class="docutils literal notranslate"><span class="pre">region</span></code> fully covers all stations, expected earthquake</p>
+<blockquote>
+<div><p>locations, and the velocity model extent. Pay special attention to the
+elevation range: 0 corresponds to sea level, negative values indicate
+below sea level, and positive values indicate above sea level.</p>
+</div></blockquote>
 <ul class="simple">
-<li><p>Make sure the region covers all the stations, the expected earthquake locations and the velocity model. Specially the elevation part and the stations, 0 respect to sea level, negative means below sea level, positive means above sea level.</p></li>
-<li><p>The <code class="docutils literal notranslate"><span class="pre">compute_travel_times</span></code> method can be computationally expensive depending on the grid resolution, spatial extent of the model, and number of stations. Large grids may also require significant memory and disk space. Ensure adequate computational resources are available before execution.</p></li>
+<li><p>The <code class="docutils literal notranslate"><span class="pre">compute_travel_times</span></code> method can be computationally expensive
+depending on grid resolution, spatial extent of the model, and number
+of stations. Large grids may also require significant memory and disk
+usage. Ensure adequate computational resources are available before
+execution.</p></li>
 </ul>
-</div>
 <dl class="py method">
 <dt class="sig sig-object py" id="SeisMonitor.monitor.locator.nlloc.nlloc.NLLoc.compute_travel_times">
 <span class="sig-name descname"><span class="pre">compute_travel_times</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/SeisMonitor/monitor/locator/nlloc/nlloc.html#NLLoc.compute_travel_times"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SeisMonitor.monitor.locator.nlloc.nlloc.NLLoc.compute_travel_times" title="Link to this definition"></a></dt>

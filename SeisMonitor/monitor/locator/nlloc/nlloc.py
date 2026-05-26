@@ -20,33 +20,93 @@ from SeisMonitor.monitor.locator import utils as slut
 
 
 class NLLoc:
-    """NonLinLoc seismic event locator class.
+    """
+    NonLinLoc (NLLoc) seismic event locator.
 
-    This class implements the NonLinLoc algorithm for locating seismic events
-    using velocity models and station information. Avaialble in Ubuntu 22.04 and later.
+    This class provides an interface to the NonLinLoc algorithm for
+    earthquake location using a 1D/3D velocity model and station geometry.
 
-    
+    It wraps the full workflow including travel-time computation,
+    grid building, and event location.
+
     Args:
-        core_path: Path to NonLinLoc core directory
-        agency: Agency identifier string
-        region: List of [lon_w, lon_e, lat_s, lat_n, z_min, z_max]. See the Warnings section below for details.
-        vel_model: Velocity model object
-        stations: Station information object
-        delta_in_km: Grid spacing in kilometers
-        kwargs_for_trans: Transformation parameters
-        kwargs_for_vel2grid: Vel2Grid parameters
-        kwargs_for_grid2time: Grid2Time parameters
-        kwargs_for_time2loc: Time2Loc parameters
-        tmp_folder: Temporary working directory
-        exhaustively: Whether to perform exhaustive search
-        search_in_degrees: Degrees for exhaustive search
-        rm_attempts: Remove temporary attempt files
 
-    Warnings
-    --------
-    - Make sure the region covers all the stations, the expected earthquake locations and the velocity model. Specially the elevation part and the stations, 0 respect to sea level, negative means below sea level, positive means above sea level.
+    core_path: str
+        Path to the NonLinLoc installation directory.
+
+    agency: str
+        Agency name used in output event metadata.
+
+    region: list of float
+        Spatial search region defined as:
+        ``[lon_min, lon_max, lat_min, lat_max, z_min, z_max]``
+
+        Notes:
+        - Longitude and latitude are in degrees
+        - Depth (z) is in kilometers
+        - Positive z corresponds to depth below sea level
+
+    vel_model: VelModel
+        Velocity model used for travel-time computation.
+
+    stations: Stations
+        Station metadata container.
+
+    delta_in_km: float, optional
+        Grid spacing in kilometers (default: 2).
+
+    kwargs_for_trans: dict, optional
+        Parameters for coordinate transformation.
+
+    kwargs_for_vel2grid: dict, optional
+        Parameters for Vel2Grid execution.
+
+    kwargs_for_grid2time: dict, optional
+        Parameters for Grid2Time execution.
+
+    kwargs_for_time2loc: dict, optional
+        Parameters for Time2Loc execution.
+
+    tmp_folder: str, optional
+        Directory used for temporary files and travel-time grids.
+        Defaults to current working directory.
+
+    exhaustively: bool, optional
+        If True, performs multi-resolution grid search.
+
+    search_in_degrees: list, optional
+        Grid refinement levels in degrees (used when
+        ``exhaustively=True``).
+
+    rm_attempts: bool, optional
+        If True, removes intermediate attempt files after processing.
+
+    Attributes:
+
+    core_path: str
+        Path to the NonLinLoc core installation directory.
+
+    nlloc_paths: dict
+        Dictionary containing resolved executable paths for NLLoc components.
+
+    basic_inputs: LocatorBasicInputs
+        Container holding velocity model and station information used for location.
+
+    tmp_folder: str
+        Working directory used for temporary files and intermediate outputs.
+
+    Warnings:
     
-    - The ``compute_travel_times`` method can be computationally expensive depending on the grid resolution, spatial extent of the model, and number of stations. Large grids may also require significant memory and disk space. Ensure adequate computational resources are available before execution.
+    - Ensure that the ``region`` fully covers all stations, expected earthquake
+      locations, and the velocity model extent. Pay special attention to the
+      elevation range: 0 corresponds to sea level, negative values indicate
+      below sea level, and positive values indicate above sea level.
+
+    - The ``compute_travel_times`` method can be computationally expensive
+      depending on grid resolution, spatial extent of the model, and number
+      of stations. Large grids may also require significant memory and disk
+      usage. Ensure adequate computational resources are available before
+      execution.
     """
 
     def __init__(
