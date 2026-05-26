@@ -2,6 +2,10 @@
 Installation
 ============================
 
+.. image:: https://img.shields.io/pypi/v/SeisMonitor?style=plastic
+   :target: https://pypi.org/project/SeisMonitor/
+   :alt: PyPI version
+
 Installing via Conda
 ----------------------------
 You can install `SeisMonitor <https://pypi.org/project/seismonitor/>`_ directly from PyPI using `pip` in a conda environment. 

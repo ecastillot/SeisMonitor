@@ -175,6 +175,7 @@ Earthquake Location
 
 .. code-block:: python
 
+   import os
    from pathlib import Path
    from SeisMonitor.monitor.locator.nlloc.nlloc import NLLoc
    from SeisMonitor.monitor.locator import utils as lut
