@@ -5,14 +5,15 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>SeisMonitor.monitor.locator.nlloc.utils &mdash; SeisMonitor 0.0.57 documentation</title>
+  <title>SeisMonitor.monitor.locator.nlloc.utils &mdash; SeisMonitor 0.0.58 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../../../_static/pygments.css?v=b86133f3" />
-      <link rel="stylesheet" type="text/css" href="../../../../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../../../../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../../../../../_static/css/custom.css?v=9f7e8617" />
 
   
       <script src="../../../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../../../_static/documentation_options.js?v=2bfb35b6"></script>
+      <script src="../../../../../_static/documentation_options.js?v=c3e19674"></script>
       <script src="../../../../../_static/doctools.js?v=9bcbadda"></script>
       <script src="../../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../../../_static/js/theme.js"></script>
@@ -28,8 +29,9 @@
 
           
           
-          <a href="../../../../../index.html" class="icon icon-home">
-            SeisMonitor
+          <a href="../../../../../index.html">
+            
+              <img src="../../../../../_static/seismonitor.PNG" class="logo" alt="Logo"/>
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../../../search.html" method="get">
@@ -39,8 +41,16 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <!-- Local TOC -->
-              <div class="local-toc"></div>
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../home.html">Welcome to SeisMonitor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../quickstart.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../dataset.html">SeisMonitor in Colombia</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../api/index.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../authors.html">Authors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../contribution.html">Contributing</a></li>
+</ul>
+
         </div>
       </div>
     </nav>
@@ -79,7 +89,7 @@
 <span class="kn">import</span><span class="w"> </span><span class="nn">SeisMonitor.utils</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sut</span>
 
 <div class="viewcode-block" id="get_nlloc_folders">
-<a class="viewcode-back" href="../../../../../SeisMonitor.monitor.locator.nlloc.html#SeisMonitor.monitor.locator.nlloc.utils.get_nlloc_folders">[docs]</a>
+<a class="viewcode-back" href="../../../../../api/SeisMonitor.monitor.locator.nlloc.html#SeisMonitor.monitor.locator.nlloc.utils.get_nlloc_folders">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">get_nlloc_folders</span><span class="p">(</span><span class="n">core_path</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Generate dictionary of NonLinLoc folder paths.</span>
 <span class="sd">    </span>
@@ -109,7 +119,7 @@
 
 
 <div class="viewcode-block" id="testing_nlloc_core_path">
-<a class="viewcode-back" href="../../../../../SeisMonitor.monitor.locator.nlloc.html#SeisMonitor.monitor.locator.nlloc.utils.testing_nlloc_core_path">[docs]</a>
+<a class="viewcode-back" href="../../../../../api/SeisMonitor.monitor.locator.nlloc.html#SeisMonitor.monitor.locator.nlloc.utils.testing_nlloc_core_path">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">testing_nlloc_core_path</span><span class="p">(</span><span class="n">nlloc_core_path</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Validate existence of essential NonLinLoc directories.</span>
 <span class="sd">    </span>
@@ -136,7 +146,7 @@
 
 
 <div class="viewcode-block" id="run_nlloc">
-<a class="viewcode-back" href="../../../../../SeisMonitor.monitor.locator.nlloc.html#SeisMonitor.monitor.locator.nlloc.utils.run_nlloc">[docs]</a>
+<a class="viewcode-back" href="../../../../../api/SeisMonitor.monitor.locator.nlloc.html#SeisMonitor.monitor.locator.nlloc.utils.run_nlloc">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">run_nlloc</span><span class="p">(</span><span class="n">nlloc_paths</span><span class="p">,</span> <span class="n">p_control_file_path</span><span class="p">,</span> <span class="n">s_control_file_path</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Execute NonLinLoc processing steps using system commands.</span>
 <span class="sd">    </span>
@@ -159,7 +169,7 @@
 
 
 <div class="viewcode-block" id="apt_install">
-<a class="viewcode-back" href="../../../../../SeisMonitor.monitor.locator.nlloc.html#SeisMonitor.monitor.locator.nlloc.utils.apt_install">[docs]</a>
+<a class="viewcode-back" href="../../../../../api/SeisMonitor.monitor.locator.nlloc.html#SeisMonitor.monitor.locator.nlloc.utils.apt_install">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">apt_install</span><span class="p">(</span><span class="n">pkgs</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Install packages using apt-get with sudo privileges.</span>
 <span class="sd">    </span>
@@ -179,7 +189,7 @@
 
 
 <div class="viewcode-block" id="write_pref_origin_removing_phaselocinfo">
-<a class="viewcode-back" href="../../../../../SeisMonitor.monitor.locator.nlloc.html#SeisMonitor.monitor.locator.nlloc.utils.write_pref_origin_removing_phaselocinfo">[docs]</a>
+<a class="viewcode-back" href="../../../../../api/SeisMonitor.monitor.locator.nlloc.html#SeisMonitor.monitor.locator.nlloc.utils.write_pref_origin_removing_phaselocinfo">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">write_pref_origin_removing_phaselocinfo</span><span class="p">(</span><span class="n">catalog</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Process seismic catalog to keep only preferred origins.</span>
 <span class="sd">    </span>
@@ -223,7 +233,7 @@
 
 
 <div class="viewcode-block" id="download_nlloc">
-<a class="viewcode-back" href="../../../../../SeisMonitor.monitor.locator.nlloc.html#SeisMonitor.monitor.locator.nlloc.utils.download_nlloc">[docs]</a>
+<a class="viewcode-back" href="../../../../../api/SeisMonitor.monitor.locator.nlloc.html#SeisMonitor.monitor.locator.nlloc.utils.download_nlloc">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">download_nlloc</span><span class="p">(</span><span class="n">nlloc_path</span><span class="p">,</span> <span class="n">forced</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Download and compile NonLinLoc from Git repository.</span>
 <span class="sd">    </span>
@@ -260,7 +270,7 @@
 
 
 <div class="viewcode-block" id="write_1d_vel_model">
-<a class="viewcode-back" href="../../../../../SeisMonitor.monitor.locator.nlloc.html#SeisMonitor.monitor.locator.nlloc.utils.write_1d_vel_model">[docs]</a>
+<a class="viewcode-back" href="../../../../../api/SeisMonitor.monitor.locator.nlloc.html#SeisMonitor.monitor.locator.nlloc.utils.write_1d_vel_model">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">write_1d_vel_model</span><span class="p">(</span><span class="n">vel_path</span><span class="p">,</span> <span class="n">out</span><span class="p">,</span> <span class="n">compute_vs</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">vp_vs_ratio</span><span class="o">=</span><span class="mf">1.78</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Write 1D velocity model file from CSV data.</span>
 <span class="sd">    </span>
@@ -282,7 +292,7 @@
 
 
 <div class="viewcode-block" id="resp2df">
-<a class="viewcode-back" href="../../../../../SeisMonitor.monitor.locator.nlloc.html#SeisMonitor.monitor.locator.nlloc.utils.resp2df">[docs]</a>
+<a class="viewcode-back" href="../../../../../api/SeisMonitor.monitor.locator.nlloc.html#SeisMonitor.monitor.locator.nlloc.utils.resp2df">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">resp2df</span><span class="p">(</span><span class="n">resp</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Convert RESP file to DataFrame with station information.</span>
 <span class="sd">    </span>
@@ -313,7 +323,7 @@
 
 
 <div class="viewcode-block" id="write_station_file">
-<a class="viewcode-back" href="../../../../../SeisMonitor.monitor.locator.nlloc.html#SeisMonitor.monitor.locator.nlloc.utils.write_station_file">[docs]</a>
+<a class="viewcode-back" href="../../../../../api/SeisMonitor.monitor.locator.nlloc.html#SeisMonitor.monitor.locator.nlloc.utils.write_station_file">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">write_station_file</span><span class="p">(</span><span class="n">sta_path</span><span class="p">,</span> <span class="n">out</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Write station file from RESP data.</span>
 <span class="sd">    </span>
@@ -333,7 +343,7 @@
 
 
 <div class="viewcode-block" id="join_args">
-<a class="viewcode-back" href="../../../../../SeisMonitor.monitor.locator.nlloc.html#SeisMonitor.monitor.locator.nlloc.utils.join_args">[docs]</a>
+<a class="viewcode-back" href="../../../../../api/SeisMonitor.monitor.locator.nlloc.html#SeisMonitor.monitor.locator.nlloc.utils.join_args">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">join_args</span><span class="p">(</span><span class="n">args</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Convert list of arguments to space-separated string.</span>
 <span class="sd">    </span>
@@ -347,7 +357,7 @@
 
 
 <div class="viewcode-block" id="GenericControlStatement">
-<a class="viewcode-back" href="../../../../../SeisMonitor.monitor.locator.nlloc.html#SeisMonitor.monitor.locator.nlloc.utils.GenericControlStatement">[docs]</a>
+<a class="viewcode-back" href="../../../../../api/SeisMonitor.monitor.locator.nlloc.html#SeisMonitor.monitor.locator.nlloc.utils.GenericControlStatement">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">GenericControlStatement</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Class for generating generic control statements for NonLinLoc.&quot;&quot;&quot;</span>
     
@@ -362,7 +372,7 @@
         <span class="n">sut</span><span class="o">.</span><span class="n">validate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="fm">__init__</span><span class="p">,</span> <span class="nb">locals</span><span class="p">())</span>
 
 <div class="viewcode-block" id="GenericControlStatement.get_msg">
-<a class="viewcode-back" href="../../../../../SeisMonitor.monitor.locator.nlloc.html#SeisMonitor.monitor.locator.nlloc.utils.GenericControlStatement.get_msg">[docs]</a>
+<a class="viewcode-back" href="../../../../../api/SeisMonitor.monitor.locator.nlloc.html#SeisMonitor.monitor.locator.nlloc.utils.GenericControlStatement.get_msg">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_msg</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Generate formatted control statement string.</span>
 <span class="sd">        </span>
@@ -381,7 +391,7 @@
 
 
 <div class="viewcode-block" id="Vel2Grid">
-<a class="viewcode-back" href="../../../../../SeisMonitor.monitor.locator.nlloc.html#SeisMonitor.monitor.locator.nlloc.utils.Vel2Grid">[docs]</a>
+<a class="viewcode-back" href="../../../../../api/SeisMonitor.monitor.locator.nlloc.html#SeisMonitor.monitor.locator.nlloc.utils.Vel2Grid">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">Vel2Grid</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Class for generating velocity grid statements for NonLinLoc.&quot;&quot;&quot;</span>
     
@@ -402,7 +412,7 @@
         <span class="n">sut</span><span class="o">.</span><span class="n">validate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="fm">__init__</span><span class="p">,</span> <span class="nb">locals</span><span class="p">())</span>
 
 <div class="viewcode-block" id="Vel2Grid.get_msg">
-<a class="viewcode-back" href="../../../../../SeisMonitor.monitor.locator.nlloc.html#SeisMonitor.monitor.locator.nlloc.utils.Vel2Grid.get_msg">[docs]</a>
+<a class="viewcode-back" href="../../../../../api/SeisMonitor.monitor.locator.nlloc.html#SeisMonitor.monitor.locator.nlloc.utils.Vel2Grid.get_msg">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_msg</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Generate formatted velocity grid statement string.</span>
 <span class="sd">        </span>
@@ -432,7 +442,7 @@
 
 
 <div class="viewcode-block" id="Grid2Time">
-<a class="viewcode-back" href="../../../../../SeisMonitor.monitor.locator.nlloc.html#SeisMonitor.monitor.locator.nlloc.utils.Grid2Time">[docs]</a>
+<a class="viewcode-back" href="../../../../../api/SeisMonitor.monitor.locator.nlloc.html#SeisMonitor.monitor.locator.nlloc.utils.Grid2Time">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">Grid2Time</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Class for generating travel time grid statements for NonLinLoc.&quot;&quot;&quot;</span>
     
@@ -456,7 +466,7 @@
         <span class="n">sut</span><span class="o">.</span><span class="n">validate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="fm">__init__</span><span class="p">,</span> <span class="nb">locals</span><span class="p">())</span>
 
 <div class="viewcode-block" id="Grid2Time.get_msg">
-<a class="viewcode-back" href="../../../../../SeisMonitor.monitor.locator.nlloc.html#SeisMonitor.monitor.locator.nlloc.utils.Grid2Time.get_msg">[docs]</a>
+<a class="viewcode-back" href="../../../../../api/SeisMonitor.monitor.locator.nlloc.html#SeisMonitor.monitor.locator.nlloc.utils.Grid2Time.get_msg">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_msg</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Generate formatted travel time grid statement string.</span>
 <span class="sd">        </span>
@@ -486,7 +496,7 @@
 
 
 <div class="viewcode-block" id="Time2Loc">
-<a class="viewcode-back" href="../../../../../SeisMonitor.monitor.locator.nlloc.html#SeisMonitor.monitor.locator.nlloc.utils.Time2Loc">[docs]</a>
+<a class="viewcode-back" href="../../../../../api/SeisMonitor.monitor.locator.nlloc.html#SeisMonitor.monitor.locator.nlloc.utils.Time2Loc">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">Time2Loc</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Class for generating location statements for NonLinLoc.&quot;&quot;&quot;</span>
     
@@ -541,7 +551,7 @@
         <span class="n">sut</span><span class="o">.</span><span class="n">validate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="fm">__init__</span><span class="p">,</span> <span class="nb">locals</span><span class="p">())</span>
 
 <div class="viewcode-block" id="Time2Loc.get_msg">
-<a class="viewcode-back" href="../../../../../SeisMonitor.monitor.locator.nlloc.html#SeisMonitor.monitor.locator.nlloc.utils.Time2Loc.get_msg">[docs]</a>
+<a class="viewcode-back" href="../../../../../api/SeisMonitor.monitor.locator.nlloc.html#SeisMonitor.monitor.locator.nlloc.utils.Time2Loc.get_msg">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_msg</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Generate formatted location statement string.</span>
 <span class="sd">        </span>
@@ -593,7 +603,7 @@
 
 
 <div class="viewcode-block" id="NLLocControlFile">
-<a class="viewcode-back" href="../../../../../SeisMonitor.monitor.locator.nlloc.html#SeisMonitor.monitor.locator.nlloc.utils.NLLocControlFile">[docs]</a>
+<a class="viewcode-back" href="../../../../../api/SeisMonitor.monitor.locator.nlloc.html#SeisMonitor.monitor.locator.nlloc.utils.NLLocControlFile">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">NLLocControlFile</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Class for generating complete NonLinLoc control file.&quot;&quot;&quot;</span>
     
@@ -633,7 +643,7 @@
         <span class="n">sut</span><span class="o">.</span><span class="n">printlog</span><span class="p">(</span><span class="s2">&quot;debug&quot;</span><span class="p">,</span> <span class="s2">&quot;NLLoc:validate_control_file_args&quot;</span><span class="p">,</span> <span class="s2">&quot;control file args are ok&quot;</span><span class="p">)</span>
 
 <div class="viewcode-block" id="NLLocControlFile.get_msg">
-<a class="viewcode-back" href="../../../../../SeisMonitor.monitor.locator.nlloc.html#SeisMonitor.monitor.locator.nlloc.utils.NLLocControlFile.get_msg">[docs]</a>
+<a class="viewcode-back" href="../../../../../api/SeisMonitor.monitor.locator.nlloc.html#SeisMonitor.monitor.locator.nlloc.utils.NLLocControlFile.get_msg">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_msg</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vel2grid</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">grid2time</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">time2loc</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Generate complete control file message.</span>
 <span class="sd">        </span>
@@ -661,7 +671,7 @@
 
 
 <div class="viewcode-block" id="NLLocControlFile.write">
-<a class="viewcode-back" href="../../../../../SeisMonitor.monitor.locator.nlloc.html#SeisMonitor.monitor.locator.nlloc.utils.NLLocControlFile.write">[docs]</a>
+<a class="viewcode-back" href="../../../../../api/SeisMonitor.monitor.locator.nlloc.html#SeisMonitor.monitor.locator.nlloc.utils.NLLocControlFile.write">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">write</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">out</span><span class="p">,</span> <span class="n">vel2grid</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">grid2time</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">time2loc</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Write control file to disk.</span>
 <span class="sd">        </span>

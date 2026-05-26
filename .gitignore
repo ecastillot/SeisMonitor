@@ -22,4 +22,7 @@ SeisMonitor.egg-info/
 x.input
 analisis/
 test/out/*
+examples/TX/sm
+examples/TX/*.sh
+examples/TX/*.out
 seismonitor.egg-info

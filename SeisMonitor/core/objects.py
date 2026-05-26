@@ -6,16 +6,16 @@ class Provider:
     """
     Handles the retrieval and storage of station metadata (inventory) 
     from either an XML file or a client service.
+
+    Args:
+        client (object): An ObsPy-compatible client to fetch station metadata.
+        waveform_restrictions (WaveformRestrictions): Object containing selection criteria for waveform data.
+        processing (Processing, optional): Processing steps for waveform data (default is None).
+        xml (str, optional): Path to an XML file containing station metadata (default is None). This is used if the inventory is not fetched from the client.
     """
     def __init__(self, client, waveform_restrictions, processing=None, xml=None) -> None:
         """
         Initialize the Provider class.
-
-        Args:
-            client (object): An ObsPy-compatible client to fetch station metadata.
-            waveform_restrictions (WaveformRestrictions): Object containing selection criteria for waveform data.
-            processing (Processing, optional): Processing steps for waveform data (default is None).
-            xml (str, optional): Path to an XML file containing station metadata (default is None).
         """
         self.client = client
         self.waveform_restrictions = waveform_restrictions
@@ -50,6 +50,24 @@ class WaveformRestrictions:
     """
     Defines criteria for selecting waveform data, including network, station,
     location, and time range constraints.
+
+    Args:
+        network (str): Comma-separated list of network codes (wildcards allowed).
+        station (str): Comma-separated list of station codes (wildcards allowed).
+        location (str): Comma-separated list of location identifiers (wildcards allowed).
+        channel (str): Comma-separated list of channel codes (e.g., "BHZ,HHZ").
+        starttime (obspy.UTCDateTime): Start time for waveform selection.
+        endtime (obspy.UTCDateTime): End time for waveform selection.
+        location_preferences (list, optional): Ordered list of preferred locations 
+            (default is an empty list).
+        channel_preferences (list, optional): Ordered list of preferred channels 
+            (default is an empty list).
+        filter_networks (list, optional): List of networks to filter out 
+            (default is an empty list).
+        filter_stations (list, optional): List of stations to filter out 
+            (default is an empty list).
+        filter_domain (list, optional): Geographic bounding box 
+            [lon_west, lon_east, lat_south, lat_north] (default is global coverage).
     """
     def __init__(self, network, station, location, channel, starttime, endtime,
                  location_preferences=None, channel_preferences=None,
@@ -57,24 +75,6 @@ class WaveformRestrictions:
                  filter_domain=None):
         """
         Initialize the waveform selection criteria.
-
-        Args:
-            network (str): Comma-separated list of network codes (wildcards allowed).
-            station (str): Comma-separated list of station codes (wildcards allowed).
-            location (str): Comma-separated list of location identifiers (wildcards allowed).
-            channel (str): Comma-separated list of channel codes (e.g., "BHZ,HHZ").
-            starttime (obspy.UTCDateTime): Start time for waveform selection.
-            endtime (obspy.UTCDateTime): End time for waveform selection.
-            location_preferences (list, optional): Ordered list of preferred locations 
-                (default is an empty list).
-            channel_preferences (list, optional): Ordered list of preferred channels 
-                (default is an empty list).
-            filter_networks (list, optional): List of networks to filter out 
-                (default is an empty list).
-            filter_stations (list, optional): List of stations to filter out 
-                (default is an empty list).
-            filter_domain (list, optional): Geographic bounding box 
-                [lon_west, lon_east, lat_south, lat_north] (default is global coverage).
         """
         self.network = network
         self.station = station
@@ -92,6 +92,33 @@ class WaveformRestrictions:
 class Processing:
     """
     Defines processing steps to be applied to waveform data.
+
+    Parameters:
+    -----------
+    :order: list of str, optional
+        Order of preprocessing steps (default includes 'normalize', 'merge', etc.).
+    :decimate: dict, optional
+        Parameters for the decimate method.
+    :detrend: dict, optional
+        Parameters for the detrend method.
+    :filter: dict, optional
+        Parameters for the filter method.
+    :merge: dict, optional
+        Parameters for the merge method.
+    :normalize: dict, optional
+        Parameters for the normalize method.
+    :resample: dict, optional
+        Parameters for the resample method.
+    :taper: dict, optional
+        Parameters for the taper method.
+    :select_networks: list, optional
+        List of networks to select (default is empty list).
+    :select_stations: list, optional
+        List of stations to select (default is empty list).
+    :filter_networks: list, optional
+        List of networks to filter out (default is empty list).
+    :filter_stations: list, optional
+        List of stations to filter out (default is empty list).
     """
     def __init__(self, order=None, decimate=None, detrend=None, filter=None, merge=None,
                  normalize=None, resample=None, taper=None,
@@ -99,33 +126,6 @@ class Processing:
                  filter_networks=None, filter_stations=None):
         """
         Initializes processing steps for waveform data.
-
-        Parameters:
-        -----------
-        :order: list of str, optional
-            Order of preprocessing steps (default includes 'normalize', 'merge', etc.).
-        :decimate: dict, optional
-            Parameters for the decimate method.
-        :detrend: dict, optional
-            Parameters for the detrend method.
-        :filter: dict, optional
-            Parameters for the filter method.
-        :merge: dict, optional
-            Parameters for the merge method.
-        :normalize: dict, optional
-            Parameters for the normalize method.
-        :resample: dict, optional
-            Parameters for the resample method.
-        :taper: dict, optional
-            Parameters for the taper method.
-        :select_networks: list, optional
-            List of networks to select (default is empty list).
-        :select_stations: list, optional
-            List of stations to select (default is empty list).
-        :filter_networks: list, optional
-            List of networks to filter out (default is empty list).
-        :filter_stations: list, optional
-            List of stations to filter out (default is empty list).
         """
         self.order = order or ['normalize', 'merge', 'detrend', 'taper', "filter"]
         self.decimate = decimate or {"factor": 2}

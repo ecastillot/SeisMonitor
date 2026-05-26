@@ -6,18 +6,79 @@ from obspy.core.util.misc import BAND_CODE
 
 class LocalClient(Client):
 
+    """
+    Local waveform archive client based on ObsPy's SDS client.
+
+    This class extends :class:`obspy.clients.filesystem.sds.Client`
+    to support custom local archive directory structures using a
+    user-defined filename format string.
+
+    The format string must use attributes available in an ObsPy
+    ``Trace.stats`` object, such as year, month, day, network,
+    station, location, channel, and Julian day.
+
+    Parameters
+    ----------
+    root : str
+        Root directory of the local waveform archive.
+
+    fmt : str
+        File path template describing the archive structure.
+
+        Example::
+
+            "{year}-{month:02d}/{year}-{month:02d}-{day:02d}/"
+            "{network}.{station}.{location}.{channel}.{year}.{julday:03d}"
+
+    **kwargs
+        Additional keyword arguments passed to
+        :class:`obspy.clients.filesystem.sds.Client`.
+
+    Notes
+    -----
+    ``LocalClient`` preserves all standard SDS client functionalities,
+    including waveform retrieval with
+    :meth:`~obspy.clients.filesystem.sds.Client.get_waveforms`.
+
+    Example
+    -------
+    Suppose the local archive is organized as::
+
+        {root_path}/seedfiles/{year}-{month:02d}/
+        {year}-{month:02d}-{day:02d}/
+        {network}.{station}.{location}.{channel}.{year}.{julday:03d}
+
+    Example usage:
+
+    .. code-block:: python
+
+        from obspy import UTCDateTime
+
+        root_path = "/home/emmanuel/myarchive"
+
+        client = LocalClient(
+            root=root_path,
+            fmt=(
+                "seedfiles/{year}-{month:02d}/"
+                "{year}-{month:02d}-{day:02d}/"
+                "{network}.{station}.{location}."
+                "{channel}.{year}.{julday:03d}"
+            )
+        )
+
+        st = client.get_waveforms(
+            network="YY",
+            station="XXXX",
+            location="00",
+            channel="HHZ",
+            starttime=UTCDateTime("20220102T000100"),
+            endtime=UTCDateTime("20220102T000200"),
+        )
+    """
+
     def __init__(self, root, fmt, **kwargs):
         """
-        Parameters:
-        -----------
-        root: str 
-            Path where is located the Local structure
-        
-        fmt: str 
-            The parameter should name the corresponding keys of the stats object, e.g. "{year}-{month:02d}/{year}-{month:02d}-{day:02d}/{network}.{station}.{location}.{channel}.{year}.{julday:03d}"
-        
-        kwargs: 
-            SDS client additional args
+        Initialize the LocalClient.
         """
         self.root = root
         self.fmt = fmt

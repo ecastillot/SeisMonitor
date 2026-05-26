@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="170" height="50">
+  <rect x="0" y="10" width="60" height="30" rx="6" fill="#E87500"/>
+  <text x="8" y="32" font-family="Arial" font-size="18" fill="white" font-weight="bold">UTD</text>
+  <text x="66" y="32" font-family="Arial" font-size="20" fill="black">Quake</text>
+</svg>

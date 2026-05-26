@@ -5,14 +5,15 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>SeisMonitor.monitor.associator.ai &mdash; SeisMonitor 0.0.57 documentation</title>
+  <title>SeisMonitor.monitor.associator.ai &mdash; SeisMonitor 0.0.58 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=b86133f3" />
-      <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/css/custom.css?v=9f7e8617" />
 
   
       <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../../_static/documentation_options.js?v=2bfb35b6"></script>
+      <script src="../../../../_static/documentation_options.js?v=c3e19674"></script>
       <script src="../../../../_static/doctools.js?v=9bcbadda"></script>
       <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../../_static/js/theme.js"></script>
@@ -28,8 +29,9 @@
 
           
           
-          <a href="../../../../index.html" class="icon icon-home">
-            SeisMonitor
+          <a href="../../../../index.html">
+            
+              <img src="../../../../_static/seismonitor.PNG" class="logo" alt="Logo"/>
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
@@ -39,8 +41,16 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <!-- Local TOC -->
-              <div class="local-toc"></div>
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../home.html">Welcome to SeisMonitor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../quickstart.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../dataset.html">SeisMonitor in Colombia</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../api/index.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../authors.html">Authors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../contribution.html">Contributing</a></li>
+</ul>
+
         </div>
       </div>
     </nav>
@@ -93,9 +103,49 @@
 
 
 <div class="viewcode-block" id="GaMMAObj">
-<a class="viewcode-back" href="../../../../SeisMonitor.monitor.associator.html#SeisMonitor.monitor.associator.ai.GaMMAObj">[docs]</a>
+<a class="viewcode-back" href="../../../../api/SeisMonitor.monitor.associator.html#SeisMonitor.monitor.associator.ai.GaMMAObj">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">GaMMAObj</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;GaMMA object for seismic event association and processing.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;GaMMA object for seismic event association and processing.</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        region : list</span>
+<span class="sd">            List of [lon_min, lon_max, lat_min, lat_max, z_min, z_max]. </span>
+<span class="sd">            z is depth in km.</span>
+<span class="sd">        epsg_proj : str</span>
+<span class="sd">            EPSG projection code.</span>
+<span class="sd">        use_dbscan : bool, default=True</span>
+<span class="sd">            Whether to use DBSCAN clustering.</span>
+<span class="sd">        use_amplitude : bool, default=True</span>
+<span class="sd">            Whether to use amplitude in processing.</span>
+<span class="sd">        dbscan_eps : float, default=10.0</span>
+<span class="sd">            DBSCAN epsilon parameter.</span>
+<span class="sd">        dbscan_min_samples : int, default=3</span>
+<span class="sd">            DBSCAN minimum samples parameter.</span>
+<span class="sd">        vel : dict, default={&quot;p&quot;: 7.0, &quot;s&quot;: 7.0 / 1.75}</span>
+<span class="sd">            Average velocity model with P and S wave velocities.</span>
+<span class="sd">        method : str, default=&quot;BGMM&quot;</span>
+<span class="sd">            Association method.</span>
+<span class="sd">        oversample_factor : int, default=20</span>
+<span class="sd">            Oversampling factor for processing.</span>
+<span class="sd">        min_picks_per_eq : int, default=5</span>
+<span class="sd">            Minimum picks per earthquake.</span>
+<span class="sd">        max_sigma11 : float, default=2.0</span>
+<span class="sd">            Maximum sigma for x-x uncertainty.</span>
+<span class="sd">        max_sigma22 : float, default=1.0</span>
+<span class="sd">            Maximum sigma for y-y uncertainty.</span>
+<span class="sd">        max_sigma12 : float, default=1.0</span>
+<span class="sd">            Maximum sigma for x-y uncertainty.</span>
+<span class="sd">        calculate_amp : bool, default=True</span>
+<span class="sd">            Whether to calculate amplitudes.</span>
+<span class="sd">        p_window : int, default=10</span>
+<span class="sd">            P-wave window length.</span>
+<span class="sd">        s_window : int, default=5</span>
+<span class="sd">            S-wave window length.</span>
+<span class="sd">        waterlevel : int, default=10</span>
+<span class="sd">            Waterlevel for amplitude calculation.</span>
+<span class="sd">    </span>
+<span class="sd">    &quot;&quot;&quot;</span>
     
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
@@ -117,27 +167,7 @@
         <span class="n">s_window</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
         <span class="n">waterlevel</span><span class="o">=</span><span class="mi">10</span>
     <span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize GaMMAObj with configuration parameters.</span>
-<span class="sd">        </span>
-<span class="sd">        Args:</span>
-<span class="sd">            region (list): List of [lon_min, lon_max, lat_min, lat_max, z_min, z_max]. z is depth in km.</span>
-<span class="sd">            epsg_proj (str): EPSG projection code</span>
-<span class="sd">            use_dbscan (bool): Whether to use DBSCAN clustering</span>
-<span class="sd">            use_amplitude (bool): Whether to use amplitude in processing</span>
-<span class="sd">            dbscan_eps (float): DBSCAN epsilon parameter</span>
-<span class="sd">            dbscan_min_samples (int): DBSCAN minimum samples parameter</span>
-<span class="sd">            vel (dict): Average velocity model with P and S wave velocities</span>
-<span class="sd">            method (str): Association method (default: &quot;BGMM&quot;)</span>
-<span class="sd">            oversample_factor (int): Oversampling factor for processing</span>
-<span class="sd">            min_picks_per_eq (int): Minimum picks per earthquake</span>
-<span class="sd">            max_sigma11 (float): Maximum sigma for x-x uncertainty</span>
-<span class="sd">            max_sigma22 (float): Maximum sigma for y-y uncertainty</span>
-<span class="sd">            max_sigma12 (float): Maximum sigma for x-y uncertainty</span>
-<span class="sd">            calculate_amp (bool): Whether to calculate amplitudes</span>
-<span class="sd">            p_window (int): P-wave window length</span>
-<span class="sd">            s_window (int): S-wave window length</span>
-<span class="sd">            waterlevel (int): Waterlevel for amplitude calculation</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize GaMMAObj with configuration parameters.&quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">lon_lims</span> <span class="o">=</span> <span class="n">region</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">lat_lims</span> <span class="o">=</span> <span class="n">region</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span><span class="mi">4</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">z_lims</span> <span class="o">=</span> <span class="n">region</span><span class="p">[</span><span class="mi">4</span><span class="p">:]</span>
@@ -164,7 +194,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;GaMMA&quot;</span>
 
 <div class="viewcode-block" id="GaMMAObj.add_response">
-<a class="viewcode-back" href="../../../../SeisMonitor.monitor.associator.html#SeisMonitor.monitor.associator.ai.GaMMAObj.add_response">[docs]</a>
+<a class="viewcode-back" href="../../../../api/SeisMonitor.monitor.associator.html#SeisMonitor.monitor.associator.ai.GaMMAObj.add_response">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">add_response</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">response</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Add response inventory to the GaMMA object.</span>
 <span class="sd">        </span>
@@ -236,7 +266,7 @@
 
 
 <div class="viewcode-block" id="get_gamma_picks">
-<a class="viewcode-back" href="../../../../SeisMonitor.monitor.associator.html#SeisMonitor.monitor.associator.ai.get_gamma_picks">[docs]</a>
+<a class="viewcode-back" href="../../../../api/SeisMonitor.monitor.associator.html#SeisMonitor.monitor.associator.ai.get_gamma_picks">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">get_gamma_picks</span><span class="p">(</span><span class="n">event_picks</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Convert event picks to Obspy Pick objects.</span>
 <span class="sd">    </span>
@@ -296,7 +326,7 @@
 
 
 <div class="viewcode-block" id="picks2arrivals">
-<a class="viewcode-back" href="../../../../SeisMonitor.monitor.associator.html#SeisMonitor.monitor.associator.ai.picks2arrivals">[docs]</a>
+<a class="viewcode-back" href="../../../../api/SeisMonitor.monitor.associator.html#SeisMonitor.monitor.associator.ai.picks2arrivals">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">picks2arrivals</span><span class="p">(</span><span class="n">picks</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Convert picks to arrivals.</span>
 <span class="sd">    </span>
@@ -321,7 +351,7 @@
 
 
 <div class="viewcode-block" id="get_gamma_origin">
-<a class="viewcode-back" href="../../../../SeisMonitor.monitor.associator.html#SeisMonitor.monitor.associator.ai.get_gamma_origin">[docs]</a>
+<a class="viewcode-back" href="../../../../api/SeisMonitor.monitor.associator.html#SeisMonitor.monitor.associator.ai.get_gamma_origin">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">get_gamma_origin</span><span class="p">(</span><span class="n">catalog_info</span><span class="p">,</span> <span class="n">event_picks</span><span class="p">,</span> <span class="n">in_proj</span><span class="o">=</span><span class="s2">&quot;EPSG:3116&quot;</span><span class="p">,</span> <span class="n">out_proj</span><span class="o">=</span><span class="s2">&quot;EPSG:4326&quot;</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Create an Origin object from catalog information and picks.</span>
 <span class="sd">    </span>
@@ -350,7 +380,7 @@
         <span class="n">longitude_errors</span><span class="o">=</span><span class="n">QuantityError</span><span class="p">(),</span>
         <span class="n">latitude</span><span class="o">=</span><span class="n">lat</span><span class="p">,</span>
         <span class="n">latitude_errors</span><span class="o">=</span><span class="n">QuantityError</span><span class="p">(),</span>
-        <span class="n">depth</span><span class="o">=</span><span class="n">catalog_info</span><span class="p">[</span><span class="s2">&quot;z(km)&quot;</span><span class="p">],</span>
+        <span class="n">depth</span><span class="o">=</span><span class="n">catalog_info</span><span class="p">[</span><span class="s2">&quot;z(km)&quot;</span><span class="p">]</span><span class="o">*</span><span class="mf">1e3</span><span class="p">,</span>
         <span class="n">depth_errors</span><span class="o">=</span><span class="n">QuantityError</span><span class="p">(),</span>
         <span class="n">method_id</span><span class="o">=</span><span class="n">ResourceIdentifier</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="s2">&quot;GaMMA&quot;</span><span class="p">),</span>
         <span class="n">arrivals</span><span class="o">=</span><span class="n">picks2arrivals</span><span class="p">(</span><span class="n">event_picks</span><span class="p">),</span>
@@ -367,7 +397,7 @@
 
 
 <div class="viewcode-block" id="get_gamma_catalog">
-<a class="viewcode-back" href="../../../../SeisMonitor.monitor.associator.html#SeisMonitor.monitor.associator.ai.get_gamma_catalog">[docs]</a>
+<a class="viewcode-back" href="../../../../api/SeisMonitor.monitor.associator.html#SeisMonitor.monitor.associator.ai.get_gamma_catalog">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">get_gamma_catalog</span><span class="p">(</span><span class="n">picks_df</span><span class="p">,</span> <span class="n">catalog_df</span><span class="p">,</span> <span class="n">in_proj</span><span class="p">,</span> <span class="n">out_proj</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Create a Catalog object from picks and catalog dataframes.</span>
 <span class="sd">    </span>
@@ -417,20 +447,20 @@
 
 
 <div class="viewcode-block" id="GaMMA">
-<a class="viewcode-back" href="../../../../SeisMonitor.monitor.associator.html#SeisMonitor.monitor.associator.ai.GaMMA">[docs]</a>
+<a class="viewcode-back" href="../../../../api/SeisMonitor.monitor.associator.html#SeisMonitor.monitor.associator.ai.GaMMA">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">GaMMA</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Main GaMMA class for seismic event association.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Main GaMMA class for seismic event association.</span>
+<span class="sd">    </span>
+<span class="sd">    Args:</span>
+<span class="sd">        gamma_obj (GaMMAObj): GaMMAObj instance with configuration</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">gamma_obj</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize GaMMA with a GaMMAObj.</span>
-<span class="sd">        </span>
-<span class="sd">        Args:</span>
-<span class="sd">            gamma_obj (GaMMAObj): GaMMAObj instance with configuration</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize GaMMA with a GaMMAObj.&quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">gamma_obj</span> <span class="o">=</span> <span class="n">gamma_obj</span>
 
 <div class="viewcode-block" id="GaMMA.associate">
-<a class="viewcode-back" href="../../../../SeisMonitor.monitor.associator.html#SeisMonitor.monitor.associator.ai.GaMMA.associate">[docs]</a>
+<a class="viewcode-back" href="../../../../api/SeisMonitor.monitor.associator.html#SeisMonitor.monitor.associator.ai.GaMMA.associate">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">associate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">picks_csv</span><span class="p">,</span> <span class="n">xml_path</span><span class="p">,</span> <span class="n">out_dir</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Associate picks and create catalog.</span>
 <span class="sd">        </span>

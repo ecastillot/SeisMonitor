@@ -5,14 +5,15 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>SeisMonitor.monitor.picker.ai &mdash; SeisMonitor 0.0.57 documentation</title>
+  <title>SeisMonitor.monitor.picker.ai &mdash; SeisMonitor 0.0.58 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=b86133f3" />
-      <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/css/custom.css?v=9f7e8617" />
 
   
       <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../../_static/documentation_options.js?v=2bfb35b6"></script>
+      <script src="../../../../_static/documentation_options.js?v=c3e19674"></script>
       <script src="../../../../_static/doctools.js?v=9bcbadda"></script>
       <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../../_static/js/theme.js"></script>
@@ -28,8 +29,9 @@
 
           
           
-          <a href="../../../../index.html" class="icon icon-home">
-            SeisMonitor
+          <a href="../../../../index.html">
+            
+              <img src="../../../../_static/seismonitor.PNG" class="logo" alt="Logo"/>
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
@@ -39,8 +41,16 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <!-- Local TOC -->
-              <div class="local-toc"></div>
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../home.html">Welcome to SeisMonitor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../quickstart.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../dataset.html">SeisMonitor in Colombia</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../api/index.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../authors.html">Authors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../contribution.html">Contributing</a></li>
+</ul>
+
         </div>
       </div>
     </nav>
@@ -66,7 +76,66 @@
            <div itemprop="articleBody">
              
   <h1>Source code for SeisMonitor.monitor.picker.ai</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">genericpath</span><span class="w"> </span><span class="kn">import</span> <span class="n">isdir</span>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Phase picking interfaces for EQTransformer and PhaseNet.</span>
+
+<span class="sd">This module provides wrapper classes and configuration containers for</span>
+<span class="sd">running seismic phase picking workflows using:</span>
+
+<span class="sd">- EQTransformer</span>
+<span class="sd">- PhaseNet</span>
+
+<span class="sd">The classes standardize:</span>
+<span class="sd">    * model configuration</span>
+<span class="sd">    * waveform preprocessing</span>
+<span class="sd">    * prediction execution</span>
+<span class="sd">    * result conversion to SeisMonitor format</span>
+
+<span class="sd">The module also includes helper utilities for:</span>
+<span class="sd">    * TensorFlow session cleanup</span>
+<span class="sd">    * MiniSEED organization</span>
+<span class="sd">    * datalist generation</span>
+<span class="sd">    * duplicate pick removal</span>
+
+<span class="sd">Notes</span>
+<span class="sd">-----</span>
+<span class="sd">TensorFlow warnings and verbose logging are suppressed to reduce</span>
+<span class="sd">console noise during inference.</span>
+
+<span class="sd">Examples</span>
+<span class="sd">--------</span>
+<span class="sd">Run EQTransformer::</span>
+
+<span class="sd">    eqt_config = EQTransformerObj(</span>
+<span class="sd">        model_path=&quot;model.h5&quot;,</span>
+<span class="sd">        batch_size=4,</span>
+<span class="sd">    )</span>
+
+<span class="sd">    picker = EQTransformer(eqt_config)</span>
+
+<span class="sd">    picks = picker.pick(</span>
+<span class="sd">        mseed_storage=&quot;./mseed&quot;,</span>
+<span class="sd">        metadata_dir=&quot;./metadata&quot;,</span>
+<span class="sd">        out_dir=&quot;./results&quot;,</span>
+<span class="sd">    )</span>
+
+<span class="sd">Run PhaseNet::</span>
+
+<span class="sd">    pnet_config = PhaseNetObj(</span>
+<span class="sd">        pnet_path=&quot;./PhaseNet&quot;,</span>
+<span class="sd">        model_path=&quot;./model&quot;,</span>
+<span class="sd">    )</span>
+
+<span class="sd">    picker = PhaseNet(pnet_config)</span>
+
+<span class="sd">    picks = picker.pick(</span>
+<span class="sd">        mseed_storage=&quot;./mseed&quot;,</span>
+<span class="sd">        metadata_dir=&quot;./metadata&quot;,</span>
+<span class="sd">        out_dir=&quot;./results&quot;,</span>
+<span class="sd">    )</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">genericpath</span><span class="w"> </span><span class="kn">import</span> <span class="n">isdir</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">utils</span> <span class="k">as</span> <span class="n">ut</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">shutil</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
@@ -86,9 +155,51 @@
 
 
 <div class="viewcode-block" id="EQTransformerObj">
-<a class="viewcode-back" href="../../../../SeisMonitor.monitor.picker.html#SeisMonitor.monitor.picker.ai.EQTransformerObj">[docs]</a>
+<a class="viewcode-back" href="../../../../api/SeisMonitor.monitor.picker.html#SeisMonitor.monitor.picker.ai.EQTransformerObj">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">EQTransformerObj</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Configuration object for EQTransformer parameters.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Configuration container for EQTransformer predictions.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    model_path : str</span>
+<span class="sd">        Path to the trained EQTransformer model.</span>
+
+<span class="sd">    n_processor : int, default=2</span>
+<span class="sd">        Number of processors used during prediction.</span>
+
+<span class="sd">    overlap : float, default=0.3</span>
+<span class="sd">        Overlap fraction between prediction windows.</span>
+
+<span class="sd">    detection_threshold : float, default=0.1</span>
+<span class="sd">        Detection probability threshold.</span>
+
+<span class="sd">    P_threshold : float, default=0.1</span>
+<span class="sd">        P-phase probability threshold.</span>
+
+<span class="sd">    S_threshold : float, default=0.1</span>
+<span class="sd">        S-phase probability threshold.</span>
+
+<span class="sd">    number_of_plots : int, default=1</span>
+<span class="sd">        Number of prediction plots to generate.</span>
+
+<span class="sd">    batch_size : int, default=1</span>
+<span class="sd">        Number of waveforms processed per batch.</span>
+
+<span class="sd">    plot_mode : int, default=1</span>
+<span class="sd">        Plotting mode used by EQTransformer.</span>
+
+<span class="sd">    overwrite : bool, default=False</span>
+<span class="sd">        Whether existing outputs should be overwritten.</span>
+
+<span class="sd">    rm_downloads : bool, default=False</span>
+<span class="sd">        Remove MiniSEED files after prediction.</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    name : str</span>
+<span class="sd">        Picker identifier.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
@@ -104,21 +215,7 @@
         <span class="n">overwrite</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
         <span class="n">rm_downloads</span><span class="o">=</span><span class="kc">False</span>
     <span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize EQTransformerObj with prediction parameters.</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            model_path (str): Path to the trained EQTransformer model</span>
-<span class="sd">            n_processor (int): Number of processors to use</span>
-<span class="sd">            overlap (float): Overlap between prediction windows (0-1)</span>
-<span class="sd">            detection_threshold (float): Minimum detection probability</span>
-<span class="sd">            P_threshold (float): Minimum P-phase probability</span>
-<span class="sd">            S_threshold (float): Minimum S-phase probability</span>
-<span class="sd">            number_of_plots (int): Number of plots to generate</span>
-<span class="sd">            batch_size (int): Number of waveforms per batch</span>
-<span class="sd">            plot_mode (int): Plotting mode for visualization</span>
-<span class="sd">            overwrite (bool): Whether to overwrite existing outputs</span>
-<span class="sd">            rm_downloads (bool): Whether to remove input MSEED files after processing</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize EQTransformer configuration.&quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">model_path</span> <span class="o">=</span> <span class="n">model_path</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">n_processor</span> <span class="o">=</span> <span class="n">n_processor</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">overlap</span> <span class="o">=</span> <span class="n">overlap</span>
@@ -135,9 +232,90 @@
 
 
 <div class="viewcode-block" id="PhaseNetObj">
-<a class="viewcode-back" href="../../../../SeisMonitor.monitor.picker.html#SeisMonitor.monitor.picker.ai.PhaseNetObj">[docs]</a>
+<a class="viewcode-back" href="../../../../api/SeisMonitor.monitor.picker.html#SeisMonitor.monitor.picker.ai.PhaseNetObj">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">PhaseNetObj</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Configuration object for PhaseNet parameters.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Configuration container for PhaseNet predictions.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    pnet_path : str</span>
+<span class="sd">        Path to PhaseNet repository.</span>
+<span class="sd">    model_path : str</span>
+<span class="sd">        Path to trained PhaseNet model.</span>
+<span class="sd">    mode : str, default=&quot;pred&quot;</span>
+<span class="sd">        Operation mode (&#39;pred&#39; for prediction).</span>
+<span class="sd">    P_threshold : float, default=0.3</span>
+<span class="sd">        Minimum P-phase probability.</span>
+<span class="sd">    S_threshold : float, default=0.3</span>
+<span class="sd">        Minimum S-phase probability.</span>
+<span class="sd">    batch_size : int, default=2</span>
+<span class="sd">        Number of waveforms per batch.</span>
+<span class="sd">    plot : bool, default=False</span>
+<span class="sd">        Whether to generate plots.</span>
+<span class="sd">    save_result : bool, default=False</span>
+<span class="sd">        Whether to save prediction results.</span>
+<span class="sd">    epochs : int, default=100</span>
+<span class="sd">        Number of training epochs.</span>
+<span class="sd">    learning_rate : float, default=0.01</span>
+<span class="sd">        Initial learning rate.</span>
+<span class="sd">    decay_step : int, default=100</span>
+<span class="sd">        Steps for learning rate decay.</span>
+<span class="sd">    decay_rate : float, default=0.9</span>
+<span class="sd">        Learning rate decay rate.</span>
+<span class="sd">    momentum : float, default=0.9</span>
+<span class="sd">        Momentum for optimizer.</span>
+<span class="sd">    filters_root : int, default=8</span>
+<span class="sd">        Base number of filters.</span>
+<span class="sd">    depth : int, default=5</span>
+<span class="sd">        Network depth.</span>
+<span class="sd">    kernel_size : list, default=[7, 5, 5, 5, 5]</span>
+<span class="sd">        Kernel size for convolution.</span>
+<span class="sd">    pool_size : list, default=[4, 2, 2, 2, 2]</span>
+<span class="sd">        Pooling size.</span>
+<span class="sd">    drop_rate : float, default=0.1</span>
+<span class="sd">        Dropout rate.</span>
+<span class="sd">    dilation_rate : list, default=[1, 2, 4, 8, 16]</span>
+<span class="sd">        Dilation rate for convolution.</span>
+<span class="sd">    loss_type : str, default=&quot;dice&quot;</span>
+<span class="sd">        Loss function type.</span>
+<span class="sd">    weight_decay : float, default=1e-5</span>
+<span class="sd">        Weight decay factor.</span>
+<span class="sd">    optimizer : str, default=&quot;adam&quot;</span>
+<span class="sd">        Optimizer type.</span>
+<span class="sd">    summary : bool, default=True</span>
+<span class="sd">        Whether to show summary.</span>
+<span class="sd">    class_weights : list, optional</span>
+<span class="sd">        Weights for class balancing.</span>
+<span class="sd">    log_dir : str, default=&quot;logs&quot;</span>
+<span class="sd">        Directory for logs.</span>
+<span class="sd">    num_plots : int, default=10</span>
+<span class="sd">        Number of plots to generate.</span>
+<span class="sd">    input_length : int, optional</span>
+<span class="sd">        Input length in samples.</span>
+<span class="sd">    input_mseed : bool, default=True</span>
+<span class="sd">        Whether input is MSEED format.</span>
+<span class="sd">    filename_picks : str, default=&quot;picks&quot;</span>
+<span class="sd">        Base name for picks output file.</span>
+<span class="sd">    one_single_sampling_rate : float, default=-1</span>
+<span class="sd">        Override sampling rate (-1 for auto).</span>
+<span class="sd">    data_dir : str</span>
+<span class="sd">        Directory for prediction data.</span>
+<span class="sd">    data_list : str</span>
+<span class="sd">        Path to data list CSV.</span>
+<span class="sd">    train_dir : str</span>
+<span class="sd">        Directory for training data.</span>
+<span class="sd">    train_list : str</span>
+<span class="sd">        Path to training list CSV.</span>
+<span class="sd">    valid_dir : str, optional</span>
+<span class="sd">        Directory for validation data.</span>
+<span class="sd">    valid_list : str, optional</span>
+<span class="sd">        Path to validation list CSV.</span>
+<span class="sd">    output_dir : str, optional</span>
+<span class="sd">        Directory for output.</span>
+<span class="sd">    rm_downloads : bool, default=False</span>
+<span class="sd">        Whether to remove input MSEED files after processing.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
@@ -180,48 +358,7 @@
         <span class="n">output_dir</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">rm_downloads</span><span class="o">=</span><span class="kc">False</span>
     <span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize PhaseNetObj with prediction parameters.</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            pnet_path (str): Path to PhaseNet repository</span>
-<span class="sd">            model_path (str): Path to trained PhaseNet model</span>
-<span class="sd">            mode (str): Operation mode (&#39;pred&#39; for prediction)</span>
-<span class="sd">            P_threshold (float): Minimum P-phase probability</span>
-<span class="sd">            S_threshold (float): Minimum S-phase probability</span>
-<span class="sd">            batch_size (int): Number of waveforms per batch</span>
-<span class="sd">            plot (bool): Whether to generate plots</span>
-<span class="sd">            save_result (bool): Whether to save prediction results</span>
-<span class="sd">            epochs (int): Number of training epochs</span>
-<span class="sd">            learning_rate (float): Initial learning rate</span>
-<span class="sd">            decay_step (int): Steps for learning rate decay</span>
-<span class="sd">            decay_rate (float): Learning rate decay rate</span>
-<span class="sd">            momentum (float): Momentum for optimizer</span>
-<span class="sd">            filters_root (int): Base number of filters</span>
-<span class="sd">            depth (int): Network depth</span>
-<span class="sd">            kernel_size (list): Kernel size for convolution</span>
-<span class="sd">            pool_size (list): Pooling size</span>
-<span class="sd">            drop_rate (float): Dropout rate</span>
-<span class="sd">            dilation_rate (list): Dilation rate for convolution</span>
-<span class="sd">            loss_type (str): Loss function type</span>
-<span class="sd">            weight_decay (float): Weight decay factor</span>
-<span class="sd">            optimizer (str): Optimizer type</span>
-<span class="sd">            summary (bool): Whether to show summary</span>
-<span class="sd">            class_weights (list): Weights for class balancing</span>
-<span class="sd">            log_dir (str): Directory for logs</span>
-<span class="sd">            num_plots (int): Number of plots to generate</span>
-<span class="sd">            input_length (int, optional): Input length in samples</span>
-<span class="sd">            input_mseed (bool): Whether input is MSEED format</span>
-<span class="sd">            filename_picks (str): Base name for picks output file</span>
-<span class="sd">            one_single_sampling_rate (float): Override sampling rate (-1 for auto)</span>
-<span class="sd">            data_dir (str): Directory for prediction data</span>
-<span class="sd">            data_list (str): Path to data list CSV</span>
-<span class="sd">            train_dir (str): Directory for training data</span>
-<span class="sd">            train_list (str): Path to training list CSV</span>
-<span class="sd">            valid_dir (str, optional): Directory for validation data</span>
-<span class="sd">            valid_list (str, optional): Path to validation list CSV</span>
-<span class="sd">            output_dir (str, optional): Directory for output</span>
-<span class="sd">            rm_downloads (bool): Whether to remove input MSEED files after processing</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize PhaseNetObj with prediction parameters.&quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">phasenet_path</span> <span class="o">=</span> <span class="n">pnet_path</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">model_path</span> <span class="o">=</span> <span class="n">model_path</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">model_dir</span> <span class="o">=</span> <span class="n">model_path</span>
@@ -267,30 +404,42 @@
 
 
 <div class="viewcode-block" id="EQTransformer">
-<a class="viewcode-back" href="../../../../SeisMonitor.monitor.picker.html#SeisMonitor.monitor.picker.ai.EQTransformer">[docs]</a>
+<a class="viewcode-back" href="../../../../api/SeisMonitor.monitor.picker.html#SeisMonitor.monitor.picker.ai.EQTransformer">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">EQTransformer</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Class to run EQTransformer predictions.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Wrapper class for EQTransformer predictions.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    eqt_obj : EQTransformerObj</span>
+<span class="sd">        EQTransformer configuration object.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">eqt_obj</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize EQTransformer with configuration object.</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            eqt_obj (EQTransformerObj): Configuration object for EQTransformer</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize EQTransformer wrapper.&quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">eqt_obj</span> <span class="o">=</span> <span class="n">eqt_obj</span>
 
 <div class="viewcode-block" id="EQTransformer.pick">
-<a class="viewcode-back" href="../../../../SeisMonitor.monitor.picker.html#SeisMonitor.monitor.picker.ai.EQTransformer.pick">[docs]</a>
+<a class="viewcode-back" href="../../../../api/SeisMonitor.monitor.picker.html#SeisMonitor.monitor.picker.ai.EQTransformer.pick">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">pick</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mseed_storage</span><span class="p">,</span> <span class="n">metadata_dir</span><span class="p">,</span> <span class="n">out_dir</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Run EQTransformer picking on MSEED files.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Run EQTransformer phase picking.</span>
 
-<span class="sd">        Args:</span>
-<span class="sd">            mseed_storage (str): Directory containing MSEED files</span>
-<span class="sd">            metadata_dir (str): Directory containing station metadata</span>
-<span class="sd">            out_dir (str): Output directory for results</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        mseed_storage : str</span>
+<span class="sd">            Directory containing MiniSEED files.</span>
 
-<span class="sd">        Returns:</span>
-<span class="sd">            pandas.DataFrame: DataFrame of picks in SeisMonitor format</span>
+<span class="sd">        metadata_dir : str</span>
+<span class="sd">            Directory containing station metadata.</span>
+
+<span class="sd">        out_dir : str</span>
+<span class="sd">            Output directory for prediction results.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        pandas.DataFrame</span>
+<span class="sd">            Picks converted to SeisMonitor format.</span>
 
 <span class="sd">        Notes:</span>
 <span class="sd">            Saves results to {out_dir}/results/seismonitor_picks.csv</span>
@@ -349,16 +498,19 @@
 
 
 <div class="viewcode-block" id="PhaseNet">
-<a class="viewcode-back" href="../../../../SeisMonitor.monitor.picker.html#SeisMonitor.monitor.picker.ai.PhaseNet">[docs]</a>
+<a class="viewcode-back" href="../../../../api/SeisMonitor.monitor.picker.html#SeisMonitor.monitor.picker.ai.PhaseNet">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">PhaseNet</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Class to run PhaseNet predictions.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Wrapper class for PhaseNet predictions.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    pnet_obj : PhaseNetObj</span>
+<span class="sd">        PhaseNet configuration object.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pnet_obj</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize PhaseNet with configuration object.</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            pnet_obj (PhaseNetObj): Configuration object for PhaseNet</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize PhaseNet with configuration object.&quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">pnet_obj</span> <span class="o">=</span> <span class="n">pnet_obj</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">msg_author</span> <span class="o">=</span> <span class="s2">&quot;Picker: PhaseNet&quot;</span>
 
@@ -406,17 +558,25 @@
         <span class="p">)</span>
 
 <div class="viewcode-block" id="PhaseNet.pick">
-<a class="viewcode-back" href="../../../../SeisMonitor.monitor.picker.html#SeisMonitor.monitor.picker.ai.PhaseNet.pick">[docs]</a>
+<a class="viewcode-back" href="../../../../api/SeisMonitor.monitor.picker.html#SeisMonitor.monitor.picker.ai.PhaseNet.pick">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">pick</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mseed_storage</span><span class="p">,</span> <span class="n">metadata_dir</span><span class="p">,</span> <span class="n">out_dir</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Run PhaseNet picking on MSEED files.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Run PhaseNet phase picking.</span>
 
-<span class="sd">        Args:</span>
-<span class="sd">            mseed_storage (str): Directory containing MSEED files</span>
-<span class="sd">            metadata_dir (str): Directory containing station metadata</span>
-<span class="sd">            out_dir (str): Output directory for results</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        mseed_storage : str</span>
+<span class="sd">            Directory containing MiniSEED files.</span>
 
-<span class="sd">        Returns:</span>
-<span class="sd">            pandas.DataFrame: DataFrame of picks in SeisMonitor format</span>
+<span class="sd">        metadata_dir : str</span>
+<span class="sd">            Directory containing station metadata.</span>
+
+<span class="sd">        out_dir : str</span>
+<span class="sd">            Output directory for prediction results.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        pandas.DataFrame</span>
+<span class="sd">            Picks converted to SeisMonitor format.</span>
 
 <span class="sd">        Notes:</span>
 <span class="sd">            Saves results to {out_dir}/results/seismonitor_picks.csv</span>

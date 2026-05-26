@@ -23,7 +23,30 @@ class NLLoc:
     """NonLinLoc seismic event locator class.
 
     This class implements the NonLinLoc algorithm for locating seismic events
-    using velocity models and station information.
+    using velocity models and station information. Avaialble in Ubuntu 22.04 and later.
+
+    
+    Args:
+        core_path: Path to NonLinLoc core directory
+        agency: Agency identifier string
+        region: List of [lon_w, lon_e, lat_s, lat_n, z_min, z_max]. See the Warnings section below for details.
+        vel_model: Velocity model object
+        stations: Station information object
+        delta_in_km: Grid spacing in kilometers
+        kwargs_for_trans: Transformation parameters
+        kwargs_for_vel2grid: Vel2Grid parameters
+        kwargs_for_grid2time: Grid2Time parameters
+        kwargs_for_time2loc: Time2Loc parameters
+        tmp_folder: Temporary working directory
+        exhaustively: Whether to perform exhaustive search
+        search_in_degrees: Degrees for exhaustive search
+        rm_attempts: Remove temporary attempt files
+
+    Warnings
+    --------
+    - Make sure the region covers all the stations, the expected earthquake locations and the velocity model. Specially the elevation part and the stations, 0 respect to sea level, negative means below sea level, positive means above sea level.
+    
+    - The ``compute_travel_times`` method can be computationally expensive depending on the grid resolution, spatial extent of the model, and number of stations. Large grids may also require significant memory and disk space. Ensure adequate computational resources are available before execution.
     """
 
     def __init__(
@@ -43,24 +66,7 @@ class NLLoc:
         search_in_degrees: list = [],
         rm_attempts: bool = False,
     ):
-        """Initialize NLLoc locator instance.
-
-        Args:
-            core_path: Path to NonLinLoc core directory
-            agency: Agency identifier string
-            region: List of [lon_w, lon_e, lat_s, lat_n, z_min, z_max]
-            vel_model: Velocity model object
-            stations: Station information object
-            delta_in_km: Grid spacing in kilometers
-            kwargs_for_trans: Transformation parameters
-            kwargs_for_vel2grid: Vel2Grid parameters
-            kwargs_for_grid2time: Grid2Time parameters
-            kwargs_for_time2loc: Time2Loc parameters
-            tmp_folder: Temporary working directory
-            exhaustively: Whether to perform exhaustive search
-            search_in_degrees: Degrees for exhaustive search
-            rm_attempts: Remove temporary attempt files
-        """
+        """Initialize NLLoc locator instance."""
         paths = ut.testing_nlloc_core_path(core_path)
 
         self.core_path = core_path
@@ -218,7 +224,33 @@ class NLLoc:
         }
 
     def compute_travel_times(self):
-        """Compute travel times using velocity model and station locations."""
+        """
+        Compute travel-time tables using the velocity model and station geometry.
+
+        This method runs the NLLoc workflow steps:
+
+        - ``Vel2Grid``: builds the velocity grid from the velocity model
+        - ``Grid2Time``: computes travel-time tables for all stations
+
+        The resulting travel-time grids are stored in ``self.tmp_folder``.
+
+        Notes
+        -----
+        This operation can be computationally expensive depending on:
+
+        - Grid resolution
+        - Spatial extent of the model
+        - Number of stations
+
+        Large grids may also require significant memory and disk space.
+
+        Ensure adequate computational resources are available before execution.
+
+        Warnings
+        --------
+        This method may take a long time to complete for large domains
+        or dense station networks.
+        """
         self.__initialize()
         
         sut.printlog("info", "NLLoc:Vel2Grid", "Running")

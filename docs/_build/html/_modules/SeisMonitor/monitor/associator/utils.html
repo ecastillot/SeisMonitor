@@ -5,14 +5,15 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>SeisMonitor.monitor.associator.utils &mdash; SeisMonitor 0.0.57 documentation</title>
+  <title>SeisMonitor.monitor.associator.utils &mdash; SeisMonitor 0.0.58 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=b86133f3" />
-      <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/css/custom.css?v=9f7e8617" />
 
   
       <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../../_static/documentation_options.js?v=2bfb35b6"></script>
+      <script src="../../../../_static/documentation_options.js?v=c3e19674"></script>
       <script src="../../../../_static/doctools.js?v=9bcbadda"></script>
       <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../../_static/js/theme.js"></script>
@@ -28,8 +29,9 @@
 
           
           
-          <a href="../../../../index.html" class="icon icon-home">
-            SeisMonitor
+          <a href="../../../../index.html">
+            
+              <img src="../../../../_static/seismonitor.PNG" class="logo" alt="Logo"/>
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
@@ -39,8 +41,16 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <!-- Local TOC -->
-              <div class="local-toc"></div>
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../home.html">Welcome to SeisMonitor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../quickstart.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../dataset.html">SeisMonitor in Colombia</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../api/index.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../authors.html">Authors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../contribution.html">Contributing</a></li>
+</ul>
+
         </div>
       </div>
     </nav>
@@ -108,7 +118,7 @@
 
 
 <div class="viewcode-block" id="get_picks_gamma_df">
-<a class="viewcode-back" href="../../../../SeisMonitor.monitor.associator.html#SeisMonitor.monitor.associator.utils.get_picks_gamma_df">[docs]</a>
+<a class="viewcode-back" href="../../../../api/SeisMonitor.monitor.associator.html#SeisMonitor.monitor.associator.utils.get_picks_gamma_df">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">get_picks_gamma_df</span><span class="p">(</span><span class="n">picks</span><span class="p">,</span> <span class="n">response</span><span class="p">,</span> <span class="n">compute_amplitudes</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">p_window</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">s_window</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">waterlevel</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Convert picks to GaMMA-compatible DataFrame format.</span>
 <span class="sd">    </span>
@@ -161,7 +171,7 @@
 
 
 <div class="viewcode-block" id="get_stations_gamma_df">
-<a class="viewcode-back" href="../../../../SeisMonitor.monitor.associator.html#SeisMonitor.monitor.associator.utils.get_stations_gamma_df">[docs]</a>
+<a class="viewcode-back" href="../../../../api/SeisMonitor.monitor.associator.html#SeisMonitor.monitor.associator.utils.get_stations_gamma_df">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">get_stations_gamma_df</span><span class="p">(</span><span class="n">response</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Convert station response to GaMMA-compatible DataFrame format.</span>
 <span class="sd">    </span>
@@ -207,7 +217,7 @@
 
 
 <div class="viewcode-block" id="get_paz_from_response">
-<a class="viewcode-back" href="../../../../SeisMonitor.monitor.associator.html#SeisMonitor.monitor.associator.utils.get_paz_from_response">[docs]</a>
+<a class="viewcode-back" href="../../../../api/SeisMonitor.monitor.associator.html#SeisMonitor.monitor.associator.utils.get_paz_from_response">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">get_paz_from_response</span><span class="p">(</span><span class="n">seed_id</span><span class="p">,</span> <span class="n">response</span><span class="p">,</span> <span class="n">datetime</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Extract Poles and Zeros (PAZ) information from response.</span>
 <span class="sd">    </span>
@@ -241,7 +251,7 @@
 
 
 <div class="viewcode-block" id="get_amplitudes_from_pick">
-<a class="viewcode-back" href="../../../../SeisMonitor.monitor.associator.html#SeisMonitor.monitor.associator.utils.get_amplitudes_from_pick">[docs]</a>
+<a class="viewcode-back" href="../../../../api/SeisMonitor.monitor.associator.html#SeisMonitor.monitor.associator.utils.get_amplitudes_from_pick">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">get_amplitudes_from_pick</span><span class="p">(</span><span class="n">st</span><span class="p">,</span> <span class="n">picktime</span><span class="p">,</span> <span class="n">phasehint</span><span class="p">,</span> <span class="n">p_window</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">s_window</span><span class="o">=</span><span class="mi">5</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Calculate amplitude from a seismic trace for a given pick.</span>
 <span class="sd">    </span>
@@ -275,7 +285,7 @@
 
 
 <div class="viewcode-block" id="get_amplitudes_from_local_st">
-<a class="viewcode-back" href="../../../../SeisMonitor.monitor.associator.html#SeisMonitor.monitor.associator.utils.get_amplitudes_from_local_st">[docs]</a>
+<a class="viewcode-back" href="../../../../api/SeisMonitor.monitor.associator.html#SeisMonitor.monitor.associator.utils.get_amplitudes_from_local_st">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">get_amplitudes_from_local_st</span><span class="p">(</span><span class="n">file_name</span><span class="p">,</span> <span class="n">df</span><span class="p">,</span> <span class="n">response</span><span class="p">,</span> <span class="n">p_window</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">s_window</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">waterlevel</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Calculate amplitudes from local seismic data file.</span>
 <span class="sd">    </span>
@@ -304,7 +314,7 @@
 
 
 <div class="viewcode-block" id="get_seismonitor_amplitudes">
-<a class="viewcode-back" href="../../../../SeisMonitor.monitor.associator.html#SeisMonitor.monitor.associator.utils.get_seismonitor_amplitudes">[docs]</a>
+<a class="viewcode-back" href="../../../../api/SeisMonitor.monitor.associator.html#SeisMonitor.monitor.associator.utils.get_seismonitor_amplitudes">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">get_seismonitor_amplitudes</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">response</span><span class="p">,</span> <span class="n">out</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">p_window</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">s_window</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">waterlevel</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Add amplitude calculations to SeisMonitor picks.</span>
 <span class="sd">    </span>
@@ -340,7 +350,7 @@
 
 
 <div class="viewcode-block" id="link">
-<a class="viewcode-back" href="../../../../SeisMonitor.monitor.associator.html#SeisMonitor.monitor.associator.utils.link">[docs]</a>
+<a class="viewcode-back" href="../../../../api/SeisMonitor.monitor.associator.html#SeisMonitor.monitor.associator.utils.link">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">link</span><span class="p">(</span><span class="n">p_row</span><span class="p">,</span> <span class="n">s_df</span><span class="p">,</span> <span class="n">tt</span><span class="p">,</span> <span class="n">st</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">et</span><span class="o">=</span><span class="mi">4</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Link P and S phases for a given pick.</span>
 <span class="sd">    </span>
@@ -389,7 +399,7 @@
 
 
 <div class="viewcode-block" id="make_eqt_dirs">
-<a class="viewcode-back" href="../../../../SeisMonitor.monitor.associator.html#SeisMonitor.monitor.associator.utils.make_eqt_dirs">[docs]</a>
+<a class="viewcode-back" href="../../../../api/SeisMonitor.monitor.associator.html#SeisMonitor.monitor.associator.utils.make_eqt_dirs">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">make_eqt_dirs</span><span class="p">(</span><span class="n">eqt_df</span><span class="p">,</span> <span class="n">folder</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Create EQTransformer-style directory structure and files.</span>
 <span class="sd">    </span>
@@ -410,7 +420,7 @@
 
 
 <div class="viewcode-block" id="link_seismonitor_phases">
-<a class="viewcode-back" href="../../../../SeisMonitor.monitor.associator.html#SeisMonitor.monitor.associator.utils.link_seismonitor_phases">[docs]</a>
+<a class="viewcode-back" href="../../../../api/SeisMonitor.monitor.associator.html#SeisMonitor.monitor.associator.utils.link_seismonitor_phases">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">link_seismonitor_phases</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">tt</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">st</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">et</span><span class="o">=</span><span class="mi">4</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Link P and S phases in SeisMonitor format.</span>
 <span class="sd">    </span>
@@ -457,7 +467,7 @@
 
 
 <div class="viewcode-block" id="link_eqt_phases">
-<a class="viewcode-back" href="../../../../SeisMonitor.monitor.associator.html#SeisMonitor.monitor.associator.utils.link_eqt_phases">[docs]</a>
+<a class="viewcode-back" href="../../../../api/SeisMonitor.monitor.associator.html#SeisMonitor.monitor.associator.utils.link_eqt_phases">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">link_eqt_phases</span><span class="p">(</span><span class="n">df</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Link P and S phases in EQTransformer format.</span>
 <span class="sd">    </span>
@@ -496,7 +506,7 @@
 
 
 <div class="viewcode-block" id="seismonitor_picks_to_eqt_fmt">
-<a class="viewcode-back" href="../../../../SeisMonitor.monitor.associator.html#SeisMonitor.monitor.associator.utils.seismonitor_picks_to_eqt_fmt">[docs]</a>
+<a class="viewcode-back" href="../../../../api/SeisMonitor.monitor.associator.html#SeisMonitor.monitor.associator.utils.seismonitor_picks_to_eqt_fmt">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">seismonitor_picks_to_eqt_fmt</span><span class="p">(</span><span class="n">seismonitor_picks</span><span class="p">,</span> <span class="n">eqt_folder</span><span class="p">,</span> <span class="n">tt</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">st</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">et</span><span class="o">=</span><span class="mi">4</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Convert SeisMonitor picks to EQTransformer format.</span>
 <span class="sd">    </span>

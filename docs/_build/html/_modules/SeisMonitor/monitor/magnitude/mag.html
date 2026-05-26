@@ -5,16 +5,19 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>SeisMonitor.monitor.magnitude.mag &mdash; SeisMonitor 0.0.57 documentation</title>
+  <title>SeisMonitor.monitor.magnitude.mag &mdash; SeisMonitor 0.0.58 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=b86133f3" />
-      <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/css/custom.css?v=6c90a955" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/sphinx-design.min.css?v=95c83b7e" />
 
   
       <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../../_static/documentation_options.js?v=2bfb35b6"></script>
+      <script src="../../../../_static/documentation_options.js?v=c3e19674"></script>
       <script src="../../../../_static/doctools.js?v=9bcbadda"></script>
       <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../../../_static/design-tabs.js?v=f930bc37"></script>
     <script src="../../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../../genindex.html" />
     <link rel="search" title="Search" href="../../../../search.html" /> 
@@ -28,8 +31,9 @@
 
           
           
-          <a href="../../../../index.html" class="icon icon-home">
-            SeisMonitor
+          <a href="../../../../index.html">
+            
+              <img src="../../../../_static/seismonitor.PNG" class="logo" alt="Logo"/>
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
@@ -39,8 +43,16 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <!-- Local TOC -->
-              <div class="local-toc"></div>
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../home.html">Welcome to SeisMonitor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../quickstart.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../dataset.html">SeisMonitor in Colombia</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../api/index.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../authors.html">Authors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../contribution.html">Contributing</a></li>
+</ul>
+
         </div>
       </div>
     </nav>
@@ -66,13 +78,37 @@
            <div itemprop="articleBody">
              
   <h1>Source code for SeisMonitor.monitor.magnitude.mag</h1><div class="highlight"><pre>
-<span></span><span class="c1"># /**</span>
-<span class="c1">#  * @author [Emmanuel Castillo]</span>
-<span class="c1">#  * @email [excastillot@unal.edu.co]</span>
-<span class="c1">#  * @create date 2021-10-12 10:58:25</span>
-<span class="c1">#  * @modify date 2021-10-12 10:58:25</span>
-<span class="c1">#  * @desc [description]</span>
-<span class="c1">#  */</span>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Magnitude calculation utilities for local magnitude (Ml) and moment</span>
+<span class="sd">magnitude (Mw) estimation.</span>
+
+<span class="sd">This module provides tools for:</span>
+
+<span class="sd">* Selecting waveform streams according to channel/location preferences.</span>
+<span class="sd">* Calculating local magnitude (Ml).</span>
+<span class="sd">* Calculating moment magnitude (Mw).</span>
+<span class="sd">* Managing waveform retrieval and response selection.</span>
+
+<span class="sd">The implementation is based partially on:</span>
+
+<span class="sd">    https://github.com/krischer/moment_magnitude_calculator</span>
+
+<span class="sd">:author:</span>
+<span class="sd">    Emmanuel Castillo</span>
+
+<span class="sd">:copyright:</span>
+<span class="sd">    Lion Krischer (2012)</span>
+
+<span class="sd">:license:</span>
+<span class="sd">    Original concepts adapted from ObsPy-based implementations.</span>
+
+<span class="sd">Example</span>
+<span class="sd">-------</span>
+<span class="sd">&gt;&gt;&gt; from obspy.core.event import read_events</span>
+<span class="sd">&gt;&gt;&gt; catalog = read_events(&quot;catalog.xml&quot;)</span>
+<span class="sd">&gt;&gt;&gt; magnitude = Magnitude(providers, catalog, &quot;./output&quot;)</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
 <span class="c1">######## </span>
 <span class="c1"># Moment magnitude adapted from </span>
 <span class="c1"># https://github.com/krischer/moment_magnitude_calculator/tree/master/scripts</span>
@@ -99,8 +135,26 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">utils</span> <span class="k">as</span> <span class="n">ut</span>
 
 <div class="viewcode-block" id="MwPhysicalMagParams">
-<a class="viewcode-back" href="../../../../SeisMonitor.monitor.magnitude.html#SeisMonitor.monitor.magnitude.mag.MwPhysicalMagParams">[docs]</a>
+<a class="viewcode-back" href="../../../../api/SeisMonitor.monitor.magnitude.html#SeisMonitor.monitor.magnitude.mag.MwPhysicalMagParams">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">MwPhysicalMagParams</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Physical parameters used during Mw calculation.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    vp : float, optional</span>
+<span class="sd">        P-wave velocity in m/s.</span>
+<span class="sd">    vsp_factor : float, optional</span>
+<span class="sd">        Vp/Vs ratio.</span>
+<span class="sd">    density : float, optional</span>
+<span class="sd">        Density in kg/m³.</span>
+<span class="sd">    waterlevel : float, optional</span>
+<span class="sd">        Water level for deconvolution stabilization.</span>
+<span class="sd">    p_radiation_pattern : float, optional</span>
+<span class="sd">        Radiation pattern coefficient for P waves.</span>
+<span class="sd">    s_radiation_pattern : float, optional</span>
+<span class="sd">        Radiation pattern coefficient for S waves.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
                 <span class="n">vp</span><span class="o">=</span><span class="mi">4800</span><span class="p">,</span>
                 <span class="n">vsp_factor</span><span class="o">=</span><span class="mf">1.73</span><span class="p">,</span>
@@ -118,7 +172,7 @@
 
 
 <div class="viewcode-block" id="MwProcessingMagParams">
-<a class="viewcode-back" href="../../../../SeisMonitor.monitor.magnitude.html#SeisMonitor.monitor.magnitude.mag.MwProcessingMagParams">[docs]</a>
+<a class="viewcode-back" href="../../../../api/SeisMonitor.monitor.magnitude.html#SeisMonitor.monitor.magnitude.mag.MwProcessingMagParams">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">MwProcessingMagParams</span><span class="p">():</span>
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
                 <span class="n">time_before_pick</span> <span class="o">=</span> <span class="mi">5</span><span class="p">,</span>
@@ -126,6 +180,22 @@
                 <span class="n">padding</span> <span class="o">=</span> <span class="mi">40</span><span class="p">,</span>
                 <span class="n">only_proc_p_pick</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
                 <span class="n">only_proc_s_pick</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Processing parameters used during Mw estimation.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        time_before_pick : float, optional</span>
+<span class="sd">            Time before pick in seconds.</span>
+<span class="sd">        time_after_pick : float, optional</span>
+<span class="sd">            Time after pick in seconds.</span>
+<span class="sd">        padding : float, optional</span>
+<span class="sd">            Additional waveform padding in seconds.</span>
+<span class="sd">        only_proc_p_pick : bool, optional</span>
+<span class="sd">            Process only P-wave picks.</span>
+<span class="sd">        only_proc_s_pick : bool, optional</span>
+<span class="sd">            Process only S-wave picks.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">time_before_pick</span> <span class="o">=</span> <span class="n">time_before_pick</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">time_after_pick</span> <span class="o">=</span> <span class="n">time_after_pick</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">padding</span> <span class="o">=</span> <span class="n">padding</span>
@@ -134,31 +204,35 @@
 
 
 <div class="viewcode-block" id="get_st_according2preference">
-<a class="viewcode-back" href="../../../../SeisMonitor.monitor.magnitude.html#SeisMonitor.monitor.magnitude.mag.get_st_according2preference">[docs]</a>
+<a class="viewcode-back" href="../../../../api/SeisMonitor.monitor.magnitude.html#SeisMonitor.monitor.magnitude.mag.get_st_according2preference">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">get_st_according2preference</span><span class="p">(</span><span class="n">st</span><span class="p">,</span><span class="n">location_list</span><span class="p">,</span><span class="n">channel_list</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Suppose that your preference_type is &quot;location&quot; and your </span>
-<span class="sd">    location_list is [&quot;00&quot;,&quot;20&quot;,&quot;10&quot;], then this function first</span>
-<span class="sd">    filter the stream according to location and returns</span>
-<span class="sd">    a  new stream only with location &quot;00&quot;, if no exist &quot;00&quot; will </span>
-<span class="sd">    continue with the next preference &quot;20&quot;, and otherwise, &quot;10&quot;. </span>
-<span class="sd">    After that, it is going to take new stream and it will go to </span>
-<span class="sd">    filter according to channel_list preference if the new stream </span>
-<span class="sd">    has more than one channel type (&quot;HH or BH). </span>
+<span class="sd">    Select a preferred stream according to location and channel priorities.</span>
 
-<span class="sd">    Parameters:</span>
-<span class="sd">    -----------</span>
-<span class="sd">    st: stream object</span>
-<span class="sd">        stream </span>
-<span class="sd">    location_list: list</span>
-<span class="sd">        locations in order of the preference [&quot;00&quot;,&quot;20&quot;,&quot;10&quot;]</span>
-<span class="sd">    channel_list: list</span>
-<span class="sd">        channels in order of the preference [&quot;HH&quot;,&quot;BH&quot;]</span>
+<span class="sd">    The function filters streams first by location preference and then by</span>
+<span class="sd">    channel preference.</span>
 
-<span class="sd">    results:</span>
-<span class="sd">    --------</span>
-<span class="sd">    new_st : stream object</span>
-<span class="sd">        stream according to the preference</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    st : obspy.Stream</span>
+<span class="sd">        Input waveform stream.</span>
+<span class="sd">    location_list : list of str</span>
+<span class="sd">        Preferred locations ordered by priority.</span>
+<span class="sd">    channel_list : list of str</span>
+<span class="sd">        Preferred channel codes ordered by priority.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    obspy.Stream or None</span>
+<span class="sd">        Filtered stream according to preferences.</span>
+
+<span class="sd">    Example</span>
+<span class="sd">    -------</span>
+<span class="sd">    &gt;&gt;&gt; new_st = get_st_according2preference(</span>
+<span class="sd">    ...     st,</span>
+<span class="sd">    ...     [&quot;00&quot;, &quot;20&quot;],</span>
+<span class="sd">    ...     [&quot;HH&quot;, &quot;BH&quot;]</span>
+<span class="sd">    ... )</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="p">(</span><span class="n">st</span> <span class="o">==</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">st</span><span class="p">)</span><span class="o">==</span><span class="mi">0</span><span class="p">)</span> <span class="p">:</span>
         <span class="k">return</span> <span class="kc">None</span>
@@ -229,35 +303,71 @@
 
 
 <div class="viewcode-block" id="Magnitude">
-<a class="viewcode-back" href="../../../../SeisMonitor.monitor.magnitude.html#SeisMonitor.monitor.magnitude.mag.Magnitude">[docs]</a>
+<a class="viewcode-back" href="../../../../api/SeisMonitor.monitor.magnitude.html#SeisMonitor.monitor.magnitude.mag.Magnitude">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">Magnitude</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Magnitude calculator for seismic events.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    providers : list</span>
+<span class="sd">        List of waveform providers.</span>
+<span class="sd">    catalog : str or obspy.Catalog</span>
+<span class="sd">        Catalog object or path to QuakeML file.</span>
+<span class="sd">    out_dir : str</span>
+<span class="sd">        Output directory for generated magnitude files.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">providers</span><span class="p">,</span><span class="n">catalog</span><span class="p">,</span><span class="n">out_dir</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initialize the Magnitude calculator.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># self.client = client</span>
         <span class="c1"># super().__init__(sds_archive,sds_type,format)</span>
         <span class="c1"># self.response = response</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">providers</span> <span class="o">=</span> <span class="n">providers</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Reading catalog... &quot;</span><span class="p">)</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">catalog</span><span class="p">,</span><span class="n">Catalog</span><span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">catalog</span> <span class="o">=</span> <span class="n">catalog</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">catalog</span> <span class="o">=</span> <span class="n">read_events</span><span class="p">(</span><span class="n">catalog</span><span class="p">)</span>
-
         <span class="bp">self</span><span class="o">.</span><span class="n">agency</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">catalog</span><span class="o">.</span><span class="n">creation_info</span><span class="o">.</span><span class="n">agency_id</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">out_dir</span> <span class="o">=</span> <span class="n">out_dir</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">xml_ml_out_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">out_dir</span><span class="p">,</span><span class="s2">&quot;Ml_magnitude.xml&quot;</span><span class="p">)</span>    
         <span class="bp">self</span><span class="o">.</span><span class="n">xml_mw_out_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">out_dir</span><span class="p">,</span><span class="s2">&quot;Mw_magnitude.xml&quot;</span><span class="p">)</span>    
 
 <div class="viewcode-block" id="Magnitude.get_Ml">
-<a class="viewcode-back" href="../../../../SeisMonitor.monitor.magnitude.html#SeisMonitor.monitor.magnitude.mag.Magnitude.get_Ml">[docs]</a>
+<a class="viewcode-back" href="../../../../api/SeisMonitor.monitor.magnitude.html#SeisMonitor.monitor.magnitude.mag.Magnitude.get_Ml">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_Ml</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
                 <span class="n">mag_type</span><span class="o">=</span><span class="s2">&quot;RSNC&quot;</span><span class="p">,</span>
                 <span class="n">trimmedtime</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span>
                 <span class="n">padding</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span><span class="n">waterlevel</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
                 <span class="n">zone</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                 <span class="n">out_format</span><span class="o">=</span><span class="s2">&quot;QUAKEML&quot;</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Calculate local magnitude (Ml) for all events.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        mag_type : str, optional</span>
+<span class="sd">            Magnitude relationship type.</span>
+<span class="sd">        trimmedtime : float, optional</span>
+<span class="sd">            Signal trimming window in seconds.</span>
+<span class="sd">        padding : float, optional</span>
+<span class="sd">            Waveform retrieval padding.</span>
+<span class="sd">        waterlevel : float, optional</span>
+<span class="sd">            Water level for response correction.</span>
+<span class="sd">        zone : str, optional</span>
+<span class="sd">            Regional magnitude zone.</span>
+<span class="sd">        out_format : str, optional</span>
+<span class="sd">            Output catalog format.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        obspy.Catalog</span>
+<span class="sd">            Updated catalog with Ml magnitudes.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
         <span class="n">events_mag</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">n_ev</span><span class="p">,</span><span class="n">event</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">catalog</span><span class="p">,</span><span class="mi">1</span><span class="p">):</span>
-            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Event No. </span><span class="si">{</span><span class="n">n_ev</span><span class="si">}</span><span class="s2">:&quot;</span><span class="p">,</span><span class="n">event</span><span class="o">.</span><span class="n">resource_id</span><span class="p">,</span><span class="sa">f</span><span class="s2">&quot;from </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">catalog</span><span class="p">)</span><span class="si">}</span><span class="s2"> events&quot;</span><span class="p">)</span>
 
             <span class="k">if</span> <span class="ow">not</span> <span class="n">event</span><span class="o">.</span><span class="n">origins</span><span class="p">:</span>
                 <span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;No origin for event </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">event</span><span class="o">.</span><span class="n">resource_id</span><span class="p">)</span>
@@ -272,6 +382,7 @@
             <span class="n">latitude</span> <span class="o">=</span> <span class="n">ori_pref</span><span class="o">.</span><span class="n">latitude</span>
             <span class="n">longitude</span> <span class="o">=</span> <span class="n">ori_pref</span><span class="o">.</span><span class="n">longitude</span>
             <span class="n">depth</span> <span class="o">=</span> <span class="n">ori_pref</span><span class="o">.</span><span class="n">depth</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Event No. </span><span class="si">{</span><span class="n">n_ev</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">catalog</span><span class="p">)</span><span class="si">}</span><span class="s2">: (</span><span class="si">{</span><span class="n">origin_time</span><span class="si">}</span><span class="s2">) &quot;</span><span class="p">,</span><span class="n">event</span><span class="o">.</span><span class="n">resource_id</span><span class="p">)</span>
             <span class="c1"># depth = ori_pref.depth *1e3</span>
 
             <span class="k">if</span> <span class="n">latitude</span> <span class="o">==</span><span class="kc">None</span> <span class="ow">or</span> <span class="n">longitude</span><span class="o">==</span><span class="kc">None</span><span class="p">:</span>
@@ -351,7 +462,7 @@
 
                 <span class="n">staname</span> <span class="o">=</span> <span class="s2">&quot;.&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">((</span><span class="n">stats</span><span class="o">.</span><span class="n">network</span><span class="p">,</span> <span class="n">stats</span><span class="o">.</span><span class="n">station</span><span class="p">,</span>
                               <span class="n">stats</span><span class="o">.</span><span class="n">location</span> <span class="p">,</span><span class="n">stats</span><span class="o">.</span><span class="n">channel</span><span class="p">[:</span><span class="mi">2</span><span class="p">]</span><span class="o">+</span><span class="s2">&quot;*&quot;</span><span class="p">))</span>
-                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">-&gt; Ml | </span><span class="si">{</span><span class="n">staname</span><span class="si">}</span><span class="s2">-</span><span class="si">{</span><span class="n">pick</span><span class="o">.</span><span class="n">phase_hint</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span><span class="si">}</span><span class="s2"> | </span><span class="si">{</span><span class="n">Ml</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">-&gt; Ml | </span><span class="si">{</span><span class="n">staname</span><span class="si">}</span><span class="s2">-</span><span class="si">{</span><span class="n">pick</span><span class="o">.</span><span class="n">phase_hint</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span><span class="si">}</span><span class="s2"> | </span><span class="si">{</span><span class="n">Ml</span><span class="si">}</span><span class="s2"> (Amp: </span><span class="si">{</span><span class="n">ampl</span><span class="si">}</span><span class="s2"> m, Epi_dist: </span><span class="si">{</span><span class="nb">round</span><span class="p">(</span><span class="n">epi_dist</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span><span class="si">}</span><span class="s2"> km)&quot;</span><span class="p">)</span>
 
             <span class="k">with</span> <span class="n">cf</span><span class="o">.</span><span class="n">ThreadPoolExecutor</span><span class="p">()</span> <span class="k">as</span> <span class="n">executor</span><span class="p">:</span>
                 <span class="n">executor</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">_get_maginfo_by_station</span><span class="p">,</span><span class="n">event</span><span class="o">.</span><span class="n">picks</span><span class="p">)</span>
@@ -392,9 +503,26 @@
 
 
 <div class="viewcode-block" id="Magnitude.get_Mw">
-<a class="viewcode-back" href="../../../../SeisMonitor.monitor.magnitude.html#SeisMonitor.monitor.magnitude.mag.Magnitude.get_Mw">[docs]</a>
+<a class="viewcode-back" href="../../../../api/SeisMonitor.monitor.magnitude.html#SeisMonitor.monitor.magnitude.mag.Magnitude.get_Mw">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_Mw</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">physparams</span><span class="p">,</span><span class="n">procparams</span><span class="p">,</span>
             <span class="n">out_format</span><span class="o">=</span><span class="s2">&quot;QUAKEML&quot;</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Calculate moment magnitude (Mw).</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        physparams : MwPhysicalMagParams</span>
+<span class="sd">            Physical Mw parameters.</span>
+<span class="sd">        procparams : MwProcessingMagParams</span>
+<span class="sd">            Signal processing parameters.</span>
+<span class="sd">        out_format : str, optional</span>
+<span class="sd">            Output format.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        obspy.Catalog</span>
+<span class="sd">            Updated catalog with Mw magnitudes.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="n">Mws</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="n">Mws_std</span> <span class="o">=</span> <span class="p">[]</span>
@@ -511,10 +639,21 @@
                                 <span class="n">padding</span><span class="o">=</span><span class="mf">20.0</span><span class="p">,</span>
                                 <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Helper function to find a requested waveform in the previously created</span>
-<span class="sd">        waveform_index file.</span>
-<span class="sd">        Also performs the instrument correction.</span>
-<span class="sd">        Returns None if the file could not be found.</span>
+<span class="sd">        Retrieve waveform stream corresponding to a pick.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        waveform_id : obspy.WaveformStreamID</span>
+<span class="sd">            Waveform identifier.</span>
+<span class="sd">        pick_time : obspy.UTCDateTime</span>
+<span class="sd">            Pick time.</span>
+<span class="sd">        padding : float, optional</span>
+<span class="sd">            Time padding around the pick.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        obspy.Stream or None</span>
+<span class="sd">            Retrieved waveform stream.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         
         <span class="n">start</span> <span class="o">=</span> <span class="n">pick_time</span> <span class="o">-</span> <span class="n">padding</span>
@@ -564,50 +703,50 @@
         
 
 
-<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span><span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
-    <span class="kn">import</span><span class="w"> </span><span class="nn">math</span>
-    <span class="kn">from</span><span class="w"> </span><span class="nn">obspy.clients.fdsn</span><span class="w"> </span><span class="kn">import</span> <span class="n">Client</span>
-    <span class="kn">from</span><span class="w"> </span><span class="nn">obspy.core.inventory.inventory</span><span class="w"> </span><span class="kn">import</span> <span class="n">read_inventory</span>
-    <span class="n">client</span> <span class="o">=</span> <span class="s1">&#39;http://sismo.sgc.gov.co:8080&#39;</span>
-    <span class="n">client</span> <span class="o">=</span> <span class="n">Client</span><span class="p">(</span><span class="n">client</span><span class="p">)</span>
+<span class="c1"># if __name__ ==&quot;__main__&quot;:</span>
+<span class="c1">#     import math</span>
+<span class="c1">#     from obspy.clients.fdsn import Client</span>
+<span class="c1">#     from obspy.core.inventory.inventory import read_inventory</span>
+<span class="c1">#     client = &#39;http://sismo.sgc.gov.co:8080&#39;</span>
+<span class="c1">#     client = Client(client)</span>
 
-    <span class="c1"># catalog = &quot;/home/emmanuel/EDCT/SeisMonitor/data/events/SGC2022knomqj.xml&quot; #3.7</span>
-    <span class="c1"># catalog = &quot;/home/emmanuel/EDCT/SeisMonitor/data/events/SGC2022cvykgs.xml&quot;</span>
-    <span class="n">catalog</span> <span class="o">=</span> <span class="s2">&quot;/home/emmanuel/EDCT/SeisMonitor/data/events/SGC2022kszqlt.xml&quot;</span> <span class="c1">#2.2 143km</span>
-    <span class="c1"># catalog = &quot;/home/emmanuel/EDCT/SeisMonitor/data/events/SGC2022ktsrvi.xml&quot; #2 33km</span>
-    <span class="c1"># catalog = &quot;/home/emmanuel/EDCT/SeisMonitor/data/events/SGC2022krnhiu.xml&quot; #4.3</span>
-    <span class="c1"># catalog = &quot;/home/emmanuel/EDCT/SeisMonitor/data/events/SGC2022kszqlt.xml&quot; #2.9 103km</span>
-    <span class="c1"># resp = &quot;/home/emmanuel/Ecopetrol/SeisMonitor/data/metadata/CM.dataless&quot;</span>
-    <span class="n">resp</span> <span class="o">=</span> <span class="s2">&quot;/home/emmanuel/EDCT/SeisMonitor/data/events/public_CM.xml&quot;</span>
-    <span class="n">resp</span> <span class="o">=</span> <span class="n">read_inventory</span><span class="p">(</span><span class="n">resp</span><span class="p">)</span>
+<span class="c1">#     # catalog = &quot;/home/emmanuel/EDCT/SeisMonitor/data/events/SGC2022knomqj.xml&quot; #3.7</span>
+<span class="c1">#     # catalog = &quot;/home/emmanuel/EDCT/SeisMonitor/data/events/SGC2022cvykgs.xml&quot;</span>
+<span class="c1">#     catalog = &quot;/home/emmanuel/EDCT/SeisMonitor/data/events/SGC2022kszqlt.xml&quot; #2.2 143km</span>
+<span class="c1">#     # catalog = &quot;/home/emmanuel/EDCT/SeisMonitor/data/events/SGC2022ktsrvi.xml&quot; #2 33km</span>
+<span class="c1">#     # catalog = &quot;/home/emmanuel/EDCT/SeisMonitor/data/events/SGC2022krnhiu.xml&quot; #4.3</span>
+<span class="c1">#     # catalog = &quot;/home/emmanuel/EDCT/SeisMonitor/data/events/SGC2022kszqlt.xml&quot; #2.9 103km</span>
+<span class="c1">#     # resp = &quot;/home/emmanuel/Ecopetrol/SeisMonitor/data/metadata/CM.dataless&quot;</span>
+<span class="c1">#     resp = &quot;/home/emmanuel/EDCT/SeisMonitor/data/events/public_CM.xml&quot;</span>
+<span class="c1">#     resp = read_inventory(resp)</span>
     
-    <span class="n">out</span><span class="o">=</span><span class="s2">&quot;./test_magnitude,xml&quot;</span>
-    <span class="n">mag</span> <span class="o">=</span> <span class="n">Magnitude</span><span class="p">(</span><span class="n">client</span><span class="p">,</span><span class="n">catalog</span><span class="p">,</span><span class="n">resp</span><span class="p">)</span> 
+<span class="c1">#     out=&quot;./test_magnitude,xml&quot;</span>
+<span class="c1">#     mag = Magnitude(client,catalog,resp) </span>
 
-<span class="c1">## prof</span>
-    <span class="n">physparams</span> <span class="o">=</span> <span class="n">MwPhysicalMagParams</span><span class="p">(</span><span class="n">vp</span><span class="o">=</span><span class="mi">8200</span><span class="p">,</span>
-                            <span class="n">p_radiation_pattern</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span>
-                            <span class="p">)</span>
-    <span class="n">procparams</span> <span class="o">=</span> <span class="n">MwProcessingMagParams</span><span class="p">(</span>
-                            <span class="n">time_before_pick</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span>
-                            <span class="n">time_after_pick</span> <span class="o">=</span> <span class="mi">15</span><span class="p">,</span>
-                            <span class="n">only_proc_p_pick</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="c1"># ## prof</span>
+<span class="c1">#     physparams = MwPhysicalMagParams(vp=8200,</span>
+<span class="c1">#                             p_radiation_pattern=0.05,</span>
+<span class="c1">#                             )</span>
+<span class="c1">#     procparams = MwProcessingMagParams(</span>
+<span class="c1">#                             time_before_pick = 2,</span>
+<span class="c1">#                             time_after_pick = 15,</span>
+<span class="c1">#                             only_proc_p_pick=True)</span>
 
-<span class="c1">## sup</span>
-    <span class="c1"># physparams = MwPhysicalMagParams(vp=4800,</span>
-    <span class="c1">#                         )</span>
-    <span class="c1"># procparams = MwProcessingMagParams(</span>
-    <span class="c1">#                         time_before_pick = 0.2,</span>
-    <span class="c1">#                         time_after_pick = 0.8,</span>
-    <span class="c1">#                         only_proc_p_pick=True)</span>
-    <span class="c1"># mag.get_Mw(physparams,procparams,out)</span>
+<span class="c1"># ## sup</span>
+<span class="c1">#     # physparams = MwPhysicalMagParams(vp=4800,</span>
+<span class="c1">#     #                         )</span>
+<span class="c1">#     # procparams = MwProcessingMagParams(</span>
+<span class="c1">#     #                         time_before_pick = 0.2,</span>
+<span class="c1">#     #                         time_after_pick = 0.8,</span>
+<span class="c1">#     #                         only_proc_p_pick=True)</span>
+<span class="c1">#     # mag.get_Mw(physparams,procparams,out)</span>
 
-    <span class="c1"># ml_params = {&quot;a&quot;:1.019,&quot;b&quot;:0.0016,&quot;r_ref&quot;:140}</span>
-    <span class="c1"># k = ml_params[&quot;a&quot;]*math.log10(ml_params[&quot;r_ref&quot;]/100) +\</span>
-    <span class="c1">#         ml_params[&quot;b&quot;]* (ml_params[&quot;r_ref&quot;]-100) +3</span>
-    <span class="c1"># mt = lambda ampl,epi_dist: math.log10(ampl * 1000) + ml_params[&quot;a&quot;] * math.log10(epi_dist/ml_params[&quot;r_ref&quot;]) +\</span>
-    <span class="c1">#                     ml_params[&quot;b&quot;] * (epi_dist-ml_params[&quot;r_ref&quot;]) + k</span>
-    <span class="n">mag</span><span class="o">.</span><span class="n">get_Ml</span><span class="p">(</span><span class="n">mag_type</span><span class="o">=</span><span class="s2">&quot;RSNC&quot;</span><span class="p">)</span>
+<span class="c1">#     # ml_params = {&quot;a&quot;:1.019,&quot;b&quot;:0.0016,&quot;r_ref&quot;:140}</span>
+<span class="c1">#     # k = ml_params[&quot;a&quot;]*math.log10(ml_params[&quot;r_ref&quot;]/100) +\</span>
+<span class="c1">#     #         ml_params[&quot;b&quot;]* (ml_params[&quot;r_ref&quot;]-100) +3</span>
+<span class="c1">#     # mt = lambda ampl,epi_dist: math.log10(ampl * 1000) + ml_params[&quot;a&quot;] * math.log10(epi_dist/ml_params[&quot;r_ref&quot;]) +\</span>
+<span class="c1">#     #                     ml_params[&quot;b&quot;] * (epi_dist-ml_params[&quot;r_ref&quot;]) + k</span>
+<span class="c1">#     mag.get_Ml(mag_type=&quot;RSNC&quot;)</span>
 </pre></div>
 
            </div>

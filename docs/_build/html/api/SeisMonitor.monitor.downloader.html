@@ -1,0 +1,752 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Downloader &mdash; SeisMonitor 0.0.58 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=6c90a955" />
+      <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=c3e19674"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Picker" href="SeisMonitor.monitor.picker.html" />
+    <link rel="prev" title="Core" href="SeisMonitor.core.objects.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html">
+            
+              <img src="../_static/seismonitor.PNG" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../home.html">Welcome to SeisMonitor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quickstart.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dataset.html">SeisMonitor in Colombia</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">API Reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="SeisMonitor.core.objects.html">Core</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Downloader</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#module-SeisMonitor.monitor.downloader.seismonitor">seismonitor</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#SeisMonitor.monitor.downloader.seismonitor.MseedDownloader"><code class="docutils literal notranslate"><span class="pre">MseedDownloader</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-SeisMonitor.monitor.downloader.utils">utils</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#SeisMonitor.monitor.downloader.utils.DownloadRestrictions"><code class="docutils literal notranslate"><span class="pre">DownloadRestrictions</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#SeisMonitor.monitor.downloader.utils.get_all_sdswaveforms"><code class="docutils literal notranslate"><span class="pre">get_all_sdswaveforms()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#SeisMonitor.monitor.downloader.utils.get_chunktimes"><code class="docutils literal notranslate"><span class="pre">get_chunktimes()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#SeisMonitor.monitor.downloader.utils.get_client_waveforms"><code class="docutils literal notranslate"><span class="pre">get_client_waveforms()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#SeisMonitor.monitor.downloader.utils.get_filenames"><code class="docutils literal notranslate"><span class="pre">get_filenames()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#SeisMonitor.monitor.downloader.utils.get_inv_and_json"><code class="docutils literal notranslate"><span class="pre">get_inv_and_json()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#SeisMonitor.monitor.downloader.utils.get_max_allowed_batch_size"><code class="docutils literal notranslate"><span class="pre">get_max_allowed_batch_size()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#SeisMonitor.monitor.downloader.utils.get_merged_inv_and_json"><code class="docutils literal notranslate"><span class="pre">get_merged_inv_and_json()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#SeisMonitor.monitor.downloader.utils.get_mseed_filename"><code class="docutils literal notranslate"><span class="pre">get_mseed_filename()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#SeisMonitor.monitor.downloader.utils.get_st_according2preference"><code class="docutils literal notranslate"><span class="pre">get_st_according2preference()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#SeisMonitor.monitor.downloader.utils.inside_the_polygon"><code class="docutils literal notranslate"><span class="pre">inside_the_polygon()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#SeisMonitor.monitor.downloader.utils.sanitize_provider_times"><code class="docutils literal notranslate"><span class="pre">sanitize_provider_times()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#SeisMonitor.monitor.downloader.utils.select_inventory"><code class="docutils literal notranslate"><span class="pre">select_inventory()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#SeisMonitor.monitor.downloader.utils.write_client_waveforms"><code class="docutils literal notranslate"><span class="pre">write_client_waveforms()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#SeisMonitor.monitor.downloader.utils.write_stream"><code class="docutils literal notranslate"><span class="pre">write_stream()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="SeisMonitor.monitor.picker.html">Picker</a></li>
+<li class="toctree-l2"><a class="reference internal" href="SeisMonitor.monitor.associator.html">Associator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="SeisMonitor.monitor.locator.nlloc.html">Nlloc</a></li>
+<li class="toctree-l2"><a class="reference internal" href="SeisMonitor.monitor.magnitude.html">Magnitude</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../authors.html">Authors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contribution.html">Contributing</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">SeisMonitor</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">API Reference</a></li>
+      <li class="breadcrumb-item active">Downloader</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/api/SeisMonitor.monitor.downloader.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="downloader">
+<h1>Downloader<a class="headerlink" href="#downloader" title="Link to this heading"></a></h1>
+<p>Download waveform data from providers.</p>
+<section id="module-SeisMonitor.monitor.downloader.seismonitor">
+<span id="seismonitor"></span><h2>seismonitor<a class="headerlink" href="#module-SeisMonitor.monitor.downloader.seismonitor" title="Link to this heading"></a></h2>
+<p>Concurrent seismic waveform downloader.</p>
+<p>This module provides the <a class="reference internal" href="#SeisMonitor.monitor.downloader.seismonitor.MseedDownloader" title="SeisMonitor.monitor.downloader.seismonitor.MseedDownloader"><code class="xref py py-class docutils literal notranslate"><span class="pre">MseedDownloader</span></code></a> class, which manages
+parallel waveform downloads from multiple seismic data providers.</p>
+<p>The downloader supports:</p>
+<ul class="simple">
+<li><p>Inventory and metadata generation</p></li>
+<li><p>Concurrent waveform downloads</p></li>
+<li><p>Chunked time-window requests</p></li>
+<li><p>Optional waveform processing pipelines</p></li>
+</ul>
+<p>The implementation is compatible with ObsPy-based FDSN clients.</p>
+<p class="rubric">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">obspy.clients.fdsn</span><span class="w"> </span><span class="kn">import</span> <span class="n">Client</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">client</span> <span class="o">=</span> <span class="n">Client</span><span class="p">(</span><span class="s2">&quot;IRIS&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">downloader</span> <span class="o">=</span> <span class="n">MseedDownloader</span><span class="p">([</span><span class="n">client</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">isinstance</span><span class="p">(</span><span class="n">downloader</span><span class="o">.</span><span class="n">providers</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+<dl class="py class">
+<dt class="sig sig-object py" id="SeisMonitor.monitor.downloader.seismonitor.MseedDownloader">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">SeisMonitor.monitor.downloader.seismonitor.</span></span><span class="sig-name descname"><span class="pre">MseedDownloader</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">providers</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/SeisMonitor/monitor/downloader/seismonitor.html#MseedDownloader"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SeisMonitor.monitor.downloader.seismonitor.MseedDownloader" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Concurrent mass downloader for seismic waveform data.</p>
+<p>This class manages metadata retrieval and waveform downloads from
+multiple providers using concurrent execution.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>providers</strong> (<em>list</em>) – List of provider objects or ObsPy-compatible clients.</p>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="SeisMonitor.monitor.downloader.seismonitor.MseedDownloader.providers">
+<span class="sig-name descname"><span class="pre">providers</span></span><a class="headerlink" href="#SeisMonitor.monitor.downloader.seismonitor.MseedDownloader.providers" title="Link to this definition"></a></dt>
+<dd><p>Sanitized provider list.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="SeisMonitor.monitor.downloader.seismonitor.MseedDownloader.providers_are_processed">
+<span class="sig-name descname"><span class="pre">providers_are_processed</span></span><a class="headerlink" href="#SeisMonitor.monitor.downloader.seismonitor.MseedDownloader.providers_are_processed" title="Link to this definition"></a></dt>
+<dd><p>Indicates whether providers have been processed.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="SeisMonitor.monitor.downloader.seismonitor.MseedDownloader._stations_outside_domains">
+<span class="sig-name descname"><span class="pre">_stations_outside_domains</span></span><a class="headerlink" href="#SeisMonitor.monitor.downloader.seismonitor.MseedDownloader._stations_outside_domains" title="Link to this definition"></a></dt>
+<dd><p>Stations that fall outside requested domains.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>set or None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<p class="rubric">Notes</p>
+<p>Providers must implement the required waveform and station interfaces.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="SeisMonitor.monitor.downloader.seismonitor.MseedDownloader.download">
+<span class="sig-name descname"><span class="pre">download</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mseed_storage</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chunklength_in_sec</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">threshold</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">60</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">overlap_in_sec</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">picker_args</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">groupby</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'{network}.{station}.{channel}'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_processor</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/SeisMonitor/monitor/downloader/seismonitor.html#MseedDownloader.download"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SeisMonitor.monitor.downloader.seismonitor.MseedDownloader.download" title="Link to this definition"></a></dt>
+<dd><p>Download waveform data from all configured providers.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mseed_storage</strong> (<em>str</em>) – Storage path template for MiniSEED files.</p></li>
+<li><p><strong>chunklength_in_sec</strong> (<em>int</em><em>, </em><em>optional</em>) – Length of each download chunk in seconds.</p></li>
+<li><p><strong>threshold</strong> (<em>int</em><em>, </em><em>default=60</em>) – Minimum waveform length threshold in seconds.</p></li>
+<li><p><strong>overlap_in_sec</strong> (<em>int</em><em>, </em><em>default=0</em>) – Overlap between adjacent chunks in seconds.</p></li>
+<li><p><strong>picker_args</strong> (<em>dict</em><em>, </em><em>optional</em>) – Picker configuration dictionary.</p></li>
+<li><p><strong>groupby</strong> (<em>str</em><em>, </em><em>default=&quot;{network}.{station}.{channel}&quot;</em>) – Trace grouping pattern.</p></li>
+<li><p><strong>n_processor</strong> (<em>int</em><em>, </em><em>optional</em>) – Number of concurrent workers.</p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>Supported path template variables include:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">{network}</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">{station}</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">{location}</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">{channel}</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">{year}</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">{month}</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">{day}</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">{julday}</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">{starttime}</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">{endtime}</span></code></p></li>
+</ul>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="SeisMonitor.monitor.downloader.seismonitor.MseedDownloader.make_inv_and_json">
+<span class="sig-name descname"><span class="pre">make_inv_and_json</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">out_folder</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/SeisMonitor/monitor/downloader/seismonitor.html#MseedDownloader.make_inv_and_json"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SeisMonitor.monitor.downloader.seismonitor.MseedDownloader.make_inv_and_json" title="Link to this definition"></a></dt>
+<dd><p>Create merged inventory and station metadata JSON files.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>out_folder</strong> (<em>str</em><em>, </em><em>optional</em>) – Output directory where files will be written.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><p>Tuple containing:</p>
+<ul class="simple">
+<li><p>Inventory object</p></li>
+<li><p>Station metadata dictionary</p></li>
+</ul>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>tuple</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>If <code class="docutils literal notranslate"><span class="pre">out_folder</span></code> is provided, the following files are created:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">stations.json</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">inv.xml</span></code></p></li>
+</ul>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-SeisMonitor.monitor.downloader.utils">
+<span id="utils"></span><h2>utils<a class="headerlink" href="#module-SeisMonitor.monitor.downloader.utils" title="Link to this heading"></a></h2>
+<p>Utility functions for seismic waveform downloading and inventory handling.</p>
+<p>This module provides helper classes and functions used for:</p>
+<ul class="simple">
+<li><p>Waveform downloading</p></li>
+<li><p>MiniSEED file management</p></li>
+<li><p>Inventory filtering</p></li>
+<li><p>Station metadata extraction</p></li>
+<li><p>Stream preference selection</p></li>
+<li><p>Chunked time-window generation</p></li>
+</ul>
+<p>The implementation is designed for ObsPy-based workflows.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="SeisMonitor.monitor.downloader.utils.DownloadRestrictions">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">SeisMonitor.monitor.downloader.utils.</span></span><span class="sig-name descname"><span class="pre">DownloadRestrictions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mseed_storage</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chunklength_in_sec</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">threshold</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">60</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">overlap_in_sec</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">picker_args</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">groupby</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'{network}.{station}.{channel}'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_processor</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/SeisMonitor/monitor/downloader/utils.html#DownloadRestrictions"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SeisMonitor.monitor.downloader.utils.DownloadRestrictions" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Container class defining waveform download restrictions.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mseed_storage</strong> (<em>str</em>) – MiniSEED output path template.</p></li>
+<li><p><strong>chunklength_in_sec</strong> (<em>int</em><em>, </em><em>optional</em>) – Length of each download chunk in seconds.</p></li>
+<li><p><strong>threshold</strong> (<em>int</em><em>, </em><em>default=60</em>) – Minimum waveform duration threshold in seconds.</p></li>
+<li><p><strong>overlap_in_sec</strong> (<em>int</em><em>, </em><em>default=0</em>) – Chunk overlap in seconds.</p></li>
+<li><p><strong>picker_args</strong> (<em>dict</em><em>, </em><em>optional</em>) – Picker configuration dictionary.</p></li>
+<li><p><strong>groupby</strong> (<em>str</em><em>, </em><em>default=&quot;{network}.{station}.{channel}&quot;</em>) – Grouping rule for traces.</p></li>
+<li><p><strong>n_processor</strong> (<em>int</em><em>, </em><em>optional</em>) – Number of parallel workers.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="SeisMonitor.monitor.downloader.utils.DownloadRestrictions.mseed_storage">
+<span class="sig-name descname"><span class="pre">mseed_storage</span></span><a class="headerlink" href="#SeisMonitor.monitor.downloader.utils.DownloadRestrictions.mseed_storage" title="Link to this definition"></a></dt>
+<dd><p>MiniSEED output path template.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="SeisMonitor.monitor.downloader.utils.DownloadRestrictions.chunklength_in_sec">
+<span class="sig-name descname"><span class="pre">chunklength_in_sec</span></span><a class="headerlink" href="#SeisMonitor.monitor.downloader.utils.DownloadRestrictions.chunklength_in_sec" title="Link to this definition"></a></dt>
+<dd><p>Chunk duration in seconds.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int or None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="SeisMonitor.monitor.downloader.utils.DownloadRestrictions.threshold">
+<span class="sig-name descname"><span class="pre">threshold</span></span><a class="headerlink" href="#SeisMonitor.monitor.downloader.utils.DownloadRestrictions.threshold" title="Link to this definition"></a></dt>
+<dd><p>Minimum waveform duration threshold.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="SeisMonitor.monitor.downloader.utils.DownloadRestrictions.overlap_in_sec">
+<span class="sig-name descname"><span class="pre">overlap_in_sec</span></span><a class="headerlink" href="#SeisMonitor.monitor.downloader.utils.DownloadRestrictions.overlap_in_sec" title="Link to this definition"></a></dt>
+<dd><p>Overlap between chunks.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="SeisMonitor.monitor.downloader.utils.DownloadRestrictions.picker_args">
+<span class="sig-name descname"><span class="pre">picker_args</span></span><a class="headerlink" href="#SeisMonitor.monitor.downloader.utils.DownloadRestrictions.picker_args" title="Link to this definition"></a></dt>
+<dd><p>Picker configuration.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="SeisMonitor.monitor.downloader.utils.DownloadRestrictions.groupby">
+<span class="sig-name descname"><span class="pre">groupby</span></span><a class="headerlink" href="#SeisMonitor.monitor.downloader.utils.DownloadRestrictions.groupby" title="Link to this definition"></a></dt>
+<dd><p>Trace grouping rule.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="SeisMonitor.monitor.downloader.utils.DownloadRestrictions.n_processor">
+<span class="sig-name descname"><span class="pre">n_processor</span></span><a class="headerlink" href="#SeisMonitor.monitor.downloader.utils.DownloadRestrictions.n_processor" title="Link to this definition"></a></dt>
+<dd><p>Number of parallel workers.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int or None</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="SeisMonitor.monitor.downloader.utils.get_all_sdswaveforms">
+<span class="sig-prename descclassname"><span class="pre">SeisMonitor.monitor.downloader.utils.</span></span><span class="sig-name descname"><span class="pre">get_all_sdswaveforms</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">client</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/SeisMonitor/monitor/downloader/utils.html#get_all_sdswaveforms"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SeisMonitor.monitor.downloader.utils.get_all_sdswaveforms" title="Link to this definition"></a></dt>
+<dd><p>Download waveforms for multiple parameter combinations.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>client</strong> (<em>Client</em>) – ObsPy-compatible client instance.</p></li>
+<li><p><strong>**kwargs</strong> (<em>dict</em>) – <p>Waveform request parameters. Expected keys include:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">network</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">station</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">location</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">channel</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">starttime</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">endtime</span></code></p></li>
+</ul>
+<p>Comma-separated values are automatically expanded.</p>
+</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Combined waveform stream.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Stream</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>Each combination of network, station, location, and channel
+is requested independently.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="SeisMonitor.monitor.downloader.utils.get_chunktimes">
+<span class="sig-prename descclassname"><span class="pre">SeisMonitor.monitor.downloader.utils.</span></span><span class="sig-name descname"><span class="pre">get_chunktimes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">starttime</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">endtime</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chunklength_in_sec</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">overlap_in_sec</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/SeisMonitor/monitor/downloader/utils.html#get_chunktimes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SeisMonitor.monitor.downloader.utils.get_chunktimes" title="Link to this definition"></a></dt>
+<dd><p>Generate chunked time intervals.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>starttime</strong> (<em>UTCDateTime</em>) – Start time.</p></li>
+<li><p><strong>endtime</strong> (<em>UTCDateTime</em>) – End time.</p></li>
+<li><p><strong>chunklength_in_sec</strong> (<em>int</em><em>, </em><em>optional</em>) – Chunk duration in seconds.</p></li>
+<li><p><strong>overlap_in_sec</strong> (<em>int</em><em>, </em><em>optional</em>) – Chunk overlap in seconds.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>List of <code class="docutils literal notranslate"><span class="pre">(starttime,</span> <span class="pre">endtime)</span></code> tuples.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>ValueError</strong> – If <code class="docutils literal notranslate"><span class="pre">chunklength_in_sec</span></code> equals zero.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="SeisMonitor.monitor.downloader.utils.get_client_waveforms">
+<span class="sig-prename descclassname"><span class="pre">SeisMonitor.monitor.downloader.utils.</span></span><span class="sig-name descname"><span class="pre">get_client_waveforms</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">client</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bulk</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">waveform_restrictions</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">processing</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/SeisMonitor/monitor/downloader/utils.html#get_client_waveforms"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SeisMonitor.monitor.downloader.utils.get_client_waveforms" title="Link to this definition"></a></dt>
+<dd><p>Retrieve and optionally process waveform data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>client</strong> (<em>Client</em>) – ObsPy-compatible waveform client.</p></li>
+<li><p><strong>bulk</strong> (<em>tuple</em>) – <p>Waveform request tuple containing:</p>
+<ul>
+<li><p>Network</p></li>
+<li><p>Station</p></li>
+<li><p>Location</p></li>
+<li><p>Channel</p></li>
+<li><p>Starttime</p></li>
+<li><p>Endtime</p></li>
+</ul>
+</p></li>
+<li><p><strong>waveform_restrictions</strong> (<em>object</em>) – Waveform restriction configuration.</p></li>
+<li><p><strong>processing</strong> (<em>object</em><em>, </em><em>optional</em>) – Processing pipeline object.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><p>Tuple containing:</p>
+<ul class="simple">
+<li><p>Stream</p></li>
+<li><p>Preprocessed flag</p></li>
+<li><p>Comment string</p></li>
+</ul>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>tuple</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="SeisMonitor.monitor.downloader.utils.get_filenames">
+<span class="sig-prename descclassname"><span class="pre">SeisMonitor.monitor.downloader.utils.</span></span><span class="sig-name descname"><span class="pre">get_filenames</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mseed</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter_net</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter_sta</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter_cha</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/SeisMonitor/monitor/downloader/utils.html#get_filenames"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SeisMonitor.monitor.downloader.utils.get_filenames" title="Link to this definition"></a></dt>
+<dd><p>Retrieve MiniSEED filenames with optional filtering.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mseed</strong> (<em>str</em>) – Directory containing MiniSEED files.</p></li>
+<li><p><strong>filter_net</strong> (<em>list</em><em> of </em><em>str</em><em>, </em><em>optional</em>) – Network codes to exclude.</p></li>
+<li><p><strong>filter_sta</strong> (<em>list</em><em> of </em><em>str</em><em>, </em><em>optional</em>) – Station codes to exclude.</p></li>
+<li><p><strong>filter_cha</strong> (<em>list</em><em> of </em><em>str</em><em>, </em><em>optional</em>) – Channel codes to include.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Filtered MiniSEED filenames.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list of str</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>TypeError</strong> – If any filter parameter is not a list.</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">files</span> <span class="o">=</span> <span class="n">get_filenames</span><span class="p">(</span><span class="s2">&quot;/data/mseed&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">isinstance</span><span class="p">(</span><span class="n">files</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="SeisMonitor.monitor.downloader.utils.get_inv_and_json">
+<span class="sig-prename descclassname"><span class="pre">SeisMonitor.monitor.downloader.utils.</span></span><span class="sig-name descname"><span class="pre">get_inv_and_json</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inventory</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter_networks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter_stations</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter_domain</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[-180,</span> <span class="pre">180,</span> <span class="pre">-90,</span> <span class="pre">90]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/SeisMonitor/monitor/downloader/utils.html#get_inv_and_json"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SeisMonitor.monitor.downloader.utils.get_inv_and_json" title="Link to this definition"></a></dt>
+<dd><p>Filter an inventory and generate station metadata.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>inventory</strong> (<em>Inventory</em>) – ObsPy inventory object.</p></li>
+<li><p><strong>filter_networks</strong> (<em>list</em><em> of </em><em>str</em><em>, </em><em>optional</em>) – Networks to exclude.</p></li>
+<li><p><strong>filter_stations</strong> (<em>list</em><em> of </em><em>str</em><em>, </em><em>optional</em>) – Stations to exclude.</p></li>
+<li><p><strong>filter_domain</strong> (<em>list</em><em> of </em><em>float</em><em>, </em><em>optional</em>) – <p>Geographic domain defined as:</p>
+<p><code class="docutils literal notranslate"><span class="pre">[minlon,</span> <span class="pre">maxlon,</span> <span class="pre">minlat,</span> <span class="pre">maxlat]</span></code></p>
+</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><p>Tuple containing:</p>
+<ul class="simple">
+<li><p>Filtered inventory</p></li>
+<li><p>Station metadata dictionary</p></li>
+<li><p>Stations outside domain</p></li>
+</ul>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>tuple</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="SeisMonitor.monitor.downloader.utils.get_max_allowed_batch_size">
+<span class="sig-prename descclassname"><span class="pre">SeisMonitor.monitor.downloader.utils.</span></span><span class="sig-name descname"><span class="pre">get_max_allowed_batch_size</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data_length</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">segment_length</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">overlap</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/SeisMonitor/monitor/downloader/utils.html#get_max_allowed_batch_size"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SeisMonitor.monitor.downloader.utils.get_max_allowed_batch_size" title="Link to this definition"></a></dt>
+<dd><p>Compute the maximum valid batch size.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data_length</strong> (<em>float</em>) – Total waveform duration in seconds.</p></li>
+<li><p><strong>segment_length</strong> (<em>float</em>) – Segment duration in seconds.</p></li>
+<li><p><strong>overlap</strong> (<em>float</em>) – Fractional overlap between segments.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Maximum allowed batch size.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="SeisMonitor.monitor.downloader.utils.get_merged_inv_and_json">
+<span class="sig-prename descclassname"><span class="pre">SeisMonitor.monitor.downloader.utils.</span></span><span class="sig-name descname"><span class="pre">get_merged_inv_and_json</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">providers</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/SeisMonitor/monitor/downloader/utils.html#get_merged_inv_and_json"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SeisMonitor.monitor.downloader.utils.get_merged_inv_and_json" title="Link to this definition"></a></dt>
+<dd><p>Merge inventories and station metadata from providers.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>providers</strong> (<em>list</em>) – List of provider objects.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><p>Tuple containing:</p>
+<ul class="simple">
+<li><p>Merged inventory</p></li>
+<li><p>Station metadata dictionary</p></li>
+<li><p>Updated providers</p></li>
+<li><p>Stations outside requested domains</p></li>
+</ul>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>tuple</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="SeisMonitor.monitor.downloader.utils.get_mseed_filename">
+<span class="sig-prename descclassname"><span class="pre">SeisMonitor.monitor.downloader.utils.</span></span><span class="sig-name descname"><span class="pre">get_mseed_filename</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">_str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ppc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/SeisMonitor/monitor/downloader/utils.html#get_mseed_filename"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SeisMonitor.monitor.downloader.utils.get_mseed_filename" title="Link to this definition"></a></dt>
+<dd><p>Generate a MiniSEED filename from a template.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>template</strong> (<em>str</em>) – Output path template.</p></li>
+<li><p><strong>trace</strong> (<em>Trace</em>) – ObsPy trace object.</p></li>
+<li><p><strong>ppc</strong> (<em>bool</em><em>, </em><em>default=False</em>) – Append preprocessing suffix.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Generated file path.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>TypeError</strong> – If the generated path is invalid.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="SeisMonitor.monitor.downloader.utils.get_st_according2preference">
+<span class="sig-prename descclassname"><span class="pre">SeisMonitor.monitor.downloader.utils.</span></span><span class="sig-name descname"><span class="pre">get_st_according2preference</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">st</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">location_list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">channel_list</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/SeisMonitor/monitor/downloader/utils.html#get_st_according2preference"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SeisMonitor.monitor.downloader.utils.get_st_according2preference" title="Link to this definition"></a></dt>
+<dd><p>Suppose that your preference_type is “location” and your
+location_list is [“00”,”20”,”10”], then this function first
+filter the stream according to location and returns
+a  new stream only with location “00”, if no exist “00” will
+continue with the next preference “20”, and otherwise, “10”.
+After that, it is going to take new stream and it will go to
+filter according to channel_list preference if the new stream
+has more than one channel type (“HH or BH).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>st</strong> (<em>Stream</em>) – ObsPy stream object.</p></li>
+<li><p><strong>location_list</strong> (<em>list</em>) – Preferred locations ordered by priority.</p></li>
+<li><p><strong>channel_list</strong> (<em>list</em>) – Preferred channel prefixes ordered by priority.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Filtered stream.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Stream</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="SeisMonitor.monitor.downloader.utils.inside_the_polygon">
+<span class="sig-prename descclassname"><span class="pre">SeisMonitor.monitor.downloader.utils.</span></span><span class="sig-name descname"><span class="pre">inside_the_polygon</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">p</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pol_points</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/SeisMonitor/monitor/downloader/utils.html#inside_the_polygon"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SeisMonitor.monitor.downloader.utils.inside_the_polygon" title="Link to this definition"></a></dt>
+<dd><p>Determine whether a point lies inside a polygon.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>point</strong> (<em>tuple</em>) – Point coordinates <code class="docutils literal notranslate"><span class="pre">(longitude,</span> <span class="pre">latitude)</span></code>.</p></li>
+<li><p><strong>polygon_points</strong> (<em>list</em><em> of </em><em>tuple</em>) – Polygon vertices.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><code class="docutils literal notranslate"><span class="pre">True</span></code> if the point is inside the polygon.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="SeisMonitor.monitor.downloader.utils.sanitize_provider_times">
+<span class="sig-prename descclassname"><span class="pre">SeisMonitor.monitor.downloader.utils.</span></span><span class="sig-name descname"><span class="pre">sanitize_provider_times</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">providers</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/SeisMonitor/monitor/downloader/utils.html#sanitize_provider_times"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SeisMonitor.monitor.downloader.utils.sanitize_provider_times" title="Link to this definition"></a></dt>
+<dd><p>Ensure all providers share the same time interval.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>providers</strong> (<em>list</em>) – Provider list.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Validated provider list.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>ValueError</strong> – If providers use different time intervals.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="SeisMonitor.monitor.downloader.utils.select_inventory">
+<span class="sig-prename descclassname"><span class="pre">SeisMonitor.monitor.downloader.utils.</span></span><span class="sig-name descname"><span class="pre">select_inventory</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inv</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">network</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">station</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">location</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">channel</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">starttime</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">endtime</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/SeisMonitor/monitor/downloader/utils.html#select_inventory"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SeisMonitor.monitor.downloader.utils.select_inventory" title="Link to this definition"></a></dt>
+<dd><p>Filter an inventory using waveform selection criteria.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>inventory</strong> (<em>Inventory</em>) – Input ObsPy inventory.</p></li>
+<li><p><strong>network</strong> (<em>str</em>) – Comma-separated network codes.</p></li>
+<li><p><strong>station</strong> (<em>str</em>) – Comma-separated station codes.</p></li>
+<li><p><strong>location</strong> (<em>str</em>) – Comma-separated location codes.</p></li>
+<li><p><strong>channel</strong> (<em>str</em>) – Comma-separated channel codes.</p></li>
+<li><p><strong>starttime</strong> (<em>UTCDateTime</em>) – Selection start time.</p></li>
+<li><p><strong>endtime</strong> (<em>UTCDateTime</em>) – Selection end time.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Filtered inventory object.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Inventory</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="SeisMonitor.monitor.downloader.utils.write_client_waveforms">
+<span class="sig-prename descclassname"><span class="pre">SeisMonitor.monitor.downloader.utils.</span></span><span class="sig-name descname"><span class="pre">write_client_waveforms</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">client</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bulk</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">waveform_restrictions</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">download_restrictions</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">processing</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/SeisMonitor/monitor/downloader/utils.html#write_client_waveforms"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SeisMonitor.monitor.downloader.utils.write_client_waveforms" title="Link to this definition"></a></dt>
+<dd><p>Download and write waveform data to MiniSEED files.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>client</strong> (<em>Client</em>) – ObsPy-compatible client.</p></li>
+<li><p><strong>bulk</strong> (<em>tuple</em>) – Waveform request tuple.</p></li>
+<li><p><strong>waveform_restrictions</strong> (<em>object</em>) – Waveform restriction configuration.</p></li>
+<li><p><strong>download_restrictions</strong> (<a class="reference internal" href="#SeisMonitor.monitor.downloader.utils.DownloadRestrictions" title="SeisMonitor.monitor.downloader.utils.DownloadRestrictions"><em>DownloadRestrictions</em></a>) – Download restriction configuration.</p></li>
+<li><p><strong>processing</strong> (<em>object</em><em>, </em><em>optional</em>) – Processing pipeline.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="SeisMonitor.monitor.downloader.utils.write_stream">
+<span class="sig-prename descclassname"><span class="pre">SeisMonitor.monitor.downloader.utils.</span></span><span class="sig-name descname"><span class="pre">write_stream</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">st</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mseed_storage</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">threshold</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">picker_args</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ppc_and_comment</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[False,</span> <span class="pre">'']</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/SeisMonitor/monitor/downloader/utils.html#write_stream"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SeisMonitor.monitor.downloader.utils.write_stream" title="Link to this definition"></a></dt>
+<dd><p>Write a waveform stream to MiniSEED format.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>st</strong> (<em>Stream</em>) – ObsPy stream object.</p></li>
+<li><p><strong>mseed_storage</strong> (<em>str</em>) – Output storage template.</p></li>
+<li><p><strong>threshold</strong> (<em>int</em><em>, </em><em>optional</em>) – Minimum waveform duration threshold.</p></li>
+<li><p><strong>picker_args</strong> (<em>dict</em><em>, </em><em>optional</em>) – Picker validation parameters.</p></li>
+<li><p><strong>ppc_and_comment</strong> (<em>sequence</em><em>, </em><em>optional</em>) – <p>Tuple/list containing:</p>
+<ul>
+<li><p>Preprocessed flag</p></li>
+<li><p>Log comment</p></li>
+</ul>
+</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="SeisMonitor.core.objects.html" class="btn btn-neutral float-left" title="Core" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="SeisMonitor.monitor.picker.html" class="btn btn-neutral float-right" title="Picker" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Emmanuel Castillo.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

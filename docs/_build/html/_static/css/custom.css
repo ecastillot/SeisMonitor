@@ -1,0 +1,15 @@
+/* Change the color of the top left panel */
+.wy-side-nav-search {
+    background-color: rgba(158, 161, 163, 0.884) !important;
+}
+
+/* Make logo bigger in sidebar */
+.wy-side-nav-search .logo {
+    max-width: 240px !important;
+    width: 240px !important;
+}
+
+.red {
+    color: #d62728;
+    font-weight: bold;
+}

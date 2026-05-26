@@ -1,0 +1,375 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Quickstart &mdash; SeisMonitor 0.0.58 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="_static/css/custom.css?v=6c90a955" />
+      <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=c3e19674"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="_static/design-tabs.js?v=f930bc37"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="SeisMonitor in Colombia" href="dataset.html" />
+    <link rel="prev" title="Installation" href="installation.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html">
+            
+              <img src="_static/seismonitor.PNG" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="home.html">Welcome to SeisMonitor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Quickstart</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#download-earthquake-data">Download Earthquake Data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#earthquake-detection-phase-picking">Earthquake Detection &amp; Phase Picking</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#phase-association">Phase Association</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#earthquake-location">Earthquake Location</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#local-magnitude">Local Magnitude</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="dataset.html">SeisMonitor in Colombia</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/index.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="authors.html">Authors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contribution.html">Contributing</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">SeisMonitor</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Quickstart</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/quickstart.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="quickstart">
+<span id="quickstart-section"></span><h1>Quickstart<a class="headerlink" href="#quickstart" title="Link to this heading"></a></h1>
+<p>This guide provides a <strong>basic overview of SeisMonitor</strong> and demonstrates its application using seismic data from Texas.</p>
+<ol class="arabic simple">
+<li><p><a class="reference internal" href="#download-section"><span class="std std-ref">Download Earthquake Data</span></a></p></li>
+<li><p><a class="reference internal" href="#detection-section"><span class="std std-ref">Earthquake Detection &amp; Phase Picking</span></a></p></li>
+<li><p><a class="reference internal" href="#asso-section"><span class="std std-ref">Phase Association</span></a></p></li>
+<li><p><a class="reference internal" href="#location-section"><span class="std std-ref">Earthquake Location</span></a></p></li>
+<li><p><a class="reference internal" href="#magnitude-section"><span class="std std-ref">Local Magnitude</span></a></p></li>
+</ol>
+<section id="download-earthquake-data">
+<span id="download-section"></span><h2>Download Earthquake Data<a class="headerlink" href="#download-earthquake-data" title="Link to this heading"></a></h2>
+<p><span class="red">Key Classes:</span> <a class="reference internal" href="api/SeisMonitor.core.objects.html#SeisMonitor.core.objects.WaveformRestrictions" title="SeisMonitor.core.objects.WaveformRestrictions"><code class="xref py py-class docutils literal notranslate"><span class="pre">WaveformRestrictions</span></code></a>, <a class="reference internal" href="api/SeisMonitor.core.objects.html#SeisMonitor.core.objects.Provider" title="SeisMonitor.core.objects.Provider"><code class="xref py py-class docutils literal notranslate"><span class="pre">Provider</span></code></a>, <a class="reference internal" href="api/SeisMonitor.monitor.downloader.html#SeisMonitor.monitor.downloader.seismonitor.MseedDownloader" title="SeisMonitor.monitor.downloader.seismonitor.MseedDownloader"><code class="xref py py-class docutils literal notranslate"><span class="pre">MseedDownloader</span></code></a></p>
+<p><span class="red">Key Funcs:</span> <a class="reference internal" href="api/SeisMonitor.monitor.downloader.html#SeisMonitor.monitor.downloader.seismonitor.MseedDownloader.make_inv_and_json" title="SeisMonitor.monitor.downloader.seismonitor.MseedDownloader.make_inv_and_json"><code class="xref py py-func docutils literal notranslate"><span class="pre">make_inv_and_json()</span></code></a>, <a class="reference internal" href="api/SeisMonitor.monitor.downloader.html#SeisMonitor.monitor.downloader.seismonitor.MseedDownloader.download" title="SeisMonitor.monitor.downloader.seismonitor.MseedDownloader.download"><code class="xref py py-func docutils literal notranslate"><span class="pre">download()</span></code></a></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">obspy.core.utcdatetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">UTCDateTime</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">obspy.clients.fdsn</span><span class="w"> </span><span class="kn">import</span> <span class="n">Client</span> <span class="k">as</span> <span class="n">FDSNClient</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">SeisMonitor.core.objects</span><span class="w"> </span><span class="kn">import</span> <span class="n">WaveformRestrictions</span><span class="p">,</span><span class="n">Provider</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">SeisMonitor.monitor.downloader.seismonitor</span><span class="w"> </span><span class="kn">import</span> <span class="n">MseedDownloader</span>
+
+
+<span class="n">monitor_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span><span class="o">.</span><span class="n">parent</span> <span class="o">/</span> <span class="s2">&quot;sm&quot;</span>
+
+
+<span class="n">downloads_path</span> <span class="o">=</span> <span class="n">monitor_path</span> <span class="o">/</span> <span class="s2">&quot;downloads&quot;</span>
+<span class="n">stations_path</span> <span class="o">=</span> <span class="n">monitor_path</span> <span class="o">/</span> <span class="s2">&quot;stations&quot;</span>
+
+
+<span class="n">client</span> <span class="o">=</span> <span class="n">FDSNClient</span><span class="p">(</span><span class="s2">&quot;http://rtserve.beg.utexas.edu&quot;</span><span class="p">)</span>
+<span class="n">chunklength_in_sec</span> <span class="o">=</span> <span class="mi">3600</span>
+<span class="n">rest</span> <span class="o">=</span> <span class="n">WaveformRestrictions</span><span class="p">(</span><span class="n">network</span><span class="o">=</span><span class="s2">&quot;*&quot;</span><span class="p">,</span>
+                  <span class="n">station</span><span class="o">=</span><span class="s2">&quot;PB13,PB17,PB20,PB23,PB34,PB58,PB40,PB24,PB25,PB26,WB03&quot;</span><span class="p">,</span>
+                  <span class="n">location</span><span class="o">=</span><span class="s2">&quot;*&quot;</span><span class="p">,</span>
+                  <span class="n">channel</span><span class="o">=</span><span class="s2">&quot;*&quot;</span><span class="p">,</span>
+                  <span class="n">starttime</span><span class="o">=</span><span class="n">UTCDateTime</span><span class="p">(</span><span class="s2">&quot;2022-11-16T21:00:00.000000Z&quot;</span><span class="p">),</span>
+                  <span class="n">endtime</span><span class="o">=</span><span class="n">UTCDateTime</span><span class="p">(</span><span class="s2">&quot;2022-11-16T23:00:00.000000Z&quot;</span><span class="p">),</span>
+                  <span class="n">location_preferences</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;&quot;</span><span class="p">,</span><span class="s2">&quot;00&quot;</span><span class="p">,</span><span class="s2">&quot;20&quot;</span><span class="p">,</span><span class="s2">&quot;10&quot;</span><span class="p">,</span><span class="s2">&quot;40&quot;</span><span class="p">],</span>
+                  <span class="n">channel_preferences</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;HH&quot;</span><span class="p">,</span><span class="s2">&quot;BH&quot;</span><span class="p">,</span><span class="s2">&quot;EH&quot;</span><span class="p">,</span><span class="s2">&quot;HN&quot;</span><span class="p">,</span><span class="s2">&quot;HL&quot;</span><span class="p">],</span>
+                  <span class="n">filter_networks</span><span class="o">=</span><span class="p">[],</span>
+                  <span class="n">filter_stations</span><span class="o">=</span><span class="p">[],</span>
+                  <span class="p">)</span>
+
+
+<span class="c1">####### Default configuration</span>
+<span class="n">provider</span> <span class="o">=</span> <span class="n">Provider</span><span class="p">(</span><span class="n">client</span><span class="p">,</span><span class="n">rest</span><span class="p">)</span>
+<span class="n">md</span> <span class="o">=</span> <span class="n">MseedDownloader</span><span class="p">(</span><span class="n">providers</span><span class="o">=</span><span class="p">[</span><span class="n">provider</span><span class="p">])</span>
+<span class="n">inv</span><span class="p">,</span><span class="n">json</span> <span class="o">=</span> <span class="n">md</span><span class="o">.</span><span class="n">make_inv_and_json</span><span class="p">(</span><span class="n">stations_path</span><span class="p">)</span>
+
+<span class="n">mseed_storage</span> <span class="o">=</span> <span class="n">downloads_path</span> <span class="o">/</span> <span class="s2">&quot;</span><span class="si">{station}</span><span class="s2">&quot;</span> <span class="o">/</span> <span class="s2">&quot;</span><span class="si">{network}</span><span class="s2">.</span><span class="si">{station}</span><span class="s2">.</span><span class="si">{location}</span><span class="s2">.</span><span class="si">{channel}</span><span class="s2">__</span><span class="si">{starttime}</span><span class="s2">__</span><span class="si">{endtime}</span><span class="s2">.mseed&quot;</span>
+<span class="n">md</span><span class="o">.</span><span class="n">download</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">mseed_storage</span><span class="p">),</span>
+            <span class="n">picker_args</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;batch_size&quot;</span><span class="p">:</span><span class="mi">10</span><span class="p">,</span>
+                        <span class="s2">&quot;overlap&quot;</span><span class="p">:</span><span class="mf">0.3</span><span class="p">,</span>
+                        <span class="s2">&quot;length&quot;</span><span class="p">:</span><span class="mi">60</span><span class="p">},</span>
+            <span class="n">chunklength_in_sec</span><span class="o">=</span><span class="n">chunklength_in_sec</span><span class="p">,</span>
+            <span class="n">n_processor</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="earthquake-detection-phase-picking">
+<span id="detection-section"></span><h2>Earthquake Detection &amp; Phase Picking<a class="headerlink" href="#earthquake-detection-phase-picking" title="Link to this heading"></a></h2>
+<p><span class="red">Key Classes:</span> <a class="reference internal" href="api/SeisMonitor.monitor.picker.html#SeisMonitor.monitor.picker.ai.EQTransformerObj" title="SeisMonitor.monitor.picker.ai.EQTransformerObj"><code class="xref py py-class docutils literal notranslate"><span class="pre">EQTransformerObj</span></code></a>, <a class="reference internal" href="api/SeisMonitor.monitor.picker.html#SeisMonitor.monitor.picker.ai.EQTransformer" title="SeisMonitor.monitor.picker.ai.EQTransformer"><code class="xref py py-class docutils literal notranslate"><span class="pre">EQTransformer</span></code></a></p>
+<p><span class="red">Key Funcs:</span> <a class="reference internal" href="api/SeisMonitor.monitor.picker.html#SeisMonitor.monitor.picker.ai.EQTransformer.pick" title="SeisMonitor.monitor.picker.ai.EQTransformer.pick"><code class="xref py py-func docutils literal notranslate"><span class="pre">pick()</span></code></a>, <a class="reference internal" href="api/SeisMonitor.monitor.picker.html#SeisMonitor.monitor.picker.utils.eqt_picks_2_seismonitor_fmt" title="SeisMonitor.monitor.picker.utils.eqt_picks_2_seismonitor_fmt"><code class="xref py py-func docutils literal notranslate"><span class="pre">eqt_picks_2_seismonitor_fmt()</span></code></a></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">SeisMonitor.monitor.picker.ai</span><span class="w"> </span><span class="kn">import</span> <span class="n">EQTransformer</span><span class="p">,</span><span class="n">EQTransformerObj</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">SeisMonitor.monitor.picker</span><span class="w"> </span><span class="kn">import</span> <span class="n">utils</span> <span class="k">as</span> <span class="n">piut</span>
+
+<span class="n">monitor_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span><span class="o">.</span><span class="n">parent</span> <span class="o">/</span> <span class="s2">&quot;sm&quot;</span>
+<span class="n">downloads_path</span> <span class="o">=</span> <span class="n">monitor_path</span> <span class="o">/</span> <span class="s2">&quot;downloads&quot;</span>
+<span class="n">stations_path</span> <span class="o">=</span> <span class="n">monitor_path</span> <span class="o">/</span> <span class="s2">&quot;stations&quot;</span>
+<span class="n">picks_path</span> <span class="o">=</span> <span class="n">monitor_path</span> <span class="o">/</span> <span class="s2">&quot;picks&quot;</span>
+<span class="n">sm_picks_path</span> <span class="o">=</span> <span class="n">picks_path</span> <span class="o">/</span> <span class="s2">&quot;seismonitor_picks.csv&quot;</span>
+
+<span class="c1">#check eqt models here: https://github.com/smousavi05/EQTransformer/tree/master/ModelsAndSampleData</span>
+<span class="n">eqt_model</span> <span class="o">=</span> <span class="s2">&quot;/groups/igonin/ecastillo/others/picking_models/EQTransformer_models/EqT_model.h5&quot;</span>
+
+<span class="c1">####### default configuration</span>
+<span class="n">logging</span><span class="o">.</span><span class="n">basicConfig</span><span class="p">(</span>
+      <span class="n">level</span><span class="o">=</span><span class="n">logging</span><span class="o">.</span><span class="n">INFO</span><span class="p">,</span>
+      <span class="nb">format</span><span class="o">=</span><span class="s1">&#39;</span><span class="si">%(asctime)s</span><span class="s1"> [</span><span class="si">%(levelname)s</span><span class="s1">] [</span><span class="si">%(name)s</span><span class="s1">]  </span><span class="si">%(message)s</span><span class="s1">&#39;</span><span class="p">,</span>
+      <span class="n">datefmt</span><span class="o">=</span><span class="s1">&#39;%m-</span><span class="si">%d</span><span class="s1"> %H:%M&#39;</span>
+   <span class="p">)</span>
+
+<span class="n">eqtobj</span> <span class="o">=</span> <span class="n">EQTransformerObj</span><span class="p">(</span><span class="n">model_path</span><span class="o">=</span><span class="n">eqt_model</span><span class="p">,</span>
+            <span class="n">n_processor</span> <span class="o">=</span> <span class="mi">6</span><span class="p">,</span>
+            <span class="n">overlap</span> <span class="o">=</span> <span class="mf">0.3</span><span class="p">,</span>
+            <span class="n">detection_threshold</span> <span class="o">=</span><span class="mf">0.2</span><span class="p">,</span>
+            <span class="n">P_threshold</span> <span class="o">=</span> <span class="mf">0.1</span><span class="p">,</span>
+            <span class="n">S_threshold</span> <span class="o">=</span> <span class="mf">0.1</span><span class="p">,</span>
+            <span class="n">batch_size</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span> <span class="c1"># This has to align with the batch size used in the downloader</span>
+            <span class="n">number_of_plots</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span>
+            <span class="n">plot_mode</span> <span class="o">=</span> <span class="kc">None</span> <span class="p">)</span>
+<span class="n">eqt</span> <span class="o">=</span> <span class="n">EQTransformer</span><span class="p">(</span><span class="n">eqtobj</span><span class="p">)</span>
+<span class="n">eqt</span><span class="o">.</span><span class="n">pick</span><span class="p">(</span><span class="n">mseed_storage</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">downloads_path</span><span class="p">),</span>
+      <span class="n">metadata_dir</span><span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">stations_path</span><span class="p">),</span>
+      <span class="n">out_dir</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">picks_path</span><span class="p">))</span>
+<span class="n">piut</span><span class="o">.</span><span class="n">eqt_picks_2_seismonitor_fmt</span><span class="p">(</span><span class="n">eqt_folder</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">picks_path</span><span class="p">),</span>
+                              <span class="n">mseed_folder</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">downloads_path</span><span class="p">),</span>
+                              <span class="n">out_path</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">sm_picks_path</span><span class="p">))</span>
+</pre></div>
+</div>
+</section>
+<section id="phase-association">
+<span id="asso-section"></span><h2>Phase Association<a class="headerlink" href="#phase-association" title="Link to this heading"></a></h2>
+<p><span class="red">Key Classes:</span> <a class="reference internal" href="api/SeisMonitor.monitor.associator.html#SeisMonitor.monitor.associator.ai.GaMMAObj" title="SeisMonitor.monitor.associator.ai.GaMMAObj"><code class="xref py py-class docutils literal notranslate"><span class="pre">GaMMAObj</span></code></a>, <a class="reference internal" href="api/SeisMonitor.monitor.associator.html#SeisMonitor.monitor.associator.ai.GaMMA" title="SeisMonitor.monitor.associator.ai.GaMMA"><code class="xref py py-class docutils literal notranslate"><span class="pre">GaMMA</span></code></a></p>
+<p><span class="red">Key Funcs:</span> <a class="reference internal" href="api/SeisMonitor.monitor.associator.html#SeisMonitor.monitor.associator.ai.GaMMA.associate" title="SeisMonitor.monitor.associator.ai.GaMMA.associate"><code class="xref py py-func docutils literal notranslate"><span class="pre">associate()</span></code></a></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">SeisMonitor.monitor.associator.ai</span><span class="w"> </span><span class="kn">import</span> <span class="n">GaMMA</span><span class="p">,</span><span class="n">GaMMAObj</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">SeisMonitor.monitor.associator</span><span class="w"> </span><span class="kn">import</span> <span class="n">utils</span> <span class="k">as</span> <span class="n">asut</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+
+<span class="n">monitor_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span><span class="o">.</span><span class="n">parent</span> <span class="o">/</span> <span class="s2">&quot;sm&quot;</span>
+<span class="n">stations_path</span> <span class="o">=</span> <span class="n">monitor_path</span> <span class="o">/</span> <span class="s2">&quot;stations&quot;</span>
+<span class="n">picks_path</span> <span class="o">=</span> <span class="n">monitor_path</span> <span class="o">/</span> <span class="s2">&quot;picks&quot;</span>
+<span class="n">asso_path</span> <span class="o">=</span> <span class="n">monitor_path</span> <span class="o">/</span> <span class="s2">&quot;associations&quot;</span>
+
+<span class="c1"># region = [min_lon, max_lon, min_lat, max_lat, min_depth_km, max_depth_km]</span>
+<span class="c1"># EPSG:3081 -&gt; UTM zone 14N, suitable for Texas</span>
+<span class="n">region</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mf">104.17816</span><span class="p">,</span> <span class="o">-</span><span class="mf">103.80355</span><span class="p">,</span> <span class="mf">31.48921</span><span class="p">,</span> <span class="mf">31.72133</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span> <span class="mi">12</span><span class="p">]</span>
+<span class="n">epsg</span> <span class="o">=</span> <span class="s2">&quot;EPSG:3081&quot;</span>
+
+
+<span class="c1">####### default configuration</span>
+<span class="n">sm_picks_path</span> <span class="o">=</span> <span class="n">picks_path</span> <span class="o">/</span> <span class="s2">&quot;seismonitor_picks.csv&quot;</span>
+<span class="n">inv_stations_path</span> <span class="o">=</span> <span class="n">monitor_path</span> <span class="o">/</span> <span class="s2">&quot;stations&quot;</span> <span class="o">/</span> <span class="s2">&quot;inv.xml&quot;</span>
+
+<span class="n">gc</span> <span class="o">=</span> <span class="n">GaMMAObj</span><span class="p">(</span><span class="n">region</span><span class="p">,</span><span class="n">epsg</span><span class="p">,</span>
+               <span class="n">use_amplitude</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+               <span class="n">use_dbscan</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+               <span class="n">calculate_amp</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+               <span class="n">method</span><span class="o">=</span><span class="s2">&quot;BGMM&quot;</span><span class="p">,</span>
+               <span class="n">min_picks_per_eq</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+               <span class="n">oversample_factor</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+               <span class="n">max_sigma11</span><span class="o">=</span><span class="mf">2.0</span><span class="p">,</span>
+               <span class="n">vel</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;p&quot;</span><span class="p">:</span> <span class="mi">6</span><span class="p">,</span> <span class="s2">&quot;s&quot;</span><span class="p">:</span> <span class="mi">6</span><span class="o">/</span> <span class="mf">1.70</span><span class="p">})</span>
+
+
+<span class="n">g</span> <span class="o">=</span> <span class="n">GaMMA</span><span class="p">(</span><span class="n">gc</span><span class="p">)</span>
+<span class="n">obspy_catalog</span><span class="p">,</span> <span class="n">df_catalog</span><span class="p">,</span><span class="n">df_picks</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">associate</span><span class="p">(</span><span class="n">picks_csv</span><span class="o">=</span><span class="n">sm_picks_path</span><span class="p">,</span>
+                                    <span class="n">xml_path</span><span class="o">=</span><span class="n">inv_stations_path</span><span class="p">,</span>
+                                    <span class="n">out_dir</span><span class="o">=</span><span class="n">asso_path</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">obspy_catalog</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="earthquake-location">
+<span id="location-section"></span><h2>Earthquake Location<a class="headerlink" href="#earthquake-location" title="Link to this heading"></a></h2>
+<p><span class="red">Key Classes:</span> <a class="reference internal" href="api/SeisMonitor.monitor.locator.nlloc.html#SeisMonitor.monitor.locator.nlloc.nlloc.NLLoc" title="SeisMonitor.monitor.locator.nlloc.nlloc.NLLoc"><code class="xref py py-class docutils literal notranslate"><span class="pre">NLLoc</span></code></a></p>
+<p><span class="red">Key Funcs:</span> <a class="reference internal" href="api/SeisMonitor.monitor.locator.nlloc.html#SeisMonitor.monitor.locator.nlloc.nlloc.NLLoc.compute_travel_times" title="SeisMonitor.monitor.locator.nlloc.nlloc.NLLoc.compute_travel_times"><code class="xref py py-func docutils literal notranslate"><span class="pre">compute_travel_times()</span></code></a>, <a class="reference internal" href="api/SeisMonitor.monitor.locator.nlloc.html#SeisMonitor.monitor.locator.nlloc.nlloc.NLLoc.locate" title="SeisMonitor.monitor.locator.nlloc.nlloc.NLLoc.locate"><code class="xref py py-func docutils literal notranslate"><span class="pre">locate()</span></code></a></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">SeisMonitor.monitor.locator.nlloc.nlloc</span><span class="w"> </span><span class="kn">import</span> <span class="n">NLLoc</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">SeisMonitor.monitor.locator</span><span class="w"> </span><span class="kn">import</span> <span class="n">utils</span> <span class="k">as</span> <span class="n">lut</span>
+
+<span class="n">main_nlloc_path</span> <span class="o">=</span> <span class="s2">&quot;/opt/ohpc/pub/apps/nonlinloc&quot;</span>
+<span class="n">vel_path</span> <span class="o">=</span> <span class="s2">&quot;/groups/igonin/ecastillo/SeisMonitor/examples/TX/sm/vel_model/DB_model.csv&quot;</span>
+
+<span class="c1">#make sure the region covers all the stations and expected earthquake locations.</span>
+<span class="c1"># Specially the elevation part and the stations, 0 respect to sea level,</span>
+<span class="c1"># negative means below sea level, positive means above sea level.</span>
+<span class="n">region</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mf">104.17816</span><span class="p">,</span> <span class="o">-</span><span class="mf">103.80355</span><span class="p">,</span> <span class="mf">31.48921</span><span class="p">,</span> <span class="mf">31.72133</span><span class="p">,</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">12</span><span class="p">]</span>
+<span class="n">delta_in_km</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="c1"># grid spacing for nlloc, smaller means more precise but also more computationally expensive.</span>
+
+<span class="n">monitor_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span><span class="o">.</span><span class="n">parent</span> <span class="o">/</span> <span class="s2">&quot;sm&quot;</span>
+<span class="n">stations_path</span> <span class="o">=</span> <span class="n">monitor_path</span> <span class="o">/</span> <span class="s2">&quot;stations&quot;</span>
+<span class="n">picks_path</span> <span class="o">=</span> <span class="n">monitor_path</span> <span class="o">/</span> <span class="s2">&quot;picks&quot;</span>
+<span class="n">asso_path</span> <span class="o">=</span> <span class="n">monitor_path</span> <span class="o">/</span> <span class="s2">&quot;associations&quot;</span>
+<span class="n">loc_path</span> <span class="o">=</span> <span class="n">monitor_path</span> <span class="o">/</span> <span class="s2">&quot;locations&quot;</span>
+
+<span class="n">tt_loc_folder</span> <span class="o">=</span> <span class="n">monitor_path</span> <span class="o">/</span> <span class="s2">&quot;tt&quot;</span> <span class="c1">#travel time folder for nlloc, can be anywhere but it could consume significant disk space.</span>
+
+<span class="c1">####### default configuration</span>
+
+<span class="n">nlloc_output_path</span> <span class="o">=</span> <span class="n">loc_path</span> <span class="o">/</span> <span class="s2">&quot;nlloc&quot;</span>
+<span class="n">xml_stations_path</span> <span class="o">=</span> <span class="n">monitor_path</span> <span class="o">/</span> <span class="s2">&quot;stations&quot;</span> <span class="o">/</span> <span class="s2">&quot;inv.xml&quot;</span>
+<span class="n">xml_asso_path</span> <span class="o">=</span> <span class="n">asso_path</span> <span class="o">/</span> <span class="s2">&quot;associations.xml&quot;</span>
+<span class="n">xml_nlloc_path</span> <span class="o">=</span> <span class="n">nlloc_output_path</span> <span class="o">/</span> <span class="s2">&quot;nlloc_catalog.xml&quot;</span>
+
+<span class="n">vel_model</span> <span class="o">=</span> <span class="n">lut</span><span class="o">.</span><span class="n">VelModel</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">vel_path</span><span class="p">),</span><span class="n">model_name</span><span class="o">=</span><span class="s2">&quot;Velmodel1D&quot;</span><span class="p">)</span>
+<span class="n">stations</span> <span class="o">=</span> <span class="n">lut</span><span class="o">.</span><span class="n">Stations</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">xml_stations_path</span><span class="p">))</span>
+
+<span class="n">nlloc</span> <span class="o">=</span> <span class="n">NLLoc</span><span class="p">(</span>
+      <span class="n">core_path</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">main_nlloc_path</span><span class="p">),</span> <span class="c1">### type your NLLoc path,</span>
+      <span class="n">agency</span><span class="o">=</span><span class="s2">&quot;SeisMonitor&quot;</span><span class="p">,</span>
+      <span class="n">region</span> <span class="o">=</span> <span class="n">region</span><span class="p">,</span>
+      <span class="n">vel_model</span> <span class="o">=</span> <span class="n">vel_model</span><span class="p">,</span>
+      <span class="n">stations</span> <span class="o">=</span> <span class="n">stations</span><span class="p">,</span>
+      <span class="n">delta_in_km</span> <span class="o">=</span> <span class="n">delta_in_km</span><span class="p">,</span>
+      <span class="n">tmp_folder</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">tt_loc_folder</span><span class="p">)</span>
+      <span class="p">)</span>
+
+<span class="c1"># Use this to compute travel times only once, and then you can reuse the travel time files for future locations.</span>
+<span class="n">nlloc</span><span class="o">.</span><span class="n">compute_travel_times</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">nlloc</span><span class="o">.</span><span class="n">tmp_folder</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;nlloc.tmp_folder dir: &quot;</span><span class="p">,</span><span class="n">nlloc</span><span class="o">.</span><span class="n">tmp_folder</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Important folders in nlloc.tmp_folder directory&quot;</span><span class="p">,</span><span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">nlloc</span><span class="o">.</span><span class="n">tmp_folder</span><span class="p">))</span>
+
+<span class="n">eqt_nlloc_catalog</span> <span class="o">=</span> <span class="n">nlloc</span><span class="o">.</span><span class="n">locate</span><span class="p">(</span><span class="n">catalog</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">xml_asso_path</span><span class="p">),</span>
+                           <span class="n">nlloc_out_folder</span><span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">nlloc_output_path</span><span class="p">),</span>
+                           <span class="n">out_filename</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">xml_nlloc_path</span><span class="o">.</span><span class="n">name</span><span class="p">),</span>
+                           <span class="n">out_format</span><span class="o">=</span><span class="s2">&quot;QUAKEML&quot;</span> <span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">eqt_nlloc_catalog</span> <span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="local-magnitude">
+<span id="magnitude-section"></span><h2>Local Magnitude<a class="headerlink" href="#local-magnitude" title="Link to this heading"></a></h2>
+<p><span class="red">Key Classes:</span> <a class="reference internal" href="api/SeisMonitor.core.objects.html#SeisMonitor.core.objects.WaveformRestrictions" title="SeisMonitor.core.objects.WaveformRestrictions"><code class="xref py py-class docutils literal notranslate"><span class="pre">WaveformRestrictions</span></code></a>, <a class="reference internal" href="api/SeisMonitor.core.objects.html#SeisMonitor.core.objects.Provider" title="SeisMonitor.core.objects.Provider"><code class="xref py py-class docutils literal notranslate"><span class="pre">Provider</span></code></a>, <a class="reference internal" href="api/SeisMonitor.monitor.magnitude.html#SeisMonitor.monitor.magnitude.mag.Magnitude" title="SeisMonitor.monitor.magnitude.mag.Magnitude"><code class="xref py py-class docutils literal notranslate"><span class="pre">Magnitude</span></code></a></p>
+<p><span class="red">Key Funcs:</span> <a class="reference internal" href="api/SeisMonitor.monitor.magnitude.html#SeisMonitor.monitor.magnitude.mag.Magnitude.get_Ml" title="SeisMonitor.monitor.magnitude.mag.Magnitude.get_Ml"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_Ml()</span></code></a></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">math</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">obspy.clients.fdsn</span><span class="w"> </span><span class="kn">import</span> <span class="n">Client</span> <span class="k">as</span> <span class="n">FDSNClient</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">obspy.core.utcdatetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">UTCDateTime</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">SeisMonitor.monitor.magnitude.mag</span><span class="w"> </span><span class="kn">import</span> <span class="n">Magnitude</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">SeisMonitor.core.objects</span><span class="w"> </span><span class="kn">import</span> <span class="n">WaveformRestrictions</span><span class="p">,</span><span class="n">Provider</span>
+
+<span class="n">monitor_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span><span class="o">.</span><span class="n">parent</span> <span class="o">/</span> <span class="s2">&quot;sm&quot;</span>
+
+<span class="n">loc_path</span> <span class="o">=</span> <span class="n">monitor_path</span> <span class="o">/</span> <span class="s2">&quot;locations&quot;</span>
+<span class="n">mag_path</span> <span class="o">=</span> <span class="n">monitor_path</span> <span class="o">/</span> <span class="s2">&quot;magnitude&quot;</span>
+
+<span class="n">nlloc_output_path</span> <span class="o">=</span> <span class="n">loc_path</span> <span class="o">/</span> <span class="s2">&quot;nlloc&quot;</span>
+<span class="n">xml_nlloc_path</span> <span class="o">=</span> <span class="n">nlloc_output_path</span> <span class="o">/</span> <span class="s2">&quot;nlloc_catalog.xml&quot;</span>
+
+<span class="n">client</span> <span class="o">=</span> <span class="n">FDSNClient</span><span class="p">(</span><span class="s2">&quot;http://rtserve.beg.utexas.edu&quot;</span><span class="p">)</span>
+<span class="n">rest</span> <span class="o">=</span> <span class="n">WaveformRestrictions</span><span class="p">(</span><span class="n">network</span><span class="o">=</span><span class="s2">&quot;*&quot;</span><span class="p">,</span>
+                  <span class="n">station</span><span class="o">=</span><span class="s2">&quot;PB13,PB17,PB20,PB23,PB34,PB58,PB40,PB24,PB25,PB26,WB03&quot;</span><span class="p">,</span>
+                  <span class="n">location</span><span class="o">=</span><span class="s2">&quot;*&quot;</span><span class="p">,</span>
+                  <span class="n">channel</span><span class="o">=</span><span class="s2">&quot;*&quot;</span><span class="p">,</span>
+                  <span class="n">starttime</span><span class="o">=</span><span class="n">UTCDateTime</span><span class="p">(</span><span class="s2">&quot;2022-11-16T21:00:00.000000Z&quot;</span><span class="p">),</span>
+                  <span class="n">endtime</span><span class="o">=</span><span class="n">UTCDateTime</span><span class="p">(</span><span class="s2">&quot;2022-11-16T23:00:00.000000Z&quot;</span><span class="p">),</span>
+                  <span class="n">location_preferences</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;&quot;</span><span class="p">,</span><span class="s2">&quot;00&quot;</span><span class="p">,</span><span class="s2">&quot;20&quot;</span><span class="p">,</span><span class="s2">&quot;10&quot;</span><span class="p">,</span><span class="s2">&quot;40&quot;</span><span class="p">],</span>
+                  <span class="n">channel_preferences</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;HH&quot;</span><span class="p">,</span><span class="s2">&quot;BH&quot;</span><span class="p">,</span><span class="s2">&quot;EH&quot;</span><span class="p">,</span><span class="s2">&quot;HN&quot;</span><span class="p">,</span><span class="s2">&quot;HL&quot;</span><span class="p">],</span>
+                  <span class="n">filter_networks</span><span class="o">=</span><span class="p">[],</span>
+                  <span class="n">filter_stations</span><span class="o">=</span><span class="p">[],</span>
+                  <span class="p">)</span>
+
+
+<span class="n">provider</span> <span class="o">=</span> <span class="n">Provider</span><span class="p">(</span><span class="n">client</span><span class="p">,</span><span class="n">rest</span><span class="p">)</span>
+<span class="n">mag</span> <span class="o">=</span> <span class="n">Magnitude</span><span class="p">([</span><span class="n">provider</span><span class="p">],</span><span class="n">xml_nlloc_path</span><span class="p">,</span><span class="n">mag_path</span><span class="p">)</span> <span class="c1">#catalog,providers,out</span>
+
+<span class="c1"># Use your own Ml formula, here is an example for local magnitude, but make sure to check if the built-in formula is suitable for your region and data.</span>
+<span class="c1"># For Texas using Kavoura et al (2020)</span>
+<span class="n">Ml</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">ampl</span><span class="p">,</span><span class="n">epi_dist</span> <span class="p">:</span> <span class="n">math</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">ampl</span><span class="o">*</span><span class="mf">1e3</span> <span class="p">)</span> <span class="o">+</span> <span class="mf">1.54</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">epi_dist</span><span class="p">)</span> <span class="o">+</span> <span class="mf">0.0002</span><span class="o">*</span><span class="p">(</span><span class="n">epi_dist</span><span class="o">-</span><span class="mi">100</span><span class="p">)</span> <span class="o">-</span> <span class="mf">0.08</span>
+
+<span class="n">cat</span> <span class="o">=</span> <span class="n">mag</span><span class="o">.</span><span class="n">get_Ml</span><span class="p">(</span><span class="n">mag_type</span><span class="o">=</span><span class="n">Ml</span> <span class="p">,</span>
+            <span class="n">trimmedtime</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="c1">#seconds after pick S to trim the signal</span>
+            <span class="n">out_format</span><span class="o">=</span><span class="s2">&quot;SC3ML&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">cat</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="installation.html" class="btn btn-neutral float-left" title="Installation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="dataset.html" class="btn btn-neutral float-right" title="SeisMonitor in Colombia" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Emmanuel Castillo.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

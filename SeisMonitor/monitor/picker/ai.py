@@ -1,3 +1,62 @@
+"""
+Phase picking interfaces for EQTransformer and PhaseNet.
+
+This module provides wrapper classes and configuration containers for
+running seismic phase picking workflows using:
+
+- EQTransformer
+- PhaseNet
+
+The classes standardize:
+    * model configuration
+    * waveform preprocessing
+    * prediction execution
+    * result conversion to SeisMonitor format
+
+The module also includes helper utilities for:
+    * TensorFlow session cleanup
+    * MiniSEED organization
+    * datalist generation
+    * duplicate pick removal
+
+Notes
+-----
+TensorFlow warnings and verbose logging are suppressed to reduce
+console noise during inference.
+
+Examples
+--------
+Run EQTransformer::
+
+    eqt_config = EQTransformerObj(
+        model_path="model.h5",
+        batch_size=4,
+    )
+
+    picker = EQTransformer(eqt_config)
+
+    picks = picker.pick(
+        mseed_storage="./mseed",
+        metadata_dir="./metadata",
+        out_dir="./results",
+    )
+
+Run PhaseNet::
+
+    pnet_config = PhaseNetObj(
+        pnet_path="./PhaseNet",
+        model_path="./model",
+    )
+
+    picker = PhaseNet(pnet_config)
+
+    picks = picker.pick(
+        mseed_storage="./mseed",
+        metadata_dir="./metadata",
+        out_dir="./results",
+    )
+"""
+
 from genericpath import isdir
 from . import utils as ut
 import shutil
@@ -18,7 +77,49 @@ tf.compat.v1.logging.set_verbosity(tf.compat.v1.logging.ERROR)
 
 
 class EQTransformerObj:
-    """Configuration object for EQTransformer parameters."""
+    """
+    Configuration container for EQTransformer predictions.
+
+    Parameters
+    ----------
+    model_path : str
+        Path to the trained EQTransformer model.
+
+    n_processor : int, default=2
+        Number of processors used during prediction.
+
+    overlap : float, default=0.3
+        Overlap fraction between prediction windows.
+
+    detection_threshold : float, default=0.1
+        Detection probability threshold.
+
+    P_threshold : float, default=0.1
+        P-phase probability threshold.
+
+    S_threshold : float, default=0.1
+        S-phase probability threshold.
+
+    number_of_plots : int, default=1
+        Number of prediction plots to generate.
+
+    batch_size : int, default=1
+        Number of waveforms processed per batch.
+
+    plot_mode : int, default=1
+        Plotting mode used by EQTransformer.
+
+    overwrite : bool, default=False
+        Whether existing outputs should be overwritten.
+
+    rm_downloads : bool, default=False
+        Remove MiniSEED files after prediction.
+
+    Attributes
+    ----------
+    name : str
+        Picker identifier.
+    """
 
     def __init__(
         self,
@@ -34,21 +135,7 @@ class EQTransformerObj:
         overwrite=False,
         rm_downloads=False
     ):
-        """Initialize EQTransformerObj with prediction parameters.
-
-        Args:
-            model_path (str): Path to the trained EQTransformer model
-            n_processor (int): Number of processors to use
-            overlap (float): Overlap between prediction windows (0-1)
-            detection_threshold (float): Minimum detection probability
-            P_threshold (float): Minimum P-phase probability
-            S_threshold (float): Minimum S-phase probability
-            number_of_plots (int): Number of plots to generate
-            batch_size (int): Number of waveforms per batch
-            plot_mode (int): Plotting mode for visualization
-            overwrite (bool): Whether to overwrite existing outputs
-            rm_downloads (bool): Whether to remove input MSEED files after processing
-        """
+        """Initialize EQTransformer configuration."""
         self.model_path = model_path
         self.n_processor = n_processor
         self.overlap = overlap
@@ -64,7 +151,88 @@ class EQTransformerObj:
 
 
 class PhaseNetObj:
-    """Configuration object for PhaseNet parameters."""
+    """
+    Configuration container for PhaseNet predictions.
+
+    Parameters
+    ----------
+    pnet_path : str
+        Path to PhaseNet repository.
+    model_path : str
+        Path to trained PhaseNet model.
+    mode : str, default="pred"
+        Operation mode ('pred' for prediction).
+    P_threshold : float, default=0.3
+        Minimum P-phase probability.
+    S_threshold : float, default=0.3
+        Minimum S-phase probability.
+    batch_size : int, default=2
+        Number of waveforms per batch.
+    plot : bool, default=False
+        Whether to generate plots.
+    save_result : bool, default=False
+        Whether to save prediction results.
+    epochs : int, default=100
+        Number of training epochs.
+    learning_rate : float, default=0.01
+        Initial learning rate.
+    decay_step : int, default=100
+        Steps for learning rate decay.
+    decay_rate : float, default=0.9
+        Learning rate decay rate.
+    momentum : float, default=0.9
+        Momentum for optimizer.
+    filters_root : int, default=8
+        Base number of filters.
+    depth : int, default=5
+        Network depth.
+    kernel_size : list, default=[7, 5, 5, 5, 5]
+        Kernel size for convolution.
+    pool_size : list, default=[4, 2, 2, 2, 2]
+        Pooling size.
+    drop_rate : float, default=0.1
+        Dropout rate.
+    dilation_rate : list, default=[1, 2, 4, 8, 16]
+        Dilation rate for convolution.
+    loss_type : str, default="dice"
+        Loss function type.
+    weight_decay : float, default=1e-5
+        Weight decay factor.
+    optimizer : str, default="adam"
+        Optimizer type.
+    summary : bool, default=True
+        Whether to show summary.
+    class_weights : list, optional
+        Weights for class balancing.
+    log_dir : str, default="logs"
+        Directory for logs.
+    num_plots : int, default=10
+        Number of plots to generate.
+    input_length : int, optional
+        Input length in samples.
+    input_mseed : bool, default=True
+        Whether input is MSEED format.
+    filename_picks : str, default="picks"
+        Base name for picks output file.
+    one_single_sampling_rate : float, default=-1
+        Override sampling rate (-1 for auto).
+    data_dir : str
+        Directory for prediction data.
+    data_list : str
+        Path to data list CSV.
+    train_dir : str
+        Directory for training data.
+    train_list : str
+        Path to training list CSV.
+    valid_dir : str, optional
+        Directory for validation data.
+    valid_list : str, optional
+        Path to validation list CSV.
+    output_dir : str, optional
+        Directory for output.
+    rm_downloads : bool, default=False
+        Whether to remove input MSEED files after processing.
+    """
 
     def __init__(
         self,
@@ -107,48 +275,7 @@ class PhaseNetObj:
         output_dir=None,
         rm_downloads=False
     ):
-        """Initialize PhaseNetObj with prediction parameters.
-
-        Args:
-            pnet_path (str): Path to PhaseNet repository
-            model_path (str): Path to trained PhaseNet model
-            mode (str): Operation mode ('pred' for prediction)
-            P_threshold (float): Minimum P-phase probability
-            S_threshold (float): Minimum S-phase probability
-            batch_size (int): Number of waveforms per batch
-            plot (bool): Whether to generate plots
-            save_result (bool): Whether to save prediction results
-            epochs (int): Number of training epochs
-            learning_rate (float): Initial learning rate
-            decay_step (int): Steps for learning rate decay
-            decay_rate (float): Learning rate decay rate
-            momentum (float): Momentum for optimizer
-            filters_root (int): Base number of filters
-            depth (int): Network depth
-            kernel_size (list): Kernel size for convolution
-            pool_size (list): Pooling size
-            drop_rate (float): Dropout rate
-            dilation_rate (list): Dilation rate for convolution
-            loss_type (str): Loss function type
-            weight_decay (float): Weight decay factor
-            optimizer (str): Optimizer type
-            summary (bool): Whether to show summary
-            class_weights (list): Weights for class balancing
-            log_dir (str): Directory for logs
-            num_plots (int): Number of plots to generate
-            input_length (int, optional): Input length in samples
-            input_mseed (bool): Whether input is MSEED format
-            filename_picks (str): Base name for picks output file
-            one_single_sampling_rate (float): Override sampling rate (-1 for auto)
-            data_dir (str): Directory for prediction data
-            data_list (str): Path to data list CSV
-            train_dir (str): Directory for training data
-            train_list (str): Path to training list CSV
-            valid_dir (str, optional): Directory for validation data
-            valid_list (str, optional): Path to validation list CSV
-            output_dir (str, optional): Directory for output
-            rm_downloads (bool): Whether to remove input MSEED files after processing
-        """
+        """Initialize PhaseNetObj with prediction parameters."""
         self.phasenet_path = pnet_path
         self.model_path = model_path
         self.model_dir = model_path
@@ -193,26 +320,38 @@ class PhaseNetObj:
 
 
 class EQTransformer:
-    """Class to run EQTransformer predictions."""
+    """
+    Wrapper class for EQTransformer predictions.
+
+    Parameters
+    ----------
+    eqt_obj : EQTransformerObj
+        EQTransformer configuration object.
+    """
 
     def __init__(self, eqt_obj):
-        """Initialize EQTransformer with configuration object.
-
-        Args:
-            eqt_obj (EQTransformerObj): Configuration object for EQTransformer
-        """
+        """Initialize EQTransformer wrapper."""
         self.eqt_obj = eqt_obj
 
     def pick(self, mseed_storage, metadata_dir, out_dir):
-        """Run EQTransformer picking on MSEED files.
+        """
+        Run EQTransformer phase picking.
 
-        Args:
-            mseed_storage (str): Directory containing MSEED files
-            metadata_dir (str): Directory containing station metadata
-            out_dir (str): Output directory for results
+        Parameters
+        ----------
+        mseed_storage : str
+            Directory containing MiniSEED files.
 
-        Returns:
-            pandas.DataFrame: DataFrame of picks in SeisMonitor format
+        metadata_dir : str
+            Directory containing station metadata.
+
+        out_dir : str
+            Output directory for prediction results.
+
+        Returns
+        -------
+        pandas.DataFrame
+            Picks converted to SeisMonitor format.
 
         Notes:
             Saves results to {out_dir}/results/seismonitor_picks.csv
@@ -269,14 +408,17 @@ class EQTransformer:
 
 
 class PhaseNet:
-    """Class to run PhaseNet predictions."""
+    """
+    Wrapper class for PhaseNet predictions.
+
+    Parameters
+    ----------
+    pnet_obj : PhaseNetObj
+        PhaseNet configuration object.
+    """
 
     def __init__(self, pnet_obj):
-        """Initialize PhaseNet with configuration object.
-
-        Args:
-            pnet_obj (PhaseNetObj): Configuration object for PhaseNet
-        """
+        """Initialize PhaseNet with configuration object."""
         self.pnet_obj = pnet_obj
         self.msg_author = "Picker: PhaseNet"
 
@@ -324,15 +466,23 @@ class PhaseNet:
         )
 
     def pick(self, mseed_storage, metadata_dir, out_dir):
-        """Run PhaseNet picking on MSEED files.
+        """Run PhaseNet phase picking.
 
-        Args:
-            mseed_storage (str): Directory containing MSEED files
-            metadata_dir (str): Directory containing station metadata
-            out_dir (str): Output directory for results
+        Parameters
+        ----------
+        mseed_storage : str
+            Directory containing MiniSEED files.
 
-        Returns:
-            pandas.DataFrame: DataFrame of picks in SeisMonitor format
+        metadata_dir : str
+            Directory containing station metadata.
+
+        out_dir : str
+            Output directory for prediction results.
+
+        Returns
+        -------
+        pandas.DataFrame
+            Picks converted to SeisMonitor format.
 
         Notes:
             Saves results to {out_dir}/results/seismonitor_picks.csv

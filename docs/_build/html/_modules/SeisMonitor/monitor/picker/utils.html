@@ -5,14 +5,15 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>SeisMonitor.monitor.picker.utils &mdash; SeisMonitor 0.0.57 documentation</title>
+  <title>SeisMonitor.monitor.picker.utils &mdash; SeisMonitor 0.0.58 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=b86133f3" />
-      <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/css/custom.css?v=9f7e8617" />
 
   
       <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../../_static/documentation_options.js?v=2bfb35b6"></script>
+      <script src="../../../../_static/documentation_options.js?v=c3e19674"></script>
       <script src="../../../../_static/doctools.js?v=9bcbadda"></script>
       <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../../_static/js/theme.js"></script>
@@ -28,8 +29,9 @@
 
           
           
-          <a href="../../../../index.html" class="icon icon-home">
-            SeisMonitor
+          <a href="../../../../index.html">
+            
+              <img src="../../../../_static/seismonitor.PNG" class="logo" alt="Logo"/>
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
@@ -39,8 +41,16 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <!-- Local TOC -->
-              <div class="local-toc"></div>
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../home.html">Welcome to SeisMonitor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../quickstart.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../dataset.html">SeisMonitor in Colombia</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../api/index.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../authors.html">Authors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../contribution.html">Contributing</a></li>
+</ul>
+
         </div>
       </div>
     </nav>
@@ -107,7 +117,7 @@
 
 
 <div class="viewcode-block" id="clone_aipicker">
-<a class="viewcode-back" href="../../../../SeisMonitor.monitor.picker.html#SeisMonitor.monitor.picker.utils.clone_aipicker">[docs]</a>
+<a class="viewcode-back" href="../../../../api/SeisMonitor.monitor.picker.html#SeisMonitor.monitor.picker.utils.clone_aipicker">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">clone_aipicker</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">output_folder</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Clone AI picker repository from GitHub.</span>
 <span class="sd">    </span>
@@ -140,7 +150,7 @@
 
 
 <div class="viewcode-block" id="eqt_picks_2_seismonitor_fmt">
-<a class="viewcode-back" href="../../../../SeisMonitor.monitor.picker.html#SeisMonitor.monitor.picker.utils.eqt_picks_2_seismonitor_fmt">[docs]</a>
+<a class="viewcode-back" href="../../../../api/SeisMonitor.monitor.picker.html#SeisMonitor.monitor.picker.utils.eqt_picks_2_seismonitor_fmt">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">eqt_picks_2_seismonitor_fmt</span><span class="p">(</span><span class="n">eqt_folder</span><span class="p">,</span> <span class="n">mseed_folder</span><span class="p">,</span> <span class="n">out_path</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Convert EQTransformer picks to SeisMonitor format.</span>
 <span class="sd">    </span>
@@ -254,7 +264,7 @@
 
 
 <div class="viewcode-block" id="get_filenames">
-<a class="viewcode-back" href="../../../../SeisMonitor.monitor.picker.html#SeisMonitor.monitor.picker.utils.get_filenames">[docs]</a>
+<a class="viewcode-back" href="../../../../api/SeisMonitor.monitor.picker.html#SeisMonitor.monitor.picker.utils.get_filenames">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">get_filenames</span><span class="p">(</span><span class="n">mseed</span><span class="p">,</span> <span class="n">filter_net</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">filter_sta</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">filter_cha</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Retrieve MSEED filenames with optional filtering.</span>
 <span class="sd">    </span>
@@ -290,7 +300,7 @@
 
 
 <div class="viewcode-block" id="mv_mseed2onefolder">
-<a class="viewcode-back" href="../../../../SeisMonitor.monitor.picker.html#SeisMonitor.monitor.picker.utils.mv_mseed2onefolder">[docs]</a>
+<a class="viewcode-back" href="../../../../api/SeisMonitor.monitor.picker.html#SeisMonitor.monitor.picker.utils.mv_mseed2onefolder">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">mv_mseed2onefolder</span><span class="p">(</span><span class="n">mseed_folder</span><span class="p">,</span> <span class="n">one_folder</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Move MSEED files from subfolders to a single folder.</span>
 <span class="sd">    </span>
@@ -309,7 +319,7 @@
 
 
 <div class="viewcode-block" id="mv_mseed2stationfolder">
-<a class="viewcode-back" href="../../../../SeisMonitor.monitor.picker.html#SeisMonitor.monitor.picker.utils.mv_mseed2stationfolder">[docs]</a>
+<a class="viewcode-back" href="../../../../api/SeisMonitor.monitor.picker.html#SeisMonitor.monitor.picker.utils.mv_mseed2stationfolder">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">mv_mseed2stationfolder</span><span class="p">(</span><span class="n">one_folder</span><span class="p">,</span> <span class="n">mseed_folder</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Move MSEED files to station-specific subfolders.</span>
 <span class="sd">    </span>
@@ -331,7 +341,7 @@
 
 
 <div class="viewcode-block" id="make_dataframe">
-<a class="viewcode-back" href="../../../../SeisMonitor.monitor.picker.html#SeisMonitor.monitor.picker.utils.make_dataframe">[docs]</a>
+<a class="viewcode-back" href="../../../../api/SeisMonitor.monitor.picker.html#SeisMonitor.monitor.picker.utils.make_dataframe">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">make_dataframe</span><span class="p">(</span><span class="n">mseed</span><span class="p">,</span> <span class="n">json_path</span><span class="p">,</span> <span class="n">filter_net</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">filter_sta</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">filter_cha</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Create DataFrame from MSEED files and JSON metadata.</span>
 <span class="sd">    </span>
@@ -397,7 +407,7 @@
 
 
 <div class="viewcode-block" id="make_phasenet_datalist">
-<a class="viewcode-back" href="../../../../SeisMonitor.monitor.picker.html#SeisMonitor.monitor.picker.utils.make_phasenet_datalist">[docs]</a>
+<a class="viewcode-back" href="../../../../api/SeisMonitor.monitor.picker.html#SeisMonitor.monitor.picker.utils.make_phasenet_datalist">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">make_phasenet_datalist</span><span class="p">(</span>
         <span class="n">datadir</span><span class="p">,</span> <span class="n">json_path</span><span class="p">,</span> <span class="n">datalist_path</span><span class="p">,</span> <span class="n">channel_list</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">filter_network</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">filter_station</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
@@ -425,7 +435,7 @@
 
 
 <div class="viewcode-block" id="create_datalist">
-<a class="viewcode-back" href="../../../../SeisMonitor.monitor.picker.html#SeisMonitor.monitor.picker.utils.create_datalist">[docs]</a>
+<a class="viewcode-back" href="../../../../api/SeisMonitor.monitor.picker.html#SeisMonitor.monitor.picker.utils.create_datalist">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">create_datalist</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">all_in_folder</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Create PhaseNet datalist(s) for processing.</span>
 <span class="sd">    </span>
@@ -466,7 +476,7 @@
 
 
 <div class="viewcode-block" id="phasenet_from_console">
-<a class="viewcode-back" href="../../../../SeisMonitor.monitor.picker.html#SeisMonitor.monitor.picker.utils.phasenet_from_console">[docs]</a>
+<a class="viewcode-back" href="../../../../api/SeisMonitor.monitor.picker.html#SeisMonitor.monitor.picker.utils.phasenet_from_console">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">phasenet_from_console</span><span class="p">(</span><span class="n">pnet_obj</span><span class="p">,</span> <span class="n">msg_author</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Run PhaseNet from console with specified parameters.</span>
 <span class="sd">    </span>
@@ -500,7 +510,7 @@
 
 
 <div class="viewcode-block" id="get_pickframe">
-<a class="viewcode-back" href="../../../../SeisMonitor.monitor.picker.html#SeisMonitor.monitor.picker.utils.get_pickframe">[docs]</a>
+<a class="viewcode-back" href="../../../../api/SeisMonitor.monitor.picker.html#SeisMonitor.monitor.picker.utils.get_pickframe">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">get_pickframe</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">csv_filename</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Collect picks from CSV files in a directory structure.</span>
 <span class="sd">    </span>
@@ -522,7 +532,7 @@
 
 
 <div class="viewcode-block" id="merge_picks">
-<a class="viewcode-back" href="../../../../SeisMonitor.monitor.picker.html#SeisMonitor.monitor.picker.utils.merge_picks">[docs]</a>
+<a class="viewcode-back" href="../../../../api/SeisMonitor.monitor.picker.html#SeisMonitor.monitor.picker.utils.merge_picks">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">merge_picks</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">csv_filename</span><span class="p">,</span> <span class="n">output_path</span><span class="p">,</span> <span class="n">sort</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Merge picks from multiple CSV files into one.</span>
 <span class="sd">    </span>
@@ -545,7 +555,7 @@
 
 
 <div class="viewcode-block" id="rm_phasenet_duplicate_picks">
-<a class="viewcode-back" href="../../../../SeisMonitor.monitor.picker.html#SeisMonitor.monitor.picker.utils.rm_phasenet_duplicate_picks">[docs]</a>
+<a class="viewcode-back" href="../../../../api/SeisMonitor.monitor.picker.html#SeisMonitor.monitor.picker.utils.rm_phasenet_duplicate_picks">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">rm_phasenet_duplicate_picks</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">output_path</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Remove duplicate picks from PhaseNet output.</span>
 <span class="sd">    </span>
@@ -616,7 +626,7 @@
 
 
 <div class="viewcode-block" id="picks2df">
-<a class="viewcode-back" href="../../../../SeisMonitor.monitor.picker.html#SeisMonitor.monitor.picker.utils.picks2df">[docs]</a>
+<a class="viewcode-back" href="../../../../api/SeisMonitor.monitor.picker.html#SeisMonitor.monitor.picker.utils.picks2df">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">picks2df</span><span class="p">(</span><span class="n">picks</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Convert list of Pick objects to DataFrame.</span>
 <span class="sd">    </span>
@@ -676,7 +686,7 @@
 
 
 <div class="viewcode-block" id="get_picks">
-<a class="viewcode-back" href="../../../../SeisMonitor.monitor.picker.html#SeisMonitor.monitor.picker.utils.get_picks">[docs]</a>
+<a class="viewcode-back" href="../../../../api/SeisMonitor.monitor.picker.html#SeisMonitor.monitor.picker.utils.get_picks">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">get_picks</span><span class="p">(</span>
     <span class="n">datapicks</span><span class="p">,</span> <span class="n">datalist</span><span class="p">,</span> <span class="n">min_p_prob</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">min_s_prob</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span>
     <span class="n">one_single_sampling_rate</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;df_obj&#39;</span><span class="p">,</span> <span class="n">export</span><span class="o">=</span><span class="kc">None</span>
@@ -749,7 +759,7 @@
 
 
 <div class="viewcode-block" id="pick_constructor">
-<a class="viewcode-back" href="../../../../SeisMonitor.monitor.picker.html#SeisMonitor.monitor.picker.utils.pick_constructor">[docs]</a>
+<a class="viewcode-back" href="../../../../api/SeisMonitor.monitor.picker.html#SeisMonitor.monitor.picker.utils.pick_constructor">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">pick_constructor</span><span class="p">(</span><span class="n">datalist</span><span class="p">,</span> <span class="n">picks</span><span class="p">,</span> <span class="n">prob</span><span class="p">,</span> <span class="n">wf_name</span><span class="p">,</span> <span class="n">ph_type</span><span class="p">,</span> <span class="n">min_prob</span><span class="p">,</span> <span class="n">one_single_sampling_rate</span><span class="o">=-</span><span class="mi">1</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Construct Pick objects from PhaseNet data.</span>
 <span class="sd">    </span>
@@ -841,7 +851,7 @@
 
 
 <div class="viewcode-block" id="id_maker">
-<a class="viewcode-back" href="../../../../SeisMonitor.monitor.picker.html#SeisMonitor.monitor.picker.utils.id_maker">[docs]</a>
+<a class="viewcode-back" href="../../../../api/SeisMonitor.monitor.picker.html#SeisMonitor.monitor.picker.utils.id_maker">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">id_maker</span><span class="p">(</span><span class="n">pick_time</span><span class="p">,</span> <span class="n">net</span><span class="p">,</span> <span class="n">station</span><span class="p">,</span> <span class="n">loc</span><span class="p">,</span> <span class="n">ch</span><span class="p">,</span> <span class="n">phasehint</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Create SeisComP-style pick PublicID.</span>
 <span class="sd">    </span>
@@ -862,7 +872,7 @@
 
 
 <div class="viewcode-block" id="sample2time">
-<a class="viewcode-back" href="../../../../SeisMonitor.monitor.picker.html#SeisMonitor.monitor.picker.utils.sample2time">[docs]</a>
+<a class="viewcode-back" href="../../../../api/SeisMonitor.monitor.picker.html#SeisMonitor.monitor.picker.utils.sample2time">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">sample2time</span><span class="p">(</span><span class="n">sample</span><span class="p">,</span> <span class="n">to</span><span class="p">,</span> <span class="n">df</span><span class="p">,</span> <span class="n">segment</span><span class="p">,</span> <span class="n">dtt</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Convert PhaseNet sample count to time.</span>
 <span class="sd">    </span>

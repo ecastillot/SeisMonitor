@@ -1,3 +1,18 @@
+"""
+Utilities for seismic magnitude estimation and ObsPy event object creation.
+
+This module provides helper functions for:
+
+- Retrieving poles and zeros (PAZ) from ObsPy responses.
+- Computing local magnitudes (Ml).
+- Processing waveforms for magnitude estimation.
+- Fitting seismic source spectra.
+- Creating ObsPy magnitude and amplitude objects.
+
+
+:author: Emmanuel Castillo
+"""
+
 from obspy.core.inventory.inventory import Inventory
 from obspy.io.xseed.parser import Parser
 from obspy.core.event import Magnitude as Mag
@@ -16,9 +31,16 @@ import numpy as np
 import scipy
 import math 
 import types
+
+# -------------------------------------------------------------------------
+# Wood-Anderson poles and zeros configuration
+# -------------------------------------------------------------------------
 paz_wa = {'sensitivity': 2800, 'zeros': [0j], 'gain': 1,
           'poles': [-6.2832 - 4.7124j, -6.2832 + 4.7124j]}
 
+# -------------------------------------------------------------------------
+# Local magnitude empirical parameters
+# -------------------------------------------------------------------------
 # SED_Ml_params = {"a":0.018,"b":2.17}
 Ml_params = {"RSNC":{"a":1.019,"b":0.0016,"r_ref":140},
             "RSNC_by_zone":{"Ml_1":{"a":1.2488,"b":0.0024,"c":-2.05},
@@ -31,6 +53,34 @@ Ml_params = {"RSNC":{"a":1.019,"b":0.0016,"r_ref":140},
 
 def get_paz_from_response(seed_id,response,
                             datetime=None):
+    """
+    Retrieve poles and zeros (PAZ) from a response object.
+
+    Supports both ObsPy ``Parser`` and ``Inventory`` response types.
+
+    :param seed_id:
+        Full SEED identifier.
+    :type seed_id: str
+
+    :param response:
+        ObsPy response object.
+    :type response:
+        Union[Parser, Inventory]
+
+    :param datetime:
+        Datetime associated with waveform trace.
+    :type datetime:
+        Optional[UTCDateTime]
+
+    :returns:
+        Dictionary containing PAZ information or ``None`` if unavailable.
+    :rtype:
+        Optional[Dict]
+
+    Example
+    -------
+    >>> paz = get_paz_from_response("IU.ANMO..BHZ", inventory)
+    """
     if isinstance(response,Parser):
         try:
             paz = response.get_paz(seed_id,datetime)
@@ -58,6 +108,34 @@ def get_paz_from_response(seed_id,response,
     return paz
 
 def get_Ml(ampl,epi_dist,mag_type,zone=None):
+    """
+    Compute local magnitude (Ml).
+
+    Supports predefined empirical relationships or custom functions.
+
+    :param amplitude:
+        Peak amplitude.
+    :type amplitude: float
+
+    :param epicentral_distance:
+        Epicentral distance in kilometers.
+    :type epicentral_distance: float
+
+    :param magnitude_type:
+        Magnitude model name or callable.
+    :type magnitude_type:
+        Union[str, Callable]
+
+    :param zone:
+        Regional zone identifier.
+    :type zone:
+        Optional[int]
+
+    :returns:
+        Computed local magnitude.
+    :rtype:
+        float
+    """
 
     if isinstance(mag_type,str):
         if mag_type not in list(Ml_params.keys()):
@@ -92,6 +170,34 @@ def get_Ml_magparams_by_station(st,response,
                                 ev_params,
                                 trimmedtime=50,
                                 waterlevel=10):
+    """
+    Compute local magnitude (Ml).
+
+    Supports predefined empirical relationships or custom functions.
+
+    :param amplitude:
+        Peak amplitude.
+    :type amplitude: float
+
+    :param epicentral_distance:
+        Epicentral distance in kilometers.
+    :type epicentral_distance: float
+
+    :param magnitude_type:
+        Magnitude model name or callable.
+    :type magnitude_type:
+        Union[str, Callable]
+
+    :param zone:
+        Regional zone identifier.
+    :type zone:
+        Optional[int]
+
+    :returns:
+        Computed local magnitude.
+    :rtype:
+        float
+    """
     picktime = ev_params["picktime"]
     latitude = ev_params["latitude"]
     longitude = ev_params["longitude"]
@@ -173,6 +279,21 @@ def get_Ml_magparams_by_station(st,response,
     return ampl,epi_dist,tr_id
 
 def Mw_st_processing(st,response,waterlevel,datetime):
+    """
+    Remove instrument response for moment magnitude estimation.
+
+    :param stream:
+        ObsPy Stream object.
+    :param response:
+        ObsPy response object.
+    :param water_level:
+        Water level used during deconvolution.
+    :param datetime:
+        Datetime associated with traces.
+
+    :returns:
+        Processed ObsPy Stream or ``None`` if failed.
+    """
     for trace in st:
         paz = get_paz_from_response(trace.id, response,datetime)
 
@@ -246,7 +367,46 @@ def get_M0_magnitude_by_pick(st,picktime,traveltime,
                                 phasehint,
                                 physparams,
                                 procparams):
+    """
+    Estimate seismic moment (M0) from waveform picks.
 
+    The function computes multitaper spectra for each component,
+    fits a theoretical source spectrum, and estimates seismic moment.
+
+    :param stream:
+        ObsPy Stream object containing three-component data.
+    :param pick_time:
+        Pick time associated with the phase.
+    :param travel_time:
+        Seismic travel time in seconds.
+    :type travel_time:
+        float
+
+    :param phase_hint:
+        Seismic phase identifier (e.g. ``"P"`` or ``"S"``).
+    :type phase_hint:
+        str
+
+    :param physical_parameters:
+        Object containing physical properties such as:
+        ``vp``, ``vs``, ``density``,
+        ``p_radiation_pattern``,
+        ``s_radiation_pattern``.
+    :param processing_parameters:
+        Object containing processing configuration such as:
+        ``time_before_pick`` and ``time_after_pick``.
+
+    :returns:
+        Tuple containing:
+
+        - Seismic moment (M0)
+        - List of estimated corner frequencies
+
+        Returns ``(None, None)`` if estimation fails.
+
+    :rtype:
+        Tuple[Optional[float], Optional[List[float]]]
+    """
 
     if st is None or len(st) != 3:
         return (None,None)
@@ -306,6 +466,29 @@ def write_magsta_values(value,
                         method_id = ResourceIdentifier(),
                         waveform_id = WaveformStreamID(),
                         agency=None ):
+    """
+    Create an ObsPy StationMagnitude object.
+
+    :param value:
+        Station magnitude value.
+    :type value:
+        float
+
+    :param uncertainty:
+        Magnitude uncertainty.
+    :type uncertainty:
+        float
+
+    :param magnitude_type:
+        Magnitude type (e.g. ``"Ml"``).
+    :type magnitude_type:
+        str
+
+    :returns:
+        ObsPy StationMagnitude object.
+    :rtype:
+        StationMagnitude
+    """
     stamag = StationMagnitude()
     stamag.resource_id = ResourceIdentifier()
     stamag.mag = value
@@ -332,6 +515,19 @@ def write_amplitude_values(value,amp_type="A",category="duration",
                            evaluation_mode = "automatic",
                            evaluation_status = "preliminary",
                            agency=None ):
+    """
+    Create an ObsPy Amplitude object.
+
+    :param value:
+        Measured amplitude value.
+    :type value:
+        float
+
+    :returns:
+        ObsPy Amplitude object.
+    :rtype:
+        Amplitude
+    """
     amp = Amplitude()
     amp.resource_id = ResourceIdentifier()
     amp.generic_amplitude = value
@@ -359,6 +555,39 @@ def write_magnitude_values(value,uncertainty,station_count,mag_type,
                            agency=None,
                            origin_id=ResourceIdentifier(),
                            comments=None):
+    """
+    Create an ObsPy Magnitude object.
+
+    :param value:
+        Magnitude value.
+    :type value:
+        float
+
+    :param uncertainty:
+        Magnitude uncertainty.
+    :type uncertainty:
+        float
+
+    :param station_count:
+        Number of stations used.
+    :type station_count:
+        int
+
+    :param magnitude_type:
+        Magnitude type (e.g. ``"Mw"``, ``"Ml"``).
+    :type magnitude_type:
+        str
+
+    :param comments:
+        Optional comments associated with the magnitude.
+    :type comments:
+        Optional[str]
+
+    :returns:
+        ObsPy Magnitude object.
+    :rtype:
+        Magnitude
+    """
     mag = Mag()
     mag.mag = value
     mag.mag_errors.uncertainty = uncertainty

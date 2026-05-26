@@ -1,0 +1,202 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SeisMonitor in Colombia &mdash; SeisMonitor 0.0.58 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="_static/css/custom.css?v=6c90a955" />
+      <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=c3e19674"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="_static/design-tabs.js?v=f930bc37"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="API Reference" href="api/index.html" />
+    <link rel="prev" title="Quickstart" href="quickstart.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html">
+            
+              <img src="_static/seismonitor.PNG" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="home.html">Welcome to SeisMonitor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quickstart</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">SeisMonitor in Colombia</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#paper">Paper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#colombia-dataset">Colombia Dataset</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#seismonitor-workflow">SeisMonitor Workflow</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#seismic-data">Seismic Data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#earthquake-detection-phase-picking">Earthquake Detection &amp; Phase Picking</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#phase-association">Phase Association</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#nlloc-catalog">NLloc Catalog</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#colombian-seismicity">Colombian Seismicity</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="api/index.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="authors.html">Authors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contribution.html">Contributing</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">SeisMonitor</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">SeisMonitor in Colombia</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/dataset.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="seismonitor-in-colombia">
+<span id="dataset-section"></span><h1>SeisMonitor in Colombia<a class="headerlink" href="#seismonitor-in-colombia" title="Link to this heading"></a></h1>
+<p>We applied it to Colombia using nearly 7 years (2016–2022) of seismic data, successfully revealing significant tectonic structures and crustal faults.</p>
+<section id="paper">
+<h2>Paper<a class="headerlink" href="#paper" title="Link to this heading"></a></h2>
+<p>See it here: <a class="reference external" href="https://gaprieto.com/wp-content/uploads/2024/05/gprieto_24c.pdf">Colombian Seismic Monitoring Using Advanced Machine-Learning Algorithms</a></p>
+<p>Emmanuel Castillo, Daniel Siervo, Germán A. Prieto; Colombian Seismic Monitoring Using Advanced Machine‐Learning Algorithms. Seismological Research Letters 2024;; 95 (5): 2971–2985. doi: <a class="reference external" href="https://doi.org/10.1785/0220240036">https://doi.org/10.1785/0220240036</a></p>
+</section>
+<section id="colombia-dataset">
+<h2>Colombia Dataset<a class="headerlink" href="#colombia-dataset" title="Link to this heading"></a></h2>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 66.7%" />
+<col style="width: 33.3%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Data</p></th>
+<th class="head"><p>Link</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>EQTransformer-picks</p></td>
+<td><p><a class="reference external" href="https://drive.google.com/file/d/1e3044OJBtFjg4HrrbawEJ-3GfqjN-Cbf/view?usp=sharing">Open</a></p></td>
+</tr>
+<tr class="row-odd"><td><p>GaMMA-catalog</p></td>
+<td><p><a class="reference external" href="https://drive.google.com/file/d/1OnMDNe4NZK98mNLjdrFhZNy14dJHZXhX/view?usp=drive_link">Open</a></p></td>
+</tr>
+<tr class="row-even"><td><p>GaMMA-picks</p></td>
+<td><p><a class="reference external" href="https://drive.google.com/file/d/1qJhRHIYpFh8_TyWV0KyOvq9nj4y_zz5T/view?usp=drive_link">Open</a></p></td>
+</tr>
+<tr class="row-odd"><td><p>SeisMonitor-catalog</p></td>
+<td><p><a class="reference external" href="https://drive.google.com/file/d/1ZphhiOkZkeOZBwBVPmXmVsXp7WL0ZjEL/view?usp=sharing">Open</a></p></td>
+</tr>
+<tr class="row-even"><td><p>SeisMonitor-picks</p></td>
+<td><p><a class="reference external" href="https://drive.google.com/file/d/1SS1OysOSk-9l-gFRpuCORRgXvwTKeniG/view?usp=sharing">Open</a></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="seismonitor-workflow">
+<h2>SeisMonitor Workflow<a class="headerlink" href="#seismonitor-workflow" title="Link to this heading"></a></h2>
+<section id="seismic-data">
+<h3>Seismic Data<a class="headerlink" href="#seismic-data" title="Link to this heading"></a></h3>
+<p>More than 100 stations across Colombia Seismic Network (<a class="reference external" href="https://www.fdsn.org/networks/detail/CM/">CM</a> )</p>
+<a class="reference internal image-reference" href="https://raw.githubusercontent.com/ecastillot/SeisMonitor/master/figures/MAP.png"><img alt="Colombia Seismic Network" class="align-center" src="https://raw.githubusercontent.com/ecastillot/SeisMonitor/master/figures/MAP.png" style="width: 300px;" />
+</a>
+</section>
+<section id="earthquake-detection-phase-picking">
+<h3>Earthquake Detection &amp; Phase Picking<a class="headerlink" href="#earthquake-detection-phase-picking" title="Link to this heading"></a></h3>
+<p>We used <a class="reference external" href="https://eqtransformer.readthedocs.io/en/latest/">EQTransformer</a> to detect earthquakes and pick phases.</p>
+<a class="reference internal image-reference" href="https://raw.githubusercontent.com/ecastillot/SeisMonitor/master/figures/mesetas_examples.png"><img alt="Mesetas Earthquake Detection" class="align-center" src="https://raw.githubusercontent.com/ecastillot/SeisMonitor/master/figures/mesetas_examples.png" style="width: 500px;" />
+</a>
+</section>
+<section id="phase-association">
+<h3>Phase Association<a class="headerlink" href="#phase-association" title="Link to this heading"></a></h3>
+<p>We used <a class="reference external" href="https://github.com/AI4EPS/GaMMA">GaMMA</a> to associate phases and obtained our first catalog.</p>
+<a class="reference internal image-reference" href="https://raw.githubusercontent.com/ecastillot/SeisMonitor/master/figures/gamma_overview.PNG"><img alt="GaMMA Catalog" class="align-center" src="https://raw.githubusercontent.com/ecastillot/SeisMonitor/master/figures/gamma_overview.PNG" style="width: 700px;" />
+</a>
+</section>
+<section id="nlloc-catalog">
+<h3>NLloc Catalog<a class="headerlink" href="#nlloc-catalog" title="Link to this heading"></a></h3>
+<p>Although preliminary GaMMA locations are good enough to allow us to visualize the main seismic activity, we use <a class="reference external" href="http://alomax.free.fr/nlloc/">NLLoc</a> to further improve earthquake locations</p>
+<a class="reference internal image-reference" href="https://raw.githubusercontent.com/ecastillot/SeisMonitor/master/figures/sm_overview.png"><img alt="NLLoc Catalog" class="align-center" src="https://raw.githubusercontent.com/ecastillot/SeisMonitor/master/figures/sm_overview.png" style="width: 700px;" />
+</a>
+</section>
+<section id="colombian-seismicity">
+<h3>Colombian Seismicity<a class="headerlink" href="#colombian-seismicity" title="Link to this heading"></a></h3>
+<p>It stands out for its computational efficiency, as well as its earthquake detection and location performance, demonstrating a high level of quality that effectively highlights key tectonic features and seismicity trends in northern South America.</p>
+<a class="reference internal image-reference" href="https://raw.githubusercontent.com/ecastillot/SeisMonitor/master/figures/map_with_profiles.PNG"><img alt="Colombian Seismicity" class="align-center" src="https://raw.githubusercontent.com/ecastillot/SeisMonitor/master/figures/map_with_profiles.PNG" style="width: 700px;" />
+</a>
+<a class="reference internal image-reference" href="https://raw.githubusercontent.com/ecastillot/SeisMonitor/master/figures/profiles.PNG"><img alt="Cross plots of seismicity" class="align-center" src="https://raw.githubusercontent.com/ecastillot/SeisMonitor/master/figures/profiles.PNG" style="width: 700px;" />
+</a>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="quickstart.html" class="btn btn-neutral float-left" title="Quickstart" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="api/index.html" class="btn btn-neutral float-right" title="API Reference" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Emmanuel Castillo.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

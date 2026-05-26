@@ -5,14 +5,15 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>SeisMonitor.core.client &mdash; SeisMonitor 0.0.57 documentation</title>
+  <title>SeisMonitor.core.client &mdash; SeisMonitor 0.0.58 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
-      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/custom.css?v=9f7e8617" />
 
   
       <script src="../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../_static/documentation_options.js?v=2bfb35b6"></script>
+      <script src="../../../_static/documentation_options.js?v=c3e19674"></script>
       <script src="../../../_static/doctools.js?v=9bcbadda"></script>
       <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/js/theme.js"></script>
@@ -28,8 +29,9 @@
 
           
           
-          <a href="../../../index.html" class="icon icon-home">
-            SeisMonitor
+          <a href="../../../index.html">
+            
+              <img src="../../../_static/seismonitor.PNG" class="logo" alt="Logo"/>
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
@@ -39,8 +41,16 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <!-- Local TOC -->
-              <div class="local-toc"></div>
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../home.html">Welcome to SeisMonitor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../quickstart.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../dataset.html">SeisMonitor in Colombia</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/index.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../authors.html">Authors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../contribution.html">Contributing</a></li>
+</ul>
+
         </div>
       </div>
     </nav>
@@ -73,21 +83,82 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">obspy.core.util.misc</span><span class="w"> </span><span class="kn">import</span> <span class="n">BAND_CODE</span>
 
 <div class="viewcode-block" id="LocalClient">
-<a class="viewcode-back" href="../../../SeisMonitor.core.html#SeisMonitor.core.client.LocalClient">[docs]</a>
+<a class="viewcode-back" href="../../../api/SeisMonitor.core.objects.html#SeisMonitor.core.client.LocalClient">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">LocalClient</span><span class="p">(</span><span class="n">Client</span><span class="p">):</span>
+
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Local waveform archive client based on ObsPy&#39;s SDS client.</span>
+
+<span class="sd">    This class extends :class:`obspy.clients.filesystem.sds.Client`</span>
+<span class="sd">    to support custom local archive directory structures using a</span>
+<span class="sd">    user-defined filename format string.</span>
+
+<span class="sd">    The format string must use attributes available in an ObsPy</span>
+<span class="sd">    ``Trace.stats`` object, such as year, month, day, network,</span>
+<span class="sd">    station, location, channel, and Julian day.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    root : str</span>
+<span class="sd">        Root directory of the local waveform archive.</span>
+
+<span class="sd">    fmt : str</span>
+<span class="sd">        File path template describing the archive structure.</span>
+
+<span class="sd">        Example::</span>
+
+<span class="sd">            &quot;{year}-{month:02d}/{year}-{month:02d}-{day:02d}/&quot;</span>
+<span class="sd">            &quot;{network}.{station}.{location}.{channel}.{year}.{julday:03d}&quot;</span>
+
+<span class="sd">    **kwargs</span>
+<span class="sd">        Additional keyword arguments passed to</span>
+<span class="sd">        :class:`obspy.clients.filesystem.sds.Client`.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    ``LocalClient`` preserves all standard SDS client functionalities,</span>
+<span class="sd">    including waveform retrieval with</span>
+<span class="sd">    :meth:`~obspy.clients.filesystem.sds.Client.get_waveforms`.</span>
+
+<span class="sd">    Example</span>
+<span class="sd">    -------</span>
+<span class="sd">    Suppose the local archive is organized as::</span>
+
+<span class="sd">        {root_path}/seedfiles/{year}-{month:02d}/</span>
+<span class="sd">        {year}-{month:02d}-{day:02d}/</span>
+<span class="sd">        {network}.{station}.{location}.{channel}.{year}.{julday:03d}</span>
+
+<span class="sd">    Example usage:</span>
+
+<span class="sd">    .. code-block:: python</span>
+
+<span class="sd">        from obspy import UTCDateTime</span>
+
+<span class="sd">        root_path = &quot;/home/emmanuel/myarchive&quot;</span>
+
+<span class="sd">        client = LocalClient(</span>
+<span class="sd">            root=root_path,</span>
+<span class="sd">            fmt=(</span>
+<span class="sd">                &quot;seedfiles/{year}-{month:02d}/&quot;</span>
+<span class="sd">                &quot;{year}-{month:02d}-{day:02d}/&quot;</span>
+<span class="sd">                &quot;{network}.{station}.{location}.&quot;</span>
+<span class="sd">                &quot;{channel}.{year}.{julday:03d}&quot;</span>
+<span class="sd">            )</span>
+<span class="sd">        )</span>
+
+<span class="sd">        st = client.get_waveforms(</span>
+<span class="sd">            network=&quot;YY&quot;,</span>
+<span class="sd">            station=&quot;XXXX&quot;,</span>
+<span class="sd">            location=&quot;00&quot;,</span>
+<span class="sd">            channel=&quot;HHZ&quot;,</span>
+<span class="sd">            starttime=UTCDateTime(&quot;20220102T000100&quot;),</span>
+<span class="sd">            endtime=UTCDateTime(&quot;20220102T000200&quot;),</span>
+<span class="sd">        )</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">root</span><span class="p">,</span> <span class="n">fmt</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Parameters:</span>
-<span class="sd">        -----------</span>
-<span class="sd">        root: str </span>
-<span class="sd">            Path where is located the Local structure</span>
-<span class="sd">        </span>
-<span class="sd">        fmt: str </span>
-<span class="sd">            The parameter should name the corresponding keys of the stats object, e.g. &quot;{year}-{month:02d}/{year}-{month:02d}-{day:02d}/{network}.{station}.{location}.{channel}.{year}.{julday:03d}&quot;</span>
-<span class="sd">        </span>
-<span class="sd">        kwargs: </span>
-<span class="sd">            SDS client additional args</span>
+<span class="sd">        Initialize the LocalClient.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">root</span> <span class="o">=</span> <span class="n">root</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">fmt</span> <span class="o">=</span> <span class="n">fmt</span>

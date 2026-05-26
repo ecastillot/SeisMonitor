@@ -5,14 +5,15 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>SeisMonitor.monitor.magnitude.utils &mdash; SeisMonitor 0.0.57 documentation</title>
+  <title>SeisMonitor.monitor.magnitude.utils &mdash; SeisMonitor 0.0.58 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=b86133f3" />
-      <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/css/custom.css?v=9f7e8617" />
 
   
       <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../../_static/documentation_options.js?v=2bfb35b6"></script>
+      <script src="../../../../_static/documentation_options.js?v=c3e19674"></script>
       <script src="../../../../_static/doctools.js?v=9bcbadda"></script>
       <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../../_static/js/theme.js"></script>
@@ -28,8 +29,9 @@
 
           
           
-          <a href="../../../../index.html" class="icon icon-home">
-            SeisMonitor
+          <a href="../../../../index.html">
+            
+              <img src="../../../../_static/seismonitor.PNG" class="logo" alt="Logo"/>
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
@@ -39,8 +41,16 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <!-- Local TOC -->
-              <div class="local-toc"></div>
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../home.html">Welcome to SeisMonitor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../quickstart.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../dataset.html">SeisMonitor in Colombia</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../api/index.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../authors.html">Authors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../contribution.html">Contributing</a></li>
+</ul>
+
         </div>
       </div>
     </nav>
@@ -66,7 +76,22 @@
            <div itemprop="articleBody">
              
   <h1>Source code for SeisMonitor.monitor.magnitude.utils</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">obspy.core.inventory.inventory</span><span class="w"> </span><span class="kn">import</span> <span class="n">Inventory</span>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Utilities for seismic magnitude estimation and ObsPy event object creation.</span>
+
+<span class="sd">This module provides helper functions for:</span>
+
+<span class="sd">- Retrieving poles and zeros (PAZ) from ObsPy responses.</span>
+<span class="sd">- Computing local magnitudes (Ml).</span>
+<span class="sd">- Processing waveforms for magnitude estimation.</span>
+<span class="sd">- Fitting seismic source spectra.</span>
+<span class="sd">- Creating ObsPy magnitude and amplitude objects.</span>
+
+
+<span class="sd">:author: Emmanuel Castillo</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">obspy.core.inventory.inventory</span><span class="w"> </span><span class="kn">import</span> <span class="n">Inventory</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">obspy.io.xseed.parser</span><span class="w"> </span><span class="kn">import</span> <span class="n">Parser</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">obspy.core.event</span><span class="w"> </span><span class="kn">import</span> <span class="n">Magnitude</span> <span class="k">as</span> <span class="n">Mag</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">obspy.core.event.magnitude</span><span class="w"> </span><span class="kn">import</span> <span class="n">StationMagnitude</span>
@@ -84,9 +109,16 @@
 <span class="kn">import</span><span class="w"> </span><span class="nn">scipy</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">math</span> 
 <span class="kn">import</span><span class="w"> </span><span class="nn">types</span>
+
+<span class="c1"># -------------------------------------------------------------------------</span>
+<span class="c1"># Wood-Anderson poles and zeros configuration</span>
+<span class="c1"># -------------------------------------------------------------------------</span>
 <span class="n">paz_wa</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;sensitivity&#39;</span><span class="p">:</span> <span class="mi">2800</span><span class="p">,</span> <span class="s1">&#39;zeros&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">0</span><span class="n">j</span><span class="p">],</span> <span class="s1">&#39;gain&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
           <span class="s1">&#39;poles&#39;</span><span class="p">:</span> <span class="p">[</span><span class="o">-</span><span class="mf">6.2832</span> <span class="o">-</span> <span class="mf">4.7124</span><span class="n">j</span><span class="p">,</span> <span class="o">-</span><span class="mf">6.2832</span> <span class="o">+</span> <span class="mf">4.7124</span><span class="n">j</span><span class="p">]}</span>
 
+<span class="c1"># -------------------------------------------------------------------------</span>
+<span class="c1"># Local magnitude empirical parameters</span>
+<span class="c1"># -------------------------------------------------------------------------</span>
 <span class="c1"># SED_Ml_params = {&quot;a&quot;:0.018,&quot;b&quot;:2.17}</span>
 <span class="n">Ml_params</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;RSNC&quot;</span><span class="p">:{</span><span class="s2">&quot;a&quot;</span><span class="p">:</span><span class="mf">1.019</span><span class="p">,</span><span class="s2">&quot;b&quot;</span><span class="p">:</span><span class="mf">0.0016</span><span class="p">,</span><span class="s2">&quot;r_ref&quot;</span><span class="p">:</span><span class="mi">140</span><span class="p">},</span>
             <span class="s2">&quot;RSNC_by_zone&quot;</span><span class="p">:{</span><span class="s2">&quot;Ml_1&quot;</span><span class="p">:{</span><span class="s2">&quot;a&quot;</span><span class="p">:</span><span class="mf">1.2488</span><span class="p">,</span><span class="s2">&quot;b&quot;</span><span class="p">:</span><span class="mf">0.0024</span><span class="p">,</span><span class="s2">&quot;c&quot;</span><span class="p">:</span><span class="o">-</span><span class="mf">2.05</span><span class="p">},</span>
@@ -98,9 +130,37 @@
             <span class="p">}</span>
 
 <div class="viewcode-block" id="get_paz_from_response">
-<a class="viewcode-back" href="../../../../SeisMonitor.monitor.magnitude.html#SeisMonitor.monitor.magnitude.utils.get_paz_from_response">[docs]</a>
+<a class="viewcode-back" href="../../../../api/SeisMonitor.monitor.magnitude.html#SeisMonitor.monitor.magnitude.utils.get_paz_from_response">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">get_paz_from_response</span><span class="p">(</span><span class="n">seed_id</span><span class="p">,</span><span class="n">response</span><span class="p">,</span>
                             <span class="n">datetime</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Retrieve poles and zeros (PAZ) from a response object.</span>
+
+<span class="sd">    Supports both ObsPy ``Parser`` and ``Inventory`` response types.</span>
+
+<span class="sd">    :param seed_id:</span>
+<span class="sd">        Full SEED identifier.</span>
+<span class="sd">    :type seed_id: str</span>
+
+<span class="sd">    :param response:</span>
+<span class="sd">        ObsPy response object.</span>
+<span class="sd">    :type response:</span>
+<span class="sd">        Union[Parser, Inventory]</span>
+
+<span class="sd">    :param datetime:</span>
+<span class="sd">        Datetime associated with waveform trace.</span>
+<span class="sd">    :type datetime:</span>
+<span class="sd">        Optional[UTCDateTime]</span>
+
+<span class="sd">    :returns:</span>
+<span class="sd">        Dictionary containing PAZ information or ``None`` if unavailable.</span>
+<span class="sd">    :rtype:</span>
+<span class="sd">        Optional[Dict]</span>
+
+<span class="sd">    Example</span>
+<span class="sd">    -------</span>
+<span class="sd">    &gt;&gt;&gt; paz = get_paz_from_response(&quot;IU.ANMO..BHZ&quot;, inventory)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">response</span><span class="p">,</span><span class="n">Parser</span><span class="p">):</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">paz</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">get_paz</span><span class="p">(</span><span class="n">seed_id</span><span class="p">,</span><span class="n">datetime</span><span class="p">)</span>
@@ -129,8 +189,36 @@
 
 
 <div class="viewcode-block" id="get_Ml">
-<a class="viewcode-back" href="../../../../SeisMonitor.monitor.magnitude.html#SeisMonitor.monitor.magnitude.utils.get_Ml">[docs]</a>
+<a class="viewcode-back" href="../../../../api/SeisMonitor.monitor.magnitude.html#SeisMonitor.monitor.magnitude.utils.get_Ml">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">get_Ml</span><span class="p">(</span><span class="n">ampl</span><span class="p">,</span><span class="n">epi_dist</span><span class="p">,</span><span class="n">mag_type</span><span class="p">,</span><span class="n">zone</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute local magnitude (Ml).</span>
+
+<span class="sd">    Supports predefined empirical relationships or custom functions.</span>
+
+<span class="sd">    :param amplitude:</span>
+<span class="sd">        Peak amplitude.</span>
+<span class="sd">    :type amplitude: float</span>
+
+<span class="sd">    :param epicentral_distance:</span>
+<span class="sd">        Epicentral distance in kilometers.</span>
+<span class="sd">    :type epicentral_distance: float</span>
+
+<span class="sd">    :param magnitude_type:</span>
+<span class="sd">        Magnitude model name or callable.</span>
+<span class="sd">    :type magnitude_type:</span>
+<span class="sd">        Union[str, Callable]</span>
+
+<span class="sd">    :param zone:</span>
+<span class="sd">        Regional zone identifier.</span>
+<span class="sd">    :type zone:</span>
+<span class="sd">        Optional[int]</span>
+
+<span class="sd">    :returns:</span>
+<span class="sd">        Computed local magnitude.</span>
+<span class="sd">    :rtype:</span>
+<span class="sd">        float</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">mag_type</span><span class="p">,</span><span class="nb">str</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">mag_type</span> <span class="ow">not</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">Ml_params</span><span class="o">.</span><span class="n">keys</span><span class="p">()):</span>
@@ -163,11 +251,39 @@
 
 
 <div class="viewcode-block" id="get_Ml_magparams_by_station">
-<a class="viewcode-back" href="../../../../SeisMonitor.monitor.magnitude.html#SeisMonitor.monitor.magnitude.utils.get_Ml_magparams_by_station">[docs]</a>
+<a class="viewcode-back" href="../../../../api/SeisMonitor.monitor.magnitude.html#SeisMonitor.monitor.magnitude.utils.get_Ml_magparams_by_station">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">get_Ml_magparams_by_station</span><span class="p">(</span><span class="n">st</span><span class="p">,</span><span class="n">response</span><span class="p">,</span>
                                 <span class="n">ev_params</span><span class="p">,</span>
                                 <span class="n">trimmedtime</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span>
                                 <span class="n">waterlevel</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute local magnitude (Ml).</span>
+
+<span class="sd">    Supports predefined empirical relationships or custom functions.</span>
+
+<span class="sd">    :param amplitude:</span>
+<span class="sd">        Peak amplitude.</span>
+<span class="sd">    :type amplitude: float</span>
+
+<span class="sd">    :param epicentral_distance:</span>
+<span class="sd">        Epicentral distance in kilometers.</span>
+<span class="sd">    :type epicentral_distance: float</span>
+
+<span class="sd">    :param magnitude_type:</span>
+<span class="sd">        Magnitude model name or callable.</span>
+<span class="sd">    :type magnitude_type:</span>
+<span class="sd">        Union[str, Callable]</span>
+
+<span class="sd">    :param zone:</span>
+<span class="sd">        Regional zone identifier.</span>
+<span class="sd">    :type zone:</span>
+<span class="sd">        Optional[int]</span>
+
+<span class="sd">    :returns:</span>
+<span class="sd">        Computed local magnitude.</span>
+<span class="sd">    :rtype:</span>
+<span class="sd">        float</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">picktime</span> <span class="o">=</span> <span class="n">ev_params</span><span class="p">[</span><span class="s2">&quot;picktime&quot;</span><span class="p">]</span>
     <span class="n">latitude</span> <span class="o">=</span> <span class="n">ev_params</span><span class="p">[</span><span class="s2">&quot;latitude&quot;</span><span class="p">]</span>
     <span class="n">longitude</span> <span class="o">=</span> <span class="n">ev_params</span><span class="p">[</span><span class="s2">&quot;longitude&quot;</span><span class="p">]</span>
@@ -250,8 +366,23 @@
 
 
 <div class="viewcode-block" id="Mw_st_processing">
-<a class="viewcode-back" href="../../../../SeisMonitor.monitor.magnitude.html#SeisMonitor.monitor.magnitude.utils.Mw_st_processing">[docs]</a>
+<a class="viewcode-back" href="../../../../api/SeisMonitor.monitor.magnitude.html#SeisMonitor.monitor.magnitude.utils.Mw_st_processing">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">Mw_st_processing</span><span class="p">(</span><span class="n">st</span><span class="p">,</span><span class="n">response</span><span class="p">,</span><span class="n">waterlevel</span><span class="p">,</span><span class="n">datetime</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Remove instrument response for moment magnitude estimation.</span>
+
+<span class="sd">    :param stream:</span>
+<span class="sd">        ObsPy Stream object.</span>
+<span class="sd">    :param response:</span>
+<span class="sd">        ObsPy response object.</span>
+<span class="sd">    :param water_level:</span>
+<span class="sd">        Water level used during deconvolution.</span>
+<span class="sd">    :param datetime:</span>
+<span class="sd">        Datetime associated with traces.</span>
+
+<span class="sd">    :returns:</span>
+<span class="sd">        Processed ObsPy Stream or ``None`` if failed.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">for</span> <span class="n">trace</span> <span class="ow">in</span> <span class="n">st</span><span class="p">:</span>
         <span class="n">paz</span> <span class="o">=</span> <span class="n">get_paz_from_response</span><span class="p">(</span><span class="n">trace</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="n">response</span><span class="p">,</span><span class="n">datetime</span><span class="p">)</span>
 
@@ -268,7 +399,7 @@
 
 
 <div class="viewcode-block" id="calculate_source_spectrum">
-<a class="viewcode-back" href="../../../../SeisMonitor.monitor.magnitude.html#SeisMonitor.monitor.magnitude.utils.calculate_source_spectrum">[docs]</a>
+<a class="viewcode-back" href="../../../../api/SeisMonitor.monitor.magnitude.html#SeisMonitor.monitor.magnitude.utils.calculate_source_spectrum">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">calculate_source_spectrum</span><span class="p">(</span><span class="n">frequencies</span><span class="p">,</span> <span class="n">omega_0</span><span class="p">,</span> <span class="n">corner_frequency</span><span class="p">,</span> <span class="n">Q</span><span class="p">,</span>
     <span class="n">traveltime</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -298,7 +429,7 @@
 
 
 <div class="viewcode-block" id="fit_spectrum">
-<a class="viewcode-back" href="../../../../SeisMonitor.monitor.magnitude.html#SeisMonitor.monitor.magnitude.utils.fit_spectrum">[docs]</a>
+<a class="viewcode-back" href="../../../../api/SeisMonitor.monitor.magnitude.html#SeisMonitor.monitor.magnitude.utils.fit_spectrum">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">fit_spectrum</span><span class="p">(</span><span class="n">spectrum</span><span class="p">,</span> <span class="n">frequencies</span><span class="p">,</span> 
     <span class="n">traveltime</span><span class="p">,</span> <span class="n">initial_omega_0</span><span class="p">,</span>
     <span class="n">initial_f_c</span><span class="p">,</span><span class="n">quality_factor</span><span class="o">=</span><span class="mi">500</span><span class="p">):</span>
@@ -329,12 +460,51 @@
 
 
 <div class="viewcode-block" id="get_M0_magnitude_by_pick">
-<a class="viewcode-back" href="../../../../SeisMonitor.monitor.magnitude.html#SeisMonitor.monitor.magnitude.utils.get_M0_magnitude_by_pick">[docs]</a>
+<a class="viewcode-back" href="../../../../api/SeisMonitor.monitor.magnitude.html#SeisMonitor.monitor.magnitude.utils.get_M0_magnitude_by_pick">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">get_M0_magnitude_by_pick</span><span class="p">(</span><span class="n">st</span><span class="p">,</span><span class="n">picktime</span><span class="p">,</span><span class="n">traveltime</span><span class="p">,</span>
                                 <span class="n">phasehint</span><span class="p">,</span>
                                 <span class="n">physparams</span><span class="p">,</span>
                                 <span class="n">procparams</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Estimate seismic moment (M0) from waveform picks.</span>
 
+<span class="sd">    The function computes multitaper spectra for each component,</span>
+<span class="sd">    fits a theoretical source spectrum, and estimates seismic moment.</span>
+
+<span class="sd">    :param stream:</span>
+<span class="sd">        ObsPy Stream object containing three-component data.</span>
+<span class="sd">    :param pick_time:</span>
+<span class="sd">        Pick time associated with the phase.</span>
+<span class="sd">    :param travel_time:</span>
+<span class="sd">        Seismic travel time in seconds.</span>
+<span class="sd">    :type travel_time:</span>
+<span class="sd">        float</span>
+
+<span class="sd">    :param phase_hint:</span>
+<span class="sd">        Seismic phase identifier (e.g. ``&quot;P&quot;`` or ``&quot;S&quot;``).</span>
+<span class="sd">    :type phase_hint:</span>
+<span class="sd">        str</span>
+
+<span class="sd">    :param physical_parameters:</span>
+<span class="sd">        Object containing physical properties such as:</span>
+<span class="sd">        ``vp``, ``vs``, ``density``,</span>
+<span class="sd">        ``p_radiation_pattern``,</span>
+<span class="sd">        ``s_radiation_pattern``.</span>
+<span class="sd">    :param processing_parameters:</span>
+<span class="sd">        Object containing processing configuration such as:</span>
+<span class="sd">        ``time_before_pick`` and ``time_after_pick``.</span>
+
+<span class="sd">    :returns:</span>
+<span class="sd">        Tuple containing:</span>
+
+<span class="sd">        - Seismic moment (M0)</span>
+<span class="sd">        - List of estimated corner frequencies</span>
+
+<span class="sd">        Returns ``(None, None)`` if estimation fails.</span>
+
+<span class="sd">    :rtype:</span>
+<span class="sd">        Tuple[Optional[float], Optional[List[float]]]</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">if</span> <span class="n">st</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">st</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">3</span><span class="p">:</span>
         <span class="k">return</span> <span class="p">(</span><span class="kc">None</span><span class="p">,</span><span class="kc">None</span><span class="p">)</span>
@@ -388,7 +558,7 @@
 
 
 <div class="viewcode-block" id="write_magsta_values">
-<a class="viewcode-back" href="../../../../SeisMonitor.monitor.magnitude.html#SeisMonitor.monitor.magnitude.utils.write_magsta_values">[docs]</a>
+<a class="viewcode-back" href="../../../../api/SeisMonitor.monitor.magnitude.html#SeisMonitor.monitor.magnitude.utils.write_magsta_values">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">write_magsta_values</span><span class="p">(</span><span class="n">value</span><span class="p">,</span>
                         <span class="n">uncertainty</span><span class="p">,</span>
                         <span class="n">mag_type</span><span class="p">,</span>
@@ -397,6 +567,29 @@
                         <span class="n">method_id</span> <span class="o">=</span> <span class="n">ResourceIdentifier</span><span class="p">(),</span>
                         <span class="n">waveform_id</span> <span class="o">=</span> <span class="n">WaveformStreamID</span><span class="p">(),</span>
                         <span class="n">agency</span><span class="o">=</span><span class="kc">None</span> <span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Create an ObsPy StationMagnitude object.</span>
+
+<span class="sd">    :param value:</span>
+<span class="sd">        Station magnitude value.</span>
+<span class="sd">    :type value:</span>
+<span class="sd">        float</span>
+
+<span class="sd">    :param uncertainty:</span>
+<span class="sd">        Magnitude uncertainty.</span>
+<span class="sd">    :type uncertainty:</span>
+<span class="sd">        float</span>
+
+<span class="sd">    :param magnitude_type:</span>
+<span class="sd">        Magnitude type (e.g. ``&quot;Ml&quot;``).</span>
+<span class="sd">    :type magnitude_type:</span>
+<span class="sd">        str</span>
+
+<span class="sd">    :returns:</span>
+<span class="sd">        ObsPy StationMagnitude object.</span>
+<span class="sd">    :rtype:</span>
+<span class="sd">        StationMagnitude</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">stamag</span> <span class="o">=</span> <span class="n">StationMagnitude</span><span class="p">()</span>
     <span class="n">stamag</span><span class="o">.</span><span class="n">resource_id</span> <span class="o">=</span> <span class="n">ResourceIdentifier</span><span class="p">()</span>
     <span class="n">stamag</span><span class="o">.</span><span class="n">mag</span> <span class="o">=</span> <span class="n">value</span>
@@ -415,7 +608,7 @@
 
 
 <div class="viewcode-block" id="write_amplitude_values">
-<a class="viewcode-back" href="../../../../SeisMonitor.monitor.magnitude.html#SeisMonitor.monitor.magnitude.utils.write_amplitude_values">[docs]</a>
+<a class="viewcode-back" href="../../../../api/SeisMonitor.monitor.magnitude.html#SeisMonitor.monitor.magnitude.utils.write_amplitude_values">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">write_amplitude_values</span><span class="p">(</span><span class="n">value</span><span class="p">,</span><span class="n">amp_type</span><span class="o">=</span><span class="s2">&quot;A&quot;</span><span class="p">,</span><span class="n">category</span><span class="o">=</span><span class="s2">&quot;duration&quot;</span><span class="p">,</span>
                            <span class="n">unit</span><span class="o">=</span><span class="s2">&quot;m/s&quot;</span><span class="p">,</span>
                            <span class="n">method_id</span> <span class="o">=</span> <span class="s2">&quot;https://docs.obspy.org/tutorial/advanced_exercise/advanced_exercise_solution_3b.html&quot;</span><span class="p">,</span>
@@ -426,6 +619,19 @@
                            <span class="n">evaluation_mode</span> <span class="o">=</span> <span class="s2">&quot;automatic&quot;</span><span class="p">,</span>
                            <span class="n">evaluation_status</span> <span class="o">=</span> <span class="s2">&quot;preliminary&quot;</span><span class="p">,</span>
                            <span class="n">agency</span><span class="o">=</span><span class="kc">None</span> <span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Create an ObsPy Amplitude object.</span>
+
+<span class="sd">    :param value:</span>
+<span class="sd">        Measured amplitude value.</span>
+<span class="sd">    :type value:</span>
+<span class="sd">        float</span>
+
+<span class="sd">    :returns:</span>
+<span class="sd">        ObsPy Amplitude object.</span>
+<span class="sd">    :rtype:</span>
+<span class="sd">        Amplitude</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">amp</span> <span class="o">=</span> <span class="n">Amplitude</span><span class="p">()</span>
     <span class="n">amp</span><span class="o">.</span><span class="n">resource_id</span> <span class="o">=</span> <span class="n">ResourceIdentifier</span><span class="p">()</span>
     <span class="n">amp</span><span class="o">.</span><span class="n">generic_amplitude</span> <span class="o">=</span> <span class="n">value</span>
@@ -448,7 +654,7 @@
 
 
 <div class="viewcode-block" id="write_magnitude_values">
-<a class="viewcode-back" href="../../../../SeisMonitor.monitor.magnitude.html#SeisMonitor.monitor.magnitude.utils.write_magnitude_values">[docs]</a>
+<a class="viewcode-back" href="../../../../api/SeisMonitor.monitor.magnitude.html#SeisMonitor.monitor.magnitude.utils.write_magnitude_values">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">write_magnitude_values</span><span class="p">(</span><span class="n">value</span><span class="p">,</span><span class="n">uncertainty</span><span class="p">,</span><span class="n">station_count</span><span class="p">,</span><span class="n">mag_type</span><span class="p">,</span>
                            <span class="n">evaluation_mode</span> <span class="o">=</span> <span class="s2">&quot;automatic&quot;</span><span class="p">,</span>
                            <span class="n">evaluation_status</span> <span class="o">=</span> <span class="s2">&quot;preliminary&quot;</span><span class="p">,</span>
@@ -456,6 +662,39 @@
                            <span class="n">agency</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                            <span class="n">origin_id</span><span class="o">=</span><span class="n">ResourceIdentifier</span><span class="p">(),</span>
                            <span class="n">comments</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Create an ObsPy Magnitude object.</span>
+
+<span class="sd">    :param value:</span>
+<span class="sd">        Magnitude value.</span>
+<span class="sd">    :type value:</span>
+<span class="sd">        float</span>
+
+<span class="sd">    :param uncertainty:</span>
+<span class="sd">        Magnitude uncertainty.</span>
+<span class="sd">    :type uncertainty:</span>
+<span class="sd">        float</span>
+
+<span class="sd">    :param station_count:</span>
+<span class="sd">        Number of stations used.</span>
+<span class="sd">    :type station_count:</span>
+<span class="sd">        int</span>
+
+<span class="sd">    :param magnitude_type:</span>
+<span class="sd">        Magnitude type (e.g. ``&quot;Mw&quot;``, ``&quot;Ml&quot;``).</span>
+<span class="sd">    :type magnitude_type:</span>
+<span class="sd">        str</span>
+
+<span class="sd">    :param comments:</span>
+<span class="sd">        Optional comments associated with the magnitude.</span>
+<span class="sd">    :type comments:</span>
+<span class="sd">        Optional[str]</span>
+
+<span class="sd">    :returns:</span>
+<span class="sd">        ObsPy Magnitude object.</span>
+<span class="sd">    :rtype:</span>
+<span class="sd">        Magnitude</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">mag</span> <span class="o">=</span> <span class="n">Mag</span><span class="p">()</span>
     <span class="n">mag</span><span class="o">.</span><span class="n">mag</span> <span class="o">=</span> <span class="n">value</span>
     <span class="n">mag</span><span class="o">.</span><span class="n">mag_errors</span><span class="o">.</span><span class="n">uncertainty</span> <span class="o">=</span> <span class="n">uncertainty</span>

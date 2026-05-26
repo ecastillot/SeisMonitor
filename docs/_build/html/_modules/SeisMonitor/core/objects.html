@@ -5,16 +5,19 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>SeisMonitor.core.objects &mdash; SeisMonitor 0.0.57 documentation</title>
+  <title>SeisMonitor.core.objects &mdash; SeisMonitor 0.0.58 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
-      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/custom.css?v=9f7e8617" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
 
   
       <script src="../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../_static/documentation_options.js?v=2bfb35b6"></script>
+      <script src="../../../_static/documentation_options.js?v=c3e19674"></script>
       <script src="../../../_static/doctools.js?v=9bcbadda"></script>
       <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
     <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" /> 
@@ -28,8 +31,9 @@
 
           
           
-          <a href="../../../index.html" class="icon icon-home">
-            SeisMonitor
+          <a href="../../../index.html">
+            
+              <img src="../../../_static/seismonitor.PNG" class="logo" alt="Logo"/>
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
@@ -39,8 +43,16 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <!-- Local TOC -->
-              <div class="local-toc"></div>
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../home.html">Welcome to SeisMonitor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../quickstart.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../dataset.html">SeisMonitor in Colombia</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/index.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../authors.html">Authors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../contribution.html">Contributing</a></li>
+</ul>
+
         </div>
       </div>
     </nav>
@@ -71,21 +83,21 @@
 <span class="kn">import</span><span class="w"> </span><span class="nn">copy</span>
 
 <div class="viewcode-block" id="Provider">
-<a class="viewcode-back" href="../../../SeisMonitor.core.html#SeisMonitor.core.objects.Provider">[docs]</a>
+<a class="viewcode-back" href="../../../api/SeisMonitor.core.objects.html#SeisMonitor.core.objects.Provider">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">Provider</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Handles the retrieval and storage of station metadata (inventory) </span>
 <span class="sd">    from either an XML file or a client service.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        client (object): An ObsPy-compatible client to fetch station metadata.</span>
+<span class="sd">        waveform_restrictions (WaveformRestrictions): Object containing selection criteria for waveform data.</span>
+<span class="sd">        processing (Processing, optional): Processing steps for waveform data (default is None).</span>
+<span class="sd">        xml (str, optional): Path to an XML file containing station metadata (default is None). This is used if the inventory is not fetched from the client.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">client</span><span class="p">,</span> <span class="n">waveform_restrictions</span><span class="p">,</span> <span class="n">processing</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">xml</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Initialize the Provider class.</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            client (object): An ObsPy-compatible client to fetch station metadata.</span>
-<span class="sd">            waveform_restrictions (WaveformRestrictions): Object containing selection criteria for waveform data.</span>
-<span class="sd">            processing (Processing, optional): Processing steps for waveform data (default is None).</span>
-<span class="sd">            xml (str, optional): Path to an XML file containing station metadata (default is None).</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">client</span> <span class="o">=</span> <span class="n">client</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">waveform_restrictions</span> <span class="o">=</span> <span class="n">waveform_restrictions</span>
@@ -105,7 +117,7 @@
             <span class="p">)</span>
     
 <div class="viewcode-block" id="Provider.copy">
-<a class="viewcode-back" href="../../../SeisMonitor.core.html#SeisMonitor.core.objects.Provider.copy">[docs]</a>
+<a class="viewcode-back" href="../../../api/SeisMonitor.core.objects.html#SeisMonitor.core.objects.Provider.copy">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">copy</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Creates a deep copy of the Provider instance.</span>
@@ -121,11 +133,29 @@
 
 
 <div class="viewcode-block" id="WaveformRestrictions">
-<a class="viewcode-back" href="../../../SeisMonitor.core.html#SeisMonitor.core.objects.WaveformRestrictions">[docs]</a>
+<a class="viewcode-back" href="../../../api/SeisMonitor.core.objects.html#SeisMonitor.core.objects.WaveformRestrictions">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">WaveformRestrictions</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Defines criteria for selecting waveform data, including network, station,</span>
 <span class="sd">    location, and time range constraints.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        network (str): Comma-separated list of network codes (wildcards allowed).</span>
+<span class="sd">        station (str): Comma-separated list of station codes (wildcards allowed).</span>
+<span class="sd">        location (str): Comma-separated list of location identifiers (wildcards allowed).</span>
+<span class="sd">        channel (str): Comma-separated list of channel codes (e.g., &quot;BHZ,HHZ&quot;).</span>
+<span class="sd">        starttime (obspy.UTCDateTime): Start time for waveform selection.</span>
+<span class="sd">        endtime (obspy.UTCDateTime): End time for waveform selection.</span>
+<span class="sd">        location_preferences (list, optional): Ordered list of preferred locations </span>
+<span class="sd">            (default is an empty list).</span>
+<span class="sd">        channel_preferences (list, optional): Ordered list of preferred channels </span>
+<span class="sd">            (default is an empty list).</span>
+<span class="sd">        filter_networks (list, optional): List of networks to filter out </span>
+<span class="sd">            (default is an empty list).</span>
+<span class="sd">        filter_stations (list, optional): List of stations to filter out </span>
+<span class="sd">            (default is an empty list).</span>
+<span class="sd">        filter_domain (list, optional): Geographic bounding box </span>
+<span class="sd">            [lon_west, lon_east, lat_south, lat_north] (default is global coverage).</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">network</span><span class="p">,</span> <span class="n">station</span><span class="p">,</span> <span class="n">location</span><span class="p">,</span> <span class="n">channel</span><span class="p">,</span> <span class="n">starttime</span><span class="p">,</span> <span class="n">endtime</span><span class="p">,</span>
                  <span class="n">location_preferences</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">channel_preferences</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -133,24 +163,6 @@
                  <span class="n">filter_domain</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Initialize the waveform selection criteria.</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            network (str): Comma-separated list of network codes (wildcards allowed).</span>
-<span class="sd">            station (str): Comma-separated list of station codes (wildcards allowed).</span>
-<span class="sd">            location (str): Comma-separated list of location identifiers (wildcards allowed).</span>
-<span class="sd">            channel (str): Comma-separated list of channel codes (e.g., &quot;BHZ,HHZ&quot;).</span>
-<span class="sd">            starttime (obspy.UTCDateTime): Start time for waveform selection.</span>
-<span class="sd">            endtime (obspy.UTCDateTime): End time for waveform selection.</span>
-<span class="sd">            location_preferences (list, optional): Ordered list of preferred locations </span>
-<span class="sd">                (default is an empty list).</span>
-<span class="sd">            channel_preferences (list, optional): Ordered list of preferred channels </span>
-<span class="sd">                (default is an empty list).</span>
-<span class="sd">            filter_networks (list, optional): List of networks to filter out </span>
-<span class="sd">                (default is an empty list).</span>
-<span class="sd">            filter_stations (list, optional): List of stations to filter out </span>
-<span class="sd">                (default is an empty list).</span>
-<span class="sd">            filter_domain (list, optional): Geographic bounding box </span>
-<span class="sd">                [lon_west, lon_east, lat_south, lat_north] (default is global coverage).</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">network</span> <span class="o">=</span> <span class="n">network</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">station</span> <span class="o">=</span> <span class="n">station</span>
@@ -167,10 +179,37 @@
 
 
 <div class="viewcode-block" id="Processing">
-<a class="viewcode-back" href="../../../SeisMonitor.core.html#SeisMonitor.core.objects.Processing">[docs]</a>
+<a class="viewcode-back" href="../../../api/SeisMonitor.core.objects.html#SeisMonitor.core.objects.Processing">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">Processing</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Defines processing steps to be applied to waveform data.</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">    -----------</span>
+<span class="sd">    :order: list of str, optional</span>
+<span class="sd">        Order of preprocessing steps (default includes &#39;normalize&#39;, &#39;merge&#39;, etc.).</span>
+<span class="sd">    :decimate: dict, optional</span>
+<span class="sd">        Parameters for the decimate method.</span>
+<span class="sd">    :detrend: dict, optional</span>
+<span class="sd">        Parameters for the detrend method.</span>
+<span class="sd">    :filter: dict, optional</span>
+<span class="sd">        Parameters for the filter method.</span>
+<span class="sd">    :merge: dict, optional</span>
+<span class="sd">        Parameters for the merge method.</span>
+<span class="sd">    :normalize: dict, optional</span>
+<span class="sd">        Parameters for the normalize method.</span>
+<span class="sd">    :resample: dict, optional</span>
+<span class="sd">        Parameters for the resample method.</span>
+<span class="sd">    :taper: dict, optional</span>
+<span class="sd">        Parameters for the taper method.</span>
+<span class="sd">    :select_networks: list, optional</span>
+<span class="sd">        List of networks to select (default is empty list).</span>
+<span class="sd">    :select_stations: list, optional</span>
+<span class="sd">        List of stations to select (default is empty list).</span>
+<span class="sd">    :filter_networks: list, optional</span>
+<span class="sd">        List of networks to filter out (default is empty list).</span>
+<span class="sd">    :filter_stations: list, optional</span>
+<span class="sd">        List of stations to filter out (default is empty list).</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">decimate</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">detrend</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="nb">filter</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">merge</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                  <span class="n">normalize</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">resample</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">taper</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -178,33 +217,6 @@
                  <span class="n">filter_networks</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">filter_stations</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Initializes processing steps for waveform data.</span>
-
-<span class="sd">        Parameters:</span>
-<span class="sd">        -----------</span>
-<span class="sd">        :order: list of str, optional</span>
-<span class="sd">            Order of preprocessing steps (default includes &#39;normalize&#39;, &#39;merge&#39;, etc.).</span>
-<span class="sd">        :decimate: dict, optional</span>
-<span class="sd">            Parameters for the decimate method.</span>
-<span class="sd">        :detrend: dict, optional</span>
-<span class="sd">            Parameters for the detrend method.</span>
-<span class="sd">        :filter: dict, optional</span>
-<span class="sd">            Parameters for the filter method.</span>
-<span class="sd">        :merge: dict, optional</span>
-<span class="sd">            Parameters for the merge method.</span>
-<span class="sd">        :normalize: dict, optional</span>
-<span class="sd">            Parameters for the normalize method.</span>
-<span class="sd">        :resample: dict, optional</span>
-<span class="sd">            Parameters for the resample method.</span>
-<span class="sd">        :taper: dict, optional</span>
-<span class="sd">            Parameters for the taper method.</span>
-<span class="sd">        :select_networks: list, optional</span>
-<span class="sd">            List of networks to select (default is empty list).</span>
-<span class="sd">        :select_stations: list, optional</span>
-<span class="sd">            List of stations to select (default is empty list).</span>
-<span class="sd">        :filter_networks: list, optional</span>
-<span class="sd">            List of networks to filter out (default is empty list).</span>
-<span class="sd">        :filter_stations: list, optional</span>
-<span class="sd">            List of stations to filter out (default is empty list).</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">order</span> <span class="o">=</span> <span class="n">order</span> <span class="ow">or</span> <span class="p">[</span><span class="s1">&#39;normalize&#39;</span><span class="p">,</span> <span class="s1">&#39;merge&#39;</span><span class="p">,</span> <span class="s1">&#39;detrend&#39;</span><span class="p">,</span> <span class="s1">&#39;taper&#39;</span><span class="p">,</span> <span class="s2">&quot;filter&quot;</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">decimate</span> <span class="o">=</span> <span class="n">decimate</span> <span class="ow">or</span> <span class="p">{</span><span class="s2">&quot;factor&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">}</span>
@@ -220,7 +232,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">filter_stations</span> <span class="o">=</span> <span class="n">filter_stations</span> <span class="ow">or</span> <span class="p">[]</span>
 
 <div class="viewcode-block" id="Processing.run">
-<a class="viewcode-back" href="../../../SeisMonitor.core.html#SeisMonitor.core.objects.Processing.run">[docs]</a>
+<a class="viewcode-back" href="../../../api/SeisMonitor.core.objects.html#SeisMonitor.core.objects.Processing.run">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">st</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Applies the defined processing steps to a given waveform stream.</span>

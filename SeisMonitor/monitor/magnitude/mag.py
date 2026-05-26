@@ -1,10 +1,34 @@
-# /**
-#  * @author [Emmanuel Castillo]
-#  * @email [excastillot@unal.edu.co]
-#  * @create date 2021-10-12 10:58:25
-#  * @modify date 2021-10-12 10:58:25
-#  * @desc [description]
-#  */
+"""
+Magnitude calculation utilities for local magnitude (Ml) and moment
+magnitude (Mw) estimation.
+
+This module provides tools for:
+
+* Selecting waveform streams according to channel/location preferences.
+* Calculating local magnitude (Ml).
+* Calculating moment magnitude (Mw).
+* Managing waveform retrieval and response selection.
+
+The implementation is based partially on:
+
+    https://github.com/krischer/moment_magnitude_calculator
+
+:author:
+    Emmanuel Castillo
+
+:copyright:
+    Lion Krischer (2012)
+
+:license:
+    Original concepts adapted from ObsPy-based implementations.
+
+Example
+-------
+>>> from obspy.core.event import read_events
+>>> catalog = read_events("catalog.xml")
+>>> magnitude = Magnitude(providers, catalog, "./output")
+"""
+
 ######## 
 # Moment magnitude adapted from 
 # https://github.com/krischer/moment_magnitude_calculator/tree/master/scripts
@@ -31,6 +55,24 @@ from SeisMonitor.utils import printlog
 from . import utils as ut
 
 class MwPhysicalMagParams():
+    """
+    Physical parameters used during Mw calculation.
+
+    Parameters
+    ----------
+    vp : float, optional
+        P-wave velocity in m/s.
+    vsp_factor : float, optional
+        Vp/Vs ratio.
+    density : float, optional
+        Density in kg/m³.
+    waterlevel : float, optional
+        Water level for deconvolution stabilization.
+    p_radiation_pattern : float, optional
+        Radiation pattern coefficient for P waves.
+    s_radiation_pattern : float, optional
+        Radiation pattern coefficient for S waves.
+    """
     def __init__(self,
                 vp=4800,
                 vsp_factor=1.73,
@@ -53,6 +95,22 @@ class MwProcessingMagParams():
                 padding = 40,
                 only_proc_p_pick=False,
                 only_proc_s_pick=False):
+        """
+        Processing parameters used during Mw estimation.
+
+        Parameters
+        ----------
+        time_before_pick : float, optional
+            Time before pick in seconds.
+        time_after_pick : float, optional
+            Time after pick in seconds.
+        padding : float, optional
+            Additional waveform padding in seconds.
+        only_proc_p_pick : bool, optional
+            Process only P-wave picks.
+        only_proc_s_pick : bool, optional
+            Process only S-wave picks.
+    """
         self.time_before_pick = time_before_pick
         self.time_after_pick = time_after_pick
         self.padding = padding
@@ -61,28 +119,32 @@ class MwProcessingMagParams():
 
 def get_st_according2preference(st,location_list,channel_list):
     """
-    Suppose that your preference_type is "location" and your 
-    location_list is ["00","20","10"], then this function first
-    filter the stream according to location and returns
-    a  new stream only with location "00", if no exist "00" will 
-    continue with the next preference "20", and otherwise, "10". 
-    After that, it is going to take new stream and it will go to 
-    filter according to channel_list preference if the new stream 
-    has more than one channel type ("HH or BH). 
+    Select a preferred stream according to location and channel priorities.
 
-    Parameters:
-    -----------
-    st: stream object
-        stream 
-    location_list: list
-        locations in order of the preference ["00","20","10"]
-    channel_list: list
-        channels in order of the preference ["HH","BH"]
+    The function filters streams first by location preference and then by
+    channel preference.
 
-    results:
-    --------
-    new_st : stream object
-        stream according to the preference
+    Parameters
+    ----------
+    st : obspy.Stream
+        Input waveform stream.
+    location_list : list of str
+        Preferred locations ordered by priority.
+    channel_list : list of str
+        Preferred channel codes ordered by priority.
+
+    Returns
+    -------
+    obspy.Stream or None
+        Filtered stream according to preferences.
+
+    Example
+    -------
+    >>> new_st = get_st_according2preference(
+    ...     st,
+    ...     ["00", "20"],
+    ...     ["HH", "BH"]
+    ... )
     """
     if (st == None) or (len(st)==0) :
         return None
@@ -152,17 +214,30 @@ def get_st_according2preference(st,location_list,channel_list):
     return new_st
 
 class Magnitude():
+    """
+    Magnitude calculator for seismic events.
+
+    Parameters
+    ----------
+    providers : list
+        List of waveform providers.
+    catalog : str or obspy.Catalog
+        Catalog object or path to QuakeML file.
+    out_dir : str
+        Output directory for generated magnitude files.
+    """
     def __init__(self,providers,catalog,out_dir) -> None:
+        """
+        Initialize the Magnitude calculator.
+        """
         # self.client = client
         # super().__init__(sds_archive,sds_type,format)
         # self.response = response
         self.providers = providers
-        print("Reading catalog... ")
         if isinstance(catalog,Catalog):
             self.catalog = catalog
         else:
             self.catalog = read_events(catalog)
-
         self.agency = self.catalog.creation_info.agency_id
         self.out_dir = out_dir
         self.xml_ml_out_file = os.path.join(out_dir,"Ml_magnitude.xml")    
@@ -174,9 +249,32 @@ class Magnitude():
                 padding=20,waterlevel=10,
                 zone=None,
                 out_format="QUAKEML"):
+        """
+        Calculate local magnitude (Ml) for all events.
+
+        Parameters
+        ----------
+        mag_type : str, optional
+            Magnitude relationship type.
+        trimmedtime : float, optional
+            Signal trimming window in seconds.
+        padding : float, optional
+            Waveform retrieval padding.
+        waterlevel : float, optional
+            Water level for response correction.
+        zone : str, optional
+            Regional magnitude zone.
+        out_format : str, optional
+            Output catalog format.
+
+        Returns
+        -------
+        obspy.Catalog
+            Updated catalog with Ml magnitudes.
+        """
+
         events_mag = []
         for n_ev,event in enumerate(self.catalog,1):
-            print(f"Event No. {n_ev}:",event.resource_id,f"from {len(self.catalog)} events")
 
             if not event.origins:
                 print ("No origin for event %s" % event.resource_id)
@@ -191,6 +289,7 @@ class Magnitude():
             latitude = ori_pref.latitude
             longitude = ori_pref.longitude
             depth = ori_pref.depth
+            print(f"Event No. {n_ev}/{len(self.catalog)}: ({origin_time}) ",event.resource_id)
             # depth = ori_pref.depth *1e3
 
             if latitude ==None or longitude==None:
@@ -270,7 +369,7 @@ class Magnitude():
 
                 staname = ".".join((stats.network, stats.station,
                               stats.location ,stats.channel[:2]+"*"))
-                print(f"\t-> Ml | {staname}-{pick.phase_hint.upper()} | {Ml}")
+                print(f"\t-> Ml | {staname}-{pick.phase_hint.upper()} | {Ml} (Amp: {ampl} m, Epi_dist: {round(epi_dist,2)} km)")
 
             with cf.ThreadPoolExecutor() as executor:
                 executor.map(_get_maginfo_by_station,event.picks)
@@ -311,6 +410,23 @@ class Magnitude():
 
     def get_Mw(self,physparams,procparams,
             out_format="QUAKEML"):
+        """
+        Calculate moment magnitude (Mw).
+
+        Parameters
+        ----------
+        physparams : MwPhysicalMagParams
+            Physical Mw parameters.
+        procparams : MwProcessingMagParams
+            Signal processing parameters.
+        out_format : str, optional
+            Output format.
+
+        Returns
+        -------
+        obspy.Catalog
+            Updated catalog with Mw magnitudes.
+        """
 
         Mws = []
         Mws_std = []
@@ -426,10 +542,21 @@ class Magnitude():
                                 padding=20.0,
                                 ):
         """
-        Helper function to find a requested waveform in the previously created
-        waveform_index file.
-        Also performs the instrument correction.
-        Returns None if the file could not be found.
+        Retrieve waveform stream corresponding to a pick.
+
+        Parameters
+        ----------
+        waveform_id : obspy.WaveformStreamID
+            Waveform identifier.
+        pick_time : obspy.UTCDateTime
+            Pick time.
+        padding : float, optional
+            Time padding around the pick.
+
+        Returns
+        -------
+        obspy.Stream or None
+            Retrieved waveform stream.
         """
         
         start = pick_time - padding
@@ -478,47 +605,47 @@ class Magnitude():
         
 
 
-if __name__ =="__main__":
-    import math
-    from obspy.clients.fdsn import Client
-    from obspy.core.inventory.inventory import read_inventory
-    client = 'http://sismo.sgc.gov.co:8080'
-    client = Client(client)
+# if __name__ =="__main__":
+#     import math
+#     from obspy.clients.fdsn import Client
+#     from obspy.core.inventory.inventory import read_inventory
+#     client = 'http://sismo.sgc.gov.co:8080'
+#     client = Client(client)
 
-    # catalog = "/home/emmanuel/EDCT/SeisMonitor/data/events/SGC2022knomqj.xml" #3.7
-    # catalog = "/home/emmanuel/EDCT/SeisMonitor/data/events/SGC2022cvykgs.xml"
-    catalog = "/home/emmanuel/EDCT/SeisMonitor/data/events/SGC2022kszqlt.xml" #2.2 143km
-    # catalog = "/home/emmanuel/EDCT/SeisMonitor/data/events/SGC2022ktsrvi.xml" #2 33km
-    # catalog = "/home/emmanuel/EDCT/SeisMonitor/data/events/SGC2022krnhiu.xml" #4.3
-    # catalog = "/home/emmanuel/EDCT/SeisMonitor/data/events/SGC2022kszqlt.xml" #2.9 103km
-    # resp = "/home/emmanuel/Ecopetrol/SeisMonitor/data/metadata/CM.dataless"
-    resp = "/home/emmanuel/EDCT/SeisMonitor/data/events/public_CM.xml"
-    resp = read_inventory(resp)
+#     # catalog = "/home/emmanuel/EDCT/SeisMonitor/data/events/SGC2022knomqj.xml" #3.7
+#     # catalog = "/home/emmanuel/EDCT/SeisMonitor/data/events/SGC2022cvykgs.xml"
+#     catalog = "/home/emmanuel/EDCT/SeisMonitor/data/events/SGC2022kszqlt.xml" #2.2 143km
+#     # catalog = "/home/emmanuel/EDCT/SeisMonitor/data/events/SGC2022ktsrvi.xml" #2 33km
+#     # catalog = "/home/emmanuel/EDCT/SeisMonitor/data/events/SGC2022krnhiu.xml" #4.3
+#     # catalog = "/home/emmanuel/EDCT/SeisMonitor/data/events/SGC2022kszqlt.xml" #2.9 103km
+#     # resp = "/home/emmanuel/Ecopetrol/SeisMonitor/data/metadata/CM.dataless"
+#     resp = "/home/emmanuel/EDCT/SeisMonitor/data/events/public_CM.xml"
+#     resp = read_inventory(resp)
     
-    out="./test_magnitude,xml"
-    mag = Magnitude(client,catalog,resp) 
+#     out="./test_magnitude,xml"
+#     mag = Magnitude(client,catalog,resp) 
 
-## prof
-    physparams = MwPhysicalMagParams(vp=8200,
-                            p_radiation_pattern=0.05,
-                            )
-    procparams = MwProcessingMagParams(
-                            time_before_pick = 2,
-                            time_after_pick = 15,
-                            only_proc_p_pick=True)
+# ## prof
+#     physparams = MwPhysicalMagParams(vp=8200,
+#                             p_radiation_pattern=0.05,
+#                             )
+#     procparams = MwProcessingMagParams(
+#                             time_before_pick = 2,
+#                             time_after_pick = 15,
+#                             only_proc_p_pick=True)
 
-## sup
-    # physparams = MwPhysicalMagParams(vp=4800,
-    #                         )
-    # procparams = MwProcessingMagParams(
-    #                         time_before_pick = 0.2,
-    #                         time_after_pick = 0.8,
-    #                         only_proc_p_pick=True)
-    # mag.get_Mw(physparams,procparams,out)
+# ## sup
+#     # physparams = MwPhysicalMagParams(vp=4800,
+#     #                         )
+#     # procparams = MwProcessingMagParams(
+#     #                         time_before_pick = 0.2,
+#     #                         time_after_pick = 0.8,
+#     #                         only_proc_p_pick=True)
+#     # mag.get_Mw(physparams,procparams,out)
 
-    # ml_params = {"a":1.019,"b":0.0016,"r_ref":140}
-    # k = ml_params["a"]*math.log10(ml_params["r_ref"]/100) +\
-    #         ml_params["b"]* (ml_params["r_ref"]-100) +3
-    # mt = lambda ampl,epi_dist: math.log10(ampl * 1000) + ml_params["a"] * math.log10(epi_dist/ml_params["r_ref"]) +\
-    #                     ml_params["b"] * (epi_dist-ml_params["r_ref"]) + k
-    mag.get_Ml(mag_type="RSNC")
+#     # ml_params = {"a":1.019,"b":0.0016,"r_ref":140}
+#     # k = ml_params["a"]*math.log10(ml_params["r_ref"]/100) +\
+#     #         ml_params["b"]* (ml_params["r_ref"]-100) +3
+#     # mt = lambda ampl,epi_dist: math.log10(ampl * 1000) + ml_params["a"] * math.log10(epi_dist/ml_params["r_ref"]) +\
+#     #                     ml_params["b"] * (epi_dist-ml_params["r_ref"]) + k
+#     mag.get_Ml(mag_type="RSNC")

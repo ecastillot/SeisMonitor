@@ -5,14 +5,15 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>SeisMonitor.core.utils &mdash; SeisMonitor 0.0.57 documentation</title>
+  <title>SeisMonitor.core.utils &mdash; SeisMonitor 0.0.58 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
-      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/custom.css?v=9f7e8617" />
 
   
       <script src="../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../_static/documentation_options.js?v=2bfb35b6"></script>
+      <script src="../../../_static/documentation_options.js?v=c3e19674"></script>
       <script src="../../../_static/doctools.js?v=9bcbadda"></script>
       <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/js/theme.js"></script>
@@ -28,8 +29,9 @@
 
           
           
-          <a href="../../../index.html" class="icon icon-home">
-            SeisMonitor
+          <a href="../../../index.html">
+            
+              <img src="../../../_static/seismonitor.PNG" class="logo" alt="Logo"/>
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
@@ -39,8 +41,16 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <!-- Local TOC -->
-              <div class="local-toc"></div>
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../home.html">Welcome to SeisMonitor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../quickstart.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../dataset.html">SeisMonitor in Colombia</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/index.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../authors.html">Authors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../contribution.html">Contributing</a></li>
+</ul>
+
         </div>
       </div>
     </nav>
@@ -86,7 +96,7 @@
 
 
 <div class="viewcode-block" id="add_aditional_origin_info">
-<a class="viewcode-back" href="../../../SeisMonitor.core.html#SeisMonitor.core.utils.add_aditional_origin_info">[docs]</a>
+<a class="viewcode-back" href="../../../api/SeisMonitor.core.objects.html#SeisMonitor.core.utils.add_aditional_origin_info">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">add_aditional_origin_info</span><span class="p">(</span><span class="n">origin</span><span class="p">,</span>
                 <span class="n">agency</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
                 <span class="n">region</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -139,7 +149,7 @@
 
 
 <div class="viewcode-block" id="add_aditional_event_info">
-<a class="viewcode-back" href="../../../SeisMonitor.core.html#SeisMonitor.core.utils.add_aditional_event_info">[docs]</a>
+<a class="viewcode-back" href="../../../api/SeisMonitor.core.objects.html#SeisMonitor.core.utils.add_aditional_event_info">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">add_aditional_event_info</span><span class="p">(</span><span class="n">event</span><span class="p">,</span>
                 <span class="n">agency</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
                 <span class="n">event_type</span> <span class="o">=</span> <span class="s2">&quot;earthquake&quot;</span><span class="p">,</span>
@@ -179,7 +189,7 @@
 
 
 <div class="viewcode-block" id="add_aditional_catalog_info">
-<a class="viewcode-back" href="../../../SeisMonitor.core.html#SeisMonitor.core.utils.add_aditional_catalog_info">[docs]</a>
+<a class="viewcode-back" href="../../../api/SeisMonitor.core.objects.html#SeisMonitor.core.utils.add_aditional_catalog_info">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">add_aditional_catalog_info</span><span class="p">(</span><span class="n">catalog</span><span class="p">,</span>
                 <span class="n">agency</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -207,7 +217,7 @@
 
 
 <div class="viewcode-block" id="preproc_stream">
-<a class="viewcode-back" href="../../../SeisMonitor.core.html#SeisMonitor.core.utils.preproc_stream">[docs]</a>
+<a class="viewcode-back" href="../../../api/SeisMonitor.core.objects.html#SeisMonitor.core.utils.preproc_stream">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">preproc_stream</span><span class="p">(</span><span class="n">st</span><span class="p">,</span>
                 <span class="n">order</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;normalize&#39;</span><span class="p">,</span><span class="s1">&#39;merge&#39;</span><span class="p">,</span><span class="s1">&#39;detrend&#39;</span><span class="p">,</span>
                         <span class="s1">&#39;taper&#39;</span><span class="p">,</span><span class="s2">&quot;filter&quot;</span><span class="p">],</span>
@@ -336,7 +346,7 @@
 
 
 <div class="viewcode-block" id="get_csv_events">
-<a class="viewcode-back" href="../../../SeisMonitor.core.html#SeisMonitor.core.utils.get_csv_events">[docs]</a>
+<a class="viewcode-back" href="../../../api/SeisMonitor.core.objects.html#SeisMonitor.core.utils.get_csv_events">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">get_csv_events</span><span class="p">(</span><span class="n">seiscomp_file</span><span class="p">,</span> <span class="n">version</span><span class="o">=</span><span class="s2">&quot;0.9&quot;</span><span class="p">,</span> <span class="n">with_magnitude</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> 
                     <span class="n">export</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> 
                     <span class="n">from_format</span><span class="o">=</span><span class="s2">&quot;SC3ML&quot;</span><span class="p">,</span> <span class="n">inside_polygon</span><span class="o">=</span><span class="kc">False</span> <span class="p">):</span>

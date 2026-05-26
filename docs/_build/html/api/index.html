@@ -1,0 +1,341 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>API Reference &mdash; SeisMonitor 0.0.58 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=6c90a955" />
+      <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=c3e19674"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Core" href="SeisMonitor.core.objects.html" />
+    <link rel="prev" title="SeisMonitor in Colombia" href="../dataset.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html">
+            
+              <img src="../_static/seismonitor.PNG" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../home.html">Welcome to SeisMonitor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quickstart.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dataset.html">SeisMonitor in Colombia</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">API Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="SeisMonitor.core.objects.html">Core</a></li>
+<li class="toctree-l2"><a class="reference internal" href="SeisMonitor.monitor.downloader.html">Downloader</a></li>
+<li class="toctree-l2"><a class="reference internal" href="SeisMonitor.monitor.picker.html">Picker</a></li>
+<li class="toctree-l2"><a class="reference internal" href="SeisMonitor.monitor.associator.html">Associator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="SeisMonitor.monitor.locator.nlloc.html">Nlloc</a></li>
+<li class="toctree-l2"><a class="reference internal" href="SeisMonitor.monitor.magnitude.html">Magnitude</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../authors.html">Authors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contribution.html">Contributing</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">SeisMonitor</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">API Reference</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/api/index.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="api-reference">
+<span id="api-section"></span><h1>API Reference<a class="headerlink" href="#api-reference" title="Link to this heading"></a></h1>
+<p>SeisMonitor provides tools for seismic monitoring workflows, including
+waveform handling, downloading, phase picking, association, event
+location, and magnitude estimation.</p>
+<div class="sd-container-fluid sd-sphinx-override sd-mb-4 docutils">
+<div class="sd-row sd-row-cols-2 sd-row-cols-xs-2 sd-row-cols-sm-2 sd-row-cols-md-2 sd-row-cols-lg-2 docutils">
+<div class="sd-col sd-d-flex-row docutils">
+<div class="sd-card sd-sphinx-override sd-w-100 sd-shadow-sm sd-card-hover docutils">
+<div class="sd-card-body docutils">
+<div class="sd-card-title sd-font-weight-bold docutils">
+Core</div>
+<p class="sd-card-text">Main objects.</p>
+</div>
+<a class="sd-stretched-link sd-hide-link-text reference internal" href="SeisMonitor.core.objects.html"><span class="doc">Core</span></a></div>
+</div>
+<div class="sd-col sd-d-flex-row docutils">
+<div class="sd-card sd-sphinx-override sd-w-100 sd-shadow-sm sd-card-hover docutils">
+<div class="sd-card-body docutils">
+<div class="sd-card-title sd-font-weight-bold docutils">
+Downloader</div>
+<p class="sd-card-text">Download waveform data from providers.</p>
+</div>
+<a class="sd-stretched-link sd-hide-link-text reference internal" href="SeisMonitor.monitor.downloader.html"><span class="doc">Downloader</span></a></div>
+</div>
+<div class="sd-col sd-d-flex-row docutils">
+<div class="sd-card sd-sphinx-override sd-w-100 sd-shadow-sm sd-card-hover docutils">
+<div class="sd-card-body docutils">
+<div class="sd-card-title sd-font-weight-bold docutils">
+Picker</div>
+<p class="sd-card-text">Automatic phase picking workflows.</p>
+</div>
+<a class="sd-stretched-link sd-hide-link-text reference internal" href="SeisMonitor.monitor.picker.html"><span class="doc">Picker</span></a></div>
+</div>
+<div class="sd-col sd-d-flex-row docutils">
+<div class="sd-card sd-sphinx-override sd-w-100 sd-shadow-sm sd-card-hover docutils">
+<div class="sd-card-body docutils">
+<div class="sd-card-title sd-font-weight-bold docutils">
+Associator</div>
+<p class="sd-card-text">Earthquake phase association tools.</p>
+</div>
+<a class="sd-stretched-link sd-hide-link-text reference internal" href="SeisMonitor.monitor.associator.html"><span class="doc">Associator</span></a></div>
+</div>
+<div class="sd-col sd-d-flex-row docutils">
+<div class="sd-card sd-sphinx-override sd-w-100 sd-shadow-sm sd-card-hover docutils">
+<div class="sd-card-body docutils">
+<div class="sd-card-title sd-font-weight-bold docutils">
+NonLinLoc Locator</div>
+<p class="sd-card-text">Earthquake location tools using NonLinLoc.</p>
+</div>
+<a class="sd-stretched-link sd-hide-link-text reference internal" href="SeisMonitor.monitor.locator.nlloc.html"><span class="doc">Nlloc</span></a></div>
+</div>
+<div class="sd-col sd-d-flex-row docutils">
+<div class="sd-card sd-sphinx-override sd-w-100 sd-shadow-sm sd-card-hover docutils">
+<div class="sd-card-body docutils">
+<div class="sd-card-title sd-font-weight-bold docutils">
+Magnitude</div>
+<p class="sd-card-text">Magnitude estimation methods.</p>
+</div>
+<a class="sd-stretched-link sd-hide-link-text reference internal" href="SeisMonitor.monitor.magnitude.html"><span class="doc">Magnitude</span></a></div>
+</div>
+</div>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="SeisMonitor.core.objects.html">Core</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="SeisMonitor.core.objects.html#module-SeisMonitor.core.objects">Objects</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="SeisMonitor.core.objects.html#SeisMonitor.core.objects.Processing"><code class="docutils literal notranslate"><span class="pre">Processing</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="SeisMonitor.core.objects.html#SeisMonitor.core.objects.Provider"><code class="docutils literal notranslate"><span class="pre">Provider</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="SeisMonitor.core.objects.html#SeisMonitor.core.objects.WaveformRestrictions"><code class="docutils literal notranslate"><span class="pre">WaveformRestrictions</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="SeisMonitor.core.objects.html#module-SeisMonitor.core.client">Clients</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="SeisMonitor.core.objects.html#SeisMonitor.core.client.LocalClient"><code class="docutils literal notranslate"><span class="pre">LocalClient</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="SeisMonitor.core.objects.html#module-SeisMonitor.core.utils">Utils</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="SeisMonitor.core.objects.html#SeisMonitor.core.utils.add_aditional_catalog_info"><code class="docutils literal notranslate"><span class="pre">add_aditional_catalog_info()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="SeisMonitor.core.objects.html#SeisMonitor.core.utils.add_aditional_event_info"><code class="docutils literal notranslate"><span class="pre">add_aditional_event_info()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="SeisMonitor.core.objects.html#SeisMonitor.core.utils.add_aditional_origin_info"><code class="docutils literal notranslate"><span class="pre">add_aditional_origin_info()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="SeisMonitor.core.objects.html#SeisMonitor.core.utils.get_csv_events"><code class="docutils literal notranslate"><span class="pre">get_csv_events()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="SeisMonitor.core.objects.html#SeisMonitor.core.utils.preproc_stream"><code class="docutils literal notranslate"><span class="pre">preproc_stream()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="SeisMonitor.monitor.downloader.html">Downloader</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="SeisMonitor.monitor.downloader.html#module-SeisMonitor.monitor.downloader.seismonitor">seismonitor</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="SeisMonitor.monitor.downloader.html#SeisMonitor.monitor.downloader.seismonitor.MseedDownloader"><code class="docutils literal notranslate"><span class="pre">MseedDownloader</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="SeisMonitor.monitor.downloader.html#module-SeisMonitor.monitor.downloader.utils">utils</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="SeisMonitor.monitor.downloader.html#SeisMonitor.monitor.downloader.utils.DownloadRestrictions"><code class="docutils literal notranslate"><span class="pre">DownloadRestrictions</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="SeisMonitor.monitor.downloader.html#SeisMonitor.monitor.downloader.utils.get_all_sdswaveforms"><code class="docutils literal notranslate"><span class="pre">get_all_sdswaveforms()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="SeisMonitor.monitor.downloader.html#SeisMonitor.monitor.downloader.utils.get_chunktimes"><code class="docutils literal notranslate"><span class="pre">get_chunktimes()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="SeisMonitor.monitor.downloader.html#SeisMonitor.monitor.downloader.utils.get_client_waveforms"><code class="docutils literal notranslate"><span class="pre">get_client_waveforms()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="SeisMonitor.monitor.downloader.html#SeisMonitor.monitor.downloader.utils.get_filenames"><code class="docutils literal notranslate"><span class="pre">get_filenames()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="SeisMonitor.monitor.downloader.html#SeisMonitor.monitor.downloader.utils.get_inv_and_json"><code class="docutils literal notranslate"><span class="pre">get_inv_and_json()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="SeisMonitor.monitor.downloader.html#SeisMonitor.monitor.downloader.utils.get_max_allowed_batch_size"><code class="docutils literal notranslate"><span class="pre">get_max_allowed_batch_size()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="SeisMonitor.monitor.downloader.html#SeisMonitor.monitor.downloader.utils.get_merged_inv_and_json"><code class="docutils literal notranslate"><span class="pre">get_merged_inv_and_json()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="SeisMonitor.monitor.downloader.html#SeisMonitor.monitor.downloader.utils.get_mseed_filename"><code class="docutils literal notranslate"><span class="pre">get_mseed_filename()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="SeisMonitor.monitor.downloader.html#SeisMonitor.monitor.downloader.utils.get_st_according2preference"><code class="docutils literal notranslate"><span class="pre">get_st_according2preference()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="SeisMonitor.monitor.downloader.html#SeisMonitor.monitor.downloader.utils.inside_the_polygon"><code class="docutils literal notranslate"><span class="pre">inside_the_polygon()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="SeisMonitor.monitor.downloader.html#SeisMonitor.monitor.downloader.utils.sanitize_provider_times"><code class="docutils literal notranslate"><span class="pre">sanitize_provider_times()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="SeisMonitor.monitor.downloader.html#SeisMonitor.monitor.downloader.utils.select_inventory"><code class="docutils literal notranslate"><span class="pre">select_inventory()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="SeisMonitor.monitor.downloader.html#SeisMonitor.monitor.downloader.utils.write_client_waveforms"><code class="docutils literal notranslate"><span class="pre">write_client_waveforms()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="SeisMonitor.monitor.downloader.html#SeisMonitor.monitor.downloader.utils.write_stream"><code class="docutils literal notranslate"><span class="pre">write_stream()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="SeisMonitor.monitor.picker.html">Picker</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="SeisMonitor.monitor.picker.html#module-SeisMonitor.monitor.picker.ai">ai</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="SeisMonitor.monitor.picker.html#SeisMonitor.monitor.picker.ai.EQTransformer"><code class="docutils literal notranslate"><span class="pre">EQTransformer</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="SeisMonitor.monitor.picker.html#SeisMonitor.monitor.picker.ai.EQTransformerObj"><code class="docutils literal notranslate"><span class="pre">EQTransformerObj</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="SeisMonitor.monitor.picker.html#SeisMonitor.monitor.picker.ai.PhaseNet"><code class="docutils literal notranslate"><span class="pre">PhaseNet</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="SeisMonitor.monitor.picker.html#SeisMonitor.monitor.picker.ai.PhaseNetObj"><code class="docutils literal notranslate"><span class="pre">PhaseNetObj</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="SeisMonitor.monitor.picker.html#module-SeisMonitor.monitor.picker.utils">utils</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="SeisMonitor.monitor.picker.html#SeisMonitor.monitor.picker.utils.clone_aipicker"><code class="docutils literal notranslate"><span class="pre">clone_aipicker()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="SeisMonitor.monitor.picker.html#SeisMonitor.monitor.picker.utils.create_datalist"><code class="docutils literal notranslate"><span class="pre">create_datalist()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="SeisMonitor.monitor.picker.html#SeisMonitor.monitor.picker.utils.eqt_picks_2_seismonitor_fmt"><code class="docutils literal notranslate"><span class="pre">eqt_picks_2_seismonitor_fmt()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="SeisMonitor.monitor.picker.html#SeisMonitor.monitor.picker.utils.get_filenames"><code class="docutils literal notranslate"><span class="pre">get_filenames()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="SeisMonitor.monitor.picker.html#SeisMonitor.monitor.picker.utils.get_pickframe"><code class="docutils literal notranslate"><span class="pre">get_pickframe()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="SeisMonitor.monitor.picker.html#SeisMonitor.monitor.picker.utils.get_picks"><code class="docutils literal notranslate"><span class="pre">get_picks()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="SeisMonitor.monitor.picker.html#SeisMonitor.monitor.picker.utils.id_maker"><code class="docutils literal notranslate"><span class="pre">id_maker()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="SeisMonitor.monitor.picker.html#SeisMonitor.monitor.picker.utils.make_dataframe"><code class="docutils literal notranslate"><span class="pre">make_dataframe()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="SeisMonitor.monitor.picker.html#SeisMonitor.monitor.picker.utils.make_phasenet_datalist"><code class="docutils literal notranslate"><span class="pre">make_phasenet_datalist()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="SeisMonitor.monitor.picker.html#SeisMonitor.monitor.picker.utils.merge_picks"><code class="docutils literal notranslate"><span class="pre">merge_picks()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="SeisMonitor.monitor.picker.html#SeisMonitor.monitor.picker.utils.mv_mseed2onefolder"><code class="docutils literal notranslate"><span class="pre">mv_mseed2onefolder()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="SeisMonitor.monitor.picker.html#SeisMonitor.monitor.picker.utils.mv_mseed2stationfolder"><code class="docutils literal notranslate"><span class="pre">mv_mseed2stationfolder()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="SeisMonitor.monitor.picker.html#SeisMonitor.monitor.picker.utils.phasenet_from_console"><code class="docutils literal notranslate"><span class="pre">phasenet_from_console()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="SeisMonitor.monitor.picker.html#SeisMonitor.monitor.picker.utils.pick_constructor"><code class="docutils literal notranslate"><span class="pre">pick_constructor()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="SeisMonitor.monitor.picker.html#SeisMonitor.monitor.picker.utils.picks2df"><code class="docutils literal notranslate"><span class="pre">picks2df()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="SeisMonitor.monitor.picker.html#SeisMonitor.monitor.picker.utils.rm_phasenet_duplicate_picks"><code class="docutils literal notranslate"><span class="pre">rm_phasenet_duplicate_picks()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="SeisMonitor.monitor.picker.html#SeisMonitor.monitor.picker.utils.sample2time"><code class="docutils literal notranslate"><span class="pre">sample2time()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="SeisMonitor.monitor.associator.html">Associator</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="SeisMonitor.monitor.associator.html#module-SeisMonitor.monitor.associator.ai">ai</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="SeisMonitor.monitor.associator.html#SeisMonitor.monitor.associator.ai.GaMMA"><code class="docutils literal notranslate"><span class="pre">GaMMA</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="SeisMonitor.monitor.associator.html#SeisMonitor.monitor.associator.ai.GaMMAObj"><code class="docutils literal notranslate"><span class="pre">GaMMAObj</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="SeisMonitor.monitor.associator.html#SeisMonitor.monitor.associator.ai.get_gamma_catalog"><code class="docutils literal notranslate"><span class="pre">get_gamma_catalog()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="SeisMonitor.monitor.associator.html#SeisMonitor.monitor.associator.ai.get_gamma_origin"><code class="docutils literal notranslate"><span class="pre">get_gamma_origin()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="SeisMonitor.monitor.associator.html#SeisMonitor.monitor.associator.ai.get_gamma_picks"><code class="docutils literal notranslate"><span class="pre">get_gamma_picks()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="SeisMonitor.monitor.associator.html#SeisMonitor.monitor.associator.ai.picks2arrivals"><code class="docutils literal notranslate"><span class="pre">picks2arrivals()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="SeisMonitor.monitor.associator.html#module-SeisMonitor.monitor.associator.utils">utils</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="SeisMonitor.monitor.associator.html#SeisMonitor.monitor.associator.utils.get_amplitudes_from_local_st"><code class="docutils literal notranslate"><span class="pre">get_amplitudes_from_local_st()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="SeisMonitor.monitor.associator.html#SeisMonitor.monitor.associator.utils.get_amplitudes_from_pick"><code class="docutils literal notranslate"><span class="pre">get_amplitudes_from_pick()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="SeisMonitor.monitor.associator.html#SeisMonitor.monitor.associator.utils.get_paz_from_response"><code class="docutils literal notranslate"><span class="pre">get_paz_from_response()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="SeisMonitor.monitor.associator.html#SeisMonitor.monitor.associator.utils.get_picks_gamma_df"><code class="docutils literal notranslate"><span class="pre">get_picks_gamma_df()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="SeisMonitor.monitor.associator.html#SeisMonitor.monitor.associator.utils.get_seismonitor_amplitudes"><code class="docutils literal notranslate"><span class="pre">get_seismonitor_amplitudes()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="SeisMonitor.monitor.associator.html#SeisMonitor.monitor.associator.utils.get_stations_gamma_df"><code class="docutils literal notranslate"><span class="pre">get_stations_gamma_df()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="SeisMonitor.monitor.associator.html#SeisMonitor.monitor.associator.utils.link"><code class="docutils literal notranslate"><span class="pre">link()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="SeisMonitor.monitor.associator.html#SeisMonitor.monitor.associator.utils.link_eqt_phases"><code class="docutils literal notranslate"><span class="pre">link_eqt_phases()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="SeisMonitor.monitor.associator.html#SeisMonitor.monitor.associator.utils.link_seismonitor_phases"><code class="docutils literal notranslate"><span class="pre">link_seismonitor_phases()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="SeisMonitor.monitor.associator.html#SeisMonitor.monitor.associator.utils.make_eqt_dirs"><code class="docutils literal notranslate"><span class="pre">make_eqt_dirs()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="SeisMonitor.monitor.associator.html#SeisMonitor.monitor.associator.utils.seismonitor_picks_to_eqt_fmt"><code class="docutils literal notranslate"><span class="pre">seismonitor_picks_to_eqt_fmt()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="SeisMonitor.monitor.locator.nlloc.html">Nlloc</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="SeisMonitor.monitor.locator.nlloc.html#id1">nlloc</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="SeisMonitor.monitor.locator.nlloc.html#SeisMonitor.monitor.locator.nlloc.nlloc.NLLoc"><code class="docutils literal notranslate"><span class="pre">NLLoc</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="SeisMonitor.monitor.locator.nlloc.html#module-SeisMonitor.monitor.locator.nlloc.utils">utils</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="SeisMonitor.monitor.locator.nlloc.html#SeisMonitor.monitor.locator.nlloc.utils.GenericControlStatement"><code class="docutils literal notranslate"><span class="pre">GenericControlStatement</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="SeisMonitor.monitor.locator.nlloc.html#SeisMonitor.monitor.locator.nlloc.utils.Grid2Time"><code class="docutils literal notranslate"><span class="pre">Grid2Time</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="SeisMonitor.monitor.locator.nlloc.html#SeisMonitor.monitor.locator.nlloc.utils.NLLocControlFile"><code class="docutils literal notranslate"><span class="pre">NLLocControlFile</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="SeisMonitor.monitor.locator.nlloc.html#SeisMonitor.monitor.locator.nlloc.utils.Time2Loc"><code class="docutils literal notranslate"><span class="pre">Time2Loc</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="SeisMonitor.monitor.locator.nlloc.html#SeisMonitor.monitor.locator.nlloc.utils.Vel2Grid"><code class="docutils literal notranslate"><span class="pre">Vel2Grid</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="SeisMonitor.monitor.locator.nlloc.html#SeisMonitor.monitor.locator.nlloc.utils.apt_install"><code class="docutils literal notranslate"><span class="pre">apt_install()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="SeisMonitor.monitor.locator.nlloc.html#SeisMonitor.monitor.locator.nlloc.utils.download_nlloc"><code class="docutils literal notranslate"><span class="pre">download_nlloc()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="SeisMonitor.monitor.locator.nlloc.html#SeisMonitor.monitor.locator.nlloc.utils.get_nlloc_folders"><code class="docutils literal notranslate"><span class="pre">get_nlloc_folders()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="SeisMonitor.monitor.locator.nlloc.html#SeisMonitor.monitor.locator.nlloc.utils.join_args"><code class="docutils literal notranslate"><span class="pre">join_args()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="SeisMonitor.monitor.locator.nlloc.html#SeisMonitor.monitor.locator.nlloc.utils.resp2df"><code class="docutils literal notranslate"><span class="pre">resp2df()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="SeisMonitor.monitor.locator.nlloc.html#SeisMonitor.monitor.locator.nlloc.utils.run_nlloc"><code class="docutils literal notranslate"><span class="pre">run_nlloc()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="SeisMonitor.monitor.locator.nlloc.html#SeisMonitor.monitor.locator.nlloc.utils.testing_nlloc_core_path"><code class="docutils literal notranslate"><span class="pre">testing_nlloc_core_path()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="SeisMonitor.monitor.locator.nlloc.html#SeisMonitor.monitor.locator.nlloc.utils.write_1d_vel_model"><code class="docutils literal notranslate"><span class="pre">write_1d_vel_model()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="SeisMonitor.monitor.locator.nlloc.html#SeisMonitor.monitor.locator.nlloc.utils.write_pref_origin_removing_phaselocinfo"><code class="docutils literal notranslate"><span class="pre">write_pref_origin_removing_phaselocinfo()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="SeisMonitor.monitor.locator.nlloc.html#SeisMonitor.monitor.locator.nlloc.utils.write_station_file"><code class="docutils literal notranslate"><span class="pre">write_station_file()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="SeisMonitor.monitor.magnitude.html">Magnitude</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="SeisMonitor.monitor.magnitude.html#module-SeisMonitor.monitor.magnitude.mag">mag module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="SeisMonitor.monitor.magnitude.html#SeisMonitor.monitor.magnitude.mag.Magnitude"><code class="docutils literal notranslate"><span class="pre">Magnitude</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="SeisMonitor.monitor.magnitude.html#SeisMonitor.monitor.magnitude.mag.MwPhysicalMagParams"><code class="docutils literal notranslate"><span class="pre">MwPhysicalMagParams</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="SeisMonitor.monitor.magnitude.html#SeisMonitor.monitor.magnitude.mag.MwProcessingMagParams"><code class="docutils literal notranslate"><span class="pre">MwProcessingMagParams</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="SeisMonitor.monitor.magnitude.html#SeisMonitor.monitor.magnitude.mag.get_st_according2preference"><code class="docutils literal notranslate"><span class="pre">get_st_according2preference()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="SeisMonitor.monitor.magnitude.html#module-SeisMonitor.monitor.magnitude.utils">utils module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="SeisMonitor.monitor.magnitude.html#SeisMonitor.monitor.magnitude.utils.Mw_st_processing"><code class="docutils literal notranslate"><span class="pre">Mw_st_processing()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="SeisMonitor.monitor.magnitude.html#SeisMonitor.monitor.magnitude.utils.calculate_source_spectrum"><code class="docutils literal notranslate"><span class="pre">calculate_source_spectrum()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="SeisMonitor.monitor.magnitude.html#SeisMonitor.monitor.magnitude.utils.fit_spectrum"><code class="docutils literal notranslate"><span class="pre">fit_spectrum()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="SeisMonitor.monitor.magnitude.html#SeisMonitor.monitor.magnitude.utils.get_M0_magnitude_by_pick"><code class="docutils literal notranslate"><span class="pre">get_M0_magnitude_by_pick()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="SeisMonitor.monitor.magnitude.html#SeisMonitor.monitor.magnitude.utils.get_Ml"><code class="docutils literal notranslate"><span class="pre">get_Ml()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="SeisMonitor.monitor.magnitude.html#SeisMonitor.monitor.magnitude.utils.get_Ml_magparams_by_station"><code class="docutils literal notranslate"><span class="pre">get_Ml_magparams_by_station()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="SeisMonitor.monitor.magnitude.html#SeisMonitor.monitor.magnitude.utils.get_paz_from_response"><code class="docutils literal notranslate"><span class="pre">get_paz_from_response()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="SeisMonitor.monitor.magnitude.html#SeisMonitor.monitor.magnitude.utils.write_amplitude_values"><code class="docutils literal notranslate"><span class="pre">write_amplitude_values()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="SeisMonitor.monitor.magnitude.html#SeisMonitor.monitor.magnitude.utils.write_magnitude_values"><code class="docutils literal notranslate"><span class="pre">write_magnitude_values()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="SeisMonitor.monitor.magnitude.html#SeisMonitor.monitor.magnitude.utils.write_magsta_values"><code class="docutils literal notranslate"><span class="pre">write_magsta_values()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../dataset.html" class="btn btn-neutral float-left" title="SeisMonitor in Colombia" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="SeisMonitor.core.objects.html" class="btn btn-neutral float-right" title="Core" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Emmanuel Castillo.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

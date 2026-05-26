@@ -25,7 +25,47 @@ from obspy.core.event.origin import Origin, OriginQuality, Arrival
 
 
 class GaMMAObj:
-    """GaMMA object for seismic event association and processing."""
+    """GaMMA object for seismic event association and processing.
+    
+    Parameters
+        ----------
+        region : list
+            List of [lon_min, lon_max, lat_min, lat_max, z_min, z_max]. 
+            z is depth in km.
+        epsg_proj : str
+            EPSG projection code.
+        use_dbscan : bool, default=True
+            Whether to use DBSCAN clustering.
+        use_amplitude : bool, default=True
+            Whether to use amplitude in processing.
+        dbscan_eps : float, default=10.0
+            DBSCAN epsilon parameter.
+        dbscan_min_samples : int, default=3
+            DBSCAN minimum samples parameter.
+        vel : dict, default={"p": 7.0, "s": 7.0 / 1.75}
+            Average velocity model with P and S wave velocities.
+        method : str, default="BGMM"
+            Association method.
+        oversample_factor : int, default=20
+            Oversampling factor for processing.
+        min_picks_per_eq : int, default=5
+            Minimum picks per earthquake.
+        max_sigma11 : float, default=2.0
+            Maximum sigma for x-x uncertainty.
+        max_sigma22 : float, default=1.0
+            Maximum sigma for y-y uncertainty.
+        max_sigma12 : float, default=1.0
+            Maximum sigma for x-y uncertainty.
+        calculate_amp : bool, default=True
+            Whether to calculate amplitudes.
+        p_window : int, default=10
+            P-wave window length.
+        s_window : int, default=5
+            S-wave window length.
+        waterlevel : int, default=10
+            Waterlevel for amplitude calculation.
+    
+    """
     
     def __init__(
         self,
@@ -47,27 +87,7 @@ class GaMMAObj:
         s_window=5,
         waterlevel=10
     ):
-        """Initialize GaMMAObj with configuration parameters.
-        
-        Args:
-            region (list): List of [lon_min, lon_max, lat_min, lat_max, z_min, z_max]. z is depth in km.
-            epsg_proj (str): EPSG projection code
-            use_dbscan (bool): Whether to use DBSCAN clustering
-            use_amplitude (bool): Whether to use amplitude in processing
-            dbscan_eps (float): DBSCAN epsilon parameter
-            dbscan_min_samples (int): DBSCAN minimum samples parameter
-            vel (dict): Average velocity model with P and S wave velocities
-            method (str): Association method (default: "BGMM")
-            oversample_factor (int): Oversampling factor for processing
-            min_picks_per_eq (int): Minimum picks per earthquake
-            max_sigma11 (float): Maximum sigma for x-x uncertainty
-            max_sigma22 (float): Maximum sigma for y-y uncertainty
-            max_sigma12 (float): Maximum sigma for x-y uncertainty
-            calculate_amp (bool): Whether to calculate amplitudes
-            p_window (int): P-wave window length
-            s_window (int): S-wave window length
-            waterlevel (int): Waterlevel for amplitude calculation
-        """
+        """Initialize GaMMAObj with configuration parameters."""
         self.lon_lims = region[0:2]
         self.lat_lims = region[2:4]
         self.z_lims = region[4:]
@@ -268,7 +288,7 @@ def get_gamma_origin(catalog_info, event_picks, in_proj="EPSG:3116", out_proj="E
         longitude_errors=QuantityError(),
         latitude=lat,
         latitude_errors=QuantityError(),
-        depth=catalog_info["z(km)"],
+        depth=catalog_info["z(km)"]*1e3,
         depth_errors=QuantityError(),
         method_id=ResourceIdentifier(id="GaMMA"),
         arrivals=picks2arrivals(event_picks),
@@ -331,14 +351,14 @@ def get_gamma_catalog(picks_df, catalog_df, in_proj, out_proj):
 
 
 class GaMMA:
-    """Main GaMMA class for seismic event association."""
+    """Main GaMMA class for seismic event association.
+    
+    Args:
+        gamma_obj (GaMMAObj): GaMMAObj instance with configuration
+    """
     
     def __init__(self, gamma_obj):
-        """Initialize GaMMA with a GaMMAObj.
-        
-        Args:
-            gamma_obj (GaMMAObj): GaMMAObj instance with configuration
-        """
+        """Initialize GaMMA with a GaMMAObj."""
         self.gamma_obj = gamma_obj
 
     def associate(self, picks_csv, xml_path, out_dir):

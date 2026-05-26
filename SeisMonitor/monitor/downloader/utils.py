@@ -1,9 +1,16 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 """
-Created on Fri Nov 12 20:00:00 2020
-@author: Emmanuel_Castillo
-last update: 14-11-2020 
+Utility functions for seismic waveform downloading and inventory handling.
+
+This module provides helper classes and functions used for:
+
+* Waveform downloading
+* MiniSEED file management
+* Inventory filtering
+* Station metadata extraction
+* Stream preference selection
+* Chunked time-window generation
+
+The implementation is designed for ObsPy-based workflows.
 """
 import os
 import json
@@ -18,7 +25,55 @@ from obspy.clients.fdsn.mass_downloader.domain import RectangularDomain
 
 
 class DownloadRestrictions:
-    """Class defining restrictions for downloading seismic data."""
+    """
+    Container class defining waveform download restrictions.
+
+    Parameters
+    ----------
+    mseed_storage : str
+        MiniSEED output path template.
+
+    chunklength_in_sec : int, optional
+        Length of each download chunk in seconds.
+
+    threshold : int, default=60
+        Minimum waveform duration threshold in seconds.
+
+    overlap_in_sec : int, default=0
+        Chunk overlap in seconds.
+
+    picker_args : dict, optional
+        Picker configuration dictionary.
+
+    groupby : str, default="{network}.{station}.{channel}"
+        Grouping rule for traces.
+
+    n_processor : int, optional
+        Number of parallel workers.
+
+    Attributes
+    ----------
+    mseed_storage : str
+        MiniSEED output path template.
+
+    chunklength_in_sec : int or None
+        Chunk duration in seconds.
+
+    threshold : int
+        Minimum waveform duration threshold.
+
+    overlap_in_sec : int
+        Overlap between chunks.
+
+    picker_args : dict
+        Picker configuration.
+
+    groupby : str
+        Trace grouping rule.
+
+    n_processor : int or None
+        Number of parallel workers.
+    """
     
     def __init__(
         self,
@@ -28,18 +83,9 @@ class DownloadRestrictions:
         overlap_in_sec=0,
         picker_args={},
         groupby='{network}.{station}.{channel}',
-        n_processor=None
-    ):
-        """Initialize DownloadRestrictions with download parameters.
-        
-        Args:
-            mseed_storage (str): Path template for waveform storage
-            chunklength_in_sec (int, optional): Length of each time chunk in seconds
-            threshold (int): Minimum length in seconds for download
-            overlap_in_sec (int): Overlap between chunks in seconds
-            picker_args (dict): Picker parameters (batch_size, overlap, length)
-            groupby (str): Grouping pattern for traces
-            n_processor (int, optional): Number of parallel processors
+        n_processor=None):
+        """
+        Initialize download restrictions.
         """
         self.mseed_storage = mseed_storage
         self.chunklength_in_sec = chunklength_in_sec
@@ -51,16 +97,23 @@ class DownloadRestrictions:
 
 
 def sanitize_provider_times(providers):
-    """Ensure all providers have the same time interval.
-    
-    Args:
-        providers (list): List of provider objects
-        
-    Returns:
-        list: Sanitized providers list
-        
-    Raises:
-        Exception: If providers have different time intervals
+    """
+    Ensure all providers share the same time interval.
+
+    Parameters
+    ----------
+    providers : list
+        Provider list.
+
+    Returns
+    -------
+    list
+        Validated provider list.
+
+    Raises
+    ------
+    ValueError
+        If providers use different time intervals.
     """
     provider_times = [(p.waveform_restrictions.starttime,
                       p.waveform_restrictions.endtime) for p in providers]
@@ -70,15 +123,22 @@ def sanitize_provider_times(providers):
 
 
 def get_max_allowed_batch_size(data_length, segment_length, overlap):
-    """Calculate maximum allowed batch size for given parameters.
-    
-    Args:
-        data_length (float): Length of data in seconds
-        segment_length (float): Length of each batch segment in seconds
-        overlap (float): Overlap fraction (0-1)
-        
-    Returns:
-        int: Maximum batch size
+    """
+    Compute the maximum valid batch size.
+
+    Parameters
+    ----------
+    data_length : float
+        Total waveform duration in seconds.
+    segment_length : float
+        Segment duration in seconds.
+    overlap : float
+        Fractional overlap between segments.
+
+    Returns
+    -------
+    int
+        Maximum allowed batch size.
     """
     max_batch_size = (data_length - (overlap * segment_length)) / (segment_length * (1 - overlap))
     max_batch_size = int(max_batch_size)
@@ -86,14 +146,24 @@ def get_max_allowed_batch_size(data_length, segment_length, overlap):
 
 
 def write_stream(st, mseed_storage, threshold=None, picker_args={}, ppc_and_comment=[False, ""]):
-    """Write seismic stream to file with restrictions.
-    
-    Args:
-        st (Stream): Obspy Stream object to write
-        mseed_storage (str): Path template for storage
-        threshold (int, optional): Minimum length threshold in seconds
-        picker_args (dict): Picker parameters (batch_size, overlap, length)
-        ppc_and_comment (list): [preprocessed_flag, comment]
+    """
+    Write a waveform stream to MiniSEED format.
+
+    Parameters
+    ----------
+    st : Stream
+        ObsPy stream object.
+    mseed_storage : str
+        Output storage template.
+    threshold : int, optional
+        Minimum waveform duration threshold.
+    picker_args : dict, optional
+        Picker validation parameters.
+    ppc_and_comment : sequence, optional
+        Tuple/list containing:
+
+        * Preprocessed flag
+        * Log comment
     """
     ppc, comment = ppc_and_comment
     tr = st[0]
@@ -134,18 +204,27 @@ def write_stream(st, mseed_storage, threshold=None, picker_args={}, ppc_and_comm
 
 
 def get_mseed_filename(_str, tr, ppc=False):
-    """Generate MSEED filename from template and trace info.
-    
-    Args:
-        _str (str): Path template with wildcards
-        tr (Trace): Obspy Trace object
-        ppc (bool): Flag for preprocessed data
-        
-    Returns:
-        str: Generated filename
-        
-    Raises:
-        TypeError: If resulting path is not a string
+    """
+    Generate a MiniSEED filename from a template.
+
+    Parameters
+    ----------
+    template : str
+        Output path template.
+    trace : Trace
+        ObsPy trace object.
+    ppc : bool, default=False
+        Append preprocessing suffix.
+
+    Returns
+    -------
+    str
+        Generated file path.
+
+    Raises
+    ------
+    TypeError
+        If the generated path is invalid.
     """
     strftime = "%Y%m%dT%H%M%SZ"
     params = {
@@ -170,19 +249,29 @@ def get_mseed_filename(_str, tr, ppc=False):
 
 
 def get_chunktimes(starttime, endtime, chunklength_in_sec, overlap_in_sec=0):
-    """Generate list of chunk time intervals.
-    
-    Args:
-        starttime (UTCDateTime): Start time
-        endtime (UTCDateTime): End time
-        chunklength_in_sec (int): Chunk length in seconds
-        overlap_in_sec (int): Overlap in seconds
-        
-    Returns:
-        list: List of (start, end) time tuples
-        
-    Raises:
-        Exception: If chunklength_in_sec is 0
+    """
+    Generate chunked time intervals.
+
+    Parameters
+    ----------
+    starttime : UTCDateTime
+        Start time.
+    endtime : UTCDateTime
+        End time.
+    chunklength_in_sec : int, optional
+        Chunk duration in seconds.
+    overlap_in_sec : int, optional
+        Chunk overlap in seconds.
+
+    Returns
+    -------
+    list
+        List of ``(starttime, endtime)`` tuples.
+
+    Raises
+    ------
+    ValueError
+        If ``chunklength_in_sec`` equals zero.
     """
     if chunklength_in_sec == 0:
         raise Exception("chunklength_in_sec must be different than 0")
@@ -218,19 +307,19 @@ def get_st_according2preference(st,location_list,channel_list):
     filter according to channel_list preference if the new stream 
     has more than one channel type ("HH or BH). 
  
-    Parameters:
-    -----------
-    st: stream object
-        stream 
-    location_list: list
-        locations in order of the preference ["00","20","10"]
-    channel_list: list
-        channels in order of the preference ["HH","BH"]
- 
-    results:
-    --------
-    new_st : stream object
-        stream according to the preference
+    Parameters
+    ----------
+    st : Stream
+        ObsPy stream object.
+    location_list : list
+        Preferred locations ordered by priority.
+    channel_list : list
+        Preferred channel prefixes ordered by priority.
+
+    Returns
+    -------
+    Stream
+        Filtered stream.
     """
     logger =logging.getLogger(f'Downloader: preference')
     if len(st) >= 1000:
@@ -309,19 +398,38 @@ def get_st_according2preference(st,location_list,channel_list):
 
 
 def get_filenames(mseed, filter_net=[], filter_sta=[], filter_cha=[]):
-    """Get MSEED filenames with filtering.
-    
-    Args:
-        mseed (str): Directory path
-        filter_net (list): Networks to exclude
-        filter_sta (list): Stations to exclude
-        filter_cha (list): Channels to include (if specified)
-        
-    Returns:
-        list: Filtered filenames
-        
-    Raises:
-        Exception: If filter parameters are not lists
+    """
+    Retrieve MiniSEED filenames with optional filtering.
+
+    Parameters
+    ----------
+    mseed : str
+        Directory containing MiniSEED files.
+
+    filter_net : list of str, optional
+        Network codes to exclude.
+
+    filter_sta : list of str, optional
+        Station codes to exclude.
+
+    filter_cha : list of str, optional
+        Channel codes to include.
+
+    Returns
+    -------
+    list of str
+        Filtered MiniSEED filenames.
+
+    Raises
+    ------
+    TypeError
+        If any filter parameter is not a list.
+
+    Examples
+    --------
+    >>> files = get_filenames("/data/mseed")
+    >>> isinstance(files, list)
+    True
     """
     for filter_param in (filter_net, filter_sta, filter_cha):
         if not isinstance(filter_param, list):
@@ -340,14 +448,35 @@ def get_filenames(mseed, filter_net=[], filter_sta=[], filter_cha=[]):
 
 
 def get_all_sdswaveforms(client, **kwargs):
-    """Get waveforms from client with multiple parameters.
-    
-    Args:
-        client (Client): Obspy client
-        ``**kwargs``: network, station, location, channel, starttime, endtime
-        
-    Returns:
-        Stream: Combined waveforms
+    """
+    Download waveforms for multiple parameter combinations.
+
+    Parameters
+    ----------
+    client : Client
+        ObsPy-compatible client instance.
+
+    **kwargs : dict
+        Waveform request parameters. Expected keys include:
+
+        * ``network``
+        * ``station``
+        * ``location``
+        * ``channel``
+        * ``starttime``
+        * ``endtime``
+
+        Comma-separated values are automatically expanded.
+
+    Returns
+    -------
+    Stream
+        Combined waveform stream.
+
+    Notes
+    -----
+    Each combination of network, station, location, and channel
+    is requested independently.
     """
     args = {k: v.split(",") if k in ("network", "station", "location", "channel") else v
             for k, v in kwargs.items()}
@@ -371,19 +500,36 @@ def get_all_sdswaveforms(client, **kwargs):
 
 
 def select_inventory(inv, network, station, location, channel, starttime, endtime):
-    """Filter inventory based on specified criteria.
-    
-    Args:
-        inv (Inventory): Input inventory
-        network (str): Comma-separated network codes
-        station (str): Comma-separated station codes
-        location (str): Comma-separated location codes
-        channel (str): Comma-separated channel codes
-        starttime (UTCDateTime): Start time filter
-        endtime (UTCDateTime): End time filter
-        
-    Returns:
-        Inventory: Filtered inventory
+    """
+    Filter an inventory using waveform selection criteria.
+
+    Parameters
+    ----------
+    inventory : Inventory
+        Input ObsPy inventory.
+
+    network : str
+        Comma-separated network codes.
+
+    station : str
+        Comma-separated station codes.
+
+    location : str
+        Comma-separated location codes.
+
+    channel : str
+        Comma-separated channel codes.
+
+    starttime : UTCDateTime
+        Selection start time.
+
+    endtime : UTCDateTime
+        Selection end time.
+
+    Returns
+    -------
+    Inventory
+        Filtered inventory object.
     """
     networks, stations, locations, channels = (
         network.split(','), station.split(','), 
@@ -409,16 +555,38 @@ def select_inventory(inv, network, station, location, channel, starttime, endtim
 
 
 def get_client_waveforms(client, bulk, waveform_restrictions, processing):
-    """Get and process waveforms from client.
-    
-    Args:
-        client (Client): Obspy client
-        bulk (tuple): (net, sta, loc, cha, start, end)
-        waveform_restrictions: Waveform restrictions object
-        processing: Processing object or None
-        
-    Returns:
-        tuple: (Stream, preprocessed_flag, comment)
+    """
+    Retrieve and optionally process waveform data.
+
+    Parameters
+    ----------
+    client : Client
+        ObsPy-compatible waveform client.
+
+    bulk : tuple
+        Waveform request tuple containing:
+
+        * Network
+        * Station
+        * Location
+        * Channel
+        * Starttime
+        * Endtime
+
+    waveform_restrictions : object
+        Waveform restriction configuration.
+
+    processing : object, optional
+        Processing pipeline object.
+
+    Returns
+    -------
+    tuple
+        Tuple containing:
+
+        * Stream
+        * Preprocessed flag
+        * Comment string
     """
     strftime = "%Y%m%dT%H%M%SZ"
     net, sta, loc, cha, starttime, endtime = bulk
@@ -444,14 +612,25 @@ def get_client_waveforms(client, bulk, waveform_restrictions, processing):
 
 
 def write_client_waveforms(client, bulk, waveform_restrictions, download_restrictions, processing):
-    """Get and write waveforms to file.
-    
-    Args:
-        client (Client): Obspy client
-        bulk (tuple): (net, sta, loc, cha, start, end)
-        waveform_restrictions: Waveform restrictions object
-        download_restrictions (DownloadRestrictions): Download parameters
-        processing: Processing object or None
+    """
+    Download and write waveform data to MiniSEED files.
+
+    Parameters
+    ----------
+    client : Client
+        ObsPy-compatible client.
+
+    bulk : tuple
+        Waveform request tuple.
+
+    waveform_restrictions : object
+        Waveform restriction configuration.
+
+    download_restrictions : DownloadRestrictions
+        Download restriction configuration.
+
+    processing : object, optional
+        Processing pipeline.
     """
     st, ppc, comment = get_client_waveforms(client, bulk, waveform_restrictions, processing)
     st_dict = st._groupby(download_restrictions.groupby)
@@ -466,13 +645,23 @@ def write_client_waveforms(client, bulk, waveform_restrictions, download_restric
 
 
 def get_merged_inv_and_json(providers):
-    """Merge inventory and JSON info from providers.
-    
-    Args:
-        providers (list): List of provider objects
-        
-    Returns:
-        tuple: (Inventory, dict, list, list) - inventory, JSON info, updated providers, stations outside domains
+    """
+    Merge inventories and station metadata from providers.
+
+    Parameters
+    ----------
+    providers : list
+        List of provider objects.
+
+    Returns
+    -------
+    tuple
+        Tuple containing:
+
+        * Merged inventory
+        * Station metadata dictionary
+        * Updated providers
+        * Stations outside requested domains
     """
     json_info = {}
     stations_outside_domains = []
@@ -520,14 +709,21 @@ def get_merged_inv_and_json(providers):
 
 
 def inside_the_polygon(p, pol_points):
-    """Check if a point is inside a polygon.
-    
-    Args:
-        p (tuple): Point coordinates (lon, lat)
-        pol_points (list): List of polygon points (lon, lat)
-        
-    Returns:
-        bool: True if point is inside polygon
+    """
+    Determine whether a point lies inside a polygon.
+
+    Parameters
+    ----------
+    point : tuple
+        Point coordinates ``(longitude, latitude)``.
+
+    polygon_points : list of tuple
+        Polygon vertices.
+
+    Returns
+    -------
+    bool
+        ``True`` if the point is inside the polygon.
     """
     V = tuple(pol_points) + (pol_points[0],)
     cn = 0
@@ -540,16 +736,33 @@ def inside_the_polygon(p, pol_points):
 
 
 def get_inv_and_json(inventory, filter_networks=[], filter_stations=[], filter_domain=[-180, 180, -90, 90]):
-    """Generate inventory and JSON info with filtering.
-    
-    Args:
-        inventory (Inventory): Input inventory
-        filter_networks (list): Networks to exclude
-        filter_stations (list): Stations to exclude
-        filter_domain (list): [minlon, maxlon, minlat, maxlat]
-        
-    Returns:
-        tuple: (Inventory, dict, list) - filtered inventory, station info, stations outside domain
+    """
+    Filter an inventory and generate station metadata.
+
+    Parameters
+    ----------
+    inventory : Inventory
+        ObsPy inventory object.
+
+    filter_networks : list of str, optional
+        Networks to exclude.
+
+    filter_stations : list of str, optional
+        Stations to exclude.
+
+    filter_domain : list of float, optional
+        Geographic domain defined as:
+
+        ``[minlon, maxlon, minlat, maxlat]``
+
+    Returns
+    -------
+    tuple
+        Tuple containing:
+
+        * Filtered inventory
+        * Station metadata dictionary
+        * Stations outside domain
     """
     if not filter_domain:
         filter_domain = [-180, 180, -90, 90]
@@ -598,9 +811,9 @@ def get_inv_and_json(inventory, filter_networks=[], filter_stations=[], filter_d
     logger.info(str(toprint) + ' ok')
     return inventory, station_list, stations_outside_domain
 
-if __name__ == "__main__":
-    from obspy.clients.fdsn import Client as FDSN_Client
-    from obspy.core.utcdatetime import UTCDateTime
+# if __name__ == "__main__":
+#     from obspy.clients.fdsn import Client as FDSN_Client
+#     from obspy.core.utcdatetime import UTCDateTime
     # from .restrictions import PreprocRestrictions
 
     # IRIS_client = FDSN_Client(base_url="IRIS", user='gaprietogo@unal.edu.co',password="DaCgmn3hNjg")

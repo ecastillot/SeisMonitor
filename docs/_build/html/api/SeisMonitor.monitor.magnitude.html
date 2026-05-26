@@ -1,0 +1,558 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Magnitude &mdash; SeisMonitor 0.0.58 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=6c90a955" />
+      <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=c3e19674"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Authors" href="../authors.html" />
+    <link rel="prev" title="Nlloc" href="SeisMonitor.monitor.locator.nlloc.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html">
+            
+              <img src="../_static/seismonitor.PNG" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../home.html">Welcome to SeisMonitor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quickstart.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dataset.html">SeisMonitor in Colombia</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">API Reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="SeisMonitor.core.objects.html">Core</a></li>
+<li class="toctree-l2"><a class="reference internal" href="SeisMonitor.monitor.downloader.html">Downloader</a></li>
+<li class="toctree-l2"><a class="reference internal" href="SeisMonitor.monitor.picker.html">Picker</a></li>
+<li class="toctree-l2"><a class="reference internal" href="SeisMonitor.monitor.associator.html">Associator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="SeisMonitor.monitor.locator.nlloc.html">Nlloc</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Magnitude</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#module-SeisMonitor.monitor.magnitude.mag">mag module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#SeisMonitor.monitor.magnitude.mag.Magnitude"><code class="docutils literal notranslate"><span class="pre">Magnitude</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#SeisMonitor.monitor.magnitude.mag.MwPhysicalMagParams"><code class="docutils literal notranslate"><span class="pre">MwPhysicalMagParams</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#SeisMonitor.monitor.magnitude.mag.MwProcessingMagParams"><code class="docutils literal notranslate"><span class="pre">MwProcessingMagParams</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#SeisMonitor.monitor.magnitude.mag.get_st_according2preference"><code class="docutils literal notranslate"><span class="pre">get_st_according2preference()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-SeisMonitor.monitor.magnitude.utils">utils module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#SeisMonitor.monitor.magnitude.utils.Mw_st_processing"><code class="docutils literal notranslate"><span class="pre">Mw_st_processing()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#SeisMonitor.monitor.magnitude.utils.calculate_source_spectrum"><code class="docutils literal notranslate"><span class="pre">calculate_source_spectrum()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#SeisMonitor.monitor.magnitude.utils.fit_spectrum"><code class="docutils literal notranslate"><span class="pre">fit_spectrum()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#SeisMonitor.monitor.magnitude.utils.get_M0_magnitude_by_pick"><code class="docutils literal notranslate"><span class="pre">get_M0_magnitude_by_pick()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#SeisMonitor.monitor.magnitude.utils.get_Ml"><code class="docutils literal notranslate"><span class="pre">get_Ml()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#SeisMonitor.monitor.magnitude.utils.get_Ml_magparams_by_station"><code class="docutils literal notranslate"><span class="pre">get_Ml_magparams_by_station()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#SeisMonitor.monitor.magnitude.utils.get_paz_from_response"><code class="docutils literal notranslate"><span class="pre">get_paz_from_response()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#SeisMonitor.monitor.magnitude.utils.write_amplitude_values"><code class="docutils literal notranslate"><span class="pre">write_amplitude_values()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#SeisMonitor.monitor.magnitude.utils.write_magnitude_values"><code class="docutils literal notranslate"><span class="pre">write_magnitude_values()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#SeisMonitor.monitor.magnitude.utils.write_magsta_values"><code class="docutils literal notranslate"><span class="pre">write_magsta_values()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../authors.html">Authors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contribution.html">Contributing</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">SeisMonitor</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">API Reference</a></li>
+      <li class="breadcrumb-item active">Magnitude</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/api/SeisMonitor.monitor.magnitude.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="magnitude">
+<h1>Magnitude<a class="headerlink" href="#magnitude" title="Link to this heading"></a></h1>
+<p>Magnitude estimation methods.</p>
+<section id="module-SeisMonitor.monitor.magnitude.mag">
+<span id="mag-module"></span><h2>mag module<a class="headerlink" href="#module-SeisMonitor.monitor.magnitude.mag" title="Link to this heading"></a></h2>
+<p>Magnitude calculation utilities for local magnitude (Ml) and moment
+magnitude (Mw) estimation.</p>
+<p>This module provides tools for:</p>
+<ul class="simple">
+<li><p>Selecting waveform streams according to channel/location preferences.</p></li>
+<li><p>Calculating local magnitude (Ml).</p></li>
+<li><p>Calculating moment magnitude (Mw).</p></li>
+<li><p>Managing waveform retrieval and response selection.</p></li>
+</ul>
+<p>The implementation is based partially on:</p>
+<blockquote>
+<div><p><a class="reference external" href="https://github.com/krischer/moment_magnitude_calculator">https://github.com/krischer/moment_magnitude_calculator</a></p>
+</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">author<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Emmanuel Castillo</p>
+</dd>
+<dt class="field-even">copyright<span class="colon">:</span></dt>
+<dd class="field-even"><p>Lion Krischer (2012)</p>
+</dd>
+<dt class="field-odd">license<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Original concepts adapted from ObsPy-based implementations.</p>
+</dd>
+</dl>
+<p class="rubric">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">obspy.core.event</span><span class="w"> </span><span class="kn">import</span> <span class="n">read_events</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">catalog</span> <span class="o">=</span> <span class="n">read_events</span><span class="p">(</span><span class="s2">&quot;catalog.xml&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">magnitude</span> <span class="o">=</span> <span class="n">Magnitude</span><span class="p">(</span><span class="n">providers</span><span class="p">,</span> <span class="n">catalog</span><span class="p">,</span> <span class="s2">&quot;./output&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="py class">
+<dt class="sig sig-object py" id="SeisMonitor.monitor.magnitude.mag.Magnitude">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">SeisMonitor.monitor.magnitude.mag.</span></span><span class="sig-name descname"><span class="pre">Magnitude</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">providers</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">catalog</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">out_dir</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/SeisMonitor/monitor/magnitude/mag.html#Magnitude"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SeisMonitor.monitor.magnitude.mag.Magnitude" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Magnitude calculator for seismic events.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>providers</strong> (<em>list</em>) – List of waveform providers.</p></li>
+<li><p><strong>catalog</strong> (<em>str</em><em> or </em><em>obspy.Catalog</em>) – Catalog object or path to QuakeML file.</p></li>
+<li><p><strong>out_dir</strong> (<em>str</em>) – Output directory for generated magnitude files.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="SeisMonitor.monitor.magnitude.mag.Magnitude.get_Ml">
+<span class="sig-name descname"><span class="pre">get_Ml</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mag_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'RSNC'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">trimmedtime</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">50</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">padding</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">20</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">waterlevel</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">zone</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">out_format</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'QUAKEML'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/SeisMonitor/monitor/magnitude/mag.html#Magnitude.get_Ml"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SeisMonitor.monitor.magnitude.mag.Magnitude.get_Ml" title="Link to this definition"></a></dt>
+<dd><p>Calculate local magnitude (Ml) for all events.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mag_type</strong> (<em>str</em><em>, </em><em>optional</em>) – Magnitude relationship type.</p></li>
+<li><p><strong>trimmedtime</strong> (<em>float</em><em>, </em><em>optional</em>) – Signal trimming window in seconds.</p></li>
+<li><p><strong>padding</strong> (<em>float</em><em>, </em><em>optional</em>) – Waveform retrieval padding.</p></li>
+<li><p><strong>waterlevel</strong> (<em>float</em><em>, </em><em>optional</em>) – Water level for response correction.</p></li>
+<li><p><strong>zone</strong> (<em>str</em><em>, </em><em>optional</em>) – Regional magnitude zone.</p></li>
+<li><p><strong>out_format</strong> (<em>str</em><em>, </em><em>optional</em>) – Output catalog format.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Updated catalog with Ml magnitudes.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>obspy.Catalog</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="SeisMonitor.monitor.magnitude.mag.Magnitude.get_Mw">
+<span class="sig-name descname"><span class="pre">get_Mw</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">physparams</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">procparams</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">out_format</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'QUAKEML'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/SeisMonitor/monitor/magnitude/mag.html#Magnitude.get_Mw"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SeisMonitor.monitor.magnitude.mag.Magnitude.get_Mw" title="Link to this definition"></a></dt>
+<dd><p>Calculate moment magnitude (Mw).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>physparams</strong> (<a class="reference internal" href="#SeisMonitor.monitor.magnitude.mag.MwPhysicalMagParams" title="SeisMonitor.monitor.magnitude.mag.MwPhysicalMagParams"><em>MwPhysicalMagParams</em></a>) – Physical Mw parameters.</p></li>
+<li><p><strong>procparams</strong> (<a class="reference internal" href="#SeisMonitor.monitor.magnitude.mag.MwProcessingMagParams" title="SeisMonitor.monitor.magnitude.mag.MwProcessingMagParams"><em>MwProcessingMagParams</em></a>) – Signal processing parameters.</p></li>
+<li><p><strong>out_format</strong> (<em>str</em><em>, </em><em>optional</em>) – Output format.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Updated catalog with Mw magnitudes.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>obspy.Catalog</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="SeisMonitor.monitor.magnitude.mag.MwPhysicalMagParams">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">SeisMonitor.monitor.magnitude.mag.</span></span><span class="sig-name descname"><span class="pre">MwPhysicalMagParams</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vp</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">4800</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vsp_factor</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.73</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">density</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2650.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">waterlevel</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">p_radiation_pattern</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.52</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">s_radiation_pattern</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.63</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/SeisMonitor/monitor/magnitude/mag.html#MwPhysicalMagParams"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SeisMonitor.monitor.magnitude.mag.MwPhysicalMagParams" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Physical parameters used during Mw calculation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>vp</strong> (<em>float</em><em>, </em><em>optional</em>) – P-wave velocity in m/s.</p></li>
+<li><p><strong>vsp_factor</strong> (<em>float</em><em>, </em><em>optional</em>) – Vp/Vs ratio.</p></li>
+<li><p><strong>density</strong> (<em>float</em><em>, </em><em>optional</em>) – Density in kg/m³.</p></li>
+<li><p><strong>waterlevel</strong> (<em>float</em><em>, </em><em>optional</em>) – Water level for deconvolution stabilization.</p></li>
+<li><p><strong>p_radiation_pattern</strong> (<em>float</em><em>, </em><em>optional</em>) – Radiation pattern coefficient for P waves.</p></li>
+<li><p><strong>s_radiation_pattern</strong> (<em>float</em><em>, </em><em>optional</em>) – Radiation pattern coefficient for S waves.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="SeisMonitor.monitor.magnitude.mag.MwProcessingMagParams">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">SeisMonitor.monitor.magnitude.mag.</span></span><span class="sig-name descname"><span class="pre">MwProcessingMagParams</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time_before_pick</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time_after_pick</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">30</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">padding</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">40</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">only_proc_p_pick</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">only_proc_s_pick</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/SeisMonitor/monitor/magnitude/mag.html#MwProcessingMagParams"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SeisMonitor.monitor.magnitude.mag.MwProcessingMagParams" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="SeisMonitor.monitor.magnitude.mag.get_st_according2preference">
+<span class="sig-prename descclassname"><span class="pre">SeisMonitor.monitor.magnitude.mag.</span></span><span class="sig-name descname"><span class="pre">get_st_according2preference</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">st</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">location_list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">channel_list</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/SeisMonitor/monitor/magnitude/mag.html#get_st_according2preference"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SeisMonitor.monitor.magnitude.mag.get_st_according2preference" title="Link to this definition"></a></dt>
+<dd><p>Select a preferred stream according to location and channel priorities.</p>
+<p>The function filters streams first by location preference and then by
+channel preference.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>st</strong> (<em>obspy.Stream</em>) – Input waveform stream.</p></li>
+<li><p><strong>location_list</strong> (<em>list</em><em> of </em><em>str</em>) – Preferred locations ordered by priority.</p></li>
+<li><p><strong>channel_list</strong> (<em>list</em><em> of </em><em>str</em>) – Preferred channel codes ordered by priority.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Filtered stream according to preferences.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>obspy.Stream or None</p>
+</dd>
+</dl>
+<p class="rubric">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">new_st</span> <span class="o">=</span> <span class="n">get_st_according2preference</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="n">st</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="p">[</span><span class="s2">&quot;00&quot;</span><span class="p">,</span> <span class="s2">&quot;20&quot;</span><span class="p">],</span>
+<span class="gp">... </span>    <span class="p">[</span><span class="s2">&quot;HH&quot;</span><span class="p">,</span> <span class="s2">&quot;BH&quot;</span><span class="p">]</span>
+<span class="gp">... </span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</section>
+<section id="module-SeisMonitor.monitor.magnitude.utils">
+<span id="utils-module"></span><h2>utils module<a class="headerlink" href="#module-SeisMonitor.monitor.magnitude.utils" title="Link to this heading"></a></h2>
+<p>Utilities for seismic magnitude estimation and ObsPy event object creation.</p>
+<p>This module provides helper functions for:</p>
+<ul class="simple">
+<li><p>Retrieving poles and zeros (PAZ) from ObsPy responses.</p></li>
+<li><p>Computing local magnitudes (Ml).</p></li>
+<li><p>Processing waveforms for magnitude estimation.</p></li>
+<li><p>Fitting seismic source spectra.</p></li>
+<li><p>Creating ObsPy magnitude and amplitude objects.</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">author<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Emmanuel Castillo</p>
+</dd>
+</dl>
+<dl class="py function">
+<dt class="sig sig-object py" id="SeisMonitor.monitor.magnitude.utils.Mw_st_processing">
+<span class="sig-prename descclassname"><span class="pre">SeisMonitor.monitor.magnitude.utils.</span></span><span class="sig-name descname"><span class="pre">Mw_st_processing</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">st</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">response</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">waterlevel</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">datetime</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/SeisMonitor/monitor/magnitude/utils.html#Mw_st_processing"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SeisMonitor.monitor.magnitude.utils.Mw_st_processing" title="Link to this definition"></a></dt>
+<dd><p>Remove instrument response for moment magnitude estimation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>stream</strong> – ObsPy Stream object.</p></li>
+<li><p><strong>response</strong> – ObsPy response object.</p></li>
+<li><p><strong>water_level</strong> – Water level used during deconvolution.</p></li>
+<li><p><strong>datetime</strong> – Datetime associated with traces.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Processed ObsPy Stream or <code class="docutils literal notranslate"><span class="pre">None</span></code> if failed.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="SeisMonitor.monitor.magnitude.utils.calculate_source_spectrum">
+<span class="sig-prename descclassname"><span class="pre">SeisMonitor.monitor.magnitude.utils.</span></span><span class="sig-name descname"><span class="pre">calculate_source_spectrum</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">frequencies</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">omega_0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">corner_frequency</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Q</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">traveltime</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/SeisMonitor/monitor/magnitude/utils.html#calculate_source_spectrum"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SeisMonitor.monitor.magnitude.utils.calculate_source_spectrum" title="Link to this definition"></a></dt>
+<dd><p>After Abercrombie (1995) and Boatwright (1980).</p>
+<p>Abercrombie, R. E. (1995). Earthquake locations using single-station deep
+borehole recordings: Implications for microseismicity on the San Andreas
+fault in southern California. Journal of Geophysical Research, 100,
+24003–24013.</p>
+<p>Boatwright, J. (1980). A spectral theory for circular seismic sources,
+simple estimates of source dimension, dynamic stress drop, and radiated
+energy. Bulletin of the Seismological Society of America, 70(1).</p>
+<dl class="simple">
+<dt>The used formula is:</dt><dd><p>Omega(f) = (Omege(0) * e^(-pi * f * T / Q)) / (1 + (f/f_c)^4) ^ 0.5</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>frequencies</strong> – Input array to perform the calculation on.</p></li>
+<li><p><strong>omega_0</strong> – Low frequency amplitude in [meter x second].</p></li>
+<li><p><strong>corner_frequency</strong> – Corner frequency in [Hz].</p></li>
+<li><p><strong>Q</strong> – Quality factor.</p></li>
+<li><p><strong>traveltime</strong> – Traveltime in [s].</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="SeisMonitor.monitor.magnitude.utils.fit_spectrum">
+<span class="sig-prename descclassname"><span class="pre">SeisMonitor.monitor.magnitude.utils.</span></span><span class="sig-name descname"><span class="pre">fit_spectrum</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">spectrum</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">frequencies</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">traveltime</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">initial_omega_0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">initial_f_c</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">quality_factor</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">500</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/SeisMonitor/monitor/magnitude/utils.html#fit_spectrum"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SeisMonitor.monitor.magnitude.utils.fit_spectrum" title="Link to this definition"></a></dt>
+<dd><p>Fit a theoretical source spectrum to a measured source spectrum.</p>
+<p>Uses a Levenburg-Marquardt algorithm.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>spectrum</strong> – The measured source spectrum.</p></li>
+<li><p><strong>frequencies</strong> – The corresponding frequencies.</p></li>
+<li><p><strong>initial_omega_0</strong> – Initial guess for Omega_0.</p></li>
+<li><p><strong>initial_f_c</strong> – Initial guess for the corner frequency.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Para traveltime<span class="colon">:</span></dt>
+<dd class="field-even"><p>Event traveltime in [s].</p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Best fits and standard deviations.
+(Omega_0, f_c, Omega_0_std, f_c_std)
+Returns None, if the fit failed.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="SeisMonitor.monitor.magnitude.utils.get_M0_magnitude_by_pick">
+<span class="sig-prename descclassname"><span class="pre">SeisMonitor.monitor.magnitude.utils.</span></span><span class="sig-name descname"><span class="pre">get_M0_magnitude_by_pick</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">st</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">picktime</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">traveltime</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">phasehint</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">physparams</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">procparams</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/SeisMonitor/monitor/magnitude/utils.html#get_M0_magnitude_by_pick"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SeisMonitor.monitor.magnitude.utils.get_M0_magnitude_by_pick" title="Link to this definition"></a></dt>
+<dd><p>Estimate seismic moment (M0) from waveform picks.</p>
+<p>The function computes multitaper spectra for each component,
+fits a theoretical source spectrum, and estimates seismic moment.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>stream</strong> – ObsPy Stream object containing three-component data.</p></li>
+<li><p><strong>pick_time</strong> – Pick time associated with the phase.</p></li>
+<li><p><strong>travel_time</strong> (<em>float</em>) – Seismic travel time in seconds.</p></li>
+<li><p><strong>phase_hint</strong> (<em>str</em>) – Seismic phase identifier (e.g. <code class="docutils literal notranslate"><span class="pre">&quot;P&quot;</span></code> or <code class="docutils literal notranslate"><span class="pre">&quot;S&quot;</span></code>).</p></li>
+<li><p><strong>physical_parameters</strong> – Object containing physical properties such as:
+<code class="docutils literal notranslate"><span class="pre">vp</span></code>, <code class="docutils literal notranslate"><span class="pre">vs</span></code>, <code class="docutils literal notranslate"><span class="pre">density</span></code>,
+<code class="docutils literal notranslate"><span class="pre">p_radiation_pattern</span></code>,
+<code class="docutils literal notranslate"><span class="pre">s_radiation_pattern</span></code>.</p></li>
+<li><p><strong>processing_parameters</strong> – Object containing processing configuration such as:
+<code class="docutils literal notranslate"><span class="pre">time_before_pick</span></code> and <code class="docutils literal notranslate"><span class="pre">time_after_pick</span></code>.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><p>Tuple containing:</p>
+<ul class="simple">
+<li><p>Seismic moment (M0)</p></li>
+<li><p>List of estimated corner frequencies</p></li>
+</ul>
+<p>Returns <code class="docutils literal notranslate"><span class="pre">(None,</span> <span class="pre">None)</span></code> if estimation fails.</p>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Tuple[Optional[float], Optional[List[float]]]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="SeisMonitor.monitor.magnitude.utils.get_Ml">
+<span class="sig-prename descclassname"><span class="pre">SeisMonitor.monitor.magnitude.utils.</span></span><span class="sig-name descname"><span class="pre">get_Ml</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ampl</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epi_dist</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mag_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">zone</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/SeisMonitor/monitor/magnitude/utils.html#get_Ml"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SeisMonitor.monitor.magnitude.utils.get_Ml" title="Link to this definition"></a></dt>
+<dd><p>Compute local magnitude (Ml).</p>
+<p>Supports predefined empirical relationships or custom functions.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>amplitude</strong> (<em>float</em>) – Peak amplitude.</p></li>
+<li><p><strong>epicentral_distance</strong> (<em>float</em>) – Epicentral distance in kilometers.</p></li>
+<li><p><strong>magnitude_type</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><em>Callable</em><em>]</em>) – Magnitude model name or callable.</p></li>
+<li><p><strong>zone</strong> (<em>Optional</em><em>[</em><em>int</em><em>]</em>) – Regional zone identifier.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Computed local magnitude.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="SeisMonitor.monitor.magnitude.utils.get_Ml_magparams_by_station">
+<span class="sig-prename descclassname"><span class="pre">SeisMonitor.monitor.magnitude.utils.</span></span><span class="sig-name descname"><span class="pre">get_Ml_magparams_by_station</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">st</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">response</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ev_params</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">trimmedtime</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">50</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">waterlevel</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/SeisMonitor/monitor/magnitude/utils.html#get_Ml_magparams_by_station"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SeisMonitor.monitor.magnitude.utils.get_Ml_magparams_by_station" title="Link to this definition"></a></dt>
+<dd><p>Compute local magnitude (Ml).</p>
+<p>Supports predefined empirical relationships or custom functions.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>amplitude</strong> (<em>float</em>) – Peak amplitude.</p></li>
+<li><p><strong>epicentral_distance</strong> (<em>float</em>) – Epicentral distance in kilometers.</p></li>
+<li><p><strong>magnitude_type</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><em>Callable</em><em>]</em>) – Magnitude model name or callable.</p></li>
+<li><p><strong>zone</strong> (<em>Optional</em><em>[</em><em>int</em><em>]</em>) – Regional zone identifier.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Computed local magnitude.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="SeisMonitor.monitor.magnitude.utils.get_paz_from_response">
+<span class="sig-prename descclassname"><span class="pre">SeisMonitor.monitor.magnitude.utils.</span></span><span class="sig-name descname"><span class="pre">get_paz_from_response</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">seed_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">response</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">datetime</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/SeisMonitor/monitor/magnitude/utils.html#get_paz_from_response"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SeisMonitor.monitor.magnitude.utils.get_paz_from_response" title="Link to this definition"></a></dt>
+<dd><p>Retrieve poles and zeros (PAZ) from a response object.</p>
+<p>Supports both ObsPy <code class="docutils literal notranslate"><span class="pre">Parser</span></code> and <code class="docutils literal notranslate"><span class="pre">Inventory</span></code> response types.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>seed_id</strong> (<em>str</em>) – Full SEED identifier.</p></li>
+<li><p><strong>response</strong> (<em>Union</em><em>[</em><em>Parser</em><em>, </em><em>Inventory</em><em>]</em>) – ObsPy response object.</p></li>
+<li><p><strong>datetime</strong> (<em>Optional</em><em>[</em><em>UTCDateTime</em><em>]</em>) – Datetime associated with waveform trace.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Dictionary containing PAZ information or <code class="docutils literal notranslate"><span class="pre">None</span></code> if unavailable.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Optional[Dict]</p>
+</dd>
+</dl>
+<p class="rubric">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">paz</span> <span class="o">=</span> <span class="n">get_paz_from_response</span><span class="p">(</span><span class="s2">&quot;IU.ANMO..BHZ&quot;</span><span class="p">,</span> <span class="n">inventory</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="SeisMonitor.monitor.magnitude.utils.write_amplitude_values">
+<span class="sig-prename descclassname"><span class="pre">SeisMonitor.monitor.magnitude.utils.</span></span><span class="sig-name descname"><span class="pre">write_amplitude_values</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">amp_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'A'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">category</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'duration'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">unit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'m/s'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'https://docs.obspy.org/tutorial/advanced_exercise/advanced_exercise_solution_3b.html'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time_window</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">obspy.core.event.base.TimeWindow</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pick_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">obspy.core.event.resourceid.ResourceIdentifier</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">waveform_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">obspy.core.event.base.WaveformStreamID</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">magnitude_hint</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'M'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">evaluation_mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'automatic'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">evaluation_status</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'preliminary'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">agency</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/SeisMonitor/monitor/magnitude/utils.html#write_amplitude_values"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SeisMonitor.monitor.magnitude.utils.write_amplitude_values" title="Link to this definition"></a></dt>
+<dd><p>Create an ObsPy Amplitude object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>value</strong> (<em>float</em>) – Measured amplitude value.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>ObsPy Amplitude object.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Amplitude</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="SeisMonitor.monitor.magnitude.utils.write_magnitude_values">
+<span class="sig-prename descclassname"><span class="pre">SeisMonitor.monitor.magnitude.utils.</span></span><span class="sig-name descname"><span class="pre">write_magnitude_values</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">uncertainty</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">station_count</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mag_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">evaluation_mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'automatic'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">evaluation_status</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'preliminary'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">obspy.core.event.resourceid.ResourceIdentifier</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">agency</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">origin_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">obspy.core.event.resourceid.ResourceIdentifier</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">comments</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/SeisMonitor/monitor/magnitude/utils.html#write_magnitude_values"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SeisMonitor.monitor.magnitude.utils.write_magnitude_values" title="Link to this definition"></a></dt>
+<dd><p>Create an ObsPy Magnitude object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>value</strong> (<em>float</em>) – Magnitude value.</p></li>
+<li><p><strong>uncertainty</strong> (<em>float</em>) – Magnitude uncertainty.</p></li>
+<li><p><strong>station_count</strong> (<em>int</em>) – Number of stations used.</p></li>
+<li><p><strong>magnitude_type</strong> (<em>str</em>) – Magnitude type (e.g. <code class="docutils literal notranslate"><span class="pre">&quot;Mw&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;Ml&quot;</span></code>).</p></li>
+<li><p><strong>comments</strong> (<em>Optional</em><em>[</em><em>str</em><em>]</em>) – Optional comments associated with the magnitude.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>ObsPy Magnitude object.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#SeisMonitor.monitor.magnitude.mag.Magnitude" title="SeisMonitor.monitor.magnitude.mag.Magnitude">Magnitude</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="SeisMonitor.monitor.magnitude.utils.write_magsta_values">
+<span class="sig-prename descclassname"><span class="pre">SeisMonitor.monitor.magnitude.utils.</span></span><span class="sig-name descname"><span class="pre">write_magsta_values</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">uncertainty</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mag_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">origin_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">obspy.core.event.resourceid.ResourceIdentifier</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">amplitude_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">obspy.core.event.resourceid.ResourceIdentifier</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">obspy.core.event.resourceid.ResourceIdentifier</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">waveform_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">obspy.core.event.base.WaveformStreamID</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">agency</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/SeisMonitor/monitor/magnitude/utils.html#write_magsta_values"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SeisMonitor.monitor.magnitude.utils.write_magsta_values" title="Link to this definition"></a></dt>
+<dd><p>Create an ObsPy StationMagnitude object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>value</strong> (<em>float</em>) – Station magnitude value.</p></li>
+<li><p><strong>uncertainty</strong> (<em>float</em>) – Magnitude uncertainty.</p></li>
+<li><p><strong>magnitude_type</strong> (<em>str</em>) – Magnitude type (e.g. <code class="docutils literal notranslate"><span class="pre">&quot;Ml&quot;</span></code>).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>ObsPy StationMagnitude object.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>StationMagnitude</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="SeisMonitor.monitor.locator.nlloc.html" class="btn btn-neutral float-left" title="Nlloc" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../authors.html" class="btn btn-neutral float-right" title="Authors" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Emmanuel Castillo.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

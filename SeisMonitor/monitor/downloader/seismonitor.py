@@ -1,3 +1,27 @@
+"""
+Concurrent seismic waveform downloader.
+
+This module provides the :class:`MseedDownloader` class, which manages
+parallel waveform downloads from multiple seismic data providers.
+
+The downloader supports:
+
+* Inventory and metadata generation
+* Concurrent waveform downloads
+* Chunked time-window requests
+* Optional waveform processing pipelines
+
+The implementation is compatible with ObsPy-based FDSN clients.
+
+Example
+-------
+>>> from obspy.clients.fdsn import Client
+>>> client = Client("IRIS")
+>>> downloader = MseedDownloader([client])
+>>> isinstance(downloader.providers, list)
+True
+"""
+
 import os
 import json
 import time
@@ -9,41 +33,67 @@ from . import utils as ut
 
 
 class MseedDownloader:
-    """Concurrent simple mass downloader for seismic data.
-    
-    Attributes:
-        providers (list): List of processed Client instances
-        providers_are_processed (bool): Flag indicating if providers are processed
-        _stations_outside_domains (set): Stations outside requested domains
-        
-    Warnings:
-        Client instances must implement the get_stations method
-        Stations not available will not be downloaded
+    """
+    Concurrent mass downloader for seismic waveform data.
+
+    This class manages metadata retrieval and waveform downloads from
+    multiple providers using concurrent execution.
+
+    Parameters
+    ----------
+    providers : list
+        List of provider objects or ObsPy-compatible clients.
+
+    Attributes
+    ----------
+    providers : list
+        Sanitized provider list.
+    providers_are_processed : bool
+        Indicates whether providers have been processed.
+    _stations_outside_domains : set or None
+        Stations that fall outside requested domains.
+
+    Notes
+    -----
+    Providers must implement the required waveform and station interfaces.
     """
     
     def __init__(self, providers):
-        """Initialize MseedDownloader with client providers.
-        
-        Args:
-            providers (list): List of Client instances
+        """
+        Initialize the downloader.
+
+        Parameters
+        ----------
+        providers : list
+            List of provider instances.
         """
         self.providers = ut.sanitize_provider_times(providers)
         self.providers_are_processed = False
         self._stations_outside_domains = None
 
     def make_inv_and_json(self, out_folder=None):
-        """Create inventory and JSON files from provider metadata.
-        
-        Args:
-            out_folder (str, optional): Directory to save output files
-            
-        Returns:
-            tuple: (Inventory, dict) containing station inventory and JSON info
-            
-        Notes:
-            If out_folder is provided, saves:
-            - stations.json at {out_folder}/stations.json
-            - inv.xml at {out_folder}/inv.xml
+        """
+        Create merged inventory and station metadata JSON files.
+
+        Parameters
+        ----------
+        out_folder : str, optional
+            Output directory where files will be written.
+
+        Returns
+        -------
+        tuple
+            Tuple containing:
+
+            * Inventory object
+            * Station metadata dictionary
+
+        Notes
+        -----
+        If ``out_folder`` is provided, the following files are created:
+
+        * ``stations.json``
+        * ``inv.xml``
         """
         tic = time.time()
         printlog("info", "metadata", "running to create inventory and json files")
@@ -81,19 +131,46 @@ class MseedDownloader:
         picker_args={},
         groupby='{network}.{station}.{channel}',
         n_processor=None):
-        """Download seismic waveforms with specified parameters.
-        
-        Args:
-            mseed_storage (str): Path template for waveform storage. Supports keywords: {network}, {station}, {location}, {channel},{year}, {month}, {day}, {julday}, {starttime}, {endtime}
-            chunklength_in_sec (int, optional): Length of each time chunk in seconds
-            threshold (int): Minimum length in seconds for download
-            overlap_in_sec (int): Overlap between chunks in seconds
-            picker_args (dict): Picker parameters (batch_size, overlap, length)
-            groupby (str): Grouping pattern for traces (e.g., '{network}.{station}')
-            n_processor (int, optional): Number of parallel processors
-            
-        Notes:
-            If providers aren't processed, triggers make_inv_and_json()
+        """
+        Download waveform data from all configured providers.
+
+        Parameters
+        ----------
+        mseed_storage : str
+            Storage path template for MiniSEED files.
+
+        chunklength_in_sec : int, optional
+            Length of each download chunk in seconds.
+
+        threshold : int, default=60
+            Minimum waveform length threshold in seconds.
+
+        overlap_in_sec : int, default=0
+            Overlap between adjacent chunks in seconds.
+
+        picker_args : dict, optional
+            Picker configuration dictionary.
+
+        groupby : str, default="{network}.{station}.{channel}"
+            Trace grouping pattern.
+
+        n_processor : int, optional
+            Number of concurrent workers.
+
+        Notes
+        -----
+        Supported path template variables include:
+
+        * ``{network}``
+        * ``{station}``
+        * ``{location}``
+        * ``{channel}``
+        * ``{year}``
+        * ``{month}``
+        * ``{day}``
+        * ``{julday}``
+        * ``{starttime}``
+        * ``{endtime}``
         """
         if not self.providers_are_processed:
             self.make_inv_and_json()
@@ -121,13 +198,22 @@ class MseedDownloader:
             )
 
     def _run_download(self, client, waveform_restrictions, download_restrictions, processing=None):
-        """Execute the download process for a single client.
-        
-        Args:
-            client (Client): Obspy client with get_waveforms method
-            waveform_restrictions (WaveformRestrictions): Waveform constraints
-            download_restrictions (DownloadRestrictions): Download parameters
-            processing (list, optional): Processing steps to apply
+        """
+        Execute waveform downloads for a single provider.
+
+        Parameters
+        ----------
+        client : object
+            ObsPy-compatible client instance.
+
+        waveform_restrictions : object
+            Waveform restriction configuration.
+
+        download_restrictions : object
+            Download restriction configuration.
+
+        processing : list of callable, optional
+            Processing pipeline applied after download.
         """
         tic = time.time()
         times = ut.get_chunktimes(

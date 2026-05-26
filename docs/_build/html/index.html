@@ -6,20 +6,23 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>SeisMonitor documentation &mdash; SeisMonitor 0.0.57 documentation</title>
+  <title>Workflow &mdash; SeisMonitor 0.0.58 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
-      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="_static/css/custom.css?v=6c90a955" />
+      <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
 
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="_static/documentation_options.js?v=2bfb35b6"></script>
+      <script src="_static/documentation_options.js?v=c3e19674"></script>
       <script src="_static/doctools.js?v=9bcbadda"></script>
       <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="_static/design-tabs.js?v=f930bc37"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Examples" href="SeisMonitor.examples.html" /> 
+    <link rel="next" title="Welcome to SeisMonitor" href="home.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -30,8 +33,9 @@
 
           
           
-          <a href="#" class="icon icon-home">
-            SeisMonitor
+          <a href="#">
+            
+              <img src="_static/seismonitor.PNG" class="logo" alt="Logo"/>
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -41,11 +45,14 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="SeisMonitor.examples.html">Examples</a></li>
-<li class="toctree-l1"><a class="reference internal" href="SeisMonitor.core.html">Core</a></li>
-<li class="toctree-l1"><a class="reference internal" href="SeisMonitor.monitor.html">Monitor</a></li>
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="home.html">Welcome to SeisMonitor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dataset.html">SeisMonitor in Colombia</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/index.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="authors.html">Authors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contribution.html">Contributing</a></li>
 </ul>
 
         </div>
@@ -62,7 +69,7 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="#" class="icon icon-home" aria-label="Home"></a></li>
-      <li class="breadcrumb-item active">SeisMonitor documentation</li>
+      <li class="breadcrumb-item active">Workflow</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/index.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -72,38 +79,65 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="seismonitor-documentation">
-<h1>SeisMonitor documentation<a class="headerlink" href="#seismonitor-documentation" title="Link to this heading"></a></h1>
+  <h1>
+Welcome to
+<span style="color:#335BFF;">S</span>eis<span style="color:#335BFF;">M</span>onitor
+</h1><a class="reference external image-reference" href="https://github.com/ecastillot/SeisMonitor/tree/master"><img alt="GitHub Repository" src="https://img.shields.io/badge/GitHub-SeisMonitor-black?style=for-the-badge&amp;logo=github" />
+</a>
+<br><br><p><strong>A Python open-source package for seismological monitoring</strong></p>
+<section id="workflow">
+<h1>Workflow<a class="headerlink" href="#workflow" title="Link to this heading"></a></h1>
+<p>SeisMonitor monitors seismic activity that uses ready-made ML methods for event detection, phase picking and association, and other well-known methods for the rest of the steps</p>
+<a class="reference internal image-reference" href="https://raw.githubusercontent.com/ecastillot/SeisMonitor/master/figures/SeisMonitor_flow.png"><img alt="https://raw.githubusercontent.com/ecastillot/SeisMonitor/master/figures/SeisMonitor_flow.png" src="https://raw.githubusercontent.com/ecastillot/SeisMonitor/master/figures/SeisMonitor_flow.png" style="width: 800px;" />
+</a>
+<p>The framework can be applied to any region worldwide. We applied it to Colombia using nearly 7 years (2016–2022) of seismic data, successfully revealing significant tectonic structures and crustal faults.</p>
+</section>
+<section id="example-for-colombia">
+<h1>Example for Colombia<a class="headerlink" href="#example-for-colombia" title="Link to this heading"></a></h1>
+<p><strong>Paper</strong>: <a class="reference external" href="https://gaprieto.com/wp-content/uploads/2024/05/gprieto_24c.pdf">Colombian Seismic Monitoring Using Advanced Machine-Learning Algorithms</a></p>
+<p>Emmanuel Castillo, Daniel Siervo, Germán A. Prieto; Colombian Seismic Monitoring Using Advanced Machine‐Learning Algorithms. Seismological Research Letters 2024;; 95 (5): 2971–2985. doi: <a class="reference external" href="https://doi.org/10.1785/0220240036">https://doi.org/10.1785/0220240036</a></p>
+<p><strong>Dataset</strong>: <a class="reference internal" href="dataset.html#dataset-section"><span class="std std-ref">SeisMonitor in Colombia</span></a></p>
+<a class="reference internal image-reference" href="https://raw.githubusercontent.com/ecastillot/SeisMonitor/master/figures/sm_overview.png"><img alt="NLLoc Catalog" class="align-center" src="https://raw.githubusercontent.com/ecastillot/SeisMonitor/master/figures/sm_overview.png" style="width: 700px;" />
+</a>
+</section>
+<section id="content">
+<h1>Content<a class="headerlink" href="#content" title="Link to this heading"></a></h1>
 <div class="toctree-wrapper compound">
-<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="SeisMonitor.examples.html">Examples</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="SeisMonitor.examples.html#waveformrestrictions">WaveformRestrictions</a></li>
-<li class="toctree-l2"><a class="reference internal" href="SeisMonitor.examples.html#provider">Provider</a></li>
-<li class="toctree-l2"><a class="reference internal" href="SeisMonitor.examples.html#downloader">Downloader</a></li>
-<li class="toctree-l2"><a class="reference internal" href="SeisMonitor.examples.html#picker">Picker</a></li>
-<li class="toctree-l2"><a class="reference internal" href="SeisMonitor.examples.html#associator">Associator</a></li>
-<li class="toctree-l2"><a class="reference internal" href="SeisMonitor.examples.html#locator">Locator</a></li>
-<li class="toctree-l2"><a class="reference internal" href="SeisMonitor.examples.html#id1">Locator</a></li>
-<li class="toctree-l2"><a class="reference internal" href="SeisMonitor.examples.html#all-in-one">All in one</a></li>
+<li class="toctree-l1"><a class="reference internal" href="home.html">Welcome to SeisMonitor</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="home.html#workflow">Workflow</a></li>
+<li class="toctree-l2"><a class="reference internal" href="home.html#example-for-colombia">Example for Colombia</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="SeisMonitor.core.html">Core</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="SeisMonitor.core.html#module-SeisMonitor.core.client">client</a></li>
-<li class="toctree-l2"><a class="reference internal" href="SeisMonitor.core.html#example">Example</a></li>
-<li class="toctree-l2"><a class="reference internal" href="SeisMonitor.core.html#module-SeisMonitor.core.objects">objects</a></li>
-<li class="toctree-l2"><a class="reference internal" href="SeisMonitor.core.html#module-SeisMonitor.core.utils">utils</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#installing-via-conda">Installing via Conda</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="SeisMonitor.monitor.html">Monitor</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="SeisMonitor.monitor.downloader.html">Downloader</a></li>
-<li class="toctree-l2"><a class="reference internal" href="SeisMonitor.monitor.picker.html">Picker</a></li>
-<li class="toctree-l2"><a class="reference internal" href="SeisMonitor.monitor.associator.html">Associator</a></li>
-<li class="toctree-l2"><a class="reference internal" href="SeisMonitor.monitor.locator.html">Locator</a></li>
-<li class="toctree-l2"><a class="reference internal" href="SeisMonitor.monitor.magnitude.html">Magnitude</a></li>
-<li class="toctree-l2"><a class="reference internal" href="SeisMonitor.monitor.html#module-SeisMonitor.monitor.seismonitor">SeisMonitor (All in one)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quickstart</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="quickstart.html#download-earthquake-data">Download Earthquake Data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quickstart.html#earthquake-detection-phase-picking">Earthquake Detection &amp; Phase Picking</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quickstart.html#phase-association">Phase Association</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quickstart.html#earthquake-location">Earthquake Location</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quickstart.html#local-magnitude">Local Magnitude</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="dataset.html">SeisMonitor in Colombia</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="dataset.html#paper">Paper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dataset.html#colombia-dataset">Colombia Dataset</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dataset.html#seismonitor-workflow">SeisMonitor Workflow</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="api/index.html">API Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="api/SeisMonitor.core.objects.html">Core</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/SeisMonitor.monitor.downloader.html">Downloader</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/SeisMonitor.monitor.picker.html">Picker</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/SeisMonitor.monitor.associator.html">Associator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/SeisMonitor.monitor.locator.nlloc.html">Nlloc</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/SeisMonitor.monitor.magnitude.html">Magnitude</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="authors.html">Authors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contribution.html">Contributing</a></li>
 </ul>
 </div>
 </section>
@@ -112,7 +146,7 @@
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="SeisMonitor.examples.html" class="btn btn-neutral float-right" title="Examples" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="home.html" class="btn btn-neutral float-right" title="Welcome to SeisMonitor" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
