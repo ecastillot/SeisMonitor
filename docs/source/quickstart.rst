@@ -10,6 +10,14 @@ This guide provides a **basic overview of SeisMonitor** and demonstrates its app
 4. :ref:`location-section`
 5. :ref:`magnitude-section`
 
+.. warning::
+
+   Make sure to use the latest stable version of SeisMonitor.
+
+   .. image:: https://img.shields.io/pypi/v/SeisMonitor?style=plastic
+      :target: https://pypi.org/project/SeisMonitor/
+      :alt: PyPI version
+
 .. _download-section:
 Download Earthquake Data
 -------

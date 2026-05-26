@@ -2,7 +2,7 @@
 Installation
 ============================
 
-.. image:: https://img.shields.io/pypi/v/SeisMonitor?style=plastic
+.. image:: https://img.shields.io/pypi/v/SeisMonitor?
    :target: https://pypi.org/project/SeisMonitor/
    :alt: PyPI version
 
